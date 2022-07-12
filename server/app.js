@@ -1,12 +1,13 @@
-const redis = require("redis");
-const express = require("express");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const redisStore = require("connect-redis")(session);
+import redis from "redis";
+import express from "express";
+import bodyParser from "body-parser";
+import session from "express-session";
+import connectRedis from "connect-redis";
+const redisStore = connectRedis(session);
 
-const { initMongo } = require("./mongo");
-const { initOAuth } = require("./oauth");
-
+import initMongo from "./mongo.js";
+import initOAuth from "./oauth.js";
+import routers from "./routes";
 const main = () => {
   initMongo().then(() => {
     const redisClient = initRedis();
@@ -39,7 +40,7 @@ const initExpress = (redisClient) => {
     })
   );
 
-  app.use("/api", require("./routes"));
+  app.use("/api", routers);
 
   // app.get("/", (req, res, next) => {
   //   res.send("hello world!");
