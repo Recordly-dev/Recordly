@@ -4,10 +4,12 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import connectRedis from "connect-redis";
 const redisStore = connectRedis(session);
+import http from "http";
 
 import initMongo from "./mongo.js";
 import initOAuth from "./oauth.js";
-import routers from "./routes";
+import routers from "./routes/index.js";
+
 const main = () => {
   initMongo().then(() => {
     const redisClient = initRedis();
@@ -46,11 +48,9 @@ const initExpress = (redisClient) => {
   //   res.send("hello world!");
   // });
 
-  return require("http")
-    .createServer(app)
-    .listen(PORT, () => {
-      console.log("Express server listening on port " + PORT);
-    });
+  return http.createServer(app).listen(PORT, () => {
+    console.log("Express server listening on port " + PORT);
+  });
 };
 
 main();

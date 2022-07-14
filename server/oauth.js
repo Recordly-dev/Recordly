@@ -12,7 +12,7 @@ export default function initOAuth(app) {
   app.use(passport.session());
 
   // login이 최초로 성공했을 때만 호출되는 함수
-  // done(null, user.id)로 세션을 초기화 한다.
+  // done(null, user.id)로 세션을 초기화한다.
   passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
