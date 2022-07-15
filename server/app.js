@@ -10,14 +10,25 @@ import initMongo from "./mongo.js";
 import initOAuth from "./oauth.js";
 import routers from "./routes/index.js";
 
-const main = () => {
-  initMongo().then(() => {
-    const redisClient = initRedis();
-    const server = initExpress(redisClient);
+const main = async () => {
+  await initMongo();
+  const redisClient = initRedis();
+  redisClient.connect();
+  redisClient.on("error", function (err) {
+    console.log("Could not establish a connection with redis. " + err);
   });
+  redisClient.on("connect", function (err) {
+    console.log("Connected to redis successfully");
+  });
+  const server = initExpress(redisClient);
 };
 
-const initRedis = () => redis.createClient();
+const initRedis = () =>
+  redis.createClient({
+    host: "127.0.0.1",
+    port: 6379,
+    legacyMode: true,
+  });
 
 const initExpress = (redisClient) => {
   const app = express();
@@ -30,7 +41,6 @@ const initExpress = (redisClient) => {
       key: "app.sid",
       secret: "session-secret",
       store: new redisStore({
-        host: "127.0.0.1",
         port: 6379,
         client: redisClient,
         prefix: "session:",
@@ -44,9 +54,9 @@ const initExpress = (redisClient) => {
 
   app.use("/api", routers);
 
-  // app.get("/", (req, res, next) => {
-  //   res.send("hello world!");
-  // });
+  app.get("/", (req, res, next) => {
+    res.send("hello world!");
+  });
 
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);
