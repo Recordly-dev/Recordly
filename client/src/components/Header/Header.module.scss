@@ -1,0 +1,12 @@
+.Header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid gray;
+
+  &__image {
+    width: 3rem; // 48px
+  }
+}
