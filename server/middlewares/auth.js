@@ -11,6 +11,7 @@ export const checkUser = (req, res, next) => {
 
 export const checkNotLogin = (req, res, next) => {
   if (req?.user?.session) {
+    res.redirect("/");
   }
 
   next();
