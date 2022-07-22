@@ -2,7 +2,7 @@ import express from "express";
 
 import midError from "#middlewares/error.js";
 import midAuth from "#middlewares/auth.js";
-import modAccount from "../models/user.js";
+import modAccount from "#models/user.js";
 
 const router = express.Router();
 
