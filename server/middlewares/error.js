@@ -1,4 +1,4 @@
-export const asyncWrapper = (asyncFunc) => async (req, res, next) => {
+const asyncWrapper = (asyncFunc) => async (req, res, next) => {
   try {
     await asyncFunc(req, res, next);
   } catch (err) {
@@ -13,3 +13,5 @@ export const asyncWrapper = (asyncFunc) => async (req, res, next) => {
     next(err);
   }
 };
+
+export default { asyncWrapper };

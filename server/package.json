@@ -25,6 +25,7 @@
   "type": "module",
   "imports": {
     "#middlewares/*": "./middlewares/*",
-    "#models/*": "./models/*"
+    "#models/*": "./models/*",
+    "#controllers/*": "./controllers/*"
   }
 }

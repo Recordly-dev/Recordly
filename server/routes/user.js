@@ -1,12 +1,13 @@
 import express from "express";
+import passport from "passport";
 
 import midError from "#middlewares/error.js";
 import midAuth from "#middlewares/auth.js";
 import modAccount from "#models/user.js";
 
-const router = express.Router();
+import userCtrl from "#controllers/userApi.js";
 
-const ctrl = require("#controllers/user/userApi");
+const router = express.Router();
 
 // image 사용을 위한 static folder 지정
 // app.use(express.static("public"));
@@ -18,7 +19,7 @@ const ctrl = require("#controllers/user/userApi");
 router.get(
   "/auth/google",
   midError.asyncWrapper(midAuth.checkNotLogin),
-  midError.asyncWrapper(ctrl.googleLogin)
+  midError.asyncWrapper(userCtrl.googleLogin)
 );
 
 // google login 성공과 실패 리다이렉트

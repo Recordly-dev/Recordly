@@ -1,4 +1,4 @@
-export const checkUser = (req, res, next) => {
+const checkUser = (req, res, next) => {
   if (!req?.user?.session) {
     throw new ForbiddenError("Not User", {
       user,
@@ -9,10 +9,12 @@ export const checkUser = (req, res, next) => {
   next();
 };
 
-export const checkNotLogin = (req, res, next) => {
+const checkNotLogin = (req, res, next) => {
   if (req?.user?.session) {
     res.redirect("/");
   }
 
   next();
 };
+
+export default { checkUser, checkNotLogin };

@@ -1,3 +1,7 @@
 import passport from "passport";
 
-export const googleLogin = (req, res) => {};
+const googleLogin = (req, res) => {
+  passport.authenticate("google", { scope: ["email", "profile"] });
+};
+
+export default { googleLogin };
