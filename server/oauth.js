@@ -3,8 +3,8 @@ import passportGoogle from "passport-google-oauth2";
 const GoogleStrategy = passportGoogle.Strategy;
 
 const GOOGLE_CLIENT_ID =
-  "1040466111018-b6olqcf87uipqep4cgvq7cpb3d0ljjd6.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+  "1040466111018-hr4dgfl3t3etnajoopn0aqsij34lang8.apps.googleusercontent.com";
+const GOOGLE_CLIENT_SECRET = "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";
 
 export default function initOAuth(app) {
   // passport 초기화 및 session 연결
@@ -34,7 +34,7 @@ export default function initOAuth(app) {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/auth/google/callback",
+        callbackURL: "http://localhost:8080/api/auth/google/callback",
         passReqToCallback: true,
       },
       function (request, accessToken, refreshToken, profile, done) {
@@ -44,5 +44,18 @@ export default function initOAuth(app) {
         return done(null, profile);
       }
     )
+  );
+
+  app.get(
+    "/api/auth/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+  );
+
+  app.get(
+    "/api/auth/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "/main",
+      failureRedirect: "/login",
+    })
   );
 }
