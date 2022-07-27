@@ -19,6 +19,7 @@
     "express-session": "^1.17.3",
     "mongodb": "^4.7.0",
     "mongoose": "^6.4.0",
+    "mongoose-findorcreate": "^3.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.18",
     "passport": "^0.6.0",

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export default async function initMongo() {
   mongoose.connect(
-    "mongodb+srv://cluster0.w49fl.mongodb.net/Recordly",
+    process.env.MONGO_URI,
     { useNewUrlParser: true },
     (error) => {
       if (error) {
