@@ -3,7 +3,6 @@ import passport from "passport";
 
 import midError from "#middlewares/error.js";
 import midAuth from "#middlewares/auth.js";
-import modAccount from "#models/user.js";
 
 import userCtrl from "#controllers/userApi.js";
 

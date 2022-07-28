@@ -2,9 +2,7 @@ import passport from "passport";
 import passportGoogle from "passport-google-oauth2";
 const GoogleStrategy = passportGoogle.Strategy;
 
-const GOOGLE_CLIENT_ID =
-  "1040466111018-hr4dgfl3t3etnajoopn0aqsij34lang8.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+import modUser from "#models/user.js";
 
 export default function initOAuth(app) {
   // passport 초기화 및 session 연결
@@ -28,20 +26,30 @@ export default function initOAuth(app) {
   // 해당 콜백 function에서 사용자가 누구인지 done(null, user) 형식으로 넣으면 된다.
   // 이 예시에서는 넘겨받은 profile을 전달하는 것으로 대체했다.
 
-  console.log("before passport use");
   passport.use(
     new GoogleStrategy(
       {
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/auth/google/callback",
         passReqToCallback: true,
       },
       function (request, accessToken, refreshToken, profile, done) {
         console.log(profile);
         console.log(accessToken);
-
-        return done(null, profile);
+        const {
+          email,
+          displayName: username,
+          id: oauthId,
+          picture: profileImage,
+        } = profile;
+        modUser.findOrCreate(
+          { email, username, oauthId, profileImage },
+          (err, user) => {
+            console.log(user);
+            return done(err, user);
+          }
+        );
       }
     )
   );
@@ -53,6 +61,10 @@ export default function initOAuth(app) {
 
   app.get(
     "/api/auth/google/callback",
+    (req, res, next) => {
+      const { code } = req.query;
+      next();
+    },
     passport.authenticate("google", {
       successRedirect: "http://localhost:3000/main",
       failureRedirect: "/login",
