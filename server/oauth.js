@@ -35,8 +35,6 @@ export default function initOAuth(app) {
         passReqToCallback: true,
       },
       function (request, accessToken, refreshToken, profile, done) {
-        console.log(profile);
-        console.log(accessToken);
         const {
           email,
           displayName: username,
@@ -46,7 +44,6 @@ export default function initOAuth(app) {
         modUser.findOrCreate(
           { email, username, oauthId, profileImage },
           (err, user) => {
-            console.log(user);
             return done(err, user);
           }
         );
