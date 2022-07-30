@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import LoginPage from "pages/loginPage";
-import Main from "pages/main";
+import LoginPage from "pages/LoginPage";
+import Main from "pages/Main";
 
 const App = () => {
   return (
