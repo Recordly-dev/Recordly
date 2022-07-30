@@ -4,6 +4,7 @@ import connectRedis from "connect-redis";
 const redisStore = connectRedis(session);
 import http from "http";
 import session from "express-session";
+import cors from "cors";
 
 import initOAuth from "./oauth.js";
 import routers from "./routes/index.js";
@@ -37,6 +38,8 @@ export default function initExpress(redisClient) {
   });
 
   initOAuth(app);
+
+  app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);

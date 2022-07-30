@@ -54,7 +54,7 @@ export default function initOAuth(app) {
   app.get(
     "/api/auth/google/callback",
     passport.authenticate("google", {
-      successRedirect: "/main",
+      successRedirect: "http://localhost:3000/main",
       failureRedirect: "/login",
     })
   );
