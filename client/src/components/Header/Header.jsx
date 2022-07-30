@@ -1,5 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
+import imageUrl from "assets/images/logo.png";
 
 import styles from "./Header.module.scss";
 
@@ -14,6 +15,10 @@ const Header = ({ imageUrl }) => {
 
 Header.propTypes = {
   imageUrl: propTypes.string,
+};
+
+Header.defaultProps = {
+  imageUrl: imageUrl,
 };
 
 export default Header;
