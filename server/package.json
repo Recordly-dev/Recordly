@@ -28,5 +28,6 @@
     "#middlewares/*": "./middlewares/*",
     "#models/*": "./models/*",
     "#controllers/*": "./controllers/*"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
