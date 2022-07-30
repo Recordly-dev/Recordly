@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "pages/loginPage";
+import App from "components/Editor";
 import { BrowserRouter } from "react-router-dom";
 
 import styles from "./index.module.scss";
