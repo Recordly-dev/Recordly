@@ -14,6 +14,12 @@ const serialize = value => {
   
   // Define a deserializing function that takes a string and returns a value.
   const deserialize = string => {
+      if(string == null) return [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        },
+      ];
     // Return a value array of children derived by splitting the string.
     return string.split('\n').map(line => {
       return {
@@ -63,12 +69,13 @@ const CustomEditor = {
     const [editor] = useState(() => withReact(createEditor()))
     // const [context, setContext] = useState(''); 
     
+    /*
     const initialValue = useMemo(
         () => deserialize(localStorage.getItem('content')) || '',
         []
     )
-    
-   /*
+    */
+   
     const initialValue = useMemo(
         () =>
           JSON.parse(localStorage.getItem('content')) || [
@@ -79,7 +86,7 @@ const CustomEditor = {
           ],
         []
       )
-      */
+      
     const renderElement = useCallback(props => {
       switch (props.element.type) {
         case 'code':
@@ -105,9 +112,9 @@ const CustomEditor = {
             if (isAstChange) {
               //  setContext(value); 
               // Save the value to Local Storage.
-              localStorage.setItem('content', serialize(value))
-              // const content = JSON.stringify(value)
-          // localStorage.setItem('content', content)
+              // localStorage.setItem('content', serialize(value))
+              const content = JSON.stringify(value)
+              localStorage.setItem('content', content)
         }}}
         >
         <div>
