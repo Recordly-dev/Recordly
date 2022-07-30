@@ -1,11 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-<<<<<<< HEAD
-import App from "./pages/loginPage";
-=======
-import Editor from "./util/Editor";
-import App from "./test_1";
->>>>>>> feature/REC-40
+import App from "pages/loginPage";
 import { BrowserRouter } from "react-router-dom";
 
 import styles from "./index.module.scss";
@@ -13,7 +8,7 @@ import styles from "./index.module.scss";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Editor />
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
