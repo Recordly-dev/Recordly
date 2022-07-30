@@ -7,7 +7,13 @@ import Footer from "components/Footer";
 import styles from "./Main.module.scss";
 
 const Main = () => {
-  return <Header />;
+  return (
+    <div>
+      <Header />
+      <SearchBar />
+      <Footer />
+    </div>
+  );
 };
 
 export default Main;
