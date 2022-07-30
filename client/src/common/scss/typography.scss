@@ -1,0 +1,92 @@
+@mixin heading-default {
+  margin-bottom: 0.5rem;
+  color: #2b2d36;
+  line-height: 1.5;
+}
+
+@mixin h1 {
+  @include heading-default;
+
+  font-weight: 700;
+  font-size: 2.375rem;
+  letter-spacing: -0.025rem;
+}
+
+@mixin h2 {
+  @include heading-default;
+
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.025rem;
+}
+
+@mixin h3 {
+  @include heading-default;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.01875rem;
+}
+
+@mixin h4 {
+  @include heading-default;
+
+  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: -0.0125rem;
+}
+
+@mixin h5 {
+  @include heading-default;
+
+  font-weight: 500;
+  font-size: 1.125rem;
+  letter-spacing: -0.006rem;
+}
+
+@mixin h6 {
+  @include heading-default;
+
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.006rem;
+}
+
+@mixin subtitle-1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #2b2d36;
+  line-height: 1.5;
+  letter-spacing: -0.006rem;
+}
+
+@mixin subtitle-2 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: #2b2d36;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+@mixin paragraph-sm {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@mixin paragraph-md {
+  font-size: 0.875rem;
+  line-height: calc(22 / 14);
+}
+
+@mixin paragraph-lg {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@mixin caption {
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
