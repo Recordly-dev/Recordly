@@ -18,7 +18,9 @@ export default function initOAuth(app) {
   // 사용자가 페이지를 방문할 때마다 호출되는 함수
   // done(null, id)로 사용자의 정보를 각 request의 user 변수에 넣어준다.
   passport.deserializeUser(function (id, done) {
-    done(null, id);
+    modUser.findById(id, (err, user) => {
+      done(null, user);
+    });
   });
 
   // Google login 전략
@@ -53,6 +55,13 @@ export default function initOAuth(app) {
 
   app.get(
     "/api/auth/google",
+    (req, res, next) => {
+      if (req.user) {
+        res.redirect("http://localhost:3000/main");
+      } else {
+        next();
+      }
+    },
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
