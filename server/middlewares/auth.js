@@ -1,5 +1,5 @@
-const checkUser = (req, res, next) => {
-  if (!req?.user?.session) {
+const checkLogin = (req, res, next) => {
+  if (!req?.user) {
     throw new ForbiddenError("Not User", {
       user,
       originalUrl: req.originalUrl,
@@ -10,11 +10,11 @@ const checkUser = (req, res, next) => {
 };
 
 const checkNotLogin = (req, res, next) => {
-  if (req?.user?.session) {
-    res.redirect("/");
+  if (req?.user) {
+    res.redirect("http://localhost:3000/main");
+    return;
   }
-
   next();
 };
 
-export default { checkUser, checkNotLogin };
+export default { checkLogin, checkNotLogin };
