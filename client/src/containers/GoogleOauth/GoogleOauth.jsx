@@ -5,12 +5,13 @@ import axios from "axios";
 const GoogleOauth = () => {
   const navigate = useNavigate();
   const onClickGoogleLogin = () => {
-    let path = "localhost:8080/api/auth/google/callback";
-    navigate(path);
+    // axios.get("http://localhost:8080/api/auth/google");
   };
   return (
     <div>
-      <button onClick={onClickGoogleLogin}>123</button>
+      <a href="http://localhost:8080/api/auth/google">
+        <button onClick={onClickGoogleLogin}>123</button>
+      </a>
     </div>
   );
 };
