@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import React from "react";
 import axios from "axios";
 
+import googleLoginImage from "./assets/images/googleLoginButtonImage.png";
+
+import styles from "./GoogleOauth.module.scss";
+
 const GoogleOauth = () => {
-  const navigate = useNavigate();
   const onClickGoogleLogin = () => {
-    // axios.get("http://localhost:8080/api/auth/google");
+    axios.get("http://localhost:8080/api/auth/google/callback");
   };
+
   return (
-    <div>
+    <div className={styles.GoogleOauth}>
       <a href="http://localhost:8080/api/auth/google">
-        <button onClick={onClickGoogleLogin}>123</button>
+        <img
+          src={googleLoginImage}
+          className={styles.GoogleOauth__image}
+          onClick={onClickGoogleLogin}
+          alt="google Login"
+        />
       </a>
     </div>
   );
