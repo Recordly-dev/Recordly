@@ -1,7 +1,8 @@
-const checkLogin = (req, res, next) => {
-  if (!req?.user) {
+import modUser from "#models/user.js";
+
+const checkLogin = async (req, res, next) => {
+  if (!req?.user || !(await modUser.exists({ _id: req.uesr.id }))) {
     throw new ForbiddenError("Not User", {
-      user,
       originalUrl: req.originalUrl,
     });
   }
