@@ -20,11 +20,20 @@ const LoginPage = () => {
           "justify-content-center"
         )}
       >
-        <div className={styles.LoginPage__leftSection}>
+        <div className={cn(styles.LoginPage__leftSection, "w-50", "ms-5")}>
           <MainTitle />
           <GoogleOauth />
         </div>
-        <div className={styles.LoginPage__rightSection}>
+        <div
+          className={cn(
+            styles.LoginPage__rightSection,
+            "d-flex",
+            "justify-content-center",
+            "align-items-center",
+            "w-50",
+            "me-5"
+          )}
+        >
           <MainImage />
         </div>
       </section>
