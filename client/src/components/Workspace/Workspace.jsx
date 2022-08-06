@@ -1,28 +1,50 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import docsImage from "./assets/images/docsImage.png";
 import createDocsImage from "./assets/images/createDocsImage.png";
 
+import CreateDocsModal from "components/CreateDocsModal";
+
 import styles from "./Workspace.module.scss";
 
+const MODAL_INFO = {
+  TITLE: "문서 생성",
+  YES_TEXT: "생성하기",
+};
+
 const Workspace = ({ workspaceList }) => {
-  const [isModal, setIsModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleWorkSpace = () => {
     alert("hi");
   };
 
-  const handleCreactDocs = () => {
-    setIsModal((prevState) => !prevState);
+  const handleModalYesBtnClick = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalNoBtnClick = () => {
+    setIsModalOpen(false);
+  };
+
+  const toggleStatusModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
+
+  const handleButtonClick = (e) => {
+    toggleStatusModal();
+
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
     <div className={cn(styles.Workspace, "d-flex", "flex-wrap", "p-3")}>
       <div
         className={cn(styles.Workspace__container)}
-        onClick={handleCreactDocs}
+        onClick={handleButtonClick}
       >
         <img src={createDocsImage} alt="create docs" />
         <h6>새로 만들기</h6>
@@ -43,6 +65,15 @@ const Workspace = ({ workspaceList }) => {
           </div>
         </div>
       ))}
+
+      <CreateDocsModal
+        isOpen={isModalOpen}
+        toggle={toggleStatusModal}
+        header={MODAL_INFO.TITLE}
+        yesText={MODAL_INFO.YES_TEXT}
+        yesFunction={handleModalYesBtnClick}
+        noFunction={handleModalNoBtnClick}
+      />
     </div>
   );
 };
