@@ -17,10 +17,12 @@ const LoginPage = () => {
         className={cn(
           styles.LoginPage__container,
           "d-flex",
-          "justify-content-center"
+          "justify-content-center",
+          "m-5",
+          "p-5"
         )}
       >
-        <div className={cn(styles.LoginPage__leftSection, "w-50", "ms-5")}>
+        <div className={cn(styles.LoginPage__leftSection, "w-50")}>
           <MainTitle />
           <GoogleOauth />
         </div>
@@ -30,8 +32,7 @@ const LoginPage = () => {
             "d-flex",
             "justify-content-center",
             "align-items-center",
-            "w-50",
-            "me-5"
+            "w-50"
           )}
         >
           <MainImage />
