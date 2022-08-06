@@ -17,14 +17,24 @@ const LoginPage = () => {
         className={cn(
           styles.LoginPage__container,
           "d-flex",
-          "justify-content-center"
+          "justify-content-center",
+          "m-5",
+          "p-5"
         )}
       >
-        <div className={styles.LoginPage__leftSection}>
+        <div className={cn(styles.LoginPage__leftSection, "w-50")}>
           <MainTitle />
           <GoogleOauth />
         </div>
-        <div className={styles.LoginPage__rightSection}>
+        <div
+          className={cn(
+            styles.LoginPage__rightSection,
+            "d-flex",
+            "justify-content-center",
+            "align-items-center",
+            "w-50"
+          )}
+        >
           <MainImage />
         </div>
       </section>

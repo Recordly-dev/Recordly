@@ -6,7 +6,11 @@ import rightSectionImage from "./assets/images/mainImage.png";
 const MainImage = () => {
   return (
     <div className={styles.MainImage}>
-      <img src={rightSectionImage} alt="right section logo" />
+      <img
+        className={styles.MainImage__image}
+        src={rightSectionImage}
+        alt="right section logo"
+      />
     </div>
   );
 };

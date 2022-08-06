@@ -1,0 +1,15 @@
+.Tag {
+  &__tag {
+    height: 2rem; // 32px
+
+    color: white;
+
+    border-radius: 3rem !important; // 48px
+    margin-bottom: 0.5rem; // 8px
+
+    &__count {
+      margin-left: 0.25rem; // 8px
+      font-size: 0.75rem; // 12px
+    }
+  }
+}
