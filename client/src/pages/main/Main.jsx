@@ -11,7 +11,7 @@ import styles from "./Main.module.scss";
 const Main = () => {
   return (
     <div className={cn(styles.Main)}>
-      <Header />
+      <Header isLogin />
       <div className={cn(styles.Main__container, "d-flex", "m-3", "p-3")}>
         <div className={cn(styles.Main__container__tagList, "w-25")}>
           <TagContainer />
