@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Workspace from "components/Workspace";
 
@@ -87,6 +88,13 @@ const dummyData = [
   },
 ];
 const WorkspaceList = () => {
+  const [workspaceList, setWorkspaceList] = useState([]);
+
+  useEffect(() => {
+    axios.get("workspace").then((res) => {
+      setWorkspaceList(res.data);
+    });
+  });
   return <Workspace workspaceList={dummyData} />;
 };
 
