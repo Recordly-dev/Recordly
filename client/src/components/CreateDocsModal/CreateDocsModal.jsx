@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalBody,
@@ -17,35 +17,14 @@ const CreateDocsModal = ({
   yesFunction,
   noFunction,
 }) => {
-  const [title, setTitle] = useState("");
-  const [selectdButton, setSelectdButton] = useState("");
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleYesClick = () => {
-    yesFunction(title, selectdButton);
-  };
-
-  const getSelectedBtnData = (event) => {
-    setSelectdButton(event.target.value);
-  };
-
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>{header}</ModalHeader>
       <ModalBody>
-        <Input onChange={handleTitleChange} placeholder="제목" />
-        <Button onClick={getSelectedBtnData} value="docs">
-          메모
-        </Button>
-        <Button onClick={getSelectedBtnData} value="pdf">
-          PDF
-        </Button>
+        <Input placeholder="제목" />
       </ModalBody>
       <ModalFooter>
-        <Button onClick={handleYesClick}>생성하기</Button>
+        <Button onClick={yesFunction}>생성하기</Button>
         <Button onClick={noFunction}>취소</Button>
       </ModalFooter>
     </Modal>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 
 import docsImage from "./assets/images/docsImage.png";
@@ -21,12 +21,8 @@ const Workspace = ({ workspaceList }) => {
     alert("hi");
   };
 
-  const handleModalYesBtnClick = (title, workspaceType) => {
-    axios
-      .post("/workspace", { title: title, workspaceType: workspaceType })
-      .then((res) => {
-        console.log(res);
-      });
+  const handleModalYesBtnClick = () => {
+    setIsModalOpen(false);
   };
 
   const handleModalNoBtnClick = () => {
@@ -53,7 +49,6 @@ const Workspace = ({ workspaceList }) => {
         <img src={createDocsImage} alt="create docs" />
         <h6>새로 만들기</h6>
       </div>
-
       {workspaceList.map((workspace) => (
         <div
           className={cn(styles.Workspace__container)}
@@ -76,7 +71,6 @@ const Workspace = ({ workspaceList }) => {
         toggle={toggleStatusModal}
         header={MODAL_INFO.TITLE}
         yesText={MODAL_INFO.YES_TEXT}
-        isDocs
         yesFunction={handleModalYesBtnClick}
         noFunction={handleModalNoBtnClick}
       />
