@@ -20,7 +20,7 @@ const countTags = (tagList) => {
   return Object.entries(tagsCount).sort((a, b) => b[1] - a[1]);
 };
 
-const Tag = ({ tagList }) => {
+const Tag = ({ tagList, getWorkspaceHaveTags }) => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ const Tag = ({ tagList }) => {
           )}
           color="primary"
           size="md"
+          onClick={() => getWorkspaceHaveTags(tag[0])}
         >
           <span>{tag[0]}</span>
           <span className={styles.Tag__tag__count}>({tag[1]})</span>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Tag from "components/Tag";
 import styles from "./TagList.module.scss";
 
-// 서버 통신으로 tag list가져와서 map 돌려서 태그 출력하기
 const dummyData = [
   {
     title: "정보처리기사 1",
@@ -97,14 +96,20 @@ const dummyData = [
   },
 ];
 
-const TagList = () => {
+const TagList = ({ workspaceList, getWorkspaceHaveTags }) => {
   const [tagList, setTagList] = useState([]);
 
   useEffect(() => {
     setTagList(dummyData.map((data) => data.tags));
   }, []);
 
-  return <Tag tagList={tagList} />;
+  return (
+    <Tag
+      tagList={tagList}
+      workspaceList={workspaceList}
+      getWorkspaceHaveTags={getWorkspaceHaveTags}
+    />
+  );
 };
 
 export default TagList;
