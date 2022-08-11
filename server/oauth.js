@@ -4,7 +4,7 @@ const GoogleStrategy = passportGoogle.Strategy;
 
 import modUser from "#models/user.js";
 import authMid from "#middlewares/auth.js";
-
+import routers from "./routes/index.js";
 export default function initOAuth(app) {
   // passport 초기화 및 session 연결
   app.use(passport.initialize());
@@ -13,14 +13,19 @@ export default function initOAuth(app) {
   // login이 최초로 성공했을 때만 호출되는 함수
   // done(null, user.id)로 세션을 초기화한다.
   passport.serializeUser(function (user, done) {
-    done(null, user.id);
+    console.log("serializeUser");
+    console.log(user._id);
+    done(null, user._id);
   });
 
   // 사용자가 페이지를 방문할 때마다 호출되는 함수
   // done(null, id)로 사용자의 정보를 각 request의 user 변수에 넣어준다.
   passport.deserializeUser(function (id, done) {
+    console.log("deserializeUser!!!!");
     modUser.findById(id, (err, user) => {
-      done(null, user);
+      console.log(user);
+      console.log("user info saved");
+      done(err, user);
     });
   });
 
@@ -67,4 +72,6 @@ export default function initOAuth(app) {
       failureRedirect: "http://localhost:3000",
     })
   );
+
+  app.use("/api", routers);
 }
