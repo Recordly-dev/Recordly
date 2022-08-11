@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {createEditor} from 'slate';
 import { withHistory } from 'slate-history';
-import {Toolbar} from '../Components/Components'; 
+import {Toolbar, Icon} from '../Components/Components'; 
 import {MarkButton, BlockButton, Leaf} from '../RichText/RichText'; 
 import { Editable, withReact, Slate } from 'slate-react';
 import {Image, withImages, InsertImageButton} from '../ImageUploader/ImageUploader';
@@ -13,6 +13,11 @@ const Editor = () => {
 
   return (
     <Slate editor={editor} value={initialValue}>
+      <div class="banner">
+        <div>
+          <input placeholder="title input..."></input>
+          <Icon>save</Icon>
+        </div>
       <Toolbar>
         <MarkButton format="bold" icon="format_bold" />
         <MarkButton format="italic" icon="format_italic" />
@@ -29,6 +34,7 @@ const Editor = () => {
         <BlockButton format="justify" icon="format_align_justify" />
         <InsertImageButton />
       </Toolbar>
+      </div>
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}

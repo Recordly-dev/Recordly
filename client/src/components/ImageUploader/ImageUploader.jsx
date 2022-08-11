@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react'
-import imageExtensions from 'image-extensions'
-import isUrl from 'is-url'
 import { Transforms, createEditor } from 'slate'
 import {
   Slate,
@@ -120,7 +118,9 @@ export const InsertImageButton = () => {
 }
 
 const isImageUrl = url => {
-  if (!url) return false
-  if (!isUrl(url)) return false
-  return true; 
+  if (!url) {
+    alert(`${url} is not url!`)
+    return false
+  }
+  return true
 }
