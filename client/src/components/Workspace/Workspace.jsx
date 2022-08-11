@@ -23,7 +23,7 @@ const Workspace = ({ workspaceList }) => {
 
   const handleModalYesBtnClick = (title, workspaceType) => {
     axios
-      .post("/workspace", { title: title, workspaceType: workspaceType })
+      .post("/api/workspace", { title: title, workspaceType: workspaceType })
       .then((res) => {
         console.log(res);
       });
