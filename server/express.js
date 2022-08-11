@@ -34,8 +34,6 @@ export default function initExpress(redisClient) {
     })
   );
 
-  app.use("/api", routers);
-
   app.get("/", (req, res, next) => {
     res.send("hello world!");
   });
@@ -43,6 +41,8 @@ export default function initExpress(redisClient) {
   initOAuth(app);
 
   app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
+  app.use("/api", routers);
 
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);
