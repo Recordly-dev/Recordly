@@ -7,7 +7,7 @@ const router = express.Router();
 router.route("/").post(async (req, res, next) => {
   try {
     const { title, workspaceType } = req.body;
-    const { id: writerId } = req.session.user;
+    const { id: writerId } = req.user;
     const workspace = await modWorkspace.create({
       title,
       workspaceType,

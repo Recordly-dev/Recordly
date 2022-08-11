@@ -19,6 +19,7 @@ export default function initOAuth(app) {
   // 사용자가 페이지를 방문할 때마다 호출되는 함수
   // done(null, id)로 사용자의 정보를 각 request의 user 변수에 넣어준다.
   passport.deserializeUser(function (id, done) {
+    console.log("deserializeUser!!");
     modUser.findById(id, (err, user) => {
       done(null, user);
     });
