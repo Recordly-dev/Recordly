@@ -97,7 +97,7 @@ export const Icon = React.forwardRef(
         'material-icons',
         className,
         css`
-          font-size: 18px;
+          font-size: 25px;
           vertical-align: text-bottom;
         `
       )}
@@ -169,7 +169,8 @@ export const Toolbar = React.forwardRef(
         className,
         css`
           position: relative;
-          padding: 1px 18px 17px;
+          width: 816px; 
+          padding: 1px 18px 7px;
           margin: 0 -20px;
           border-bottom: 2px solid #eee;
           margin-bottom: 20px;
