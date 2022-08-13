@@ -16,7 +16,7 @@ router.route("/").post(async (req, res, next) => {
       writer: writerId,
     });
     console.log(workspace);
-    res.status(201);
+    res.status(201).json({ data: workspace });
   } catch (err) {
     console.error(err);
     next(err);
