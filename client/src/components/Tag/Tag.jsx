@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "reactstrap";
 import cn from "classnames";
 
 import styles from "./Tag.module.scss";
 
-const Tag = ({ tagList }) => {
+const countTags = (tagList) => {
+  let tagsCount = {};
+
+  tagList.forEach((tags) => {
+    tags.forEach((tag) => {
+      if (!tagsCount[tag]) {
+        tagsCount[tag] = 1;
+      } else {
+        tagsCount[tag]++;
+      }
+    });
+  });
+
+  return Object.entries(tagsCount).sort((a, b) => b[1] - a[1]);
+};
+
+const Tag = ({ tagList, getWorkspaceHaveTags }) => {
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    setTags(countTags(tagList));
+  }, [tagList]);
+
   return (
     <div className={cn(styles.Tag, "d-flex", "flex-column")}>
-      {tagList.map((tag) => (
+      {tags.map((tag) => (
         <Button
           className={cn(
             styles.Tag__tag,
@@ -17,9 +39,10 @@ const Tag = ({ tagList }) => {
           )}
           color="primary"
           size="md"
+          onClick={() => getWorkspaceHaveTags(tag[0])}
         >
-          <span>{tag.text}</span>
-          <span className={styles.Tag__tag__count}>({tag.count})</span>
+          <span>{tag[0]}</span>
+          <span className={styles.Tag__tag__count}>({tag[1]})</span>
         </Button>
       ))}
     </div>
