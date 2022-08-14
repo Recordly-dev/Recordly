@@ -5,6 +5,7 @@ const workspaceSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
   workspaceType: {
     type: String,
