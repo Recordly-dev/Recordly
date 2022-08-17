@@ -91,23 +91,18 @@ const App = () => {
     return <Leaf {...props} />;
   }, []);
 
+  const onChangeContent = (value) => {
+    const isAstChange = editor.operations.some(
+      (op) => op.type !== "set_selection"
+    );
+    if (isAstChange) {
+      const content = JSON.stringify(value);
+      localStorage.setItem("content", content);
+    }
+  };
+
   return (
-    <Slate
-      editor={editor}
-      value={initialValue}
-      onChange={(value) => {
-        const isAstChange = editor.operations.some(
-          (op) => "set_selection" !== op.type
-        );
-        if (isAstChange) {
-          //  setContext(value);
-          // Save the value to Local Storage.
-          // localStorage.setItem("content", serialize(value));
-          const content = JSON.stringify(value);
-          localStorage.setItem("content", content);
-        }
-      }}
-    >
+    <Slate editor={editor} value={initialValue} onChange={onChangeContent}>
       <div>
         <button
           onMouseDown={(event) => {
