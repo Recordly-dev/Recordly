@@ -2,44 +2,67 @@ import React, { useState } from "react";
 import axios from "axios";
 import cn from "classnames";
 
+import Swal from "sweetalert2";
+
 import docsImage from "./assets/images/docsImage.png";
 import createDocsImage from "./assets/images/createDocsImage.png";
 
-import CreateDocsModal from "components/CreateDocsModal";
-
 import styles from "./Workspace.module.scss";
 
-const MODAL_INFO = {
-  TITLE: "문서 생성",
-  YES_TEXT: "생성하기",
-};
-
 const Workspace = ({ workspaceList }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleWorkSpace = () => {
-    alert("hi");
-  };
-
-  const handleModalYesBtnClick = (title, workspaceType) => {
-    axios
-      .post("/api/workspace", { title: title, workspaceType: workspaceType })
-      .then((res) => {
-        console.log(res.data);
-        setIsModalOpen(false);
-      });
-  };
-
-  const handleModalNoBtnClick = () => {
-    setIsModalOpen(false);
-  };
-
-  const toggleStatusModal = () => {
-    setIsModalOpen((prevState) => !prevState);
+    Swal.fire("Any fool can use a computer");
   };
 
   const handleButtonClick = (e) => {
-    toggleStatusModal();
+    let title;
+    let workspaceType;
+
+    Swal.fire({
+      title: "메모 제목을 적어주세요.",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      showLoaderOnConfirm: true,
+      preConfirm: (title) => {
+        return title;
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "일반 메모와 PDF를 선택해주세요.",
+          showDenyButton: true,
+          confirmButtonText: "MEMO",
+          denyButtonText: `PDF`,
+        }).then((workspace) => {
+          title = result.value;
+          if (workspace.isConfirmed) {
+            workspaceType = "docs";
+          } else if (workspace.isDenied) {
+            workspaceType = "pdf";
+          }
+          axios
+            .post("/api/workspace", {
+              title: title,
+              workspaceType: workspaceType,
+            })
+            .then((res) => {
+              console.log(res.data.data);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "메모가 생성되었습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+            });
+        });
+      }
+    });
 
     e.preventDefault();
     e.stopPropagation();
@@ -71,16 +94,6 @@ const Workspace = ({ workspaceList }) => {
           </div>
         </div>
       ))}
-
-      <CreateDocsModal
-        isOpen={isModalOpen}
-        toggle={toggleStatusModal}
-        header={MODAL_INFO.TITLE}
-        yesText={MODAL_INFO.YES_TEXT}
-        isDocs
-        yesFunction={handleModalYesBtnClick}
-        noFunction={handleModalNoBtnClick}
-      />
     </div>
   );
 };
