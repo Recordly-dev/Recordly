@@ -19,6 +19,7 @@ router.route("/").post(async (req, res, next) => {
     res.status(201).json({ data: workspace });
   } catch (err) {
     console.error(err);
+    console.dir(err);
     next(err);
   }
 });
