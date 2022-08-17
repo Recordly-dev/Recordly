@@ -25,7 +25,8 @@ const Workspace = ({ workspaceList }) => {
     axios
       .post("/api/workspace", { title: title, workspaceType: workspaceType })
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        setIsModalOpen(false);
       });
   };
 
