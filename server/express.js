@@ -1,10 +1,11 @@
 import express from "express";
-import bodyParser from "body-parser";
+import morgan from "morgan";
 import connectRedis from "connect-redis";
 const redisStore = connectRedis(session);
 import http from "http";
 import session from "express-session";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import initOAuth from "./oauth.js";
 import routers from "./routes/index.js";
@@ -13,8 +14,10 @@ export default function initExpress(redisClient) {
   const app = express();
   const PORT = 8080;
 
-  app.use(bodyParser.json({ limit: "50mb" }));
-  app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
   app.use(
     session({
       key: "app.sid",
@@ -31,8 +34,6 @@ export default function initExpress(redisClient) {
     })
   );
 
-  app.use("/api", routers);
-
   app.get("/", (req, res, next) => {
     res.send("hello world!");
   });
@@ -40,6 +41,8 @@ export default function initExpress(redisClient) {
   initOAuth(app);
 
   app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
+  app.use("/api", routers);
 
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);

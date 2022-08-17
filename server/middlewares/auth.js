@@ -1,7 +1,8 @@
-const checkUser = (req, res, next) => {
-  if (!req?.user?.session) {
+import modUser from "#models/user.js";
+
+const checkLogin = async (req, res, next) => {
+  if (!req?.user || !(await modUser.exists({ _id: req.user.id }))) {
     throw new ForbiddenError("Not User", {
-      user,
       originalUrl: req.originalUrl,
     });
   }
@@ -10,11 +11,11 @@ const checkUser = (req, res, next) => {
 };
 
 const checkNotLogin = (req, res, next) => {
-  if (req?.user?.session) {
-    res.redirect("/");
+  if (req?.user) {
+    res.redirect("http://localhost:3000/main");
+    return;
   }
-
   next();
 };
 
-export default { checkUser, checkNotLogin };
+export default { checkLogin, checkNotLogin };
