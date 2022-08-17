@@ -2,10 +2,9 @@ import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const workspaceSchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
     required: true,
-    unique: true,
   },
   workspaceType: {
     type: String,

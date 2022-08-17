@@ -10,6 +10,8 @@ import {
   InsertImageButton,
 } from "../ImageUploader/ImageUploader";
 
+import { initialContent } from "constants/editor";
+
 import { css, cx } from "@emotion/css";
 
 const Editor = () => {
@@ -19,9 +21,24 @@ const Editor = () => {
     withImages(withHistory(withReact(createEditor())), [])
   );
 
+  const initialValue = useMemo(
+    () => JSON.parse(localStorage.getItem("content")) || initialContent,
+    []
+  );
+
+  const onChangeContent = (value) => {
+    const isAstChange = editor.operations.some(
+      (op) => op.type !== "set_selection"
+    );
+    if (isAstChange) {
+      const content = JSON.stringify(value);
+      localStorage.setItem("content", content);
+    }
+  };
+
   return (
     <AppWrap>
-      <Slate editor={editor} value={initialValue}>
+      <Slate editor={editor} value={initialValue} onChange={onChangeContent}>
         <div className="banner">
           <Savebar>
             <Input placeholder="Title Input" />
@@ -205,40 +222,6 @@ const Button = React.forwardRef(({ className, ...props }, ref) => (
   ></button>
 ));
 
-const initialValue = [
-  {
-    type: "paragraph",
-    children: [
-      { text: "This is editable " },
-      { text: "rich", bold: true },
-      { text: " text, " },
-      { text: "much", italic: true },
-      { text: " better than a " },
-      { text: "<textarea>", code: true },
-      { text: "!" },
-    ],
-  },
-  {
-    type: "paragraph",
-    children: [
-      {
-        text: "Since it's rich text, you can do things like turn a selection of text ",
-      },
-      { text: "bold", bold: true },
-      {
-        text: ", or add a semantically rendered block quote in the middle of the page, like this:",
-      },
-    ],
-  },
-  {
-    type: "block-quote",
-    children: [{ text: "A wise quote." }],
-  },
-  {
-    type: "paragraph",
-    align: "center",
-    children: [{ text: "Try it out for yourself!" }],
-  },
-];
+const initialValue = [];
 
 export default Editor;

@@ -44,6 +44,15 @@ export default function initExpress(redisClient) {
 
   app.use("/api", routers);
 
+  app.use((err, req, res, next) => {
+    console.log("err,,,");
+    console.log(err);
+    console.log(err.message);
+    res
+      .status(err.status || 500)
+      .json({ error: err.code, description: err.message });
+  });
+
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);
   });
