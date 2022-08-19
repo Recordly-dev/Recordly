@@ -68,4 +68,13 @@ export default function initOAuth(app) {
       failureRedirect: "http://localhost:3000",
     })
   );
+  app.get("/api/auth/logout", (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      req.session.destroy();
+      res.redirect("http://localhost:3000/main");
+    });
+  });
 }
