@@ -1,5 +1,6 @@
 .Workspace {
   &__container {
+    position: relative;
     width: 8rem; // 144px
     display: flex;
     flex-direction: column;
@@ -8,6 +9,12 @@
     margin: 1rem; // 16px
 
     cursor: pointer;
+
+    &__delete {
+      position: absolute;
+      right: 0;
+      z-index: 100;
+    }
   }
 
   &__title {
