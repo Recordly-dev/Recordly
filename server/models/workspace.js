@@ -24,9 +24,9 @@ const workspaceSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  content: Object,
   // folder: {
-  //   type: ObjectId,
-  //   ref: "",
+
   // },
 });
 
