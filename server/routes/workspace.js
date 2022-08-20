@@ -1,4 +1,5 @@
 import express from "express";
+import moment from "moment-timezone";
 
 import modWorkspace from "#models/workspace.js";
 
@@ -11,8 +12,8 @@ router.route("/").post(async (req, res, next) => {
     const workspace = await modWorkspace.create({
       title,
       workspaceType,
-      createdAt: Date.now(),
-      editedAt: Date.now(),
+      createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
+      editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
       writer: writerId,
     });
     console.log(workspace);
