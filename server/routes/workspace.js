@@ -2,6 +2,7 @@ import express from "express";
 import moment from "moment-timezone";
 
 import modWorkspace from "#models/workspace.js";
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
@@ -34,4 +35,19 @@ router.route("/").get(async (req, res, next) => {
     next(err);
   }
 });
+
+router.route("/:workspaceId").delete(async (req, res, next) => {
+  try {
+    const workspaceId = req.params.workspaceId;
+    modWorkspace.deleteOne({ _id: workspaceId }).then((data) => {
+      console.log(data);
+    });
+
+    res.json({ data: "delete completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 export default router;
