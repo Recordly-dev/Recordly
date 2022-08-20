@@ -2,10 +2,18 @@ import React from "react";
 import cn from "classnames";
 import propTypes from "prop-types";
 import imageUrl from "assets/images/logo.png";
+import { useNavigate } from "react-router";
 
 import styles from "./Header.module.scss";
+import axios from "axios";
 
 const Header = ({ imageUrl, isLogin }) => {
+  const navigate = useNavigate();
+  const logout = () => {
+    axios.get("/api/auth/logout").then((res, req) => {
+      navigate("/");
+    });
+  };
   return (
     <header
       className={cn(
@@ -23,7 +31,7 @@ const Header = ({ imageUrl, isLogin }) => {
       </div>
       {isLogin && (
         <div className={styles.Header_right}>
-          <button>Logout</button>
+          <button onClick={logout}>Logout</button>
         </div>
       )}
     </header>

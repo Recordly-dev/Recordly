@@ -74,7 +74,7 @@ export default function initOAuth(app) {
         return next(err);
       }
       req.session.destroy();
-      res.redirect("http://localhost:3000/main");
+      res.json({ data: "logout completed" });
     });
   });
 }
