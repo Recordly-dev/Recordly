@@ -24,4 +24,13 @@ router.route("/").post(async (req, res, next) => {
   }
 });
 
+router.route("/").get(async (req, res, next) => {
+  try {
+    const workspaces = await modWorkspace.find({ writer: req.user.id });
+    res.json(workspaces);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
 export default router;
