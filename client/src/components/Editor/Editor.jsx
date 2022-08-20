@@ -6,6 +6,7 @@ import { MarkButton, BlockButton, Leaf } from "../RichText/RichText";
 import { Editable, withReact, Slate } from "slate-react";
 import { Image, InsertImageButton } from "../ImageUploader/ImageUploader";
 import { useDebouncedCallback } from "use-debounce";
+// import {debounce } from 'lodash';
 
 import usePrompt from "hooks/usePrompt";
 import useSlateContent from "hooks/useSlateContent";
@@ -27,7 +28,7 @@ const Editor = () => {
 
   usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
-  const onChangeContent = useDebouncedCallback((value) => {
+  const saveContentToDB = useDebouncedCallback((value) => {
     const content = JSON.stringify(value);
     axios
       .patch(`/api/workspace/${workspaceId}`, {
@@ -40,6 +41,15 @@ const Editor = () => {
         console.err(err);
       });
   }, 2000);
+
+  const onChangeContent = (value) => {
+    const isAstChange = editor.operations.some(
+      (op) => "set_selection" !== op.type
+    );
+    if (isAstChange) {
+      saveContentToDB(value);
+    }
+  };
 
   return (
     <AppWrap>
