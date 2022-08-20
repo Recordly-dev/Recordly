@@ -1,79 +1,34 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { createEditor } from "slate";
-import { withHistory } from "slate-history";
 import { Toolbar, Icon } from "../Components/Components";
 import { MarkButton, BlockButton, Leaf } from "../RichText/RichText";
 import { Editable, withReact, Slate } from "slate-react";
-import {
-  Image,
-  withImages,
-  InsertImageButton,
-} from "../ImageUploader/ImageUploader";
+import { Image, InsertImageButton } from "../ImageUploader/ImageUploader";
 import { useDebouncedCallback } from "use-debounce";
 
-import { initialContent } from "constants/editor";
 import usePrompt from "hooks/usePrompt";
+import useSlateContent from "hooks/useSlateContent";
+
 import { css, cx } from "@emotion/css";
 import axios from "axios";
 
 const Editor = () => {
-  const navigate = useNavigate();
-
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const [editor] = useState(() => withReact(createEditor()));
-
   const location = useLocation();
+
   const workspaceId = location.pathname.split("/").at(-1);
+  const { slateContent } = useSlateContent(workspaceId);
+  console.log(slateContent);
+  editor.children = slateContent;
 
-  const saveContent = () => {};
-
-  usePrompt("현재 페이지를 벗어나시겠습니까?", true, saveContent);
-
-  // let initialValue = JSON.parse(localStorage.getItem("content")) || [];
-  //   []
-  // );
-
-  const initialValue = useMemo(() => {
-    return JSON.parse(localStorage.getItem("content")) || initialContent;
-  }, []);
-
-  // const localContent = JSON.parse(localStorage.getItem("content"));
-  // if (localContent) return localContent;
-
-  // useEffect(() => {
-  // if (initialValue.length === 0) {
-  //   console.log("111");
-  //   axios.get(`/api/workspace/${workspaceId}`).then((res) => {
-  //     if (!res.data.content) {
-  //       console.log("!!!!");
-  //       initialValue = initialContent;
-  //     } else {
-  //       console.log("????");
-  //       initialValue = res.data.content;
-  //     }
-  //   });
-  // }
-  // }, []);
-
-  // console.log("????");
-  // console.log(res.data.content);
-  // return res.data.content;
-
-  // .then((res) => {
-  //
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  //   return initialContent;
-  // });
-  // }, []);
+  usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
   const onChangeContent = useDebouncedCallback((value) => {
-    console.log("hihi");
     const content = JSON.stringify(value);
-    localStorage.setItem("content", content);
+    console.log(content);
     axios
       .patch(`/api/workspace/${workspaceId}`, {
         content,
@@ -84,31 +39,11 @@ const Editor = () => {
       .catch((err) => {
         console.err(err);
       });
-  }, 500);
-
-  // const onChangeContent = (value) => {
-  //   const isAstChange = editor.operations.some(
-  //     (op) => op.type !== "set_selection"
-  //   );
-  //   console.log(isAstChange);
-  //   if (isAstChange) {
-  //     console.log("hihi");
-  //     const content = JSON.stringify(value);
-  //     localStorage.setItem("content", content);
-  //     axios
-  //       .patch(`/api/workspace/${workspaceId}`)
-  //       .then((req, res) => {
-  //         console.log("content saved");
-  //       })
-  //       .catch((err) => {
-  //         console.err(err);
-  //       });
-  //   }
-  // };
+  }, 2000);
 
   return (
     <AppWrap>
-      <Slate editor={editor} value={initialValue} onChange={onChangeContent}>
+      <Slate editor={editor} value={[]} onChange={onChangeContent}>
         <div className="banner">
           <Savebar>
             <Input placeholder="Title Input" />

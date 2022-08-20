@@ -53,7 +53,7 @@ router.route("/:workspaceId").delete(async (req, res, next) => {
 router.route("/:workspaceId").get(async (req, res, next) => {
   try {
     const workspace = await modWorkspace.find({ _id: req.params.workspaceId });
-    res.json(workspace);
+    res.json(workspace[0]);
   } catch (err) {
     console.log(err);
     next(err);
@@ -64,7 +64,7 @@ router.route("/:workspaceId").patch(async (req, res, next) => {
   try {
     const workspace = await modWorkspace.update(
       { _id: req.params.workspaceId },
-      { ...req.data }
+      { ...req.body }
     );
     res.json({ message: "update completed" });
   } catch (err) {
