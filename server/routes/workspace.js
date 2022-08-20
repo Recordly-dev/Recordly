@@ -60,4 +60,17 @@ router.route("/:workspaceId").get(async (req, res, next) => {
   }
 });
 
+router.route("/:workspaceId").patch(async (req, res, next) => {
+  try {
+    const workspace = await modWorkspace.update(
+      { _id: req.params.workspaceId },
+      { ...req.data }
+    );
+    res.json({ message: "update completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 export default router;
