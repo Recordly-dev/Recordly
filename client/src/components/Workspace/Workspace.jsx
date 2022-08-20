@@ -79,15 +79,27 @@ const Workspace = ({ workspaceList, fetchWorkspace }) => {
               });
               fetchWorkspace();
             })
-            .catch(
-              Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "메모가 생성에 실패했습니다.",
-                showConfirmButton: false,
-                timer: 1000,
-              })
-            );
+            .catch((err) => {
+              if (err.response.data.error === 11000) {
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "중복된 이름이 있습니다.",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+              } else {
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "메모 생성에 실패했습니다.",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+              }
+              console.log(err, "메모 생성 실패");
+              console.log(err.response.data.error);
+            });
         });
       }
     });
