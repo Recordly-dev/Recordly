@@ -12,11 +12,14 @@ import styles from "./Main.module.scss";
 const Main = () => {
   const [workspaceList, setWorkspaceList] = useState([]);
 
-  useEffect(() => {
-    axios.get("api/workspace").then((res, req) => {
+  const fetchWorkspace = () => {
+    axios.get("api/workspace").then((res) => {
       setWorkspaceList(res.data);
-      console.log(res);
     });
+  };
+
+  useEffect(() => {
+    fetchWorkspace();
   }, []);
 
   const getWorkspaceHaveTags = (value) => {
@@ -36,7 +39,10 @@ const Main = () => {
           />
         </div>
         <div className={cn(styles.Main__container__mainDashboard, "w-75")}>
-          <MainDashboard workspaceList={workspaceList} />
+          <MainDashboard
+            workspaceList={workspaceList}
+            fetchWorkspace={fetchWorkspace}
+          />
         </div>
       </div>
       <Footer />

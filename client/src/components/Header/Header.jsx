@@ -4,15 +4,27 @@ import propTypes from "prop-types";
 import imageUrl from "assets/images/logo.png";
 import { useNavigate } from "react-router";
 
+import Swal from "sweetalert2";
+
 import styles from "./Header.module.scss";
 import axios from "axios";
 
 const Header = ({ imageUrl, isLogin }) => {
   const navigate = useNavigate();
   const logout = () => {
-    axios.get("/api/auth/logout").then((res, req) => {
-      navigate("/");
-    });
+    axios
+      .get("/api/auth/logout")
+      .then((res, req) => {
+        navigate("/");
+      })
+      .catch(
+        Swal.fire({
+          position: "center",
+          title: "로그아웃에 실패했습니다.",
+          showConfirmButton: false,
+          timer: 1000,
+        })
+      );
   };
   return (
     <header
