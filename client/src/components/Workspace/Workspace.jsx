@@ -9,7 +9,26 @@ import createDocsImage from "./assets/images/createDocsImage.png";
 
 import styles from "./Workspace.module.scss";
 
-const Workspace = ({ workspaceList }) => {
+const formatDate = (date) => {
+  const filterDate = date.substring(5, 16).split("T");
+
+  return (
+    <div
+      className={cn(
+        "d-flex",
+        "flex-column",
+        "justify-content-center",
+        "align-items-center"
+      )}
+    >
+      {filterDate.map((v) => (
+        <div>{v}</div>
+      ))}
+    </div>
+  );
+};
+
+const Workspace = ({ workspaceList, fetchWorkspace }) => {
   const handleWorkSpace = () => {
     Swal.fire("Any fool can use a computer");
   };
@@ -51,7 +70,6 @@ const Workspace = ({ workspaceList }) => {
               workspaceType: workspaceType,
             })
             .then((res) => {
-              console.log(res.data.data);
               Swal.fire({
                 position: "center",
                 icon: "success",
@@ -59,7 +77,17 @@ const Workspace = ({ workspaceList }) => {
                 showConfirmButton: false,
                 timer: 1000,
               });
-            });
+              fetchWorkspace();
+            })
+            .catch(
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "메모가 생성에 실패했습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              })
+            );
         });
       }
     });
@@ -89,7 +117,7 @@ const Workspace = ({ workspaceList }) => {
           <h6>{workspace.title}</h6>
           <div>
             <span className={styles.Workspace__dataEdit}>
-              마지막 수정: {workspace.date_edited}
+              마지막 수정 {formatDate(workspace.editedAt)}
             </span>
           </div>
         </div>

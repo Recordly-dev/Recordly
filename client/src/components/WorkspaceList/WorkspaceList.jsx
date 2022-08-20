@@ -4,8 +4,10 @@ import Workspace from "components/Workspace";
 
 import styles from "./WorkspaceList.module.scss";
 
-const WorkspaceList = ({ workspaceList }) => {
-  return <Workspace workspaceList={workspaceList} />;
+const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
+  return (
+    <Workspace workspaceList={workspaceList} fetchWorkspace={fetchWorkspace} />
+  );
 };
 
 export default WorkspaceList;

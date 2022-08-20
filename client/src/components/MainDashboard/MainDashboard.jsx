@@ -5,7 +5,7 @@ import SearchBar from "components/SearchBar";
 import WorkspaceList from "components/WorkspaceList";
 import styles from "./MainDashboard.module.scss";
 
-const MainDashboard = ({ workspaceList }) => {
+const MainDashboard = ({ workspaceList, fetchWorkspace }) => {
   return (
     <section className={cn(styles.MainDashboard, "p-4")}>
       <div
@@ -20,7 +20,10 @@ const MainDashboard = ({ workspaceList }) => {
         <SearchBar />
       </div>
 
-      <WorkspaceList workspaceList={workspaceList} />
+      <WorkspaceList
+        workspaceList={workspaceList}
+        fetchWorkspace={fetchWorkspace}
+      />
     </section>
   );
 };
