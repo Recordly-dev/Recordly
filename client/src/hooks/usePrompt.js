@@ -1,12 +1,11 @@
 import { useContext, useEffect, useCallback } from "react";
 import { UNSAFE_NavigationContext as NavigationContext } from "react-router-dom";
 
-function useBlocker(blocker, when = true, callback) {
+function useBlocker(blocker, when = true) {
   const { navigator } = useContext(NavigationContext);
 
   useEffect(() => {
     if (!when) return;
-    // callback();
     const unblock = navigator.block((tx) => {
       const autoUnblockingTx = {
         ...tx,
@@ -21,15 +20,14 @@ function useBlocker(blocker, when = true, callback) {
   }, [navigator, blocker, when]);
 }
 
-export default function usePrompt(message, when = true, callback) {
+export default function usePrompt(message, when = true) {
   const blocker = useCallback(
     (tx) => {
       //   eslint-disable-next-line no-alert
       if (window.confirm(message)) tx.retry();
-      callback();
     },
     [message]
   );
 
-  useBlocker(blocker, when, callback);
+  useBlocker(blocker, when);
 }
