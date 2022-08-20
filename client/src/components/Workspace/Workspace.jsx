@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import cn from "classnames";
 
@@ -29,8 +30,10 @@ const formatDate = (date) => {
 };
 
 const Workspace = ({ workspaceList, fetchWorkspace }) => {
-  const handleWorkSpace = () => {
-    Swal.fire("Any fool can use a computer");
+  const navigate = useNavigate();
+
+  const handleWorkSpace = (id) => {
+    navigate(`/workspace/${id}`);
   };
 
   const handleButtonClick = (e) => {
@@ -98,7 +101,6 @@ const Workspace = ({ workspaceList, fetchWorkspace }) => {
                 });
               }
               console.log(err, "메모 생성 실패");
-              console.log(err.response.data.error);
             });
         });
       }
@@ -107,6 +109,8 @@ const Workspace = ({ workspaceList, fetchWorkspace }) => {
     e.preventDefault();
     e.stopPropagation();
   };
+
+  console.log(workspaceList);
 
   return (
     <div className={cn(styles.Workspace, "d-flex", "flex-wrap", "p-3")}>
@@ -121,12 +125,12 @@ const Workspace = ({ workspaceList, fetchWorkspace }) => {
       {workspaceList.map((workspace) => (
         <div
           className={cn(styles.Workspace__container)}
-          onClick={handleWorkSpace}
+          onClick={() => handleWorkSpace(workspace._id)}
         >
           <div className={styles.Workspace__icon}>
             <img src={docsImage} alt="docs cover" />
           </div>
-          <h6>{workspace.title}</h6>
+          <h6 className={styles.Workspace__title}>{workspace.title}</h6>
           <div>
             <span className={styles.Workspace__dataEdit}>
               마지막 수정 {formatDate(workspace.editedAt)}
