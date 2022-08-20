@@ -30,7 +30,7 @@ const Workspace = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`api/workspcae/${uid}`).then((res, req) => {
+        axios.delete(`api/workspace/${uid}`).then((res, req) => {
           Swal.fire({
             position: "center",
             icon: "success",
