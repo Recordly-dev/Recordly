@@ -10,6 +10,13 @@
     cursor: pointer;
   }
 
+  &__title {
+    max-width: 8rem; // 144px
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__dataEdit {
     font-size: 0.5rem; // 8px
     color: gray;
