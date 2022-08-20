@@ -36,7 +36,6 @@ router.route("/").get(async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
 router.route("/:workspaceId").delete(async (req, res, next) => {
   try {
     const workspaceId = req.params.workspaceId;
@@ -45,12 +44,16 @@ router.route("/:workspaceId").delete(async (req, res, next) => {
     });
 
     res.json({ data: "delete completed" });
-=======
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 router.route("/:workspaceId").get(async (req, res, next) => {
   try {
     const workspace = await modWorkspace.find({ _id: req.params.workspaceId });
     res.json(workspace);
->>>>>>> feature/yungho
   } catch (err) {
     console.log(err);
     next(err);
