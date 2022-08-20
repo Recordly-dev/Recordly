@@ -22,13 +22,13 @@ const Editor = () => {
   const workspaceId = location.pathname.split("/").at(-1);
   const { slateContent } = useSlateContent(workspaceId);
   console.log(slateContent);
+
   editor.children = slateContent;
 
   usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
   const onChangeContent = useDebouncedCallback((value) => {
     const content = JSON.stringify(value);
-    console.log(content);
     axios
       .patch(`/api/workspace/${workspaceId}`, {
         content,
@@ -43,7 +43,7 @@ const Editor = () => {
 
   return (
     <AppWrap>
-      <Slate editor={editor} value={[]} onChange={onChangeContent}>
+      <Slate editor={editor} value={slateContent} onChange={onChangeContent}>
         <div className="banner">
           <Savebar>
             <Input placeholder="Title Input" />
