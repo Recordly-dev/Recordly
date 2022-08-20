@@ -1,0 +1,12 @@
+.WorkspaceList {
+  &__container {
+    width: 8rem; // 144px
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 1rem; // 16px
+
+    cursor: pointer;
+  }
+}
