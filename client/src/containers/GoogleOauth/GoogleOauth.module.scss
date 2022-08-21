@@ -1,5 +1,23 @@
+@import "common/scss/color.scss";
+
 .GoogleOauth {
-  &__image {
-    width: 16rem;
+  &__button {
+    transition: all 0.3s;
+    width: 12rem; // 192px
+    height: 3rem; // 64px
+
+    border: none;
+
+    background-color: $blue-500;
+
+    color: white;
+    font-weight: 700;
+    border-radius: 1rem;
+
+    margin-top: 5rem;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }

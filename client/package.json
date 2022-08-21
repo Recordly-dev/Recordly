@@ -28,6 +28,7 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-tsparticles": "^2.2.2",
     "reactstrap": "^9.1.2",
     "sass": "^1.53.0",
     "scss": "^0.2.4",
@@ -35,6 +36,7 @@
     "slate-history": "^0.66.0",
     "slate-react": "^0.81.0",
     "sweetalert2": "^11.4.28",
+    "tsparticles": "^2.2.2",
     "use-debounce": "^8.0.3",
     "web-vitals": "^2.1.4"
   },

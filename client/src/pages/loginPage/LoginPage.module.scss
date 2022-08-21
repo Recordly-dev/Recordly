@@ -1,3 +1,6 @@
 .LoginPage {
-  height: 100vh;
+  &__container {
+    background-color: black;
+    height: 100vh;
+  }
 }
