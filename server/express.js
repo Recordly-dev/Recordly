@@ -12,30 +12,32 @@ import routers from "./routes/index.js";
 
 export default function initExpress(redisClient) {
   const app = express();
-  const PORT = 8080;
+  const PORT = process.env.PORT || 8080;
 
   app.use(morgan("dev"));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use(cookieParser());
+  app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(
     session({
+      resave: false,
+      saveUninitialized: false,
       key: "app.sid",
-      secret: "session-secret",
+      secret: process.env.COOKIE_SECRET,
       store: new redisStore({
         port: 6379,
         client: redisClient,
         prefix: "session:",
         db: 0,
       }),
-      resave: false,
-      saveUninitialized: true,
+
       cookie: { path: "/", maxAge: 1800000 },
     })
   );
 
   app.get("/", (req, res, next) => {
     res.send("hello world!");
+    console.log(req.session.id);
   });
 
   initOAuth(app);
@@ -45,8 +47,6 @@ export default function initExpress(redisClient) {
   app.use("/api", routers);
 
   app.use((err, req, res, next) => {
-    console.log("err,,,");
-    console.log(err);
     console.log(err.message);
     res
       .status(err.status || 500)
