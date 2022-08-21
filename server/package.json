@@ -36,7 +36,8 @@
   "imports": {
     "#middlewares/*": "./middlewares/*",
     "#models/*": "./models/*",
-    "#controllers/*": "./controllers/*"
+    "#controllers/*": "./controllers/*",
+    "#error/*": "./utils/error/*"
   },
   "proxy": "http://localhost:8080"
 }

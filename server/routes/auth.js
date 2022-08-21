@@ -19,14 +19,6 @@ router.route("/google/callback").get(
   })
 );
 
-router.route("/logout").get((req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    req.session.destroy();
-    res.json({ data: "logout completed" });
-  });
-});
+router.route("/logout").get(authMid.checkLogin, authMid.logout);
 
 export default router;
