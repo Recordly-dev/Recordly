@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import authMid from "#middlewares/auth.js";
+import midError from "#middlewares/error.js";
 import authApi from "#controllers/authApi.js";
 
 const router = express.Router();
@@ -9,7 +10,7 @@ const router = express.Router();
 router
   .route("/google")
   .get(
-    authMid.checkNotLogin,
+    midError.asyncWrapper(authMid.checkNotLogin),
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
@@ -20,6 +21,8 @@ router.route("/google/callback").get(
   })
 );
 
-router.route("/logout").get(authMid.checkLogin, authApi.logout);
+router
+  .route("/logout")
+  .get(midError.asyncWrapper(authMid.checkLogin), authApi.logout);
 
 export default router;
