@@ -1,78 +1,44 @@
 import express from "express";
-import moment from "moment-timezone";
 
-import modWorkspace from "#models/workspace.js";
-import { ObjectId } from "mongodb";
+import workspaceApi from "#controllers/workspaceApi.js";
+import authMid from "#middlewares/auth.js";
+import midError from "#middlewares/error.js";
 
 const router = express.Router();
 
-router.route("/").get(async (req, res, next) => {
-  try {
-    const workspaces = await modWorkspace.find({ writer: req.user.id });
-    res.json(workspaces);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+router
+  .route("/")
+  .get(
+    midError.asyncWrapper(authMid.checkLogin),
+    midError.asyncWrapper(workspaceApi.getWorkspacesOfCurrentUser)
+  );
 
-router.route("/").post(async (req, res, next) => {
-  try {
-    const { title, workspaceType } = req.body;
-    const { id: writerId } = req.user;
-    const workspace = await modWorkspace.create({
-      title,
-      workspaceType,
-      createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-      editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-      writer: writerId,
-    });
-    console.log(workspace);
-    res.status(201).json({ data: workspace });
-  } catch (err) {
-    console.error(err);
-    console.dir(err);
-    next(err);
-  }
-});
+router
+  .route("/")
+  .post(
+    midError.asyncWrapper(authMid.checkLogin),
+    midError.asyncWrapper(workspaceApi.createWorkspace)
+  );
 
-router.route("/:workspaceId").get(async (req, res, next) => {
-  try {
-    const workspace = await modWorkspace
-      .find({ _id: req.params.workspaceId })
-      .populate("tags", "name");
-    res.json(workspace[0]);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+router
+  .route("/:workspaceId")
+  .get(
+    midError.asyncWrapper(authMid.checkLogin),
+    midError.asyncWrapper(workspaceApi.getSingleWorkspace)
+  );
 
-router.route("/:workspaceId").patch(async (req, res, next) => {
-  try {
-    const workspace = await modWorkspace.update(
-      { _id: req.params.workspaceId },
-      { ...req.body }
-    );
-    res.json({ message: "update completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+router
+  .route("/:workspaceId")
+  .patch(
+    midError.asyncWrapper(authMid.checkLogin),
+    midError.asyncWrapper(workspaceApi.patchSingleWorkspace)
+  );
 
-router.route("/:workspaceId").delete(async (req, res, next) => {
-  try {
-    const workspaceId = req.params.workspaceId;
-    modWorkspace.deleteOne({ _id: workspaceId }).then((data) => {
-      console.log(data);
-    });
-
-    res.json({ data: "delete completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+router
+  .route("/:workspaceId")
+  .delete(
+    midError.asyncWrapper(authMid.checkLogin),
+    midError.asyncWrapper(workspaceApi.deleteSingleWorkspace)
+  );
 
 export default router;
