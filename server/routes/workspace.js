@@ -6,6 +6,16 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+router.route("/").get(async (req, res, next) => {
+  try {
+    const workspaces = await modWorkspace.find({ writer: req.user.id });
+    res.json(workspaces);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 router.route("/").post(async (req, res, next) => {
   try {
     const { title, workspaceType } = req.body;
@@ -26,33 +36,11 @@ router.route("/").post(async (req, res, next) => {
   }
 });
 
-router.route("/").get(async (req, res, next) => {
-  try {
-    const workspaces = await modWorkspace.find({ writer: req.user.id });
-    res.json(workspaces);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
-
-router.route("/:workspaceId").delete(async (req, res, next) => {
-  try {
-    const workspaceId = req.params.workspaceId;
-    modWorkspace.deleteOne({ _id: workspaceId }).then((data) => {
-      console.log(data);
-    });
-
-    res.json({ data: "delete completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
-
 router.route("/:workspaceId").get(async (req, res, next) => {
   try {
-    const workspace = await modWorkspace.find({ _id: req.params.workspaceId });
+    const workspace = await modWorkspace
+      .find({ _id: req.params.workspaceId })
+      .populate("tags", "name");
     res.json(workspace[0]);
   } catch (err) {
     console.log(err);
@@ -67,6 +55,20 @@ router.route("/:workspaceId").patch(async (req, res, next) => {
       { ...req.body }
     );
     res.json({ message: "update completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
+router.route("/:workspaceId").delete(async (req, res, next) => {
+  try {
+    const workspaceId = req.params.workspaceId;
+    modWorkspace.deleteOne({ _id: workspaceId }).then((data) => {
+      console.log(data);
+    });
+
+    res.json({ data: "delete completed" });
   } catch (err) {
     console.log(err);
     next(err);

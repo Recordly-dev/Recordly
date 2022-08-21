@@ -28,6 +28,7 @@ const workspaceSchema = new mongoose.Schema({
   // folder: {
 
   // },
+  tags: [{ type: ObjectId, ref: "Tag" }],
 });
 
 export default mongoose.model("Workspace", workspaceSchema);

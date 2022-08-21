@@ -1,21 +1,9 @@
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
-const workspaceSchema = new mongoose.Schema({
+const tagSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-  },
-  workspaceType: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-  },
-  editedAt: {
-    type: Date,
     required: true,
   },
   writer: {
@@ -23,10 +11,7 @@ const workspaceSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  // folder: {
-  //   type: ObjectId,
-  //   ref: "",
-  // },
+  workspaces: [{ type: ObjectId, ref: "Workspace" }],
 });
 
-export default mongoose.model("Workspace", workspaceSchema);
+export default mongoose.model("Tag", tagSchema);
