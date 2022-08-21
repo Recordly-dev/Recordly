@@ -2,7 +2,7 @@ const asyncWrapper = (asyncFunc) => async (req, res, next) => {
   try {
     await asyncFunc(req, res, next);
   } catch (err) {
-    require("#utils/logger/index").logger.error({
+    console.error({
       err,
       url: req.url,
       query: req.query,

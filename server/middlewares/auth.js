@@ -1,8 +1,10 @@
 import modUser from "#models/user.js";
 
+import ForbiddenError from "#error/ForbiddenError.js";
+
 const checkLogin = async (req, res, next) => {
   if (!req?.user || !(await modUser.exists({ _id: req.user.id }))) {
-    throw new ForbiddenError("Not User", {
+    throw new ForbiddenError("Not Authorized User", {
       originalUrl: req.originalUrl,
     });
   }
