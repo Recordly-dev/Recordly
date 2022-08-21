@@ -1,11 +1,20 @@
+@import "common/scss/color.scss";
+
 .MainTitle {
   margin-left: 0.25rem; // 4px
+  text-align: center;
 
   &__main {
-    margin-bottom: 3rem; // 48px
+    font-size: 5rem; // 64px
+    font-weight: 800;
+    color: $blue-500;
+
+    margin-bottom: 1rem; // 16px
   }
 
-  &__sub {
-    margin-bottom: 4rem; // 64px
+  &__description {
+    font-size: 1rem; // 20px
+    font-weight: 500;
+    color: $gray-500;
   }
 }
