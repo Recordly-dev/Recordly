@@ -20,14 +20,4 @@ const checkNotLogin = (req, res, next) => {
   next();
 };
 
-const logout = (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    req.session.destroy();
-    res.json({ data: "logout completed" });
-  });
-};
-
-export default { checkLogin, checkNotLogin, logout };
+export default { checkLogin, checkNotLogin };

@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import authMid from "#middlewares/auth.js";
+import authApi from "#controllers/authApi.js";
 
 const router = express.Router();
 
@@ -19,6 +20,6 @@ router.route("/google/callback").get(
   })
 );
 
-router.route("/logout").get(authMid.checkLogin, authMid.logout);
+router.route("/logout").get(authMid.checkLogin, authApi.logout);
 
 export default router;
