@@ -3,7 +3,6 @@ import passportGoogle from "passport-google-oauth2";
 const GoogleStrategy = passportGoogle.Strategy;
 
 import modUser from "#models/user.js";
-import authMid from "#middlewares/auth.js";
 
 export default function initOAuth(app) {
   // passport 초기화 및 session 연결
@@ -54,27 +53,4 @@ export default function initOAuth(app) {
       }
     )
   );
-
-  app.get(
-    "/api/auth/google",
-    authMid.checkNotLogin,
-    passport.authenticate("google", { scope: ["email", "profile"] })
-  );
-
-  app.get(
-    "/api/auth/google/callback",
-    passport.authenticate("google", {
-      successRedirect: "http://localhost:3000/main",
-      failureRedirect: "http://localhost:3000",
-    })
-  );
-  app.get("/api/auth/logout", (req, res) => {
-    req.logout((err) => {
-      if (err) {
-        return next(err);
-      }
-      req.session.destroy();
-      res.json({ data: "logout completed" });
-    });
-  });
 }

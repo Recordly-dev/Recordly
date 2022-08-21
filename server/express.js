@@ -35,11 +35,6 @@ export default function initExpress(redisClient) {
     })
   );
 
-  app.get("/", (req, res, next) => {
-    res.send("hello world!");
-    console.log(req.session.id);
-  });
-
   initOAuth(app);
 
   app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
