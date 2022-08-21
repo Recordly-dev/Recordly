@@ -5,29 +5,19 @@ const GoogleStrategy = passportGoogle.Strategy;
 import modUser from "#models/user.js";
 
 export default function initOAuth(app) {
-  // passport 초기화 및 session 연결
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // login이 최초로 성공했을 때만 호출되는 함수
-  // done(null, user.id)로 세션을 초기화한다.
   passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
 
-  // 사용자가 페이지를 방문할 때마다 호출되는 함수
-  // done(null, id)로 사용자의 정보를 각 request의 user 변수에 넣어준다.
   passport.deserializeUser(function (id, done) {
     console.log("deserializeUser!!");
     modUser.findById(id, (err, user) => {
       done(null, user);
     });
   });
-
-  // Google login 전략
-  // 로그인 성공 시 callback으로 request, accessToken, refreshToken, profile 등이 나온다.
-  // 해당 콜백 function에서 사용자가 누구인지 done(null, user) 형식으로 넣으면 된다.
-  // 이 예시에서는 넘겨받은 profile을 전달하는 것으로 대체했다.
 
   passport.use(
     new GoogleStrategy(
