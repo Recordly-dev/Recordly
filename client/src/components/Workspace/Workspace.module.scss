@@ -1,19 +1,54 @@
 .Workspace {
   &__container {
+    width: 20%;
     position: relative;
-    width: 8rem; // 144px
     display: flex;
+    // justify-content: center;
     flex-direction: column;
     align-items: center;
 
-    margin: 1rem; // 16px
+    margin: 1rem 0.5rem; // 8px
 
     cursor: pointer;
 
     &__delete {
       position: absolute;
       right: 0;
+
+      color: red;
+      border: solid red 1px;
+      border-radius: 50%;
       z-index: 100;
+    }
+
+    @media (max-width: 1500px) {
+      width: 30%;
+    }
+
+    @media (max-width: 1130px) {
+      width: 40%;
+    }
+  }
+
+  &__docs {
+    border-radius: 0.5rem; // 8px
+    border: solid 1px rgb(207, 207, 207);
+    &__top {
+      width: 13rem;
+      height: 12rem;
+      border-bottom: solid 1px rgb(207, 207, 207);
+      // background-color: rgb(37, 39, 48);
+    }
+
+    &__bottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &:hover {
+      border: solid 1px rgb(25, 38, 183);
     }
   }
 
@@ -22,6 +57,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    font-size: 1rem;
+    margin-top: 0.5rem;
   }
 
   &__dataEdit {

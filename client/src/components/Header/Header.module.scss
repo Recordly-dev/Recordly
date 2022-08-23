@@ -2,8 +2,8 @@
 
 @mixin header-button {
   color: white;
+  font-weight: 600;
   border: none;
-  background-color: black;
   padding: 0.5rem;
   margin-left: 0.5rem; // 8px
   margin-right: 0.5rem; // 8px
@@ -18,10 +18,17 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: black;
+
+  &__loginPage {
+    background-color: black;
+  }
 
   &__container {
-    width: 75%;
+    width: 90%;
+
+    &__loginPage {
+      width: 75%;
+    }
 
     &__title {
       color: $blue-500;
@@ -34,6 +41,11 @@
     }
 
     &__right {
+      &__loginPage {
+        background-color: black;
+        color: white;
+      }
+
       &__intro {
         @include header-button;
       }
@@ -44,6 +56,8 @@
 
       &__logout {
         @include header-button;
+        background-color: white;
+        color: black;
       }
 
       &__active {

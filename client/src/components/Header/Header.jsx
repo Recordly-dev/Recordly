@@ -34,6 +34,7 @@ const Header = ({ imageUrl, isLogin }) => {
     <header
       className={cn(
         styles.Header,
+        !isLogin && styles.Header__loginPage,
         "d-flex",
         "justify-content-center",
         "align-items-center"
@@ -42,6 +43,7 @@ const Header = ({ imageUrl, isLogin }) => {
       <div
         className={cn(
           styles.Header__container,
+          !isLogin && styles.Header__container__loginPage,
           "d-flex",
           "align-items-center",
           "justify-content-between",
@@ -82,7 +84,8 @@ const Header = ({ imageUrl, isLogin }) => {
                 className={cn(
                   styles.Header__container__right__intro,
                   selectNavi === "intro" &&
-                    styles.Header__container__right__active
+                    styles.Header__container__right__active,
+                  !isLogin && styles.Header__container__right__loginPage
                 )}
               >
                 소개
@@ -91,7 +94,8 @@ const Header = ({ imageUrl, isLogin }) => {
                 className={cn(
                   styles.Header__container__right__notice,
                   selectNavi === "notice" &&
-                    styles.Header__container__right__active
+                    styles.Header__container__right__active,
+                  !isLogin && styles.Header__container__right__loginPage
                 )}
               >
                 공지사항

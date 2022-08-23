@@ -29,20 +29,30 @@ const Main = () => {
   };
 
   return (
-    <div className={cn(styles.Main)}>
+    <div className={cn(styles.Main, "d-flex", "mt-5")}>
       <Header isLogin />
-      <div className={cn(styles.Main__container, "d-flex", "m-3", "p-3")}>
-        <div className={cn(styles.Main__container__tagList, "w-25")}>
-          <TagContainer
-            workspaceList={workspaceList}
-            getWorkspaceHaveTags={getWorkspaceHaveTags}
-          />
-        </div>
-        <div className={cn(styles.Main__container__mainDashboard, "w-75")}>
-          <MainDashboard
-            workspaceList={workspaceList}
-            fetchWorkspace={fetchWorkspace}
-          />
+      <div className={cn("d-flex", "justify-content-center")}>
+        <div
+          className={cn(
+            styles.Main__container,
+            "d-flex",
+            "justify-content-center"
+          )}
+        >
+          <aside className={cn(styles.Main__container__tagList)}>
+            <TagContainer
+              workspaceList={workspaceList}
+              getWorkspaceHaveTags={getWorkspaceHaveTags}
+            />
+          </aside>
+          <section className={cn("d-flex", "justify-content-center")}>
+            <div className={cn(styles.Main__container__mainDashboard)}>
+              <MainDashboard
+                workspaceList={workspaceList}
+                fetchWorkspace={fetchWorkspace}
+              />
+            </div>
+          </section>
         </div>
       </div>
       <Footer />
