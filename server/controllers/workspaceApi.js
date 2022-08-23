@@ -1,6 +1,7 @@
 import moment from "moment-timezone";
 
 import modWorkspace from "#models/workspace.js";
+import captureThumbnail from "../middlewares/captureThumbnail.js";
 
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
@@ -48,8 +49,12 @@ const patchSingleWorkspace = async (req, res, next) => {
   try {
     const workspace = await modWorkspace.update(
       { _id: req.params.workspaceId },
-      { ...req.body }
+      {
+        editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
+        ...req.body,
+      }
     );
+    captureThumbnail(req.params.workspaceId, req.headers.cookie.substring(8));
     res.json({ message: "update completed" });
   } catch (err) {
     console.log(err);

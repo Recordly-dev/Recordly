@@ -1,5 +1,21 @@
+@import "common/scss/color.scss";
+
 .MainDashboard {
-  height: 80vh;
+  max-height: 100vh;
   overflow: scroll;
-  border: 1px solid gray;
+
+  border: 0.5px solid rgb(186, 186, 186);
+
+  &__right {
+    &__button {
+      width: 10rem;
+      color: white;
+
+      border-radius: 1rem;
+      border: none;
+
+      margin-right: 2rem;
+      background-color: $blue-500;
+    }
+  }
 }

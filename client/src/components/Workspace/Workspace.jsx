@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import docsImage from "./assets/images/docsImage.png";
 import ClearIcon from "@mui/icons-material/Clear";
 
+// import captureWebsite from "capture-website";
+
 import styles from "./Workspace.module.scss";
 
 const Workspace = ({
@@ -61,14 +63,14 @@ const Workspace = ({
           <ClearIcon />
         </div>
       )}
-      <div className={styles.Workspace__icon}>
-        <img src={docsImage} alt="docs cover" />
-      </div>
-      <h6 className={styles.Workspace__title}>{title}</h6>
-      <div>
-        <span className={styles.Workspace__dataEdit}>
-          마지막 수정 {formatDate(editedAt)}
-        </span>
+      <div className={styles.Workspace__docs}>
+        <div className={styles.Workspace__docs__top}></div>
+        <div className={styles.Workspace__docs__bottom}>
+          <h6 className={styles.Workspace__title}>{title}</h6>
+          <span className={styles.Workspace__dataEdit}>
+            {formatDate(editedAt)}
+          </span>
+        </div>
       </div>
     </div>
   );

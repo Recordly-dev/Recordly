@@ -16,7 +16,9 @@
     "@tldraw/tldraw": "^1.20.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
+    "capture-website": "^3.0.1",
     "classnames": "^2.3.1",
+    "fs": "^0.0.1-security",
     "http-proxy-middleware": "^2.0.6",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
@@ -63,5 +65,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }
