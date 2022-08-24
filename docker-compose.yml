@@ -1,12 +1,22 @@
 version: "3"
 services:
+  # redis-server:
+  #   image: redis:alpine
+  #   command: redis-server --port 6379
+  #   container_name: recordly_redis
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  redis-server:
+    image: redis
+
   frontend:
     build:
       dockerfile: Dockerfile.dev
       context: ./client
     volumes:
       - /app/node_modules
-      - ./frontend:/app
+      - ./client:/app
     stdin_open: true
 
   nginx:
@@ -16,6 +26,7 @@ services:
       context: ./nginx
     ports:
       - "3000:80"
+
   backend:
     build:
       dockerfile: Dockerfile.dev
@@ -23,4 +34,6 @@ services:
     container_name: app_backend
     volumes:
       - /app/node_modules
-      - ./backend:/app
+      - ./server:/app
+    ports:
+      - "8080:8080"
