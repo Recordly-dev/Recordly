@@ -6,6 +6,7 @@ import Workspace from "components/Workspace";
 // import createDocsImage from "./assets/images/createDocsImage.png";
 
 import styles from "./WorkspaceList.module.scss";
+import MainHeader from "components/MainHeader";
 
 const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
   const navigate = useNavigate();
@@ -18,6 +19,9 @@ const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
     const filterDate = date.substring(5, 16).split("T");
     const now = new Date();
 
+    const today = [now.getMonth() + 1, now.getDate()].join("");
+    const yesterDay = [now.getMonth() + 1, now.getDate() - 1].join("");
+
     return (
       <div
         className={cn(
@@ -27,18 +31,21 @@ const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
           "align-items-center"
         )}
       >
-        {filterDate.map((v) => (
-          <div>{v}</div>
-        ))}
+        {filterDate.map((v) => {
+          if (v.split("-").map(Number).join("") === today) {
+            return "오늘";
+          } else if (v.split("-").map(Number).join("") === yesterDay) {
+            return "어제";
+          } else {
+            return <span>{v}</span>;
+          }
+        })}
       </div>
     );
   };
 
-  // const
-
-  console.log(workspaceList);
   return (
-    <div className={cn(styles.WorkspaceList, "d-flex", "flex-wrap", "mt-4")}>
+    <div className={cn(styles.WorkspaceList, "mt-5")}>
       {workspaceList.map((workspace) => (
         <Workspace
           uid={workspace._id}

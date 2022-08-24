@@ -1,0 +1,21 @@
+.DropdownSelect {
+  margin-right: 2rem; // 32px
+
+  &__toggle {
+    background-color: rgb(39, 39, 39) !important;
+    border: solid 0.5px rgb(62, 62, 62) !important;
+    color: rgb(173, 173, 173) !important;
+  }
+
+  &__menu {
+    background-color: rgb(39, 39, 39) !important;
+
+    &__item {
+      color: rgb(173, 173, 173) !important;
+
+      &:hover {
+        background-color: rgb(48, 48, 48) !important;
+      }
+    }
+  }
+}

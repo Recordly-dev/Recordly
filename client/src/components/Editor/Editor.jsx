@@ -14,6 +14,8 @@ import useSlateContent from "hooks/useSlateContent";
 import { css, cx } from "@emotion/css";
 import axios from "axios";
 
+import styles from "./Editor.module.scss";
+
 const Editor = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
@@ -36,6 +38,7 @@ const Editor = () => {
       })
       .then((req, res) => {
         console.log("content saved");
+        console.log(req);
       })
       .catch((err) => {
         console.err(err);
@@ -54,13 +57,13 @@ const Editor = () => {
   return (
     <AppWrap>
       <Slate editor={editor} value={slateContent} onChange={onChangeContent}>
-        <div className="banner">
-          <Savebar>
+        <div className={styles.banner}>
+          {/* <Savebar>
             <Input placeholder="Title Input" />
             <Button>
               <Icon>save</Icon>
             </Button>
-          </Savebar>
+          </Savebar> */}
           <Toolbar>
             <MarkButton format="bold" icon="format_bold" />
             <MarkButton format="italic" icon="format_italic" />

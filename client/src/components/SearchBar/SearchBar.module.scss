@@ -1,3 +1,23 @@
-.SearchInputWithIcon {
+.SearchBar {
   width: 15rem; // 240px
+  margin-right: 2rem; // 32px
+
+  &__left {
+    height: 2rem;
+    background-color: rgb(39, 39, 39) !important;
+    border: solid 0.5px rgb(62, 62, 62) !important;
+    border-right: none !important;
+  }
+
+  &__icon {
+    width: 1.25rem; // 20px
+  }
+
+  &__input {
+    height: 2rem;
+    background-color: rgb(39, 39, 39) !important;
+    border: solid 0.5px rgb(62, 62, 62) !important;
+    border-left: none !important;
+    color: white !important;
+  }
 }

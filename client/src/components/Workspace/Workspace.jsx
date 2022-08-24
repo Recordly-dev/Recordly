@@ -4,11 +4,7 @@ import cn from "classnames";
 
 import Swal from "sweetalert2";
 
-import docsImage from "./assets/images/docsImage.png";
-import ClearIcon from "@mui/icons-material/Clear";
-
-// import captureWebsite from "capture-website";
-
+import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
 
 const Workspace = ({
@@ -20,6 +16,7 @@ const Workspace = ({
   fetchWorkspace,
 }) => {
   const [isMouseOn, setMouseOn] = useState();
+  const path = `assets/images/thumbnail/${uid}.png`;
 
   const handleDeleteWorkspace = (e) => {
     Swal.fire({
@@ -55,21 +52,51 @@ const Workspace = ({
       onMouseEnter={() => setMouseOn(true)}
       onMouseLeave={() => setMouseOn(false)}
     >
-      {isMouseOn && (
-        <div
-          className={styles.Workspace__container__delete}
-          onClick={handleDeleteWorkspace}
-        >
-          <ClearIcon />
-        </div>
-      )}
       <div className={styles.Workspace__docs}>
-        <div className={styles.Workspace__docs__top}></div>
+        <div className={styles.Workspace__docs__top}>
+          <img
+            className={styles.Workspace__docs__top__image}
+            src={path}
+            alt="thumbnail"
+          />
+        </div>
         <div className={styles.Workspace__docs__bottom}>
-          <h6 className={styles.Workspace__title}>{title}</h6>
+          <div
+            className={cn(
+              "d-flex",
+              "justify-content-between",
+              "align-items-center",
+              "w-100"
+            )}
+          >
+            <div></div>
+            <h6 className={styles.Workspace__title}>{title}</h6>
+            <img
+              className={styles.Workspace__dropdownIcon}
+              onClick={handleDeleteWorkspace}
+              src={DropdownIcon}
+              alt="dropdown icon"
+            />
+          </div>
+          {/* <div
+            className={cn(
+              "d-flex",
+              "justify-content-between",
+              "align-items-center",
+              "w-100"
+            )}
+          >
+          </div>
+            <div></div> */}
           <span className={styles.Workspace__dataEdit}>
             {formatDate(editedAt)}
           </span>
+          {/* <img
+              className={styles.Workspace__dropdownIcon}
+              onClick={handleDeleteWorkspace}
+              src={DropdownIcon}
+              alt="dropdown icon"
+            /> */}
         </div>
       </div>
     </div>
