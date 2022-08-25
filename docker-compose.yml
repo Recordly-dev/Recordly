@@ -1,14 +1,10 @@
 version: "3"
 services:
-  # redis-server:
-  #   image: redis:alpine
-  #   command: redis-server --port 6379
-  #   container_name: recordly_redis
-  #   restart: always
-  #   ports:
-  #     - "6379:6379"
   redis-server:
     image: redis
+    ports:
+      - "6379:6379"
+    command: redis-server
 
   frontend:
     build:
@@ -35,5 +31,3 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
-    ports:
-      - "8080:8080"

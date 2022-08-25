@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./package.json ./
 
+RUN apk add chromium
+
 RUN npm install
 
 COPY . .
