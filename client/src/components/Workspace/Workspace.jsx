@@ -34,6 +34,7 @@ const Workspace = ({
             position: "center",
             icon: "success",
             title: "메모가 삭제 되었습니다.",
+
             showConfirmButton: false,
             timer: 1000,
           });
@@ -61,6 +62,7 @@ const Workspace = ({
           />
         </div>
         <div className={styles.Workspace__docs__bottom}>
+          <h6 className={styles.Workspace__title}>{title}</h6>
           <div
             className={cn(
               "d-flex",
@@ -70,7 +72,9 @@ const Workspace = ({
             )}
           >
             <div></div>
-            <h6 className={styles.Workspace__title}>{title}</h6>
+            <span className={styles.Workspace__dataEdit}>
+              {formatDate(editedAt)}
+            </span>
             <img
               className={styles.Workspace__dropdownIcon}
               onClick={handleDeleteWorkspace}
@@ -78,25 +82,6 @@ const Workspace = ({
               alt="dropdown icon"
             />
           </div>
-          {/* <div
-            className={cn(
-              "d-flex",
-              "justify-content-between",
-              "align-items-center",
-              "w-100"
-            )}
-          >
-          </div>
-            <div></div> */}
-          <span className={styles.Workspace__dataEdit}>
-            {formatDate(editedAt)}
-          </span>
-          {/* <img
-              className={styles.Workspace__dropdownIcon}
-              onClick={handleDeleteWorkspace}
-              src={DropdownIcon}
-              alt="dropdown icon"
-            /> */}
         </div>
       </div>
     </div>

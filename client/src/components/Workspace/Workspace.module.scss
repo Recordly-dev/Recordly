@@ -35,9 +35,10 @@
         height: 12rem;
         border-radius: 0.5rem; // 8px
         border: solid 1px rgb(207, 207, 207);
+        transition: all 0.2s linear;
 
         &:hover {
-          border: solid 1px rgb(25, 38, 183);
+          transform: scale(1.05);
         }
       }
     }

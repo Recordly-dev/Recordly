@@ -26,7 +26,7 @@ const DropdownSelect = () => {
           최신순
         </DropdownItem>
         <DropdownItem className={styles.DropdownSelect__menu__item}>
-          인기순
+          오랜된순
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
