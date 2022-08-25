@@ -2,7 +2,7 @@ import captureWebsite from "capture-website";
 import fs from "fs";
 
 const thumbnailSave = (workspaceId, cookie) => {
-  const PATH = `../client/public/assets/images/thumbnail/${workspaceId}.png`;
+  const PATH = `./public/assets/images/thumbnail/${workspaceId}.png`;
   captureWebsite.file(`http://localhost:3000/workspace/${workspaceId}`, PATH, {
     cookies: [
       {
