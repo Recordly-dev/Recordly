@@ -9,6 +9,8 @@ services:
   #     - "6379:6379"
   redis-server:
     image: redis
+    ports:
+      - "6379:6379"
 
   frontend:
     build:
@@ -35,5 +37,5 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
-    ports:
-      - "8080:8080"
+    environment:
+      - PUPPETEER_SKIP_DOWNLOAD=true
