@@ -16,7 +16,7 @@ const Workspace = ({
   fetchWorkspace,
 }) => {
   const [isMouseOn, setMouseOn] = useState();
-  const path = `assets/images/thumbnail/${uid}.png`;
+  const path = `http://localhost:8080/public/assets/images/thumbnail/${uid}.png`;
 
   const handleDeleteWorkspace = (e) => {
     Swal.fire({
