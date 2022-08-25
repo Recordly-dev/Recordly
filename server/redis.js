@@ -2,7 +2,9 @@ import redis from "redis";
 
 export default function initRedis() {
   const redisClient = redis.createClient({
-    url: "redis://redis-server:6379",
+    // url: "redis://redis-server:6379",
+    host: "127.0.0.1",
+    port: "6379",
     legacyMode: true,
   });
   redisClient.connect();
