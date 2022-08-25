@@ -34,7 +34,7 @@
         width: 13rem;
         height: 12rem;
         border-radius: 0.5rem; // 8px
-        border: solid 1px rgb(207, 207, 207);
+        border: solid 0.5rem $blue-500-transparent-16;
         transition: all 0.2s linear;
 
         &:hover {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import cn from "classnames";
 
@@ -15,8 +15,8 @@ const Workspace = ({
   formatDate,
   fetchWorkspace,
 }) => {
-  const [isMouseOn, setMouseOn] = useState();
   const path = `http://localhost:8080/public/assets/images/thumbnail/${uid}.png`;
+  const emptyPath = `http://localhost:8080/public/assets/images/thumbnail/emptyThumbnail.png`;
 
   const handleDeleteWorkspace = (e) => {
     Swal.fire({
@@ -46,18 +46,21 @@ const Workspace = ({
     e.stopPropagation();
   };
 
+  const setThumbnail = (e) => {
+    e.target.src = emptyPath;
+  };
+
   return (
     <div
       className={cn(styles.Workspace__container)}
       onClick={() => handleWorkSpace(uid)}
-      onMouseEnter={() => setMouseOn(true)}
-      onMouseLeave={() => setMouseOn(false)}
     >
       <div className={styles.Workspace__docs}>
         <div className={styles.Workspace__docs__top}>
           <img
             className={styles.Workspace__docs__top__image}
             src={path}
+            onError={setThumbnail}
             alt="thumbnail"
           />
         </div>
