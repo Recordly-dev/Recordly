@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import cn from "classnames";
 import propTypes from "prop-types";
-import imageUrl from "assets/images/logo.png";
+
 import { useNavigate } from "react-router";
 
 import Swal from "sweetalert2";
@@ -109,11 +109,11 @@ const Header = ({ imageUrl, isLogin }) => {
 };
 
 Header.propTypes = {
-  imageUrl: propTypes.string,
+  // imageUrl: propTypes.string,
 };
 
 Header.defaultProps = {
-  imageUrl: imageUrl,
+  // imageUrl: imageUrl,
 };
 
 export default Header;

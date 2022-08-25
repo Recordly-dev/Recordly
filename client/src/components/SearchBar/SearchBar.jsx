@@ -1,16 +1,24 @@
 import React from "react";
-import { Input, InputGroup } from "reactstrap";
+import { Input, InputGroup, InputGroupText } from "reactstrap";
 
+import searchIcon from "./assets/images/search-icon.png";
 import styles from "./SearchBar.module.scss";
 
 const SearchBar = (props) => {
   return (
-    <div className={styles.SearchInputWithIcon}>
+    <div className={styles.SearchBar}>
       <InputGroup>
+        <InputGroupText className={styles.SearchBar__left} addonType="prepend">
+          <img
+            className={styles.SearchBar__icon}
+            src={searchIcon}
+            alt="search icon"
+          />
+        </InputGroupText>
         <Input
           id={styles.searchInput}
-          className={styles.SearchInputWithIcon__input}
-          placeholder="Search"
+          className={styles.SearchBar__input}
+          placeholder="검색"
         />
       </InputGroup>
     </div>

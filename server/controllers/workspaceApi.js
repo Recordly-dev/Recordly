@@ -1,11 +1,16 @@
 import moment from "moment-timezone";
-
 import modWorkspace from "#models/workspace.js";
 import captureThumbnail from "../middlewares/captureThumbnail.js";
 
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
-    const workspaces = await modWorkspace.find({ writer: req.user.id });
+    const workspaces = await modWorkspace
+      .find({ writer: req.user.id })
+      .sort({ editedAt: -1 });
+    captureThumbnail.allCaptureThumbnail(
+      workspaces,
+      req.headers.cookie.substring(8)
+    );
     res.json(workspaces);
   } catch (err) {
     console.log(err);
@@ -47,14 +52,18 @@ const getSingleWorkspace = async (req, res, next) => {
 
 const patchSingleWorkspace = async (req, res, next) => {
   try {
-    const workspace = await modWorkspace.update(
+    const workspace = await modWorkspace.updateOne(
       { _id: req.params.workspaceId },
       {
         editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
         ...req.body,
       }
     );
-    captureThumbnail(req.params.workspaceId, req.headers.cookie.substring(8));
+    captureThumbnail.captureThumbnail(
+      req.params.workspaceId,
+      req.headers.cookie.substring(8)
+    );
+
     res.json({ message: "update completed" });
   } catch (err) {
     console.log(err);
