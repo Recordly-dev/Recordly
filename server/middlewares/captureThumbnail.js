@@ -16,23 +16,8 @@ const thumbnailSave = (workspaceId, cookie) => {
   });
 };
 
-const allCaptureThumbnail = async (workspaces, cookie) => {
-  try {
-    workspaces.forEach((workspace) => {
-      const PATH = `../client/public/assets/images/thumbnail/${workspace._id}.png`;
-      fs.stat(PATH, (err) => {
-        if (err?.code === "ENOENT") {
-          // thumbnailSave(workspace._id, cookie);
-        }
-      });
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const captureThumbnail = async (workspaceId, cookie) => {
-  const PATH = `../client/public/assets/images/thumbnail/${workspaceId}.png`;
+const captureThumbnail = (workspaceId, cookie) => {
+  const PATH = `./public/assets/images/thumbnail/${workspaceId}.png`;
   try {
     fs.stat(PATH, (err) => {
       if (err?.code === "ENOENT") {
@@ -48,4 +33,4 @@ const captureThumbnail = async (workspaceId, cookie) => {
   }
 };
 
-export default { allCaptureThumbnail, captureThumbnail };
+export default { captureThumbnail };

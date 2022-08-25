@@ -7,10 +7,7 @@ const getWorkspacesOfCurrentUser = async (req, res, next) => {
     const workspaces = await modWorkspace
       .find({ writer: req.user.id })
       .sort({ editedAt: -1 });
-    captureThumbnail.allCaptureThumbnail(
-      workspaces,
-      req.headers.cookie.substring(8)
-    );
+
     res.json(workspaces);
   } catch (err) {
     console.log(err);

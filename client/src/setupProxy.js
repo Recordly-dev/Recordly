@@ -5,7 +5,6 @@ module.exports = function (app) {
   app.use(
     "/api",
     (req, res, next) => {
-      console.log("hihi");
       next();
     },
     createProxyMiddleware({
