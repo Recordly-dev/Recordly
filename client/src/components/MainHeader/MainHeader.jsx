@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import cn from "classnames";
-import propTypes from "prop-types";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import Swal from "sweetalert2";
+
 import axios from "axios";
+import cn from "classnames";
+import Swal from "sweetalert2";
+
+import { fetchWorkspace } from "store/slice/workspcaeSlice";
 
 import createIcon from "./assets/images/create-icon.png";
 import SearchBar from "components/SearchBar";
@@ -11,8 +14,9 @@ import DropdownSelect from "components/DropdownSelect";
 
 import styles from "./MainHeader.module.scss";
 
-const MainHeader = ({ fetchWorkspace }) => {
+const MainHeader = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleButtonClick = (e) => {
     let title;
@@ -58,7 +62,7 @@ const MainHeader = ({ fetchWorkspace }) => {
                 showConfirmButton: false,
                 timer: 1000,
               });
-              fetchWorkspace();
+              dispatch(fetchWorkspace());
             })
             .catch((err) => {
               if (err.response.data.error === 11000) {
@@ -165,14 +169,6 @@ const MainHeader = ({ fetchWorkspace }) => {
       </div>
     </header>
   );
-};
-
-MainHeader.propTypes = {
-  // imageUrl: propTypes.string,
-};
-
-MainHeader.defaultProps = {
-  // imageUrl: imageUrl,
 };
 
 export default MainHeader;
