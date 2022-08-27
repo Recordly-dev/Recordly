@@ -8,7 +8,7 @@ const SearchBar = (props) => {
   return (
     <div className={styles.SearchBar}>
       <InputGroup>
-        <InputGroupText className={styles.SearchBar__left} addonType="prepend">
+        <InputGroupText className={styles.SearchBar__left}>
           <img
             className={styles.SearchBar__icon}
             src={searchIcon}

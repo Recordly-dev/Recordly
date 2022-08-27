@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import cn from "classnames";
 import Workspace from "components/Workspace";
 
-// import createDocsImage from "./assets/images/createDocsImage.png";
+import { fetchWorkspace } from "store/slice/workspcaeSlice";
 
 import styles from "./WorkspaceList.module.scss";
-import MainHeader from "components/MainHeader";
 
-const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
+const WorkspaceList = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleWorkSpace = (id) => {
+  // store에서 workspaceList 상태 가져오기
+  const workspaceList = useSelector((state) => state.workspace.workspaceList);
+
+  useEffect(() => {
+    dispatch(fetchWorkspace());
+  }, [dispatch]);
+
+  const moveWorkSpacePage = (id) => {
     navigate(`/workspace/${id}`);
   };
 
@@ -37,7 +45,7 @@ const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
           } else if (v.split("-").map(Number).join("") === yesterDay) {
             return "어제";
           } else {
-            return <span>{v}</span>;
+            return <span key={v + now}>{v}</span>;
           }
         })}
       </div>
@@ -48,10 +56,11 @@ const WorkspaceList = ({ workspaceList, fetchWorkspace }) => {
     <div className={cn(styles.WorkspaceList, "mt-5")}>
       {workspaceList.map((workspace) => (
         <Workspace
+          key={workspace._id}
           uid={workspace._id}
           title={workspace.title}
           editedAt={workspace.editedAt}
-          handleWorkSpace={handleWorkSpace}
+          moveWorkSpacePage={moveWorkSpacePage}
           formatDate={formatDate}
           fetchWorkspace={fetchWorkspace}
         />

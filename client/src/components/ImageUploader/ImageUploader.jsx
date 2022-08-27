@@ -1,20 +1,22 @@
-import React, { useMemo } from "react";
-import imageExtensions from "image-extensions";
+import React from "react";
+// import imageExtensions from "image-extensions";
 import isUrl from "is-url";
-import { Transforms, createEditor } from "slate";
+// import { Transforms, createEditor } from "slate";
+import { Transforms } from "slate";
 import {
-  Slate,
-  Editable,
+  // Slate,
+  // Editable,
   useSlateStatic,
   useSelected,
   useFocused,
-  withReact,
+  // withReact,
   ReactEditor,
 } from "slate-react";
-import { withHistory } from "slate-history";
+// import { withHistory } from "slate-history";
 import { css } from "@emotion/css";
 
-import { Button, Icon, Toolbar } from "../Components/Components";
+import { Button, Icon } from "../Components/Components";
+// import { Button, Icon, Toolbar } from "../Components/Components";
 
 export const withImages = (editor) => {
   const { insertData, isVoid } = editor;
@@ -80,6 +82,7 @@ export const Image = ({ attributes, children, element }) => {
             max-height: 20em;
             box-shadow: ${selected && focused ? "0 0 0 3px #B4D5FF" : "none"};
           `}
+          alt=""
         />
         <Button
           active

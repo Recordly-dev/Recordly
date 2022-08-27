@@ -1,20 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import cn from "classnames";
 
 import Swal from "sweetalert2";
 
+import { fetchWorkspace } from "store/slice/workspcaeSlice";
+
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
 
-const Workspace = ({
-  uid,
-  title,
-  editedAt,
-  handleWorkSpace,
-  formatDate,
-  fetchWorkspace,
-}) => {
+const Workspace = ({ uid, title, editedAt, moveWorkSpacePage, formatDate }) => {
+  const dispatch = useDispatch();
+
   const path = `http://localhost:8080/public/assets/images/thumbnail/${uid}.png`;
   const emptyPath = `http://localhost:8080/public/assets/images/thumbnail/emptyThumbnail.png`;
 
@@ -38,7 +36,7 @@ const Workspace = ({
             showConfirmButton: false,
             timer: 1000,
           });
-          fetchWorkspace();
+          dispatch(fetchWorkspace());
         });
       }
     });
@@ -53,7 +51,7 @@ const Workspace = ({
   return (
     <div
       className={cn(styles.Workspace__container)}
-      onClick={() => handleWorkSpace(uid)}
+      onClick={() => moveWorkSpacePage(uid)}
     >
       <div className={styles.Workspace__docs}>
         <div className={styles.Workspace__docs__top}>

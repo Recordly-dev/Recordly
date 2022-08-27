@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Tag from "components/Tag";
-import styles from "./TagList.module.scss";
+// import styles from "./TagList.module.scss";
 
 const TagList = ({ workspaceList, getWorkspaceHaveTags }) => {
   const [tagList, setTagList] = useState([]);
