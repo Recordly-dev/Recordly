@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { createEditor } from "slate";
-import { Toolbar, Icon } from "../Components/Components";
+import { Toolbar } from "../Components/Components";
 import { MarkButton, BlockButton, Leaf } from "../RichText/RichText";
 import { Editable, withReact, Slate } from "slate-react";
 import { Image, InsertImageButton } from "../ImageUploader/ImageUploader";
@@ -184,60 +184,60 @@ const AppWrap = React.forwardRef(({ className, ...props }, ref) => (
   ></div>
 ));
 
-const Savebar = React.forwardRef(({ className, ...props }, ref) => (
-  <div
-    {...props}
-    ref={ref}
-    className={cx(
-      className,
-      css`
-        position: relative;
-        width: 816px;
-        padding: 1px 18px 7px;
-        margin: 0 -20px;
-        border-bottom: 2px solid #eee;
-        margin-bottom: 20px;
-      `
-    )}
-  ></div>
-));
+// const Savebar = React.forwardRef(({ className, ...props }, ref) => (
+//   <div
+//     {...props}
+//     ref={ref}
+//     className={cx(
+//       className,
+//       css`
+//         position: relative;
+//         width: 816px;
+//         padding: 1px 18px 7px;
+//         margin: 0 -20px;
+//         border-bottom: 2px solid #eee;
+//         margin-bottom: 20px;
+//       `
+//     )}
+//   ></div>
+// ));
 
-const Input = React.forwardRef(({ className, ...props }, ref) => (
-  <input
-    {...props}
-    ref={ref}
-    className={cx(
-      className,
-      css`
-        border: 1px solid transparent;
-        border-radius: 2px !important;
-        font-size: 18px;
-        font-variant-ligatures: no-contextual;
-        height: 20px;
-        line-height: 22px;
-        margin: 0;
-        min-width: 1px;
-        padding: 2px 7px;
-        &:hover {
-          outline: solid;
-        }
-      `
-    )}
-  ></input>
-));
+// const Input = React.forwardRef(({ className, ...props }, ref) => (
+//   <input
+//     {...props}
+//     ref={ref}
+//     className={cx(
+//       className,
+//       css`
+//         border: 1px solid transparent;
+//         border-radius: 2px !important;
+//         font-size: 18px;
+//         font-variant-ligatures: no-contextual;
+//         height: 20px;
+//         line-height: 22px;
+//         margin: 0;
+//         min-width: 1px;
+//         padding: 2px 7px;
+//         &:hover {
+//           outline: solid;
+//         }
+//       `
+//     )}
+//   ></input>
+// ));
 
-const Button = React.forwardRef(({ className, ...props }, ref) => (
-  <button
-    {...props}
-    ref={ref}
-    className={cx(
-      className,
-      css`
-        border: 0;
-        background: none;
-      `
-    )}
-  ></button>
-));
+// const Button = React.forwardRef(({ className, ...props }, ref) => (
+//   <button
+//     {...props}
+//     ref={ref}
+//     className={cx(
+//       className,
+//       css`
+//         border: 0;
+//         background: none;
+//       `
+//     )}
+//   ></button>
+// ));
 
 export default Editor;

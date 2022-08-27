@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import cn from "classnames";
-import propTypes from "prop-types";
 
 import { useNavigate } from "react-router";
 
@@ -10,7 +9,7 @@ import styles from "./Header.module.scss";
 import axios from "axios";
 
 const Header = ({ imageUrl, isLogin }) => {
-  const [selectNavi, setSelectNavi] = useState("intro");
+  // const [selectNavi, setSelectNavi] = useState("intro");
   const navigate = useNavigate();
 
   const logout = () => {
@@ -83,8 +82,8 @@ const Header = ({ imageUrl, isLogin }) => {
               <button
                 className={cn(
                   styles.Header__container__right__intro,
-                  selectNavi === "intro" &&
-                    styles.Header__container__right__active,
+                  // selectNavi === "intro" &&
+                  styles.Header__container__right__active,
                   !isLogin && styles.Header__container__right__loginPage
                 )}
               >
@@ -93,8 +92,8 @@ const Header = ({ imageUrl, isLogin }) => {
               <button
                 className={cn(
                   styles.Header__container__right__notice,
-                  selectNavi === "notice" &&
-                    styles.Header__container__right__active,
+                  // selectNavi === "notice" &&
+                  styles.Header__container__right__active,
                   !isLogin && styles.Header__container__right__loginPage
                 )}
               >
@@ -106,14 +105,6 @@ const Header = ({ imageUrl, isLogin }) => {
       </div>
     </header>
   );
-};
-
-Header.propTypes = {
-  // imageUrl: propTypes.string,
-};
-
-Header.defaultProps = {
-  // imageUrl: imageUrl,
 };
 
 export default Header;
