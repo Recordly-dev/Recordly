@@ -8,4 +8,6 @@ RUN npm install --legacy-peer-deps
 
 COPY ./ ./
 
+ENV IS_DOCKER=TRUE
+
 CMD [ "npm", "run", "start" ]
