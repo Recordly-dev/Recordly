@@ -10,4 +10,8 @@ RUN npm install
 
 COPY . .
 
+ENV REDIS_URL="redis://redis-server:6379"\
+    BACKEND_PORT="3000"\
+    FRONTEND_PROXY_HOST="frontend"
+
 CMD [ "npm", "run", "dev" ]

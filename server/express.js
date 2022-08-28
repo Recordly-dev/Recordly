@@ -39,7 +39,7 @@ export default function initExpress(redisClient) {
 
   app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
-  app.use("/public", express.static("public"));
+  app.use("/api/public", express.static("public"));
 
   app.use("/api", routers);
 

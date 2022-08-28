@@ -3,17 +3,26 @@ import fs from "fs";
 
 const thumbnailSave = (workspaceId, cookie) => {
   const PATH = `./public/assets/images/thumbnail/${workspaceId}.png`;
-  captureWebsite.file(`http://localhost:3000/workspace/${workspaceId}`, PATH, {
-    cookies: [
-      {
-        name: "app.sid",
-        value: cookie,
-        url: "http://localhost:3000",
+  captureWebsite.file(
+    `http://${
+      process.env.FRONTEND_PROXY_HOST || "localhost"
+    }:3000/workspace/${workspaceId}`,
+    PATH,
+    {
+      cookies: [
+        {
+          name: "app.sid",
+          value: cookie,
+          url: "http://localhost:3000",
+        },
+      ],
+      width: 800,
+      height: 800,
+      launchOptions: {
+        args: ["--no-sandbox"],
       },
-    ],
-    width: 800,
-    height: 800,
-  });
+    }
+  );
 };
 
 const captureThumbnail = (workspaceId, cookie) => {

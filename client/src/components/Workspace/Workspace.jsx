@@ -13,7 +13,9 @@ import styles from "./Workspace.module.scss";
 const Workspace = ({ uid, title, editedAt, moveWorkSpacePage, formatDate }) => {
   const dispatch = useDispatch();
 
-  const path = `http://localhost:8080/public/assets/images/thumbnail/${uid}.png`;
+  const path = `http://localhost:${
+    process.env.REACT_APP_BACKEND_PORT || 8080
+  }/api/public/assets/images/thumbnail/${uid}.png`;
   const emptyPath = `http://localhost:8080/public/assets/images/thumbnail/emptyThumbnail.png`;
 
   const handleDeleteWorkspace = (e) => {
