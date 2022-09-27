@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 import axios from "axios";
@@ -7,6 +6,7 @@ import cn from "classnames";
 import Swal from "sweetalert2";
 
 import { fetchWorkspace } from "store/slice/workspcaeSlice";
+import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";
 import SearchBar from "components/SearchBar";
@@ -18,9 +18,9 @@ const MainHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleButtonClick = (e) => {
-    let title;
-    let workspaceType;
+  const handleButtonClick = (e: React.MouseEvent<HTMLImageElement>): void => {
+    let title: string;
+    let workspaceType: string;
 
     Swal.fire({
       title: "메모 제목을 적어주세요.",
@@ -54,7 +54,7 @@ const MainHeader = () => {
               title: title,
               workspaceType: workspaceType,
             })
-            .then((res) => {
+            .then(() => {
               Swal.fire({
                 position: "center",
                 icon: "success",
@@ -92,10 +92,10 @@ const MainHeader = () => {
     e.stopPropagation();
   };
 
-  const logout = () => {
+  const logout = (): void => {
     axios
       .get("/api/auth/logout")
-      .then((res, req) => {
+      .then(() => {
         navigate("/");
       })
       .catch((err) => {

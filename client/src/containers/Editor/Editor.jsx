@@ -142,6 +142,10 @@ const App = () => {
               CustomEditor.toggleBoldMark(editor);
               break;
             }
+
+            default: {
+              break;
+            }
           }
         }}
       />
