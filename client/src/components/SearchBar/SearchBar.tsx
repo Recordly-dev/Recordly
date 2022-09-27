@@ -1,10 +1,9 @@
-import React from "react";
 import { Input, InputGroup, InputGroupText } from "reactstrap";
 
 import searchIcon from "./assets/images/search-icon.png";
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = (props) => {
+const SearchBar = () => {
   return (
     <div className={styles.SearchBar}>
       <InputGroup>

@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 
 import Footer from "components/Footer";
-// import TagContainer from "components/TagContainer";
+import TagContainer from "components/TagContainer";
 import MainDashboard from "components/MainDashboard";
 import MainHeader from "components/MainHeader";
 
@@ -19,12 +19,9 @@ const Main = () => {
             "justify-content-center"
           )}
         >
-          {/* <aside className={cn(styles.Main__container__tagList)}>
-            <TagContainer
-              workspaceList={workspaceList}
-              getWorkspaceHaveTags={getWorkspaceHaveTags}
-            />
-          </aside> */}
+          <aside className={cn(styles.Main__container__tagList)}>
+            <TagContainer />
+          </aside>
           <section className={cn("d-flex", "justify-content-center")}>
             <div className={cn(styles.Main__container__mainDashboard)}>
               <MainHeader />

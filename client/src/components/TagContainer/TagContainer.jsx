@@ -4,7 +4,7 @@ import cn from "classnames";
 import TagList from "components/TagList";
 import styles from "./TagContainer.module.scss";
 
-const TagContainer = ({ workspaceList, getWorkspaceHaveTags }) => {
+const TagContainer = () => {
   return (
     <section
       className={cn(
@@ -17,10 +17,7 @@ const TagContainer = ({ workspaceList, getWorkspaceHaveTags }) => {
       )}
     >
       <h3 className={cn(styles.TagContainer__title, "mb-4")}>Tag List</h3>
-      <TagList
-        workspaceList={workspaceList}
-        getWorkspaceHaveTags={getWorkspaceHaveTags}
-      />
+      <TagList />
     </section>
   );
 };

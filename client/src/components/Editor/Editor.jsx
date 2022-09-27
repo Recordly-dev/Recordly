@@ -58,12 +58,6 @@ const Editor = () => {
     <AppWrap>
       <Slate editor={editor} value={slateContent} onChange={onChangeContent}>
         <div className={styles.banner}>
-          {/* <Savebar>
-            <Input placeholder="Title Input" />
-            <Button>
-              <Icon>save</Icon>
-            </Button>
-          </Savebar> */}
           <Toolbar>
             <MarkButton format="bold" icon="format_bold" />
             <MarkButton format="italic" icon="format_italic" />

@@ -5,6 +5,7 @@
   grid-template-columns: repeat(5, 1fr);
   row-gap: 1rem; // 16px
   column-gap: 2rem; // 32px
+
   @media (min-width: 0) {
     grid-template-columns: repeat(1, 1fr);
   }

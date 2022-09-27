@@ -8,14 +8,20 @@ import Swal from "sweetalert2";
 import styles from "./Header.module.scss";
 import axios from "axios";
 
-const Header = ({ imageUrl, isLogin }) => {
+const Header = ({
+  imageUrl,
+  isLogin,
+}: {
+  imageUrl: string;
+  isLogin: boolean;
+}) => {
   // const [selectNavi, setSelectNavi] = useState("intro");
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = (): void => {
     axios
       .get("/api/auth/logout")
-      .then((res, req) => {
+      .then(() => {
         navigate("/");
       })
       .catch((err) => {

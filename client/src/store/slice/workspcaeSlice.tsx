@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -9,7 +9,7 @@ const workspaceSlice = createSlice({
   name: "workspace",
   initialState,
   reducers: {
-    setWorkspace: (state, action) => {
+    setWorkspace: (state, action: PayloadAction<any>) => {
       state.workspaceList = action.payload;
     },
   },
@@ -18,7 +18,7 @@ const workspaceSlice = createSlice({
 export const { setWorkspace } = workspaceSlice.actions;
 
 export const fetchWorkspace = () => {
-  return async (dispatch) => {
+  return async (dispatch: Function) => {
     axios
       .get("api/workspace")
       .then((res) => {
