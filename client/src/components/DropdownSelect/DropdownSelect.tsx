@@ -9,12 +9,13 @@ import {
 import styles from "./DropdownSelect.module.scss";
 
 const DropdownSelect = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
+
   return (
     <Dropdown
-      isOpen={dropdownOpen}
+      isOpen={isDropdownOpen}
       toggle={toggle}
       className={styles.DropdownSelect}
     >

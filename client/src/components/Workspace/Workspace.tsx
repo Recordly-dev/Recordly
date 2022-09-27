@@ -1,24 +1,40 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import cn from "classnames";
 
 import Swal from "sweetalert2";
 
 import { fetchWorkspace } from "store/slice/workspcaeSlice";
+import { useDispatch } from "store";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
 
-const Workspace = ({ uid, title, editedAt, moveWorkSpacePage, formatDate }) => {
+const Workspace = ({
+  uid,
+  title,
+  editedAt,
+  moveWorkSpacePage,
+  formatDate,
+}: {
+  uid: string;
+  title: string;
+  editedAt: string;
+  moveWorkSpacePage: Function;
+  formatDate: Function;
+}) => {
   const dispatch = useDispatch();
 
-  const path = `http://localhost:${
+  const path: string = `http://localhost:${
     process.env.REACT_APP_BACKEND_PORT || 8080
   }/api/public/assets/images/thumbnail/${uid}.png`;
-  const emptyPath = `http://localhost:8080/public/assets/images/thumbnail/emptyThumbnail.png`;
+  const emptyPath: string = `http://localhost:${
+    process.env.REACT_APP_BACKEND_PORT || 8080
+  }/api/public/assets/images/thumbnail/emptyThumbnail.png`;
 
-  const handleDeleteWorkspace = (e) => {
+  const handleDeleteWorkspace = (
+    e: React.MouseEvent<HTMLImageElement>
+  ): void => {
     Swal.fire({
       title: "정말 삭제하시겠습니까?",
       text: "삭제한 메모는 되돌릴 수 없습니다.",
@@ -29,7 +45,7 @@ const Workspace = ({ uid, title, editedAt, moveWorkSpacePage, formatDate }) => {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`api/workspace/${uid}`).then((res, req) => {
+        axios.delete(`api/workspace/${uid}`).then(() => {
           Swal.fire({
             position: "center",
             icon: "success",
@@ -46,8 +62,10 @@ const Workspace = ({ uid, title, editedAt, moveWorkSpacePage, formatDate }) => {
     e.stopPropagation();
   };
 
-  const setThumbnail = (e) => {
-    e.target.src = emptyPath;
+  const setThumbnail = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ): void => {
+    e.currentTarget.src = emptyPath;
   };
 
   return (

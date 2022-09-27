@@ -1,0 +1,53 @@
+{
+  "id": "3",
+  "title": "Front-end 기술 만족도 조사",
+  "description": "Front-end에서 사용되는 여러 기술들에 대해 만족도를 조사하고자 합니다.",
+  "steps": [
+    [
+      {
+        "type": "text",
+        "label": "당신의 이름은?",
+        "validation": { "isRequired": true }
+      },
+      {
+        "type": "number",
+        "label": "당신의 연차는?",
+        "validation": { "isRequired": true }
+      }
+    ],
+    [
+      {
+        "name": "usingJquery",
+        "type": "yesOrNo",
+        "label": "jQuery를 사용해본 적이 있나요?"
+      },
+      {
+        "type": "text",
+        "label": "jQuery를 사용했던 기억은 어땠나요?",
+        "dependsOn": {
+          "dependSurveyItemName": "usingJquery",
+          "dependValue": "yes"
+        }
+      },
+      {
+        "type": "multiChoice",
+        "label": "사용해본 기술은?",
+        "options": ["React.js", "Angular", "Vue.js", "Svelte"]
+      },
+      {
+        "type": "multiChoice",
+        "name": "selectFramework",
+        "label": "사용해본 기술 중 가장 경험이 좋았던 것은?",
+        "options": ["React.js", "Angular", "Vue.js", "Svelte", "기타", "없음"]
+      },
+      {
+        "type": "text",
+        "label": "기타를 선택하신 경우 어떤 기술인지 적어주세요",
+        "dependsOn": {
+          "dependSurveyItemName": "selectFramework",
+          "dependValue": "기타"
+        }
+      }
+    ]
+  ]
+}
