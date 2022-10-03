@@ -1,42 +1,35 @@
 import captureWebsite from "capture-website";
-import fs from "fs";
 
-const thumbnailSave = (workspaceId, cookie) => {
-  const PATH = `./public/assets/images/thumbnail/${workspaceId}.png`;
-  captureWebsite.file(
-    `http://${
-      process.env.FRONTEND_PROXY_HOST || "localhost"
-    }:3000/workspace/${workspaceId}`,
-    PATH,
+const url = (workspaceId) =>
+  `http://${
+    process.env.FRONTEND_PROXY_HOST || "localhost"
+  }:3000/workspace/${workspaceId}`;
+
+const path = (workspaceId) =>
+  `./public/assets/images/thumbnail/${workspaceId}.png`;
+
+const options = (cookie) => ({
+  cookies: [
     {
-      cookies: [
-        {
-          name: "app.sid",
-          value: cookie,
-          url: "http://localhost:3000",
-        },
-      ],
-      width: 800,
-      height: 800,
-      launchOptions: {
-        args: ["--no-sandbox"],
-      },
-    }
+      name: "app.sid",
+      value: cookie,
+      url: "http://localhost:3000",
+    },
+  ],
+  overwrite: true,
+});
+
+const thumbnailSave = async (workspaceId, cookie) => {
+  await captureWebsite.file(
+    url(workspaceId),
+    path(workspaceId),
+    options(cookie)
   );
 };
 
 const captureThumbnail = (workspaceId, cookie) => {
-  const PATH = `./public/assets/images/thumbnail/${workspaceId}.png`;
   try {
-    fs.stat(PATH, (err) => {
-      if (err?.code === "ENOENT") {
-        thumbnailSave(workspaceId, cookie);
-      } else {
-        fs.unlink(PATH, () => {
-          thumbnailSave(workspaceId, cookie);
-        });
-      }
-    });
+    thumbnailSave(workspaceId, cookie);
   } catch (err) {
     console.log(err);
   }

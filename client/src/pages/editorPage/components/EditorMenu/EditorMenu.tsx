@@ -6,6 +6,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import axios from "axios";
+import { useDebouncedCallback } from "use-debounce";
+
 import { TDShapeType, TDSnapshot, TldrawApp } from "@tldraw/tldraw";
 
 import styles from "./EditorMenu.module.scss";
@@ -20,20 +23,36 @@ const EditorMenu = ({ context = createContext({} as TldrawApp) }) => {
 
   const activeTool = app.useStore((s) => s.appState.activeTool);
   const sortedPages = app.useStore(sortedSelector);
-  // const snapshot = app.useStore();
+  const snapshot = app.useStore();
 
   const [pageName, setPageName] = useState(app.page.name || "Page");
 
-  // const { document } = snapshot;
+  const { document } = snapshot;
 
   const rInitialName = useRef(app.page.name || "Page");
   const rCurrentName = useRef(rInitialName.current);
   const rInput = useRef<HTMLInputElement>(null);
 
+  const saveContentToDB = useDebouncedCallback(() => {
+    const workspaceId = window.location.pathname.split("/").at(-1);
+    axios
+      .patch(`/api/workspace/${workspaceId}`)
+      .then((req) => {
+        console.log("content saved");
+        console.log(req);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, 3000);
+
   useEffect(() => {
     setPageName(app.page.name || "Page");
-    // console.log(document);
   }, [app.page]);
+
+  useEffect(() => {
+    saveContentToDB();
+  }, [document]);
 
   const handleTextFieldChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
