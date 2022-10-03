@@ -1,4 +1,11 @@
-import * as React from "react";
+import React, {
+  createContext,
+  useContext,
+  useRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { TDShapeType, TDSnapshot, TldrawApp } from "@tldraw/tldraw";
 
 import styles from "./EditorMenu.module.scss";
@@ -8,27 +15,27 @@ const sortedSelector = (s: TDSnapshot) =>
     (a, b) => (a.childIndex || 0) - (b.childIndex || 0)
   );
 
-const EditorMenu = ({ context = React.createContext({} as TldrawApp) }) => {
-  const app = React.useContext(context);
+const EditorMenu = ({ context = createContext({} as TldrawApp) }) => {
+  const app = useContext(context);
 
   const activeTool = app.useStore((s) => s.appState.activeTool);
   const sortedPages = app.useStore(sortedSelector);
   // const snapshot = app.useStore();
 
-  const [pageName, setPageName] = React.useState(app.page.name || "Page");
+  const [pageName, setPageName] = useState(app.page.name || "Page");
 
   // const { document } = snapshot;
 
-  const rInitialName = React.useRef(app.page.name || "Page");
-  const rCurrentName = React.useRef(rInitialName.current);
-  const rInput = React.useRef<HTMLInputElement>(null);
+  const rInitialName = useRef(app.page.name || "Page");
+  const rCurrentName = useRef(rInitialName.current);
+  const rInput = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPageName(app.page.name || "Page");
     // console.log(document);
   }, [app.page]);
 
-  const handleTextFieldChange = React.useCallback(
+  const handleTextFieldChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value.trim();
       rCurrentName.current = value;
@@ -37,7 +44,7 @@ const EditorMenu = ({ context = React.createContext({} as TldrawApp) }) => {
     []
   );
 
-  const handleTextFieldKeyDown = React.useCallback(
+  const handleTextFieldKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       switch (e.key) {
         case "Enter": {
@@ -54,19 +61,19 @@ const EditorMenu = ({ context = React.createContext({} as TldrawApp) }) => {
     [app]
   );
 
-  const handleChangePage = React.useCallback(
+  const handleChangePage = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       app.changePage(event.target.value);
     },
     [app]
   );
 
-  const handleCreatePage = React.useCallback(() => {
+  const handleCreatePage = useCallback(() => {
     const pageName = "page " + (Object.keys(app.document.pages).length + 1);
     app.createPage(pageName);
   }, [app]);
 
-  const handleDelete = React.useCallback(() => {
+  const handleDelete = useCallback(() => {
     if (window.confirm(`Are you sure you want to delete this page?`)) {
       app.deletePage(app.page.id);
     }
