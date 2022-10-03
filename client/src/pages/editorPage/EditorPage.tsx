@@ -1,20 +1,20 @@
-import * as React from "react";
+import React, { useState, createContext, useCallback } from "react";
 import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
 import EditorMenu from "./components/EditorMenu";
 
 import styles from "./EditorPage.module.scss";
 
-const AppContext = React.createContext({} as TldrawApp);
+const AppContext = createContext({} as TldrawApp);
 
-function EditorPage() {
+const EditorPage = () => {
   // persist the tldraw document under this id
   const id = window.location.pathname; // [1]
 
-  const [app, setApp] = React.useState<TldrawApp>();
+  const [app, setApp] = useState<TldrawApp>();
 
   // on mount, set the app to react state
-  const handleMount = React.useCallback((app: TldrawApp) => {
+  const handleMount = useCallback((app: TldrawApp) => {
     setApp(app);
   }, []);
 
@@ -29,6 +29,6 @@ function EditorPage() {
       )}
     </div>
   );
-}
+};
 
 export default EditorPage;

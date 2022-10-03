@@ -49,13 +49,14 @@ const getSingleWorkspace = async (req, res, next) => {
 
 const patchSingleWorkspace = async (req, res, next) => {
   try {
-    const workspace = await modWorkspace.updateOne(
+    await modWorkspace.updateOne(
       { _id: req.params.workspaceId },
       {
         editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
         ...req.body,
       }
     );
+
     captureThumbnail.captureThumbnail(
       req.params.workspaceId,
       req.headers.cookie.substring(8)
