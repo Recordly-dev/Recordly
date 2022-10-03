@@ -8,10 +8,23 @@ import {
 
 import styles from "./DropdownSelect.module.scss";
 
-const DropdownSelect = () => {
+const DropdownSelect = ({
+  handleDropdownItem,
+}: {
+  handleDropdownItem: Function;
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [selectedItemName, setSelectedItemName] = useState("최신순");
 
   const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
+
+  const handleDropdownName = (type: string) => {
+    if (type === "newest") {
+      setSelectedItemName("최신순");
+    } else if (type === "oldest") {
+      setSelectedItemName("오래된순");
+    }
+  };
 
   return (
     <Dropdown
@@ -20,13 +33,25 @@ const DropdownSelect = () => {
       className={styles.DropdownSelect}
     >
       <DropdownToggle className={styles.DropdownSelect__toggle} caret>
-        최신순
+        {selectedItemName}
       </DropdownToggle>
       <DropdownMenu className={styles.DropdownSelect__menu}>
-        <DropdownItem className={styles.DropdownSelect__menu__item}>
+        <DropdownItem
+          onClick={() => {
+            handleDropdownItem("newest");
+            handleDropdownName("newest");
+          }}
+          className={styles.DropdownSelect__menu__item}
+        >
           최신순
         </DropdownItem>
-        <DropdownItem className={styles.DropdownSelect__menu__item}>
+        <DropdownItem
+          onClick={() => {
+            handleDropdownItem("oldest");
+            handleDropdownName("oldest");
+          }}
+          className={styles.DropdownSelect__menu__item}
+        >
           오랜된순
         </DropdownItem>
       </DropdownMenu>
