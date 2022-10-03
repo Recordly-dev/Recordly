@@ -5,7 +5,7 @@ import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { fetchWorkspace } from "store/slice/workspcaeSlice";
+import { fetchWorkspace, sortWorkspaceList } from "store/slice/workspcaeSlice";
 import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";
@@ -17,6 +17,10 @@ import styles from "./MainHeader.module.scss";
 const MainHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleDropdownOnClick = (type: string) => {
+    dispatch(sortWorkspaceList(type));
+  };
 
   const handleButtonClick = (e: React.MouseEvent<HTMLImageElement>): void => {
     let title: string;
@@ -158,7 +162,7 @@ const MainHeader = () => {
             />
           </div>
           <SearchBar />
-          <DropdownSelect />
+          <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
           <button
             className={styles.MainHeader__container__right__logout}
             onClick={logout}
