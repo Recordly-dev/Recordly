@@ -1,6 +1,19 @@
 @import "common/scss/color.scss";
 
 .TagContainer {
+  position: fixed;
+  left: 0;
+
+  width: 14rem; // 240px
+  height: 100%;
+
+  padding: 1rem; // 16px
+  margin-top: 2rem; // 40px
+
+  background-color: rgb(33, 33, 33);
+
   overflow: hidden;
   color: $blue-500;
+
+  z-index: 10;
 }

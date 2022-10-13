@@ -6,7 +6,7 @@ import styles from "./MainDashboard.module.scss";
 
 const MainDashboard = () => {
   return (
-    <section className={cn(styles.MainDashboard, "p-4")}>
+    <section className={cn(styles.MainDashboard)}>
       <WorkspaceList />
     </section>
   );

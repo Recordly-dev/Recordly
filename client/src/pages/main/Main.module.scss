@@ -3,13 +3,9 @@
 
   &__container {
     background-color: rgb(44, 44, 50);
-    &__tagList {
-      max-width: 20rem;
-      min-width: 15rem;
-      border: 0.5px solid rgb(186, 186, 186);
-    }
 
     &__mainDashboard {
+      margin-left: 15rem;
     }
   }
 }
