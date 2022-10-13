@@ -37,9 +37,11 @@ const createWorkspace = async (req, res, next) => {
 
 const getSingleWorkspace = async (req, res, next) => {
   try {
+    const workspaceId = req.params.workspaceId;
     const workspace = await modWorkspace
-      .find({ _id: req.params.workspaceId })
+      .find({ _id: workspaceId })
       .populate("tags", "name");
+
     res.json(workspace[0]);
   } catch (err) {
     console.log(err);
