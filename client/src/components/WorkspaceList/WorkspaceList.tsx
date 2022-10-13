@@ -62,7 +62,7 @@ const WorkspaceList = () => {
   };
 
   return (
-    <div className={cn(styles.WorkspaceList, "mt-5")}>
+    <div className={cn(styles.WorkspaceList)}>
       {workspaceList.map((workspace: IWorkspace) => (
         <Workspace
           key={workspace._id}
