@@ -1,9 +1,7 @@
 import captureWebsite from "capture-website";
 
 const url = (workspaceId) =>
-  `http://${
-    process.env.FRONTEND_PROXY_HOST || "localhost"
-  }:3000/workspace/${workspaceId}`;
+  `${process.env.PROTOCOL}://${process.env.CLIENT_HOST}/workspace/${workspaceId}`;
 
 const path = (workspaceId) =>
   `./public/assets/images/thumbnail/${workspaceId}.png`;
@@ -13,7 +11,6 @@ const options = (cookie) => ({
     {
       name: "app.sid",
       value: cookie,
-      url: "http://localhost:3000",
     },
   ],
   overwrite: true,

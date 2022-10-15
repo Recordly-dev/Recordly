@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "NODE_ENV=development nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +41,5 @@
     "#models/*": "./models/*",
     "#controllers/*": "./controllers/*",
     "#error/*": "./utils/error/*"
-  },
-  "proxy": "http://localhost:8080"
+  }
 }

@@ -14,7 +14,7 @@ const checkLogin = async (req, res, next) => {
 
 const checkNotLogin = (req, res, next) => {
   if (req?.user) {
-    res.redirect("http://localhost:3000/main");
+    res.redirect(`${process.env.PROTOCOL}://${process.env.CLIENT_HOST}/main`);
     return;
   }
   next();
