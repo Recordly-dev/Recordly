@@ -25,12 +25,8 @@ const Workspace = ({
 }) => {
   const dispatch = useDispatch();
 
-  const path: string = `http://localhost:${
-    process.env.REACT_APP_BACKEND_PORT || 8080
-  }/api/public/assets/images/thumbnail/${uid}.png`;
-  const emptyPath: string = `http://localhost:${
-    process.env.REACT_APP_BACKEND_PORT || 8080
-  }/api/public/assets/images/thumbnail/emptyThumbnail.png`;
+  const path: string = `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_SERVER_HOST}/api/public/assets/images/thumbnail/${uid}.png`;
+  const emptyPath: string = `/api/public/assets/images/thumbnail/emptyThumbnail.png`;
 
   const handleDeleteWorkspace = (
     e: React.MouseEvent<HTMLImageElement>
