@@ -14,10 +14,12 @@ router
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
+console.log("hihi");
+
 router.route("/google/callback").get(
   passport.authenticate("google", {
-    successRedirect: `${process.env.PROTOCOL}://${process.env.CLIENT_HOST}/main`,
-    failureRedirect: `${process.env.PROTOCOL}://${process.env.CLIENT_HOST}`,
+    successRedirect: "http://localhost:3000/main",
+    failureRedirect: "http://localhost:3000",
   })
 );
 
