@@ -138,6 +138,6 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-/public/assets/
+/public/assets/images/thumbnail/
 
 .env*
