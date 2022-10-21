@@ -35,6 +35,13 @@ router
   );
 
 router
+  .route("/favorites/:workspaceId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
+  );
+
+router
   .route("/:workspaceId")
   .delete(
     midError.asyncWrapper(midAuth.checkLogin),
