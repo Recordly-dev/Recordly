@@ -24,6 +24,11 @@ const workspaceSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  favorites: {
+    type: Boolean,
+    required: true,
+  },
+
   content: Object,
   // folder: {
 
