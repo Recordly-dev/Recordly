@@ -25,8 +25,9 @@ const createWorkspace = async (req, res, next) => {
       createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
       editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
       writer: writerId,
+      favorites: false,
     });
-    console.log(workspace);
+
     res.status(201).json({ data: workspace });
   } catch (err) {
     console.error(err);
@@ -71,6 +72,25 @@ const patchSingleWorkspace = async (req, res, next) => {
   }
 };
 
+const patchFavoritesWorkspace = async (req, res, next) => {
+  try {
+    const { workspaceId, isFavorites } = req.body;
+
+    await modWorkspace.updateOne(
+      { _id: workspaceId },
+      {
+        ...req.body,
+        favorites: isFavorites,
+      }
+    );
+
+    res.json({ message: "update completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 const deleteSingleWorkspace = async (req, res, next) => {
   try {
     const workspaceId = req.params.workspaceId;
@@ -90,5 +110,6 @@ export default {
   createWorkspace,
   getSingleWorkspace,
   patchSingleWorkspace,
+  patchFavoritesWorkspace,
   deleteSingleWorkspace,
 };
