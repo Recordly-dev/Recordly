@@ -62,7 +62,7 @@ const EditorPage = () => {
   }, []);
 
   return (
-    <div className={styles.EditorPage}>
+    <div className={styles.EditorPage} id="tldrawEditor">
       <Tldraw
         id={workspaceId}
         onMount={handleMount}

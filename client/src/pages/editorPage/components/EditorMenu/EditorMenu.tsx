@@ -19,6 +19,8 @@ import TagList from "../TagList";
 
 import styles from "./EditorMenu.module.scss";
 
+import html2canvas from "html2canvas";
+
 // const sortedSelector = (s: TDSnapshot) =>
 //   Object.values(s.document.pages).sort(
 //     (a, b) => (a.childIndex || 0) - (b.childIndex || 0)
@@ -51,11 +53,35 @@ const EditorMenu = ({
 
   const saveContentToDB = useDebouncedCallback(() => {
     const workspaceId = window.location.pathname.split("/").at(-1);
+
+    const editorEl = window.document.getElementById("tldrawEditor");
+    if (!editorEl) {
+      return;
+    }
+
+    html2canvas(editorEl).then((editorCanvas) => {
+      editorCanvas.toBlob((blob) => {
+        if (!blob) {
+          console.log("no blob");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("file", blob, `${workspaceId}.png`);
+        axios
+          .post(`/api/workspace/${workspaceId}/thumbnail`, formData)
+          .then((res) => {
+            console.log("thumbnail saved");
+          })
+          .catch((err) => {
+            console.error("thumnail capture failed");
+          });
+      });
+    });
+
     axios
       .patch(`/api/workspace/${workspaceId}`)
       .then((req) => {
         console.log("content saved");
-        console.log(req);
       })
       .catch((err) => {
         console.log(err);
