@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import cn from "classnames";
 
@@ -9,6 +9,7 @@ import { useDispatch } from "store";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
+import { Button } from "reactstrap";
 
 const Workspace = ({
   uid,
@@ -24,6 +25,7 @@ const Workspace = ({
   formatDate: Function;
 }) => {
   const dispatch = useDispatch();
+  const [isFavorites, setIsFavorites] = useState(false);
 
   const path: string = `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_SERVER_HOST}/api/public/assets/images/thumbnail/${uid}.png`;
   const emptyPath: string = `/api/public/assets/images/emptyThumbnail.png`;
@@ -58,19 +60,31 @@ const Workspace = ({
     e.stopPropagation();
   };
 
+  const toggleFavorites = async () => {
+    setIsFavorites((prev) => !prev);
+  };
+
   const setThumbnail = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ): void => {
     e.currentTarget.src = emptyPath;
   };
 
+  useEffect(() => {
+    const params = {
+      workspaceId: uid,
+      isFavorites,
+    };
+    axios.patch(`/api/workspace/favorites/${uid}`, params);
+  }, [isFavorites, uid]);
+
   return (
-    <div
-      className={cn(styles.Workspace__container)}
-      onClick={() => moveWorkSpacePage(uid)}
-    >
+    <div className={cn(styles.Workspace__container)}>
       <div className={styles.Workspace__docs}>
-        <div className={styles.Workspace__docs__top}>
+        <div
+          className={styles.Workspace__docs__top}
+          onClick={() => moveWorkSpacePage(uid)}
+        >
           <img
             className={styles.Workspace__docs__top__image}
             src={path}
@@ -88,7 +102,7 @@ const Workspace = ({
               "w-100"
             )}
           >
-            <div></div>
+            <Button onClick={toggleFavorites}>즐겨찾기</Button>
             <span className={styles.Workspace__dataEdit}>
               {formatDate(editedAt)}
             </span>
