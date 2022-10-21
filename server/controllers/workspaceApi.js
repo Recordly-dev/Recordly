@@ -60,11 +60,6 @@ const patchSingleWorkspace = async (req, res, next) => {
       }
     );
 
-    captureThumbnail.captureThumbnail(
-      req.params.workspaceId,
-      req.headers.cookie.substring(8)
-    );
-
     res.json({ message: "update completed" });
   } catch (err) {
     console.log(err);
