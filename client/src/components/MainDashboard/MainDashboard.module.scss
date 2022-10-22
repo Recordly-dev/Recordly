@@ -1,9 +1,6 @@
 @import "common/scss/color.scss";
 
 .MainDashboard {
-  display: flex;
-  flex-wrap: wrap;
-
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
@@ -12,16 +9,8 @@
 
   margin-top: 3rem; // 48px
 
-  &__right {
-    &__button {
-      width: 3rem; // 48px
-      color: white;
-
-      border-radius: 1rem;
-      border: none;
-
-      margin-right: 2rem;
-      cursor: pointer;
-    }
+  &__fileList {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

@@ -8,15 +8,14 @@
   width: 16rem; // 256px
   margin: 1rem; // 16px
 
-  border: solid 0.5rem $blue-500-transparent-16;
-
   &__image {
     width: 100%;
-
+    border: solid 0.5rem $blue-500-transparent-16;
     cursor: pointer;
   }
 
   &__title {
+    margin: 0.5rem;
     color: white;
   }
 }
