@@ -26,7 +26,7 @@ export const fetchWorkspace = () => {
   return async (dispatch: Function) => {
     try {
       axios
-        .get("api/workspace")
+        .get("/api/workspace")
         .then((res) => {
           const filterData = res.data.filter(
             (workspace: IWorkspace) => workspace.folder === null
