@@ -1,16 +1,45 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cn from "classnames";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
-import CONSTANT from "./constants";
+import { fetchFolderList } from "store/slice/folderListSlice";
+import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";
 
+import CONSTANT from "./constants";
+
 const SideNavMenu = () => {
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("/main");
   const currentLocation = useLocation();
+
+  const handlePostFolder = () => {
+    Swal.fire({
+      title: "폴더 이름을 적어주세요.",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      showLoaderOnConfirm: true,
+      preConfirm: (title) => {
+        return title;
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        await axios.post("/api/folder", { title: res?.value });
+        console.log("123");
+        dispatch(fetchFolderList());
+      }
+    });
+  };
 
   useEffect(() => {
     const path = String(currentLocation.pathname);
@@ -34,6 +63,14 @@ const SideNavMenu = () => {
             className={styles.SideNavMenu__create__button}
           >
             New
+          </Button>
+          <Button
+            color="primary"
+            size="md"
+            className={styles.SideNavMenu__create__button}
+            onClick={handlePostFolder}
+          >
+            New Folder
           </Button>
         </li>
         <hr />
