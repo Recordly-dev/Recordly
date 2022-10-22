@@ -19,16 +19,8 @@
   top: 0;
   width: 100%;
 
-  &__loginPage {
-    background-color: black;
-  }
-
   &__container {
-    width: 90%;
-
-    &__loginPage {
-      width: 75%;
-    }
+    width: 75%;
 
     &__title {
       color: $blue-500;
@@ -41,23 +33,10 @@
     }
 
     &__right {
-      &__loginPage {
+      &__button {
+        @include header-button;
         background-color: black;
         color: white;
-      }
-
-      &__intro {
-        @include header-button;
-      }
-
-      &__notice {
-        @include header-button;
-      }
-
-      &__logout {
-        @include header-button;
-        background-color: white;
-        color: black;
       }
 
       &__active {

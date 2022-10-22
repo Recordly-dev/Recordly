@@ -2,11 +2,11 @@ import React, { useCallback } from "react";
 import cn from "classnames";
 import { loadFull } from "tsparticles";
 
-import Header from "components/Header";
-import MainTitle from "components/MainTitle";
-import GoogleOauth from "containers/GoogleOauth";
+import Header from "./components/Header";
+import MainTitle from "./components/MainTitle";
+import GoogleOauth from "./components/GoogleOauth";
+
 import Particles from "react-tsparticles";
-import MainImage from "components/MainImage";
 import Footer from "components/Footer";
 
 import styles from "./LoginPage.module.scss";
