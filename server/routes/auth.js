@@ -14,8 +14,6 @@ router
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
-console.log("hihi");
-
 router.route("/google/callback").get(
   passport.authenticate("google", {
     successRedirect: "http://localhost:3000/main",
