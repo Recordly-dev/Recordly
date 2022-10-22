@@ -19,7 +19,33 @@ const workspaceSlice = createSlice({
 
 export const { setWorkspace } = workspaceSlice.actions;
 
+/**
+ * 폴더에 있는 것 빼고 전체 workspace 불러오는 로직
+ */
 export const fetchWorkspace = () => {
+  return async (dispatch: Function) => {
+    try {
+      axios
+        .get("api/workspace")
+        .then((res) => {
+          const filterData = res.data.filter(
+            (workspace: IWorkspace) => workspace.folder === null
+          );
+          dispatch(setWorkspace(filterData));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+/**
+ * 전체 workspace 불러오는 로직
+ */
+export const fetchAllWorkspace = () => {
   return async (dispatch: Function) => {
     try {
       axios
@@ -36,15 +62,43 @@ export const fetchWorkspace = () => {
   };
 };
 
+/**
+ * 특정 폴더의 workspace 불러오는 로직
+ */
+export const fetchWorkspaceInFolder = (id: string) => {
+  return async (dispatch: Function) => {
+    try {
+      console.log("11");
+      axios
+        .get(`/api/folder/${id}/workspace`)
+        .then((res) => {
+          dispatch(setWorkspace(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+/**
+ * 검색 시 실행되는 서버 통신 로직
+ */
 export const filterWorkspaceList = (value: string) => {
   return async (dispatch: Function) => {
     try {
       axios
         .get("api/workspace")
         .then((res) => {
-          const filterData = res.data.filter((v: IWorkspace) =>
-            v.title.includes(value)
-          );
+          const filterData = res.data.filter((v: IWorkspace) => {
+            if (value.length === 0) {
+              return v.folder === null;
+            } else {
+              return v.title.includes(value);
+            }
+          });
           dispatch(setWorkspace(filterData));
         })
         .catch((err) => {
@@ -56,6 +110,9 @@ export const filterWorkspaceList = (value: string) => {
   };
 };
 
+/**
+ * 드롭다운(최신, 오래된 순)일 때 실행되는 로직
+ */
 export const sortWorkspaceList = (type: string) => {
   return async (dispatch: Function) => {
     try {
@@ -78,6 +135,9 @@ export const sortWorkspaceList = (type: string) => {
   };
 };
 
+/**
+ * 즐겨찾기된 workspace 필터링 로직
+ */
 export const fetchFavoritesWorkspace = () => {
   return async (dispatch: Function) => {
     try {

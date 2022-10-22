@@ -8,6 +8,7 @@ export interface IWorkspace {
   createdAt: string;
   editedAt: string;
   writer: string;
+  folder: string;
   favorites: boolean;
   content: TDDocument;
 }

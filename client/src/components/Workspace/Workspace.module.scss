@@ -70,4 +70,17 @@
     width: 0.625rem; // 8px
     height: 1.5rem;
   }
+
+  &__modal {
+    &__button {
+      &:focus {
+        background-color: blue !important;
+      }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: end;
+    }
+  }
 }

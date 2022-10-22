@@ -6,11 +6,13 @@ import {
 
 import workspaceSlice from "./slice/workspcaeSlice";
 import tagListSlice from "./slice/tagListSlice";
+import folderListSlice from "./slice/folderListSlice";
 
 const store = configureStore({
   reducer: {
     workspace: workspaceSlice,
     tagList: tagListSlice,
+    folder: folderListSlice,
   },
 });
 

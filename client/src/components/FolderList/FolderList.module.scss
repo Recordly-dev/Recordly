@@ -1,0 +1,11 @@
+@import "common/scss/color.scss";
+
+.FolderList {
+  width: 16rem; // 256px
+  height: 265px;
+  margin: 1rem; // 16px
+
+  cursor: pointer;
+
+  border: solid 0.5rem $blue-500-transparent-16;
+}
