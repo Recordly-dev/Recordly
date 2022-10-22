@@ -36,7 +36,6 @@ const SideNavMenu = () => {
       .then(async (res) => {
         if (res.isConfirmed) {
           await axios.post("/api/folder", { title: res?.value });
-          console.log("123");
           dispatch(fetchFolderList());
         }
       })
@@ -58,7 +57,6 @@ const SideNavMenu = () => {
             timer: 1000,
           });
         }
-        console.log(err, "메모 생성 실패");
       });
   };
 
@@ -67,6 +65,7 @@ const SideNavMenu = () => {
 
     setActiveTab(path);
   }, [currentLocation]);
+
   return (
     <section
       className={cn(
@@ -114,6 +113,3 @@ const SideNavMenu = () => {
 };
 
 export default SideNavMenu;
-function err(err: any) {
-  throw new Error("Function not implemented.");
-}

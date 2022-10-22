@@ -9,8 +9,6 @@ import { fetchWorkspace } from "store/slice/workspcaeSlice";
 import { useDispatch } from "store";
 import { IWorkspace } from "types/workspace";
 
-import styles from "./WorkspaceList.module.scss";
-
 const WorkspaceList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +26,10 @@ const WorkspaceList = () => {
     navigate(`/workspace/${id}`);
   };
 
-  const formatDate = (
+  /**
+   * workspace 시간에 대해 어제,오늘 표시해주는 handler
+   */
+  const formatWorkspaceDate = (
     date: string
   ): React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
@@ -72,7 +73,7 @@ const WorkspaceList = () => {
           editedAt={workspace.editedAt}
           favorites={workspace.favorites}
           moveWorkSpacePage={moveWorkSpacePage}
-          formatDate={formatDate}
+          formatWorkspaceDate={formatWorkspaceDate}
         />
       ))}
     </>
