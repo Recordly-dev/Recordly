@@ -34,4 +34,11 @@ router
     midError.asyncWrapper(folderApi.deleteFolder)
   );
 
+router
+  .route("/:folderId/workspace")
+  .get(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(folderApi.getWorkspacesInFolder)
+  );
+
 export default router;

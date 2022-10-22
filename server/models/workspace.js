@@ -33,8 +33,7 @@ const workspaceSchema = new mongoose.Schema({
 
   folder: {
     type: ObjectId,
-    required: true,
-    ref: "User",
+    ref: "Folder",
   },
   tags: [{ type: ObjectId, ref: "Tag" }],
 });

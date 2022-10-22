@@ -18,6 +18,7 @@ const createWorkspace = async (req, res, next) => {
   try {
     const { title, workspaceType } = req.body;
     const { id: writerId } = req.user;
+
     const workspace = await modWorkspace.create({
       title,
       workspaceType,
@@ -25,6 +26,7 @@ const createWorkspace = async (req, res, next) => {
       editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
       writer: writerId,
       favorites: false,
+      folder: null,
     });
 
     res.status(201).json({ data: workspace });
