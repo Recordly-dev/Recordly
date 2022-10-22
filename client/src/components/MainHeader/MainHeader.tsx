@@ -5,7 +5,7 @@ import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { fetchWorkspace, sortWorkspaceList } from "store/slice/workspcaeSlice";
+import { fetchWorkspace, sortWorkspaceList } from "store/slice/workspaceList";
 import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";

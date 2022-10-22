@@ -7,11 +7,11 @@ import Folder from "components/Folder/Folder";
 
 import styles from "./FolderList.module.scss";
 
-import { fetchFolderList } from "store/slice/folderListSlice";
+import { fetchFolderList } from "store/slice/folderList";
 import {
   fetchWorkspace,
   fetchWorkspaceInFolder,
-} from "store/slice/workspcaeSlice";
+} from "store/slice/workspaceList";
 import { useDispatch } from "store";
 import { IFolder } from "types/folder";
 

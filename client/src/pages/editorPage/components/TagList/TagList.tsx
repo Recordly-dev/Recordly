@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { Input } from "reactstrap";
 
-import { fetchTagList } from "store/slice/tagListSlice";
+import { fetchTagList } from "store/slice/tagList";
 import { useDispatch } from "store";
 
 const TagList = ({

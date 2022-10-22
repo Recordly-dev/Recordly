@@ -4,15 +4,15 @@ import {
   useSelector as _useSelector,
 } from "react-redux";
 
-import workspaceSlice from "./slice/workspcaeSlice";
-import tagListSlice from "./slice/tagListSlice";
-import folderListSlice from "./slice/folderListSlice";
+import workspaceList from "./slice/workspaceList";
+import tagList from "./slice/tagList";
+import folderList from "./slice/folderList";
 
 const store = configureStore({
   reducer: {
-    workspace: workspaceSlice,
-    tagList: tagListSlice,
-    folder: folderListSlice,
+    workspace: workspaceList,
+    tag: tagList,
+    folder: folderList,
   },
 });
 

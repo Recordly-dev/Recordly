@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import Workspace from "components/Workspace";
 
-import { fetchWorkspace } from "store/slice/workspcaeSlice";
+import { fetchWorkspace } from "store/slice/workspaceList";
 import { useDispatch } from "store";
 import { IWorkspace } from "types/workspace";
 
