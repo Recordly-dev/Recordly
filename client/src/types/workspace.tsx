@@ -1,3 +1,5 @@
+import { TDDocument } from "@tldraw/tldraw";
+
 export interface IWorkspace {
   _id: string;
   title: string;
@@ -7,4 +9,9 @@ export interface IWorkspace {
   editedAt: string;
   writer: string;
   favorites: boolean;
+  content: TDDocument;
+}
+
+export interface IWorkspaceMap {
+  [key: string]: IWorkspace;
 }
