@@ -23,7 +23,7 @@ export const fetchWorkspace = () => {
   return async (dispatch: Function) => {
     try {
       axios
-        .get("api/workspace")
+        .get("/api/workspace")
         .then((res) => {
           dispatch(setWorkspace(res.data));
         })
