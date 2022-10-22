@@ -1,4 +1,3 @@
-import React from "react";
 import cn from "classnames";
 
 import FolderList from "components/FolderList";
@@ -9,8 +8,10 @@ import styles from "./MainDashboard.module.scss";
 const MainDashboard = () => {
   return (
     <section className={cn(styles.MainDashboard)}>
-      <FolderList />
-      <WorkspaceList />
+      <div className={styles.MainDashboard__fileList}>
+        <FolderList />
+        <WorkspaceList />
+      </div>
     </section>
   );
 };

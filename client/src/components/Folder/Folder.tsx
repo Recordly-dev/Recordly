@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -81,10 +82,12 @@ const Folder = ({
         src={folderSrc}
         alt="folder img"
       />
-      <div>
+      <div className={cn("d-flex", "flex-column", "align-items-center")}>
         <span className={styles.Folder__title}>{title}</span>
-        <Button onClick={deleteFolder}>삭제</Button>
-        <Button onClick={patchFolder}>수정</Button>
+        <div>
+          <Button onClick={deleteFolder}>삭제</Button>
+          <Button onClick={patchFolder}>수정</Button>
+        </div>
       </div>
     </div>
   );

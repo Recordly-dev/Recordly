@@ -4,19 +4,19 @@ import { Route, Routes } from "react-router-dom";
 import store from "./store";
 
 import LoginPage from "pages/loginPage";
-import Main from "pages/main";
+import MainPage from "pages/mainPage";
 import Editor from "pages/editorPage";
-import PdfEditor from "pages/pdfEditor";
+// import PdfEditor from "pages/pdfEditor";
 
 const App = () => {
   return (
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/main/:tid" element={<Main />} />
-        <Route path="/main/shortcuts" element={<Main />} />
-        <Route path="/main/tags" element={<Main />} />
+        <Route path="/main" element={<MainPage />} />
+        <Route path="/main/:tid" element={<MainPage />} />
+        <Route path="/main/shortcuts" element={<MainPage />} />
+        <Route path="/main/tags" element={<MainPage />} />
         <Route path="/workspace/:tid" element={<Editor />} />
         {/* <Route path="/pdfzzang" element={<PdfEditor pdfPath={path} />} /> */}
       </Routes>

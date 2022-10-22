@@ -6,18 +6,17 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "store";
 import Swal from "sweetalert2";
 
-import {
-  fetchWorkspace,
-  fetchWorkspaceInFolder,
-} from "store/slice/workspcaeSlice";
+import { Button } from "reactstrap";
+import AlertModal from "components/AlertModal";
+
+import { fetchWorkspace } from "store/slice/workspcaeSlice";
 
 import { IFolder } from "types/folder";
 
-import AlertModal from "components/AlertModal";
-
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
-import { Button } from "reactstrap";
+
+import CONSTANT from "./constants";
 
 const Workspace = ({
   uid,
@@ -25,27 +24,28 @@ const Workspace = ({
   editedAt,
   favorites,
   moveWorkSpacePage,
-  formatDate,
+  formatWorkspaceDate,
 }: {
   uid: string;
   title: string;
   editedAt: string;
   favorites: boolean;
   moveWorkSpacePage: Function;
-  formatDate: Function;
+  formatWorkspaceDate: Function;
 }) => {
   const dispatch = useDispatch();
+
   const [isFavorites, setIsFavorites] = useState(favorites);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [selectFolderId, setSelectFolderId] = useState("");
-
-  const path: string = `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_SERVER_HOST}/api/public/assets/images/thumbnail/${uid}.png`;
-  const emptyPath: string = `/api/public/assets/images/emptyThumbnail.png`;
 
   const folderList: IFolder[] = useSelector(
     (state: any) => state.folder.folderList
   );
 
+  /**
+   * 메모 삭제 로직
+   */
   const handleDeleteWorkspace = (
     e: React.MouseEvent<HTMLImageElement>
   ): void => {
@@ -59,7 +59,7 @@ const Workspace = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`api/workspace/${uid}`).then(() => {
+        axios.delete(`/api/workspace/${uid}`).then(() => {
           Swal.fire({
             position: "center",
             icon: "success",
@@ -68,21 +68,18 @@ const Workspace = ({
             showConfirmButton: false,
             timer: 1000,
           });
+          /**
+           * 삭제 완료 시 workspace 다시 로드하는 dispatch
+           */
           dispatch(fetchWorkspace());
         });
       }
     });
-    e.preventDefault();
-    e.stopPropagation();
   };
 
-  const openFolderModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setShowFolderModal(true);
-
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
+  /**
+   * 메모 제목 수정 로직
+   */
   const patchWorkspace = (e: React.MouseEvent<HTMLButtonElement>) => {
     Swal.fire({
       title: "메모 제목을 적어주세요.",
@@ -112,9 +109,13 @@ const Workspace = ({
               showConfirmButton: false,
               timer: 1000,
             });
+            /**
+             * 수정 완료 시 workspace 다시 로드하는 dispatch
+             */
             dispatch(fetchWorkspace());
           })
           .catch((err) => {
+            // 이름 중복
             if (err.response.data.error === 11000) {
               Swal.fire({
                 position: "center",
@@ -124,35 +125,45 @@ const Workspace = ({
                 timer: 1000,
               });
             } else {
+              // 메모 수정 실패
               Swal.fire({
                 position: "center",
                 icon: "error",
-                title: "메모 생성에 실패했습니다.",
+                title: "메모 수정에 실패했습니다.",
                 showConfirmButton: false,
                 timer: 1000,
               });
             }
-            console.log(err, "메모 생성 실패");
           });
       }
     });
-
-    e.preventDefault();
-    e.stopPropagation();
   };
 
-  const toggleFavorites = async () => {
-    setIsFavorites((prev) => !prev);
+  /**
+   * 메모를 folder안에 넣는 로직이 들어간 모달 핸들러
+   * Todo: drag & drop으로 수정
+   */
+  const openFolderModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setShowFolderModal(true);
   };
 
+  /**
+   * folder 지정 모달 close
+   */
   const closeFolderModal = () => {
     setShowFolderModal(false);
   };
 
+  /**
+   * 모달에서 폴더 클릭 시 폴더 uid 상태 변경
+   */
   const focusFolder = (uid: any) => {
     setSelectFolderId(uid);
   };
 
+  /**
+   * 모달 완료 클릭 시 patch 통신으로 워크스페이스 폴더에 업로드
+   */
   const insertWorkspaceinFolder = async () => {
     await axios.patch(`/api/workspace/${uid}`, { folder: selectFolderId });
 
@@ -160,12 +171,25 @@ const Workspace = ({
     closeFolderModal();
   };
 
+  /**
+   * 즐겨찾기 toggle
+   */
+  const toggleFavorites = async () => {
+    setIsFavorites((prev) => !prev);
+  };
+
+  /**
+   * 썸네일 지정 핸들러
+   */
   const setThumbnail = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ): void => {
-    e.currentTarget.src = emptyPath;
+    e.currentTarget.src = CONSTANT.EMPTY_IMAGE_PATH;
   };
 
+  /**
+   * workspace에 대해 isFavorites이 변경되면 서버 통신으로 즐겨찾기 수정
+   */
   useEffect(() => {
     (async () => {
       const params = {
@@ -185,7 +209,7 @@ const Workspace = ({
         >
           <img
             className={styles.Workspace__docs__top__image}
-            src={path}
+            src={CONSTANT.IMAGE_PATH(uid)}
             onError={setThumbnail}
             alt="thumbnail"
           />
@@ -205,7 +229,7 @@ const Workspace = ({
             <Button onClick={patchWorkspace}>수정</Button>
             <Button onClick={openFolderModal}>폴더</Button>
             <span className={styles.Workspace__dataEdit}>
-              {formatDate(editedAt)}
+              {formatWorkspaceDate(editedAt)}
             </span>
             <img
               className={styles.Workspace__dropdownIcon}
