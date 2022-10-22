@@ -70,12 +70,10 @@ const patchSingleWorkspace = async (req, res, next) => {
 const patchFavoritesWorkspace = async (req, res, next) => {
   try {
     const { workspaceId, isFavorites } = req.body;
-
     await modWorkspace.updateOne(
       { _id: workspaceId },
       {
-        ...req.body,
-        favorites: isFavorites,
+        $set: { favorites: isFavorites },
       }
     );
 

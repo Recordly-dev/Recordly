@@ -6,4 +6,5 @@ export interface IWorkspace {
   createdAt: string;
   editedAt: string;
   writer: string;
+  favorites: boolean;
 }
