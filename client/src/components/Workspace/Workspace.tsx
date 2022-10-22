@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import cn from "classnames";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "store";
 import Swal from "sweetalert2";
 
-import { fetchWorkspace } from "store/slice/workspcaeSlice";
-import { useDispatch } from "store";
+import {
+  fetchWorkspace,
+  fetchWorkspaceInFolder,
+} from "store/slice/workspcaeSlice";
+
+import { IFolder } from "types/folder";
+
+import AlertModal from "components/AlertModal";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import styles from "./Workspace.module.scss";
@@ -28,9 +36,15 @@ const Workspace = ({
 }) => {
   const dispatch = useDispatch();
   const [isFavorites, setIsFavorites] = useState(favorites);
+  const [showFolderModal, setShowFolderModal] = useState(false);
+  const [selectFolderId, setSelectFolderId] = useState("");
 
   const path: string = `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_SERVER_HOST}/api/public/assets/images/thumbnail/${uid}.png`;
   const emptyPath: string = `/api/public/assets/images/emptyThumbnail.png`;
+
+  const folderList: IFolder[] = useSelector(
+    (state: any) => state.folder.folderList
+  );
 
   const handleDeleteWorkspace = (
     e: React.MouseEvent<HTMLImageElement>
@@ -58,6 +72,13 @@ const Workspace = ({
         });
       }
     });
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const openFolderModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setShowFolderModal(true);
+
     e.preventDefault();
     e.stopPropagation();
   };
@@ -124,6 +145,21 @@ const Workspace = ({
     setIsFavorites((prev) => !prev);
   };
 
+  const closeFolderModal = () => {
+    setShowFolderModal(false);
+  };
+
+  const focusFolder = (uid: any) => {
+    setSelectFolderId(uid);
+  };
+
+  const insertWorkspaceinFolder = async () => {
+    await axios.patch(`/api/workspace/${uid}`, { folder: selectFolderId });
+
+    dispatch(fetchWorkspace());
+    closeFolderModal();
+  };
+
   const setThumbnail = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ): void => {
@@ -167,6 +203,7 @@ const Workspace = ({
             {isFavorites && <span style={{ color: "red" }}>별</span>}
             <Button onClick={toggleFavorites}>즐겨찾기</Button>
             <Button onClick={patchWorkspace}>수정</Button>
+            <Button onClick={openFolderModal}>폴더</Button>
             <span className={styles.Workspace__dataEdit}>
               {formatDate(editedAt)}
             </span>
@@ -179,6 +216,30 @@ const Workspace = ({
           </div>
         </div>
       </div>
+      <AlertModal showAlertModal={showFolderModal}>
+        <AlertModal.Header
+          closeAlertModal={closeFolderModal}
+        ></AlertModal.Header>
+        <AlertModal.Body>
+          <div className={cn("d-flex", "flex-column", "align-items-center")}>
+            <h3>폴더 선택</h3>
+            <div className={cn("d-flex", "flex-column")}>
+              {folderList.map((folder) => (
+                <Button
+                  className={styles.Workspace__modal__button}
+                  onClick={() => focusFolder(folder._id)}
+                >
+                  {folder.title}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </AlertModal.Body>
+        <AlertModal.Footer className={styles.Workspace__modal__footer}>
+          <Button onClick={closeFolderModal}>취소</Button>
+          <Button onClick={insertWorkspaceinFolder}>이동</Button>
+        </AlertModal.Footer>
+      </AlertModal>
     </div>
   );
 };

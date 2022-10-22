@@ -32,13 +32,34 @@ const SideNavMenu = () => {
         return title;
       },
       allowOutsideClick: () => !Swal.isLoading(),
-    }).then(async (res) => {
-      if (res.isConfirmed) {
-        await axios.post("/api/folder", { title: res?.value });
-        console.log("123");
-        dispatch(fetchFolderList());
-      }
-    });
+    })
+      .then(async (res) => {
+        if (res.isConfirmed) {
+          await axios.post("/api/folder", { title: res?.value });
+          console.log("123");
+          dispatch(fetchFolderList());
+        }
+      })
+      .catch((err) => {
+        if (err.response.data.error === 11000) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "중복된 이름이 있습니다.",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "메모 생성에 실패했습니다.",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+        console.log(err, "메모 생성 실패");
+      });
   };
 
   useEffect(() => {
@@ -93,3 +114,6 @@ const SideNavMenu = () => {
 };
 
 export default SideNavMenu;
+function err(err: any) {
+  throw new Error("Function not implemented.");
+}
