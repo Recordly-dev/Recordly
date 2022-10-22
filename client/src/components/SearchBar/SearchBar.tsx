@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Input, InputGroup, InputGroupText } from "reactstrap";
 
-import { filterWorkspaceList } from "store/slice/workspcaeSlice";
+import { filterWorkspaceList } from "store/slice/workspaceList";
 import { useDispatch } from "store";
 
 import searchIcon from "./assets/images/search-icon.png";

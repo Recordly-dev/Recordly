@@ -11,13 +11,13 @@ const workspaceSlice = createSlice({
   name: "workspace",
   initialState,
   reducers: {
-    setWorkspace: (state, action: PayloadAction<any>) => {
+    setWorkspaceList: (state, action: PayloadAction<any>) => {
       state.workspaceList = action.payload;
     },
   },
 });
 
-export const { setWorkspace } = workspaceSlice.actions;
+export const { setWorkspaceList } = workspaceSlice.actions;
 
 /**
  * 폴더에 있는 것 빼고 전체 workspace 불러오는 로직
@@ -31,7 +31,7 @@ export const fetchWorkspace = () => {
           const filterData = res.data.filter(
             (workspace: IWorkspace) => workspace.folder === null
           );
-          dispatch(setWorkspace(filterData));
+          dispatch(setWorkspaceList(filterData));
         })
         .catch((err) => {
           console.log(err);
@@ -51,7 +51,7 @@ export const fetchAllWorkspace = () => {
       axios
         .get("api/workspace")
         .then((res) => {
-          dispatch(setWorkspace(res.data));
+          dispatch(setWorkspaceList(res.data));
         })
         .catch((err) => {
           console.log(err);
@@ -72,7 +72,7 @@ export const fetchWorkspaceInFolder = (id: string) => {
       axios
         .get(`/api/folder/${id}/workspace`)
         .then((res) => {
-          dispatch(setWorkspace(res.data));
+          dispatch(setWorkspaceList(res.data));
         })
         .catch((err) => {
           console.log(err);
@@ -99,7 +99,7 @@ export const filterWorkspaceList = (value: string) => {
               return v.title.includes(value);
             }
           });
-          dispatch(setWorkspace(filterData));
+          dispatch(setWorkspaceList(filterData));
         })
         .catch((err) => {
           console.log(err);
@@ -120,10 +120,10 @@ export const sortWorkspaceList = (type: string) => {
         .get("api/workspace")
         .then((res) => {
           if (type === "newest") {
-            dispatch(setWorkspace(res.data));
+            dispatch(setWorkspaceList(res.data));
           } else if (type === "oldest") {
             const sortedData = sortBy(res.data, "editedAt");
-            dispatch(setWorkspace(sortedData));
+            dispatch(setWorkspaceList(sortedData));
           }
         })
         .catch((err) => {
@@ -147,7 +147,7 @@ export const fetchFavoritesWorkspace = () => {
           const filterFavoritesWorkspace = res.data.filter(
             (v: IWorkspace) => v.favorites
           );
-          dispatch(setWorkspace(filterFavoritesWorkspace));
+          dispatch(setWorkspaceList(filterFavoritesWorkspace));
         })
         .catch((err) => {
           console.log(err);

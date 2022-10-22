@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
-import { fetchFolderList } from "store/slice/folderListSlice";
+import { fetchFolderList } from "store/slice/folderList";
 import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";

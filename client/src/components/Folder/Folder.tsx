@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
-import { fetchFolderList } from "store/slice/folderListSlice";
+import { fetchFolderList } from "store/slice/folderList";
 import { useDispatch } from "store";
 
 import folderSrc from "./assets/images/Folder.png";
