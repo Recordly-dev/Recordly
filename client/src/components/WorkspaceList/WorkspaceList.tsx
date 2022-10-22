@@ -69,6 +69,7 @@ const WorkspaceList = () => {
           uid={workspace._id}
           title={workspace.title}
           editedAt={workspace.editedAt}
+          favorites={workspace.favorites}
           moveWorkSpacePage={moveWorkSpacePage}
           formatDate={formatDate}
         />

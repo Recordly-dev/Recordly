@@ -45,7 +45,6 @@ export const filterWorkspaceList = (value: string) => {
           const filterData = res.data.filter((v: IWorkspace) =>
             v.title.includes(value)
           );
-          console.log(filterData);
           dispatch(setWorkspace(filterData));
         })
         .catch((err) => {
@@ -69,6 +68,26 @@ export const sortWorkspaceList = (type: string) => {
             const sortedData = sortBy(res.data, "editedAt");
             dispatch(setWorkspace(sortedData));
           }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const fetchFavoritesWorkspace = () => {
+  return async (dispatch: Function) => {
+    try {
+      axios
+        .get("api/workspace")
+        .then((res) => {
+          const filterFavoritesWorkspace = res.data.filter(
+            (v: IWorkspace) => v.favorites
+          );
+          dispatch(setWorkspace(filterFavoritesWorkspace));
         })
         .catch((err) => {
           console.log(err);

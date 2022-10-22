@@ -15,17 +15,19 @@ const Workspace = ({
   uid,
   title,
   editedAt,
+  favorites,
   moveWorkSpacePage,
   formatDate,
 }: {
   uid: string;
   title: string;
   editedAt: string;
+  favorites: boolean;
   moveWorkSpacePage: Function;
   formatDate: Function;
 }) => {
   const dispatch = useDispatch();
-  const [isFavorites, setIsFavorites] = useState(false);
+  const [isFavorites, setIsFavorites] = useState(favorites);
 
   const path: string = `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_SERVER_HOST}/api/public/assets/images/thumbnail/${uid}.png`;
   const emptyPath: string = `/api/public/assets/images/emptyThumbnail.png`;
@@ -71,11 +73,13 @@ const Workspace = ({
   };
 
   useEffect(() => {
-    const params = {
-      workspaceId: uid,
-      isFavorites,
-    };
-    axios.patch(`/api/workspace/favorites/${uid}`, params);
+    (async () => {
+      const params = {
+        workspaceId: uid,
+        isFavorites: isFavorites,
+      };
+      await axios.patch(`/api/workspace/favorites/${uid}`, params);
+    })();
   }, [isFavorites, uid]);
 
   return (
@@ -102,6 +106,7 @@ const Workspace = ({
               "w-100"
             )}
           >
+            {isFavorites && <span style={{ color: "red" }}>별</span>}
             <Button onClick={toggleFavorites}>즐겨찾기</Button>
             <span className={styles.Workspace__dataEdit}>
               {formatDate(editedAt)}
