@@ -1,10 +1,13 @@
 import React, { useState, createContext, useCallback, useRef } from "react";
+import { useSelector } from "react-redux";
 import { Utils } from "@tldraw/core";
 import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
 import EditorMenu from "./components/EditorMenu";
 
 import styles from "./EditorPage.module.scss";
+import { IWorkspace } from "types/workspace";
+import { cloneDeep } from "lodash";
 
 const AppContext = createContext({} as TldrawApp);
 
@@ -47,10 +50,18 @@ const EditorPage = () => {
     .split("/")
     .at(-1); // [1]
 
+  const workspaceList: IWorkspace[] = useSelector(
+    (state: any) => state.workspace.workspaceList
+  );
+  const workspace = workspaceList.filter(({ _id }) => _id === workspaceId)[0];
+
   const [app, setApp] = useState<TldrawApp>();
 
   // on mount, set the app to react state
   const handleMount = useCallback((app: TldrawApp) => {
+    if (workspace) {
+      app.mergeDocument(cloneDeep(workspace.content));
+    }
     setApp(app);
     rTLDrawApp.current = app; // [2]
   }, []);

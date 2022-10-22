@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-
 import { Button } from "reactstrap";
 import axios from "axios";
-
 import { useDebouncedCallback } from "use-debounce";
 
 import { TDShapeType, TDSnapshot, TldrawApp } from "@tldraw/tldraw";
@@ -32,7 +30,7 @@ const EditorMenu = ({
     setTagList(workspace.data?.tags);
   };
 
-  const saveContentToDB = useDebouncedCallback(() => {
+  const saveContentToDB = useDebouncedCallback((document) => {
     const workspaceId = window.location.pathname.split("/").at(-1);
 
     const editorEl = window.document.getElementById("tldrawEditor");
@@ -60,8 +58,10 @@ const EditorMenu = ({
     });
 
     axios
-      .patch(`/api/workspace/${workspaceId}`)
-      .then((req) => {
+      .patch(`/api/workspace/${workspaceId}`, {
+        content: document,
+      })
+      .then((res) => {
         console.log("content saved");
       })
       .catch((err) => {
@@ -74,8 +74,7 @@ const EditorMenu = ({
   }, []);
 
   useEffect(() => {
-    saveContentToDB();
-    console.log(document);
+    saveContentToDB(document);
   }, [document]);
 
   return (
