@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import cn from "classnames";
+
 import Workspace from "components/Workspace";
 
 import { fetchWorkspace } from "store/slice/workspcaeSlice";
@@ -62,7 +63,7 @@ const WorkspaceList = () => {
   };
 
   return (
-    <div className={cn(styles.WorkspaceList)}>
+    <>
       {workspaceList.map((workspace: IWorkspace) => (
         <Workspace
           key={workspace._id}
@@ -74,7 +75,7 @@ const WorkspaceList = () => {
           formatDate={formatDate}
         />
       ))}
-    </div>
+    </>
   );
 };
 

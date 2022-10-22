@@ -62,6 +62,64 @@ const Workspace = ({
     e.stopPropagation();
   };
 
+  const patchWorkspace = (e: React.MouseEvent<HTMLButtonElement>) => {
+    Swal.fire({
+      title: "메모 제목을 적어주세요.",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      showLoaderOnConfirm: true,
+      preConfirm: (title) => {
+        return title;
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(`/api/workspace/${uid}`, {
+            workspaceId: uid,
+            title: result?.value,
+          })
+          .then(() => {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "메모가 수정되었습니다.",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            dispatch(fetchWorkspace());
+          })
+          .catch((err) => {
+            if (err.response.data.error === 11000) {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "중복된 이름이 있습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+            } else {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "메모 생성에 실패했습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+            }
+            console.log(err, "메모 생성 실패");
+          });
+      }
+    });
+
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   const toggleFavorites = async () => {
     setIsFavorites((prev) => !prev);
   };
@@ -108,6 +166,7 @@ const Workspace = ({
           >
             {isFavorites && <span style={{ color: "red" }}>별</span>}
             <Button onClick={toggleFavorites}>즐겨찾기</Button>
+            <Button onClick={patchWorkspace}>수정</Button>
             <span className={styles.Workspace__dataEdit}>
               {formatDate(editedAt)}
             </span>
