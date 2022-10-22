@@ -1,4 +1,5 @@
 import modFolder from "#models/folder.js";
+import modWorkspace from "#models/workspace.js";
 
 const getFolders = async (req, res, next) => {
   try {
@@ -63,9 +64,27 @@ const deleteFolder = async (req, res, next) => {
   }
 };
 
+const getWorkspacesInFolder = async (req, res, next) => {
+  try {
+    const folderId = req.params.folderId;
+
+    console.log(folderId);
+
+    const workspaces = await modWorkspace
+      .find({ folder: folderId })
+      .sort({ editedAt: -1 });
+
+    res.json(workspaces);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 export default {
   getFolders,
   createFolder,
   patchFolder,
   deleteFolder,
+  getWorkspacesInFolder,
 };
