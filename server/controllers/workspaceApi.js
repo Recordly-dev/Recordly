@@ -1,6 +1,5 @@
 import moment from "moment-timezone";
 import modWorkspace from "#models/workspace.js";
-import captureThumbnail from "../middlewares/captureThumbnail.js";
 
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
