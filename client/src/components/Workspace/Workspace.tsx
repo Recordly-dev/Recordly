@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Button } from "reactstrap";
 import AlertModal from "components/AlertModal";
 
-import { fetchWorkspace } from "store/slice/workspaceList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
 
 import { IFolder } from "types/folder";
 
@@ -71,7 +71,7 @@ const Workspace = ({
           /**
            * 삭제 완료 시 workspace 다시 로드하는 dispatch
            */
-          dispatch(fetchWorkspace());
+          dispatch(workspaceActions.fetchWorkspaceList());
         });
       }
     });
@@ -112,7 +112,7 @@ const Workspace = ({
             /**
              * 수정 완료 시 workspace 다시 로드하는 dispatch
              */
-            dispatch(fetchWorkspace());
+            dispatch(workspaceActions.fetchWorkspaceList());
           })
           .catch((err) => {
             // 이름 중복
@@ -167,7 +167,7 @@ const Workspace = ({
   const insertWorkspaceinFolder = async () => {
     await axios.patch(`/api/workspace/${uid}`, { folder: selectFolderId });
 
-    dispatch(fetchWorkspace());
+    dispatch(workspaceActions.fetchWorkspaceList());
     closeFolderModal();
   };
 

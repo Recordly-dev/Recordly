@@ -5,7 +5,7 @@ import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { fetchWorkspace, sortWorkspaceList } from "store/slice/workspaceList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
 import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";
@@ -19,7 +19,7 @@ const MainHeader = () => {
   const dispatch = useDispatch();
 
   const handleDropdownOnClick = (type: string) => {
-    dispatch(sortWorkspaceList(type));
+    dispatch(workspaceActions.sortWorkspaceList({ type }));
   };
 
   const handleButtonClick = (e: React.MouseEvent<HTMLImageElement>): void => {
@@ -66,7 +66,7 @@ const MainHeader = () => {
                 showConfirmButton: false,
                 timer: 1000,
               });
-              dispatch(fetchWorkspace());
+              dispatch(workspaceActions.fetchWorkspaceList());
             })
             .catch((err) => {
               if (err.response.data.error === 11000) {
