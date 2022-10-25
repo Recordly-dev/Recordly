@@ -7,7 +7,7 @@ import Folder from "components/Folder/Folder";
 
 import styles from "./FolderList.module.scss";
 
-import { fetchFolderList } from "store/slice/folderList";
+import { actions } from "store/slice/folderList";
 import {
   fetchWorkspace,
   fetchWorkspaceInFolder,
@@ -26,11 +26,20 @@ const FolderList = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchFolderList());
+    (async () => {
+      dispatch(actions.fetchFolderList());
+    })();
+  }, []);
+
+  useEffect(() => {
+    // 임시 커밋! 추후 로직 수정 예정
+    window.onpopstate = () => {
+      // popstate 가 발생하면 페이지를 전환
+      setViewFolder(true);
+    };
   }, []);
 
   const moveWorkSpacePage = async (id: string) => {
-    navigate(`/main/${id}`);
     dispatch(fetchWorkspaceInFolder(id));
 
     setViewFolder(false);
@@ -48,6 +57,7 @@ const FolderList = () => {
         folderList.map((folder) => (
           <Folder
             uid={folder._id}
+            key={folder._id}
             title={folder.title}
             moveWorkSpacePage={moveWorkSpacePage}
           />
@@ -56,7 +66,7 @@ const FolderList = () => {
         <>
           <div className={styles.FolderList} onClick={moveGoBack}>
             <div>
-              <span className={styles.FolderList__title}>뒤로 가기</span>
+              <h1 className={styles.FolderList__title}>뒤로 가기</h1>
             </div>
           </div>
         </>

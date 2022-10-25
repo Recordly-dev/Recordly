@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cn from "classnames";
-import axios from "axios";
 import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
-import { fetchFolderList } from "store/slice/folderList";
+import { actions } from "store/slice/folderList";
 import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";
@@ -33,10 +32,9 @@ const SideNavMenu = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     })
-      .then(async (res) => {
+      .then((res) => {
         if (res.isConfirmed) {
-          await axios.post("/api/folder", { title: res?.value });
-          dispatch(fetchFolderList());
+          dispatch(actions.postFolderList({ title: res?.value }));
         }
       })
       .catch((err) => {
