@@ -1,14 +1,22 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchFolderList = createAsyncThunk("/api/folder", async () => {
-  const response = await axios.get("/api/folder");
+/**
+ * 모든 폴더 가져오는 로직
+ */
+export const fetchFolderList = createAsyncThunk(
+  "folderList/fetchFolderList",
+  async () => {
+    const response = await axios.get("/api/folder");
+    return response?.data;
+  }
+);
 
-  return response?.data;
-});
-
+/**
+ * 특정 폴더 삭제하는 로직
+ */
 export const deleteFolderList = createAsyncThunk(
-  "api/folder",
+  "folderList/deleteFolderList",
   async (arg: { uid: String }, { dispatch }) => {
     await axios.delete(`/api/folder/${arg.uid}`);
 
@@ -16,10 +24,13 @@ export const deleteFolderList = createAsyncThunk(
   }
 );
 
+/**
+ * 폴더 생성하는 로직
+ */
 export const postFolderList = createAsyncThunk(
-  "api/folder",
+  "folderList/postFolderList",
   async (arg: { title: String }, { dispatch }) => {
-    await axios.post("/api/folder/", {
+    await axios.post("/api/folder", {
       title: arg.title,
     });
 
@@ -27,8 +38,11 @@ export const postFolderList = createAsyncThunk(
   }
 );
 
+/**
+ * 폴더 이름 수정하는 로직
+ */
 export const patchFolderList = createAsyncThunk(
-  "api/folder",
+  "folderList/patchFolderList",
   async (arg: { uid: String; title: String }, { dispatch }) => {
     await axios.patch(`/api/folder/${arg.uid}`, {
       folderId: arg.uid,
@@ -37,9 +51,10 @@ export const patchFolderList = createAsyncThunk(
     dispatch(fetchFolderList());
   }
 );
+
 const initialState = {
   folderList: [],
-  isFolderLoading: false,
+  isLoading: false,
 };
 
 const tagSlice = createSlice({
@@ -52,29 +67,11 @@ const tagSlice = createSlice({
   },
   extraReducers: {
     [fetchFolderList.pending.type]: (state) => {
-      state.isFolderLoading = true;
+      state.isLoading = true;
     },
     [fetchFolderList.fulfilled.type]: (state, action) => {
       state.folderList = action.payload;
-      state.isFolderLoading = false;
-    },
-    [postFolderList.pending.type]: (state) => {
-      state.isFolderLoading = true;
-    },
-    [postFolderList.fulfilled.type]: (state) => {
-      state.isFolderLoading = false;
-    },
-    [deleteFolderList.pending.type]: (state) => {
-      state.isFolderLoading = true;
-    },
-    [deleteFolderList.fulfilled.type]: (state) => {
-      state.isFolderLoading = false;
-    },
-    [patchFolderList.pending.type]: (state) => {
-      state.isFolderLoading = true;
-    },
-    [patchFolderList.fulfilled.type]: (state) => {
-      state.isFolderLoading = false;
+      state.isLoading = false;
     },
   },
 });
@@ -86,7 +83,6 @@ export const actions = {
   postFolderList,
   deleteFolderList,
   patchFolderList,
-  setFolderList,
 };
 
 export default tagSlice.reducer;
