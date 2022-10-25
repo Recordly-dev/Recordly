@@ -1,21 +1,18 @@
 import { useState, useEffect } from "react";
-
 import { useSelector } from "react-redux";
+import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 
 import Folder from "components/Folder/Folder";
 
 import styles from "./FolderList.module.scss";
 
-import { actions } from "store/slice/folderList";
-import {
-  fetchWorkspace,
-  fetchWorkspaceInFolder,
-} from "store/slice/workspaceList";
-import { useDispatch } from "store";
+import { actions as folderActions } from "store/slice/folderList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
 import { IFolder } from "types/folder";
+import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
-const FolderList = () => {
+const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,9 +23,7 @@ const FolderList = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      dispatch(actions.fetchFolderList());
-    })();
+    dispatch(folderActions.fetchFolderList());
   }, []);
 
   useEffect(() => {
@@ -40,7 +35,7 @@ const FolderList = () => {
   }, []);
 
   const moveWorkSpacePage = async (id: string) => {
-    dispatch(fetchWorkspaceInFolder(id));
+    dispatch(workspaceActions.fetchWorkspaceInFolder({ uid: id }));
 
     setViewFolder(false);
   };
@@ -48,20 +43,24 @@ const FolderList = () => {
   const moveGoBack = () => {
     setViewFolder(true);
     navigate(`/main`);
-    dispatch(fetchWorkspace());
+    dispatch(workspaceActions.fetchWorkspaceList());
   };
 
   return (
     <>
       {viewFolder ? (
-        folderList.map((folder) => (
-          <Folder
-            uid={folder._id}
-            key={folder._id}
-            title={folder.title}
-            moveWorkSpacePage={moveWorkSpacePage}
-          />
-        ))
+        isLoadingData ? (
+          <WorkspaceSkeleton />
+        ) : (
+          folderList.map((folder) => (
+            <Folder
+              uid={folder._id}
+              key={folder._id}
+              title={folder.title}
+              moveWorkSpacePage={moveWorkSpacePage}
+            />
+          ))
+        )
       ) : (
         <>
           <div className={styles.FolderList} onClick={moveGoBack}>

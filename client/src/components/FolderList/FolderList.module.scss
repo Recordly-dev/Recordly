@@ -8,4 +8,8 @@
   cursor: pointer;
 
   border: solid 0.5rem $blue-500-transparent-16;
+
+  &__title {
+    color: white;
+  }
 }

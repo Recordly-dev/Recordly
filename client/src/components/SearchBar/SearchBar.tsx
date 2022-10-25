@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Input, InputGroup, InputGroupText } from "reactstrap";
 
-import { filterWorkspaceList } from "store/slice/workspaceList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
 import { useDispatch } from "store";
 
 import searchIcon from "./assets/images/search-icon.png";
@@ -28,7 +28,7 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    dispatch(filterWorkspaceList(searchValue));
+    dispatch(workspaceActions.filterWorkspaceList({ value: searchValue }));
   }, [isSearched]);
 
   return (

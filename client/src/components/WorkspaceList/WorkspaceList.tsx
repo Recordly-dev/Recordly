@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import cn from "classnames";
 
 import Workspace from "components/Workspace";
 
-import { fetchWorkspace } from "store/slice/workspaceList";
-import { useDispatch } from "store";
+import { actions as workspaceActions } from "store/slice/workspaceList";
 import { IWorkspace } from "types/workspace";
+import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
-const WorkspaceList = () => {
+const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const WorkspaceList = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchWorkspace());
+    dispatch(workspaceActions.fetchWorkspaceList());
   }, []);
 
   const moveWorkSpacePage = (id: string): void => {
@@ -65,17 +66,19 @@ const WorkspaceList = () => {
 
   return (
     <>
-      {workspaceList.map((workspace: IWorkspace) => (
-        <Workspace
-          key={workspace._id}
-          uid={workspace._id}
-          title={workspace.title}
-          editedAt={workspace.editedAt}
-          favorites={workspace.favorites}
-          moveWorkSpacePage={moveWorkSpacePage}
-          formatWorkspaceDate={formatWorkspaceDate}
-        />
-      ))}
+      {isLoadingData
+        ? new Array(5).fill(1).map((v) => <WorkspaceSkeleton />)
+        : workspaceList.map((workspace: IWorkspace) => (
+            <Workspace
+              key={workspace._id}
+              uid={workspace._id}
+              title={workspace.title}
+              editedAt={workspace.editedAt}
+              favorites={workspace.favorites}
+              moveWorkSpacePage={moveWorkSpacePage}
+              formatWorkspaceDate={formatWorkspaceDate}
+            />
+          ))}
     </>
   );
 };
