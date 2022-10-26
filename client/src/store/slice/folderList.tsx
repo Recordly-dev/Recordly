@@ -1,6 +1,26 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 
+const handleError = (err: any) => {
+  if (err.response.data.error === 11000) {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "중복된 이름이 있습니다.",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  } else {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "메모 폴더에 실패했습니다.",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  }
+};
 /**
  * 모든 폴더 가져오는 로직
  */
@@ -30,11 +50,15 @@ export const deleteFolderList = createAsyncThunk(
 export const postFolderList = createAsyncThunk(
   "folderList/postFolderList",
   async (arg: { title: String }, { dispatch }) => {
-    await axios.post("/api/folder", {
-      title: arg.title,
-    });
+    try {
+      await axios.post("/api/folder", {
+        title: arg.title,
+      });
 
-    dispatch(fetchFolderList());
+      dispatch(fetchFolderList());
+    } catch (err) {
+      handleError(err);
+    }
   }
 );
 
@@ -44,11 +68,15 @@ export const postFolderList = createAsyncThunk(
 export const patchFolderList = createAsyncThunk(
   "folderList/patchFolderList",
   async (arg: { uid: String; title: String }, { dispatch }) => {
-    await axios.patch(`/api/folder/${arg.uid}`, {
-      folderId: arg.uid,
-      title: arg.title,
-    });
-    dispatch(fetchFolderList());
+    try {
+      await axios.patch(`/api/folder/${arg.uid}`, {
+        folderId: arg.uid,
+        title: arg.title,
+      });
+      dispatch(fetchFolderList());
+    } catch (err) {
+      handleError(err);
+    }
   }
 );
 

@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Button } from "reactstrap";
 import AlertModal from "components/AlertModal";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
+import { actions } from "store/slice/workspaceList";
 
 import { IFolder } from "types/folder";
 
@@ -59,20 +59,7 @@ const Workspace = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`/api/workspace/${uid}`).then(() => {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "메모가 삭제 되었습니다.",
-
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          /**
-           * 삭제 완료 시 workspace 다시 로드하는 dispatch
-           */
-          dispatch(workspaceActions.fetchWorkspaceList());
-        });
+        dispatch(actions.deleteWorkspace({ workspaceId: uid }));
       }
     });
   };
@@ -96,45 +83,9 @@ const Workspace = ({
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .patch(`/api/workspace/${uid}`, {
-            workspaceId: uid,
-            title: result?.value,
-          })
-          .then(() => {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "메모가 수정되었습니다.",
-              showConfirmButton: false,
-              timer: 1000,
-            });
-            /**
-             * 수정 완료 시 workspace 다시 로드하는 dispatch
-             */
-            dispatch(workspaceActions.fetchWorkspaceList());
-          })
-          .catch((err) => {
-            // 이름 중복
-            if (err.response.data.error === 11000) {
-              Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "중복된 이름이 있습니다.",
-                showConfirmButton: false,
-                timer: 1000,
-              });
-            } else {
-              // 메모 수정 실패
-              Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "메모 수정에 실패했습니다.",
-                showConfirmButton: false,
-                timer: 1000,
-              });
-            }
-          });
+        dispatch(
+          actions.patchWorkspace({ workspaceId: uid, title: result?.value })
+        );
       }
     });
   };
@@ -165,9 +116,9 @@ const Workspace = ({
    * 모달 완료 클릭 시 patch 통신으로 워크스페이스 폴더에 업로드
    */
   const insertWorkspaceinFolder = async () => {
-    await axios.patch(`/api/workspace/${uid}`, { folder: selectFolderId });
-
-    dispatch(workspaceActions.fetchWorkspaceList());
+    dispatch(
+      actions.patchWorkspace({ workspaceId: uid, folder: selectFolderId })
+    );
     closeFolderModal();
   };
 
