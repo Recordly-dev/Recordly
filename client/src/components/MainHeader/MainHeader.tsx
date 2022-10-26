@@ -5,7 +5,10 @@ import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
+import {
+  actions,
+  actions as workspaceActions,
+} from "store/slice/workspaceList";
 import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";
@@ -53,41 +56,8 @@ const MainHeader = () => {
           } else if (workspace.isDenied) {
             workspaceType = "pdf";
           }
-          axios
-            .post("/api/workspace", {
-              title: title,
-              workspaceType: workspaceType,
-            })
-            .then(() => {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "메모가 생성되었습니다.",
-                showConfirmButton: false,
-                timer: 1000,
-              });
-              dispatch(workspaceActions.fetchWorkspaceList());
-            })
-            .catch((err) => {
-              if (err.response.data.error === 11000) {
-                Swal.fire({
-                  position: "center",
-                  icon: "error",
-                  title: "중복된 이름이 있습니다.",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-              } else {
-                Swal.fire({
-                  position: "center",
-                  icon: "error",
-                  title: "메모 생성에 실패했습니다.",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-              }
-              console.log(err, "메모 생성 실패");
-            });
+
+          dispatch(actions.postWorkspace({ title, workspaceType }));
         });
       }
     });

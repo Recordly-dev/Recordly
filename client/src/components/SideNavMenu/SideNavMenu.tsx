@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
-import { actions } from "store/slice/folderList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
+import { actions as folderActions } from "store/slice/folderList";
 import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";
@@ -16,6 +17,44 @@ const SideNavMenu = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("/main");
   const currentLocation = useLocation();
+
+  const handleButtonClick = (): void => {
+    let title: string;
+    let workspaceType: string;
+
+    Swal.fire({
+      title: "메모 제목을 적어주세요.",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      showLoaderOnConfirm: true,
+      preConfirm: (title) => {
+        return title;
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "일반 메모와 PDF를 선택해주세요.",
+          showDenyButton: true,
+          confirmButtonText: "MEMO",
+          denyButtonText: `PDF`,
+        }).then((workspace) => {
+          title = result.value;
+          if (workspace.isConfirmed) {
+            workspaceType = "docs";
+          } else if (workspace.isDenied) {
+            workspaceType = "pdf";
+          }
+
+          dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
+        });
+      }
+    });
+  };
 
   const handlePostFolder = () => {
     Swal.fire({
@@ -34,7 +73,7 @@ const SideNavMenu = () => {
     })
       .then((res) => {
         if (res.isConfirmed) {
-          dispatch(actions.postFolderList({ title: res?.value }));
+          dispatch(folderActions.postFolderList({ title: res?.value }));
         }
       })
       .catch((err) => {
@@ -50,7 +89,7 @@ const SideNavMenu = () => {
           Swal.fire({
             position: "center",
             icon: "error",
-            title: "메모 생성에 실패했습니다.",
+            title: "메모 폴더에 실패했습니다.",
             showConfirmButton: false,
             timer: 1000,
           });
@@ -79,6 +118,7 @@ const SideNavMenu = () => {
             color="primary"
             size="md"
             className={styles.SideNavMenu__create__button}
+            onClick={handleButtonClick}
           >
             New
           </Button>
