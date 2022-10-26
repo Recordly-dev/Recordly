@@ -1,7 +1,30 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { IWorkspace } from "../../types/workspace";
 import axios from "axios";
+
+import Swal from "sweetalert2";
 import sortBy from "lodash/sortBy";
+
+const handleError = (err: any) => {
+  if (err.response.data.error === 11000) {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "중복된 이름이 있습니다.",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  } else {
+    // 메모 수정 실패
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "메모 생성에 실패했습니다.",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  }
+};
 
 /**
  * 폴더에 있는 것 빼고 전체 workspace 불러오는 로직
@@ -16,6 +39,70 @@ export const fetchWorkspaceList = createAsyncThunk(
     );
 
     return filterData;
+  }
+);
+
+/**
+ * 워크스페이스 생성
+ */
+export const postWorkspace = createAsyncThunk(
+  "workspace/postFolderList",
+  async (arg: { title: string; workspaceType: string }, { dispatch }) => {
+    try {
+      await axios.post("/api/workspace", {
+        title: arg.title,
+        workspaceType: arg.workspaceType,
+      });
+
+      dispatch(fetchWorkspaceList());
+    } catch (err) {
+      handleError(err);
+    }
+  }
+);
+
+/**
+ * 워크스페이스 수정
+ */
+export const patchWorkspace = createAsyncThunk(
+  "workspace/patchWorkspace",
+  async (
+    arg: { workspaceId: string; title?: string; folder?: string },
+    { dispatch }
+  ) => {
+    try {
+      await axios.patch(`/api/workspace/${arg.workspaceId}`, {
+        workspaceId: arg.workspaceId,
+        folder: arg.folder,
+        title: arg.title,
+      });
+
+      dispatch(fetchWorkspaceList());
+    } catch (err) {
+      handleError(err);
+    }
+  }
+);
+
+export const deleteWorkspace = createAsyncThunk(
+  "workspace/patchWorkspace",
+  async (arg: { workspaceId: string }, { dispatch }) => {
+    try {
+      await axios.delete(`/api/workspace/${arg.workspaceId}`);
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "메모가 삭제 되었습니다.",
+
+        showConfirmButton: false,
+        timer: 1000,
+      });
+
+      dispatch(fetchWorkspaceList());
+    } catch (err) {
+      handleError(err);
+    }
   }
 );
 
@@ -165,6 +252,9 @@ export const actions = {
   filterWorkspaceList,
   filterFavoritesWorkspaceList,
   sortWorkspaceList,
+  postWorkspace,
+  patchWorkspace,
+  deleteWorkspace,
 };
 
 export default workspaceSlice.reducer;
