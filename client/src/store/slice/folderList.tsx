@@ -92,6 +92,9 @@ const tagSlice = createSlice({
     setFolderList: (state, action: PayloadAction<any>) => {
       state.folderList = action.payload;
     },
+    setInitialFolderList: (state) => {
+      state.folderList = [];
+    },
   },
   extraReducers: {
     [fetchFolderList.pending.type]: (state) => {
@@ -111,6 +114,7 @@ export const actions = {
   postFolderList,
   deleteFolderList,
   patchFolderList,
+  ...tagSlice.actions,
 };
 
 export default tagSlice.reducer;
