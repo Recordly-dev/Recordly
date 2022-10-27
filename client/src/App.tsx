@@ -15,8 +15,8 @@ const App = () => {
         <Route path="/" element={<LoginPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/main/:tid" element={<MainPage />} />
-        <Route path="/main/shortcuts" element={<MainPage />} />
-        <Route path="/main/tags" element={<MainPage />} />
+        <Route path="/favorites" element={<MainPage />} />
+        <Route path="/tags" element={<MainPage />} />
         <Route path="/workspace/:tid" element={<Editor />} />
         {/* <Route path="/pdfzzang" element={<PdfEditor pdfPath={path} />} /> */}
       </Routes>
