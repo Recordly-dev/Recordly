@@ -3,7 +3,7 @@ import { Button } from "reactstrap";
 import axios from "axios";
 import { useDebouncedCallback } from "use-debounce";
 
-import { TDShapeType, TDSnapshot, TldrawApp } from "@tldraw/tldraw";
+import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 
 import TagList from "../TagList";
 
@@ -67,7 +67,7 @@ const EditorMenu = ({
       .catch((err) => {
         console.log(err);
       });
-  }, 3000);
+  }, 1000);
 
   useEffect(() => {
     getTagList();

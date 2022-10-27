@@ -43,6 +43,42 @@ export const fetchWorkspaceList = createAsyncThunk(
 );
 
 /**
+ * 전체 workspace 불러오는 로직
+ */
+export const fetchAllWorkspaceList = createAsyncThunk(
+  "workspace/fetchAllWorkspaceList",
+  async () => {
+    const response = await axios.get("/api/workspace");
+
+    return response?.data;
+  }
+);
+
+/**
+ * 특정 폴더의 workspace 불러오는 로직
+ */
+export const fetchWorkspaceInFolder = createAsyncThunk(
+  "workspace/fetchWorkspaceInFolder",
+  async (arg: { uid: string }) => {
+    const response = await axios.get(`/api/folder/${arg.uid}/workspace`);
+
+    return response?.data;
+  }
+);
+
+/**
+ * 즐겨찾기 workspace 불러오는 로직
+ */
+export const fetchFavoritesWorkspaceList = createAsyncThunk(
+  "workspace/fetchFavoritesWorkspaceList",
+  async () => {
+    const response = await axios.get("/api/workspace/favorites");
+
+    return response?.data;
+  }
+);
+
+/**
  * 워크스페이스 생성
  */
 export const postWorkspace = createAsyncThunk(
@@ -84,6 +120,9 @@ export const patchWorkspace = createAsyncThunk(
   }
 );
 
+/**
+ * 워크스페이스 삭제
+ */
 export const deleteWorkspace = createAsyncThunk(
   "workspace/patchWorkspace",
   async (arg: { workspaceId: string }, { dispatch }) => {
@@ -103,30 +142,6 @@ export const deleteWorkspace = createAsyncThunk(
     } catch (err) {
       handleError(err);
     }
-  }
-);
-
-/**
- * 전체 workspace 불러오는 로직
- */
-export const fetchAllWorkspaceList = createAsyncThunk(
-  "workspace/fetchAllWorkspaceList",
-  async () => {
-    const response = await axios.get("/api/workspace");
-
-    return response?.data;
-  }
-);
-
-/**
- * 특정 폴더의 workspace 불러오는 로직
- */
-export const fetchWorkspaceInFolder = createAsyncThunk(
-  "workspace/fetchWorkspaceInFolder",
-  async (arg: { uid: string }) => {
-    const response = await axios.get(`/api/folder/${arg.uid}/workspace`);
-
-    return response?.data;
   }
 );
 
@@ -155,15 +170,19 @@ export const filterWorkspaceList = createAsyncThunk(
  */
 export const sortWorkspaceList = createAsyncThunk(
   "workspace/sortWorkspaceList",
-  async (arg: { type: String }) => {
-    const response = await axios.get("/api/workspace");
+  async (arg: { type: String }, { getState }) => {
+    const rootState: any = getState();
+    const currentWorkspaceList = rootState.workspace.workspaceList;
+
+    // 시간 순으로 재정렬
+    const sortedData = sortBy(currentWorkspaceList, "editedAt").reverse();
 
     if (arg.type === "newest") {
-      return response?.data;
-    } else {
-      const sortedData = sortBy(response.data, "editedAt");
-
       return sortedData;
+    } else {
+      const sortedReverseData = sortBy(currentWorkspaceList, "editedAt");
+
+      return sortedReverseData;
     }
   }
 );
@@ -219,6 +238,13 @@ const workspaceSlice = createSlice({
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
+    [fetchFavoritesWorkspaceList.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchFavoritesWorkspaceList.fulfilled.type]: (state, action) => {
+      state.workspaceList = action.payload;
+      state.isLoading = false;
+    },
     [filterWorkspaceList.pending.type]: (state) => {
       state.isLoading = true;
     },
@@ -249,6 +275,7 @@ export const actions = {
   fetchWorkspaceList,
   fetchAllWorkspaceList,
   fetchWorkspaceInFolder,
+  fetchFavoritesWorkspaceList,
   filterWorkspaceList,
   filterFavoritesWorkspaceList,
   sortWorkspaceList,
