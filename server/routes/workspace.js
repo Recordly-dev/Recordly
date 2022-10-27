@@ -8,6 +8,20 @@ import midError from "#middlewares/error.js";
 const router = express.Router();
 
 router
+  .route("/favorites")
+  .get(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.getFavoritesWorkspaceList)
+  );
+
+router
+  .route("/favorites/:workspaceId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
+  );
+
+router
   .route("/")
   .get(
     midError.asyncWrapper(midAuth.checkLogin),
@@ -33,13 +47,6 @@ router
   .patch(
     midError.asyncWrapper(midAuth.checkLogin),
     midError.asyncWrapper(workspaceApi.patchSingleWorkspace)
-  );
-
-router
-  .route("/favorites/:workspaceId")
-  .patch(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
   );
 
 router

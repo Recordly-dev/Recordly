@@ -50,6 +50,19 @@ const getSingleWorkspace = async (req, res, next) => {
   }
 };
 
+const getFavoritesWorkspaceList = async (req, res, next) => {
+  try {
+    const workspaces = await modWorkspace
+      .find({ writer: req.user.id, favorites: true })
+      .sort({ editedAt: -1 });
+
+    res.json(workspaces);
+  } catch {
+    console.log(err);
+    next(err);
+  }
+};
+
 const patchSingleWorkspace = async (req, res, next) => {
   try {
     await modWorkspace.updateOne(
@@ -103,6 +116,7 @@ export default {
   createWorkspace,
   getSingleWorkspace,
   patchSingleWorkspace,
+  getFavoritesWorkspaceList,
   patchFavoritesWorkspace,
   deleteSingleWorkspace,
 };
