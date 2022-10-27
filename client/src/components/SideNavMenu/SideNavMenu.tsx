@@ -11,7 +11,7 @@ import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";
 
-import CONSTANT from "./constants";
+import navItem from "./constants/NavItem";
 
 const SideNavMenu = () => {
   const dispatch = useDispatch();
@@ -70,31 +70,11 @@ const SideNavMenu = () => {
         return title;
       },
       allowOutsideClick: () => !Swal.isLoading(),
-    })
-      .then((res) => {
-        if (res.isConfirmed) {
-          dispatch(folderActions.postFolderList({ title: res?.value }));
-        }
-      })
-      .catch((err) => {
-        if (err.response.data.error === 11000) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "중복된 이름이 있습니다.",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "메모 폴더에 실패했습니다.",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-        }
-      });
+    }).then((res) => {
+      if (res.isConfirmed) {
+        dispatch(folderActions.postFolderList({ title: res?.value }));
+      }
+    });
   };
 
   useEffect(() => {
@@ -132,13 +112,16 @@ const SideNavMenu = () => {
           </Button>
         </li>
         <hr />
-        {CONSTANT.navItem.map((item) => (
+        {navItem()?.map((item) => (
           <li className={styles.SideNavMenu__item}>
             <Link to={item.link}>
               <button
                 className={cn(styles.SideNavMenu__item__button, {
-                  [styles.SideNavMenu__item__active]: activeTab === item.link,
+                  [styles.SideNavMenu__item__active]: activeTab.includes(
+                    item.link
+                  ),
                 })}
+                onClick={item.onClick}
               >
                 {item.title}
               </button>
