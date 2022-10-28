@@ -121,7 +121,6 @@ const SideNavMenu = () => {
                     item.link
                   ),
                 })}
-                onClick={item.onClick}
               >
                 {item.title}
               </button>

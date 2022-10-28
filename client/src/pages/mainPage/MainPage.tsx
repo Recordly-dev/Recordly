@@ -3,22 +3,33 @@ import cn from "classnames";
 
 import Footer from "components/Footer";
 import SideNavMenu from "components/SideNavMenu";
-import MainPageDashboard from "components/MainDashboard";
-import MainPageHeader from "components/MainHeader";
+import FavoritesDashboard from "components/FavoritesDashboard";
+import MainDashboard from "components/MainDashboard";
+import MainHeader from "components/MainHeader";
 
 import styles from "./MainPage.module.scss";
 
-const MainPage = () => (
-  <div className={cn(styles.MainPage, "d-flex", "mt-3")}>
+const MainPage = ({
+  isFavorites,
+  isDetail,
+}: {
+  isFavorites?: boolean;
+  isDetail?: boolean;
+}) => (
+  <div className={styles.MainPage}>
     <div className={cn("d-flex", "w-100")}>
-      <div className={cn(styles.MainPage__container, "d-flex")}>
-        <aside className={cn(styles.MainPage__container__sideMenu)}>
+      <div className={styles.MainPage__container}>
+        <aside className={styles.MainPage__container__sideMenu}>
           <SideNavMenu />
         </aside>
         <section className={cn("d-flex", "w-100")}>
-          <div className={cn(styles.MainPage__container__mainDashboard)}>
-            <MainPageHeader />
-            <MainPageDashboard />
+          <div className={styles.MainPage__container__mainDashboard}>
+            <MainHeader />
+            {isFavorites ? (
+              <FavoritesDashboard />
+            ) : (
+              <MainDashboard isDetail={isDetail} />
+            )}
           </div>
         </section>
       </div>

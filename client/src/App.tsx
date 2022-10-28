@@ -9,8 +9,8 @@ const App = () => {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/main" element={<MainPage />} />
-      <Route path="/main/:tid" element={<MainPage />} />
-      <Route path="/favorites" element={<MainPage />} />
+      <Route path="/main/:tid" element={<MainPage isDetail />} />
+      <Route path="/favorites" element={<MainPage isFavorites />} />
       <Route path="/tags" element={<MainPage />} />
       <Route path="/workspace/:tid" element={<Editor />} />
     </Routes>
