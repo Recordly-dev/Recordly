@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router";
 import cn from "classnames";
 
 import Workspace from "components/Workspace";
+import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 import { IWorkspace } from "types/workspace";
-import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
   const navigate = useNavigate();

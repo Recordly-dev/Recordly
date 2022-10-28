@@ -10,11 +10,11 @@ import MainHeader from "components/MainHeader";
 import styles from "./MainPage.module.scss";
 
 const MainPage = ({
-  isFavorites,
-  isDetail,
+  isFavoritesPage,
+  isFolderDetailPage,
 }: {
-  isFavorites?: boolean;
-  isDetail?: boolean;
+  isFavoritesPage?: boolean;
+  isFolderDetailPage?: boolean;
 }) => (
   <div className={styles.MainPage}>
     <div className={cn("d-flex", "w-100")}>
@@ -25,10 +25,10 @@ const MainPage = ({
         <section className={cn("d-flex", "w-100")}>
           <div className={styles.MainPage__container__mainDashboard}>
             <MainHeader />
-            {isFavorites ? (
+            {isFavoritesPage ? (
               <FavoritesDashboard />
             ) : (
-              <MainDashboard isDetail={isDetail} />
+              <MainDashboard isFolderDetailPage={isFolderDetailPage} />
             )}
           </div>
         </section>

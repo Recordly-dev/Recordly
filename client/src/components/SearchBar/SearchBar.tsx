@@ -17,19 +17,15 @@ const SearchBar = () => {
     setSearchValue(e.target.value);
 
     if (e.target.value === "") {
-      setIsSearched(false);
+      dispatch(workspaceActions.fetchWorkspaceList());
     }
   };
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setIsSearched(true);
+      dispatch(workspaceActions.filterWorkspaceList({ value: searchValue }));
     }
   };
-
-  useEffect(() => {
-    dispatch(workspaceActions.filterWorkspaceList({ value: searchValue }));
-  }, [isSearched]);
 
   return (
     <div className={styles.SearchBar}>

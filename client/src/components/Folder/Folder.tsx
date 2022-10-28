@@ -2,8 +2,6 @@ import React from "react";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { Link } from "react-router-dom";
-
 import { Button } from "reactstrap";
 import { actions } from "store/slice/folderList";
 import { useDispatch } from "store";
@@ -15,11 +13,11 @@ import styles from "./Folder.module.scss";
 const Folder = ({
   uid,
   title,
-  moveWorkSpacePage,
+  moveFolderDetailPage,
 }: {
-  uid: String;
-  title: String;
-  moveWorkSpacePage: Function;
+  uid: string;
+  title: string;
+  moveFolderDetailPage: Function;
 }) => {
   const dispatch = useDispatch();
 
@@ -66,16 +64,15 @@ const Folder = ({
       }
     });
   };
+
   return (
     <div className={styles.Folder}>
-      <Link to={`/main/${uid}`}>
-        <img
-          className={styles.Folder__image}
-          onClick={() => moveWorkSpacePage(uid)}
-          src={folderSrc}
-          alt="folder img"
-        />
-      </Link>
+      <img
+        className={styles.Folder__image}
+        onClick={() => moveFolderDetailPage(uid)}
+        src={folderSrc}
+        alt="folder img"
+      />
       <div className={cn("d-flex", "flex-column", "align-items-center")}>
         <span className={styles.Folder__title}>{title}</span>
         <div>

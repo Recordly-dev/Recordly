@@ -16,11 +16,15 @@ import { actions as workspaceActions } from "store/slice/workspaceList";
 
 import styles from "./MainDashboard.module.scss";
 
-const MainDashboard = ({ isDetail }: { isDetail?: boolean }) => {
+const MainDashboard = ({
+  isFolderDetailPage,
+}: {
+  isFolderDetailPage?: boolean;
+}) => {
+  const [isLoadingData, setIsLoadingData] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const isLoadingFetchWorkspace: boolean = useSelector(
     (state: any) => state.workspace.isLoading
@@ -30,10 +34,18 @@ const MainDashboard = ({ isDetail }: { isDetail?: boolean }) => {
     (state: any) => state.folder.isLoading
   );
 
+  const currentFolderId: string = useSelector(
+    (state: any) => state.folder.currentFolderId
+  );
+
   useEffect(() => {
     dispatch(folderActions.fetchFolderList());
-    dispatch(workspaceActions.fetchWorkspaceList());
-  }, []);
+    !isFolderDetailPage
+      ? dispatch(workspaceActions.fetchWorkspaceList())
+      : dispatch(
+          workspaceActions.fetchWorkspaceInFolder({ uid: currentFolderId })
+        );
+  }, [isFolderDetailPage, currentFolderId]);
 
   const moveGoBack = () => {
     navigate(`/main`);
@@ -47,7 +59,7 @@ const MainDashboard = ({ isDetail }: { isDetail?: boolean }) => {
   return (
     <section className={cn(styles.MainDashboard)}>
       <Container fluid className={styles.MainDashboard__fileList}>
-        {isDetail ? (
+        {isFolderDetailPage ? (
           <MoveToBackCard moveGoBack={moveGoBack} />
         ) : (
           <FolderList isLoadingData={isLoadingData} />

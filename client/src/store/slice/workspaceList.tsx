@@ -224,11 +224,11 @@ const workspaceSlice = createSlice({
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [fetchAllWorkspaceList.pending.type]: (state, action) => {
-      state.workspaceList = action.payload;
+    [fetchAllWorkspaceList.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [fetchAllWorkspaceList.fulfilled.type]: (state) => {
+    [fetchAllWorkspaceList.fulfilled.type]: (state, action) => {
+      state.workspaceList = action.payload;
       state.isLoading = false;
     },
     [fetchWorkspaceInFolder.pending.type]: (state) => {

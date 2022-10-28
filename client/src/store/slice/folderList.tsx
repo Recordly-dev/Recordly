@@ -80,8 +80,23 @@ export const patchFolderList = createAsyncThunk(
   }
 );
 
+/**
+ * 최근 폴더 id값 정의
+ */
+export const patchCurrentFolderId = createAsyncThunk(
+  "folderList/patchCurrentFolderId",
+  async (arg: { uid: String }) => {
+    try {
+      return arg.uid;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   folderList: [],
+  currentFolderId: window.location.pathname.split("/").at(-1),
   isLoading: false,
 };
 
@@ -104,6 +119,9 @@ const tagSlice = createSlice({
       state.folderList = action.payload;
       state.isLoading = false;
     },
+    [patchCurrentFolderId.fulfilled.type]: (state, action) => {
+      state.currentFolderId = action.payload;
+    },
   },
 });
 
@@ -114,6 +132,7 @@ export const actions = {
   postFolderList,
   deleteFolderList,
   patchFolderList,
+  patchCurrentFolderId,
   ...tagSlice.actions,
 };
 
