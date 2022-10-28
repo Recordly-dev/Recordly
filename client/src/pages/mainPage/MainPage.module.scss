@@ -1,7 +1,10 @@
 .MainPage {
+  display: flex;
+  margin-top: 1rem;
   background-color: rgb(44, 44, 50);
 
   &__container {
+    display: flex;
     background-color: rgb(44, 44, 50);
 
     &__mainDashboard {

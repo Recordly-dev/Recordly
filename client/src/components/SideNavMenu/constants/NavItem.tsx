@@ -9,25 +9,14 @@ const NavItem = () => {
     {
       title: "Dashboard",
       link: "/main",
-      onClick: () => {
-        dispatch(folderActions.fetchFolderList());
-        dispatch(workspaceActions.fetchWorkspaceList());
-      },
     },
     {
       title: "Favorites",
       link: "/favorites",
-      onClick: () => {
-        dispatch(folderActions.setInitialFolderList());
-        dispatch(workspaceActions.fetchFavoritesWorkspaceList());
-      },
     },
     {
       title: "Tags",
       link: "/tags",
-      onClick: () => {
-        // console.log("1");
-      },
     },
   ];
 };

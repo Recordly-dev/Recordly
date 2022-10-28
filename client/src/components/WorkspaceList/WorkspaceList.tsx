@@ -1,27 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import cn from "classnames";
 
 import Workspace from "components/Workspace";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
 import { IWorkspace } from "types/workspace";
 import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // store에서 workspaceList 상태 가져오기
   const workspaceList: IWorkspace[] = useSelector(
     (state: any) => state.workspace.workspaceList
   );
-
-  useEffect(() => {
-    dispatch(workspaceActions.fetchWorkspaceList());
-  }, []);
 
   const moveWorkSpacePage = (id: string): void => {
     navigate(`/workspace/${id}`);
