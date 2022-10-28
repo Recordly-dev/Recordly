@@ -1,20 +1,26 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
+import { useNavigate } from "react-router";
 
 import Folder from "components/Folder/Folder";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
 import { IFolder } from "types/folder";
+import { actions as folderActions } from "store/slice/folderList";
+import { actions as workspaceActions } from "store/slice/workspaceList";
+
 import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const folderList: IFolder[] = useSelector(
     (state: any) => state.folder.folderList
   );
 
-  const moveWorkSpacePage = async (id: string) => {
+  const moveFolderDetailPage = (id: string) => {
+    navigate(`/main/${id}`);
+    dispatch(folderActions.patchCurrentFolderId({ uid: id }));
     dispatch(workspaceActions.fetchWorkspaceInFolder({ uid: id }));
   };
 
@@ -28,7 +34,7 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
             uid={folder._id}
             key={folder._id}
             title={folder.title}
-            moveWorkSpacePage={moveWorkSpacePage}
+            moveFolderDetailPage={moveFolderDetailPage}
           />
         ))
       )}
