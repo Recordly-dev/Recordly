@@ -16,8 +16,9 @@ def getTags():
     try: 
         tags = kobert.getTags(text)
         return jsonify(tags=tags)
-    except:
+    except Exception as e:
+        print(e)
         return jsonify(tags=[])
 
 if __name__ == "__main__":
-   application.run(host='0.0.0.0', port=5000)
+   application.run(host='0.0.0.0', port=5000, debug=True)

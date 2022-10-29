@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { Input } from "reactstrap";
@@ -14,6 +15,11 @@ const TagList = ({
   getTagList: Function;
 }) => {
   const dispatch = useDispatch();
+
+  // TODO: 추천 태그 리스트 사용
+  const recommendedTagList = useSelector(
+    (state: any) => state.tag.recommendedTagList
+  );
 
   const [tagInputValue, setTagInputValue] = useState("");
 

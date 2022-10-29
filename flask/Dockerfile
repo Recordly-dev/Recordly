@@ -4,6 +4,8 @@ WORKDIR /app
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y make automake gcc g++ subversion python3-dev
+# No JVM shared library file (libjvm.so) found. Try setting up the JAVA_HOME environment variable properly. 에러 발생 시 사용 필요
+RUN apt-get install -y default-jdk
 RUN /usr/local/bin/python -m pip install --upgrade pip
 
 RUN pip3 install flask

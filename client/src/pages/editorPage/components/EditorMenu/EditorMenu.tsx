@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch } from "store";
 import { Button } from "reactstrap";
 import axios from "axios";
 import { useDebouncedCallback } from "use-debounce";
@@ -10,6 +11,9 @@ import TagList from "../TagList";
 import styles from "./EditorMenu.module.scss";
 
 import html2canvas from "html2canvas";
+
+import { extractTextsFromDocument } from "../../../../utils/tldraw";
+import { getRecommendedTagList } from "store/slice/tagList";
 
 const EditorMenu = ({
   context = createContext({} as TldrawApp),
@@ -24,6 +28,8 @@ const EditorMenu = ({
 
   const [tagList, setTagList] = useState([]);
   const { document } = snapshot;
+
+  const dispatch = useDispatch();
 
   const getTagList = async () => {
     const workspace = await axios.get(`/api/workspace/${workspaceId}`);
@@ -63,6 +69,9 @@ const EditorMenu = ({
       })
       .then((res) => {
         console.log("content saved");
+
+        const texts = extractTextsFromDocument(document);
+        dispatch(getRecommendedTagList(texts));
       })
       .catch((err) => {
         console.log(err);
