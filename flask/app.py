@@ -1,17 +1,14 @@
-from flask import Flask
-import kobert
-
 application = Flask(__name__)
 
 
-@application.route("/")
+@application.route("/kobert/")
 def hello():
     return "Hello kobert!"
 
-@application.route('/tags/<text>')
+@application.route('/kobert/tags/<text>')
 def select(text):
     print(kobert.getTags(text))
-    return 'hi %s' % name
+    return 'hi %s' % kobert.getTags(text)
 
-if __name__ == "__main__":
-    application.run(host='0.0.0.0', port=5000)
+#if __name__ == "__main__":
+#    application.run(host='0.0.0.0', port=5000)
