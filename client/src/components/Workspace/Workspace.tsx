@@ -37,7 +37,7 @@ const Workspace = ({
   formatWorkspaceDate: Function;
 }) => {
   const dispatch = useDispatch();
-
+  const [isFavorites, setIsFavorites] = useState(favorites);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [selectFolderId, setSelectFolderId] = useState("");
 
@@ -139,11 +139,11 @@ const Workspace = ({
    * 즐겨찾기 toggle
    */
   const toggleFavorites = () => {
+    setIsFavorites((prev) => !prev);
     dispatch(
       actions.patchFavoritesWorkspaceList({
         uid: uid,
         isFavorites: !favorites,
-        folderId: folderId,
         isFavoritesPage: isFavoritesPage,
       })
     );
@@ -182,7 +182,7 @@ const Workspace = ({
               "w-100"
             )}
           >
-            {favorites && <span style={{ color: "red" }}>별</span>}
+            {isFavorites && <span style={{ color: "red" }}>별</span>}
             <Button onClick={toggleFavorites}>즐겨찾기</Button>
             <Button onClick={patchWorkspace}>수정</Button>
             <Button onClick={openFolderModal}>폴더</Button>
