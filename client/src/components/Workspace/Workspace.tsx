@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import cn from "classnames";
 
 import { useSelector } from "react-redux";
@@ -39,7 +38,6 @@ const Workspace = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [isFavorites, setIsFavorites] = useState(favorites);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [selectFolderId, setSelectFolderId] = useState("");
 
@@ -130,7 +128,7 @@ const Workspace = ({
   /**
    * 모달 완료 클릭 시 patch 통신으로 워크스페이스 폴더에 업로드
    */
-  const insertWorkspaceinFolder = async () => {
+  const insertWorkspaceinFolder = () => {
     dispatch(
       actions.patchWorkspace({ workspaceId: uid, folder: selectFolderId })
     );
@@ -140,8 +138,15 @@ const Workspace = ({
   /**
    * 즐겨찾기 toggle
    */
-  const toggleFavorites = async () => {
-    setIsFavorites((prev) => !prev);
+  const toggleFavorites = () => {
+    dispatch(
+      actions.patchFavoritesWorkspaceList({
+        uid: uid,
+        isFavorites: !favorites,
+        folderId: folderId,
+        isFavoritesPage: isFavoritesPage,
+      })
+    );
   };
 
   /**
@@ -152,19 +157,6 @@ const Workspace = ({
   ): void => {
     e.currentTarget.src = CONSTANT.EMPTY_IMAGE_PATH;
   };
-
-  /**
-   * workspace에 대해 isFavorites이 변경되면 서버 통신으로 즐겨찾기 수정
-   */
-  useEffect(() => {
-    (async () => {
-      const params = {
-        workspaceId: uid,
-        isFavorites: isFavorites,
-      };
-      await axios.patch(`/api/workspace/favorites/${uid}`, params);
-    })();
-  }, [isFavorites, uid]);
 
   return (
     <div className={cn(styles.Workspace__container)}>
@@ -190,7 +182,7 @@ const Workspace = ({
               "w-100"
             )}
           >
-            {isFavorites && <span style={{ color: "red" }}>별</span>}
+            {favorites && <span style={{ color: "red" }}>별</span>}
             <Button onClick={toggleFavorites}>즐겨찾기</Button>
             <Button onClick={patchWorkspace}>수정</Button>
             <Button onClick={openFolderModal}>폴더</Button>
