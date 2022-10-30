@@ -103,7 +103,12 @@ export const postWorkspace = createAsyncThunk(
 export const patchWorkspace = createAsyncThunk(
   "workspace/patchWorkspace",
   async (
-    arg: { workspaceId: string; title?: string; folder?: string },
+    arg: {
+      workspaceId: string;
+      title?: string;
+      folderId?: string | null;
+      folder?: string;
+    },
     { dispatch }
   ) => {
     try {
@@ -113,7 +118,11 @@ export const patchWorkspace = createAsyncThunk(
         title: arg.title,
       });
 
-      dispatch(fetchWorkspaceList());
+      if (arg.folderId) {
+        dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
+      } else {
+        dispatch(fetchWorkspaceList());
+      }
     } catch (err) {
       handleError(err);
     }
@@ -125,7 +134,10 @@ export const patchWorkspace = createAsyncThunk(
  */
 export const deleteWorkspace = createAsyncThunk(
   "workspace/patchWorkspace",
-  async (arg: { workspaceId: string }, { dispatch }) => {
+  async (
+    arg: { workspaceId: string; folderId: string | null },
+    { dispatch }
+  ) => {
     try {
       await axios.delete(`/api/workspace/${arg.workspaceId}`);
 
@@ -138,7 +150,11 @@ export const deleteWorkspace = createAsyncThunk(
         timer: 1000,
       });
 
-      dispatch(fetchWorkspaceList());
+      if (arg.folderId) {
+        dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
+      } else {
+        dispatch(fetchWorkspaceList());
+      }
     } catch (err) {
       handleError(err);
     }

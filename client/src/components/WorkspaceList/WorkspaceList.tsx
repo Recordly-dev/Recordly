@@ -67,6 +67,7 @@ const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
               key={workspace._id}
               uid={workspace._id}
               title={workspace.title}
+              folderId={workspace.folder}
               editedAt={workspace.editedAt}
               favorites={workspace.favorites}
               moveWorkSpacePage={moveWorkSpacePage}

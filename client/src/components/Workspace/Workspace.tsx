@@ -21,6 +21,7 @@ import CONSTANT from "./constants";
 const Workspace = ({
   uid,
   title,
+  folderId,
   editedAt,
   favorites,
   moveWorkSpacePage,
@@ -28,6 +29,7 @@ const Workspace = ({
 }: {
   uid: string;
   title: string;
+  folderId: string | null;
   editedAt: string;
   favorites: boolean;
   moveWorkSpacePage: Function;
@@ -59,7 +61,9 @@ const Workspace = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(actions.deleteWorkspace({ workspaceId: uid }));
+        dispatch(
+          actions.deleteWorkspace({ workspaceId: uid, folderId: folderId })
+        );
       }
     });
   };
@@ -84,7 +88,11 @@ const Workspace = ({
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(
-          actions.patchWorkspace({ workspaceId: uid, title: result?.value })
+          actions.patchWorkspace({
+            workspaceId: uid,
+            folderId: folderId,
+            title: result?.value,
+          })
         );
       }
     });
