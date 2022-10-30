@@ -11,7 +11,7 @@ const App = () => {
       <Route path="/main" element={<MainPage />} />
       <Route path="/main/:tid" element={<MainPage isFolderDetailPage />} />
       <Route path="/favorites" element={<MainPage isFavoritesPage />} />
-      <Route path="/tags" element={<MainPage />} />
+      <Route path="/tags" element={<MainPage isTagPage />} />
       <Route path="/workspace/:tid" element={<Editor />} />
     </Routes>
   );

@@ -14,9 +14,7 @@ const EditorPage = () => {
   const rTLDrawApp = useRef<TldrawApp>();
 
   // persist the tldraw document under this id
-  const workspaceId: string | undefined = window.location.pathname
-    .split("/")
-    .at(-1); // [1]
+  const workspaceId: string = window.location.pathname?.split("/").at(-1) || ""; // [1]
 
   const [app, setApp] = useState<TldrawApp>();
   const handleMount = useCallback((app: TldrawApp) => {

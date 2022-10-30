@@ -12,7 +12,7 @@ const TagList = ({
   workspaceId,
   getTagList,
 }: {
-  workspaceId: string | undefined;
+  workspaceId: string;
   getTagList: Function;
 }) => {
   const dispatch = useDispatch();
@@ -30,9 +30,8 @@ const TagList = ({
     setTagInputValue(inputValue);
   };
 
-  const postTagList = async (name: string, workspaceId: string | undefined) => {
-    await axios.post("/api/tag", { name: name, workspaceId: workspaceId });
-    dispatch(tagListActions.fetchTagList());
+  const postTagList = async (name: string, workspaceId: string) => {
+    dispatch(tagListActions.postTagList({ name, workspaceId }));
     getTagList();
   };
 
