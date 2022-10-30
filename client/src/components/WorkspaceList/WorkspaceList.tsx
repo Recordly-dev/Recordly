@@ -9,7 +9,13 @@ import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 import { IWorkspace } from "types/workspace";
 
-const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
+const WorkspaceList = ({
+  isLoadingData,
+  isFavoritesPage,
+}: {
+  isLoadingData: boolean;
+  isFavoritesPage?: boolean;
+}) => {
   const navigate = useNavigate();
 
   // store에서 workspaceList 상태 가져오기
@@ -70,6 +76,7 @@ const WorkspaceList = ({ isLoadingData }: { isLoadingData: boolean }) => {
               folderId={workspace.folder}
               editedAt={workspace.editedAt}
               favorites={workspace.favorites}
+              isFavoritesPage={isFavoritesPage}
               moveWorkSpacePage={moveWorkSpacePage}
               formatWorkspaceDate={formatWorkspaceDate}
             />
