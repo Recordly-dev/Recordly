@@ -24,6 +24,7 @@ const Workspace = ({
   folderId,
   editedAt,
   favorites,
+  isFavoritesPage,
   moveWorkSpacePage,
   formatWorkspaceDate,
 }: {
@@ -32,6 +33,7 @@ const Workspace = ({
   folderId: string | null;
   editedAt: string;
   favorites: boolean;
+  isFavoritesPage?: boolean;
   moveWorkSpacePage: Function;
   formatWorkspaceDate: Function;
 }) => {
@@ -62,7 +64,11 @@ const Workspace = ({
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(
-          actions.deleteWorkspace({ workspaceId: uid, folderId: folderId })
+          actions.deleteWorkspace({
+            workspaceId: uid,
+            folderId: folderId,
+            isFavoritesPage,
+          })
         );
       }
     });
@@ -90,8 +96,9 @@ const Workspace = ({
         dispatch(
           actions.patchWorkspace({
             workspaceId: uid,
-            folderId: folderId,
             title: result?.value,
+            folderId: folderId,
+            isFavoritesPage,
           })
         );
       }

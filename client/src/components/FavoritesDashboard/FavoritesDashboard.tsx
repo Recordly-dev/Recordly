@@ -11,7 +11,11 @@ import { actions as workspaceActions } from "store/slice/workspaceList";
 
 import styles from "./FavoritesDashboard.module.scss";
 
-const FavoritesDashboard = () => {
+const FavoritesDashboard = ({
+  isFavoritesPage,
+}: {
+  isFavoritesPage: boolean;
+}) => {
   const dispatch = useDispatch();
 
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -31,7 +35,10 @@ const FavoritesDashboard = () => {
   return (
     <section className={cn(styles.FavoritesDashboard)}>
       <Container fluid className={styles.FavoritesDashboard__fileList}>
-        <WorkspaceList isLoadingData={isLoadingData} />
+        <WorkspaceList
+          isLoadingData={isLoadingData}
+          isFavoritesPage={isFavoritesPage}
+        />
       </Container>
     </section>
   );

@@ -108,6 +108,7 @@ export const patchWorkspace = createAsyncThunk(
       title?: string;
       folderId?: string | null;
       folder?: string;
+      isFavoritesPage?: boolean;
     },
     { dispatch }
   ) => {
@@ -118,7 +119,9 @@ export const patchWorkspace = createAsyncThunk(
         title: arg.title,
       });
 
-      if (arg.folderId) {
+      if (arg.isFavoritesPage) {
+        dispatch(fetchFavoritesWorkspaceList());
+      } else if (arg.folderId) {
         dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
       } else {
         dispatch(fetchWorkspaceList());
@@ -135,7 +138,11 @@ export const patchWorkspace = createAsyncThunk(
 export const deleteWorkspace = createAsyncThunk(
   "workspace/patchWorkspace",
   async (
-    arg: { workspaceId: string; folderId: string | null },
+    arg: {
+      workspaceId: string;
+      folderId: string | null;
+      isFavoritesPage?: boolean;
+    },
     { dispatch }
   ) => {
     try {
@@ -150,7 +157,9 @@ export const deleteWorkspace = createAsyncThunk(
         timer: 1000,
       });
 
-      if (arg.folderId) {
+      if (arg.isFavoritesPage) {
+        dispatch(fetchFavoritesWorkspaceList());
+      } else if (arg.folderId) {
         dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
       } else {
         dispatch(fetchWorkspaceList());

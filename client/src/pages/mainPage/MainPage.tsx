@@ -37,7 +37,7 @@ const MainPage = ({
           >
             <MainHeader />
             {isFavoritesPage ? (
-              <FavoritesDashboard />
+              <FavoritesDashboard isFavoritesPage />
             ) : (
               <MainDashboard isFolderDetailPage={isFolderDetailPage} />
             )}
