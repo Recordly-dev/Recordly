@@ -175,18 +175,28 @@ export const deleteWorkspace = createAsyncThunk(
  */
 export const filterWorkspaceList = createAsyncThunk(
   "workspace/filterWorkspaceList",
-  async (arg: { value: string }) => {
-    const response = await axios.get("/api/workspace");
+  async (arg: { value: string; isFavoritesPage: boolean | undefined }) => {
+    if (arg.isFavoritesPage) {
+      const response = await axios.get("/api/workspace/favorites");
 
-    const filterData = response.data.filter((v: IWorkspace) => {
-      if (arg.value.length === 0) {
-        return v.folder === null;
-      } else {
-        return v.title.includes(arg.value);
-      }
-    });
+      return response.data.filter((v: IWorkspace) => {
+        if (arg.value.length === 0) {
+          return v;
+        } else {
+          return v.title.includes(arg.value);
+        }
+      });
+    } else {
+      const response = await axios.get("/api/workspace");
 
-    return filterData;
+      return response.data.filter((v: IWorkspace) => {
+        if (arg.value.length === 0) {
+          return v.folder === null;
+        } else {
+          return v.title.includes(arg.value);
+        }
+      });
+    }
   }
 );
 

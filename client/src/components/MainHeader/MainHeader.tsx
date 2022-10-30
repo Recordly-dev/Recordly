@@ -17,7 +17,7 @@ import DropdownSelect from "components/DropdownSelect";
 
 import styles from "./MainHeader.module.scss";
 
-const MainHeader = () => {
+const MainHeader = ({ isFavoritesPage }: { isFavoritesPage?: boolean }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -131,7 +131,7 @@ const MainHeader = () => {
               alt="create-icon"
             />
           </div>
-          <SearchBar />
+          <SearchBar isFavoritesPage={isFavoritesPage} />
           <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
           <button
             className={styles.MainHeader__container__right__logout}
