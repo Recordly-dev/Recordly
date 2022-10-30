@@ -11,7 +11,7 @@ import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";
 
-import navItem from "./constants/NavItem";
+import CONSTANT from "./constants";
 
 const SideNavMenu = () => {
   const dispatch = useDispatch();
@@ -112,7 +112,7 @@ const SideNavMenu = () => {
           </Button>
         </li>
         <hr />
-        {navItem()?.map((item) => (
+        {CONSTANT.NAV_ITEM.map((item) => (
           <li className={styles.SideNavMenu__item}>
             <Link to={item.link}>
               <button
