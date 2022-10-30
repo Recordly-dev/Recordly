@@ -15,5 +15,5 @@ export const extractTextsFromDocument = (document: TDDocument): string => {
 };
 
 function isTextShape(shape: TDShape): shape is TextShape {
-  return shape.type === TDShapeType.Text;
+  return shape.type === TDShapeType.Text || shape.type === TDShapeType.Sticky;
 }
