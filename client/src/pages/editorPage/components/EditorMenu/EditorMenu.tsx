@@ -12,8 +12,9 @@ import styles from "./EditorMenu.module.scss";
 
 import html2canvas from "html2canvas";
 
+import { actions as tagListActions } from "store/slice/tagList";
+
 import { extractTextsFromDocument } from "../../../../utils/tldraw";
-import { getRecommendedTagList } from "store/slice/tagList";
 
 const EditorMenu = ({
   context = createContext({} as TldrawApp),
@@ -71,7 +72,7 @@ const EditorMenu = ({
         console.log("content saved");
 
         const texts = extractTextsFromDocument(document);
-        dispatch(getRecommendedTagList(texts));
+        dispatch(tagListActions.getRecommendedTagList({ text: texts }));
       })
       .catch((err) => {
         console.log(err);

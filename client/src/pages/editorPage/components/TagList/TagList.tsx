@@ -4,7 +4,8 @@ import axios from "axios";
 
 import { Input } from "reactstrap";
 
-import { fetchTagList } from "store/slice/tagList";
+import { actions as tagListActions } from "store/slice/tagList";
+
 import { useDispatch } from "store";
 
 const TagList = ({
@@ -31,7 +32,7 @@ const TagList = ({
 
   const postTagList = async (name: string, workspaceId: string | undefined) => {
     await axios.post("/api/tag", { name: name, workspaceId: workspaceId });
-    dispatch(fetchTagList());
+    dispatch(tagListActions.fetchTagList());
     getTagList();
   };
 
@@ -48,7 +49,7 @@ const TagList = ({
   };
 
   useEffect(() => {
-    dispatch(fetchTagList());
+    dispatch(tagListActions.fetchTagList());
   }, []);
 
   return (
