@@ -1,14 +1,10 @@
 @import "common/scss/color.scss";
 
 .SideNavMenu {
-  position: fixed;
-  left: 0;
-
   width: 14rem; // 240px
   height: 100%;
 
   padding: 3rem 0rem 1.5rem 0rem; // 16px
-  margin-top: 2rem; // 40px
 
   background-color: rgb(33, 33, 33);
 
@@ -18,7 +14,10 @@
   z-index: 10;
 
   &__container {
-    width: 100%;
+    position: fixed;
+    left: 16;
+
+    margin-top: 2rem;
     padding-left: 0;
     list-style: none;
   }
@@ -31,6 +30,10 @@
       width: 100%;
       border-radius: 2rem !important;
       font-size: 1rem;
+
+      &:first-child {
+        margin-bottom: 1rem;
+      }
     }
   }
 

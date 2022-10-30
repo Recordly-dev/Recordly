@@ -21,7 +21,7 @@ const EditorMenu = ({
   workspaceId,
 }: {
   context: React.Context<TldrawApp>;
-  workspaceId: string | undefined;
+  workspaceId: string;
 }) => {
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
