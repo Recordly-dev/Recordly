@@ -84,7 +84,6 @@ export const patchFavoritesWorkspaceList = createAsyncThunk(
     arg: {
       uid: string;
       isFavorites: boolean;
-      folderId: string | null;
       isFavoritesPage?: boolean;
     },
     { dispatch }
@@ -97,10 +96,6 @@ export const patchFavoritesWorkspaceList = createAsyncThunk(
 
     if (arg.isFavoritesPage) {
       dispatch(fetchFavoritesWorkspaceList());
-    } else if (arg.folderId) {
-      dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
-    } else {
-      dispatch(fetchWorkspaceList());
     }
   }
 );
