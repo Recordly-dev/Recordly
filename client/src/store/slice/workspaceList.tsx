@@ -78,6 +78,33 @@ export const fetchFavoritesWorkspaceList = createAsyncThunk(
   }
 );
 
+export const patchFavoritesWorkspaceList = createAsyncThunk(
+  "workspace/patchFavoritesWorkspaceList",
+  async (
+    arg: {
+      uid: string;
+      isFavorites: boolean;
+      folderId: string | null;
+      isFavoritesPage?: boolean;
+    },
+    { dispatch }
+  ) => {
+    const params = {
+      workspaceId: arg.uid,
+      isFavorites: arg.isFavorites,
+    };
+    await axios.patch(`/api/workspace/favorites/${arg.uid}`, params);
+
+    if (arg.isFavoritesPage) {
+      dispatch(fetchFavoritesWorkspaceList());
+    } else if (arg.folderId) {
+      dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
+    } else {
+      dispatch(fetchWorkspaceList());
+    }
+  }
+);
+
 /**
  * 워크스페이스 생성
  */
@@ -222,22 +249,6 @@ export const sortWorkspaceList = createAsyncThunk(
   }
 );
 
-/**
- * 즐겨찾기된 workspace 필터링 로직
- */
-export const filterFavoritesWorkspaceList = createAsyncThunk(
-  "workspace/filterFavoritesWorkspaceList",
-  async () => {
-    const response = await axios.get("/api/workspace");
-
-    const filterFavoritesWorkspace = response.data.filter(
-      (v: IWorkspace) => v.favorites
-    );
-
-    return filterFavoritesWorkspace;
-  }
-);
-
 const initialState = {
   workspaceList: [],
   isLoading: false,
@@ -287,13 +298,6 @@ const workspaceSlice = createSlice({
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [filterFavoritesWorkspaceList.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [filterFavoritesWorkspaceList.fulfilled.type]: (state, action) => {
-      state.workspaceList = action.payload;
-      state.isLoading = false;
-    },
     [sortWorkspaceList.pending.type]: (state) => {
       state.isLoading = true;
     },
@@ -312,7 +316,7 @@ export const actions = {
   fetchWorkspaceInFolder,
   fetchFavoritesWorkspaceList,
   filterWorkspaceList,
-  filterFavoritesWorkspaceList,
+  patchFavoritesWorkspaceList,
   sortWorkspaceList,
   postWorkspace,
   patchWorkspace,

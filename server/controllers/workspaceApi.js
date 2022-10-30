@@ -83,13 +83,13 @@ const patchSingleWorkspace = async (req, res, next) => {
 const patchFavoritesWorkspace = async (req, res, next) => {
   try {
     const { workspaceId, isFavorites } = req.body;
+
     await modWorkspace.updateOne(
       { _id: workspaceId },
       {
         $set: { favorites: isFavorites },
       }
     );
-
     res.json({ message: "update completed" });
   } catch (err) {
     console.log(err);
