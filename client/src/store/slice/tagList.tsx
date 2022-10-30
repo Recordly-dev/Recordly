@@ -6,7 +6,7 @@ export const fetchTagList = createAsyncThunk(
   "tagList/fetchTagList",
   async () => {
     const response = await axios.get("/api/tag");
-    return response?.data;
+    return response?.data?.data;
   }
 );
 
@@ -29,6 +29,13 @@ export const postTagList = createAsyncThunk(
 
 //   }
 // );
+
+// export const getAllTagList = createAsyncThunk(
+//   "tagList/getAllTagList",
+//   async () => {
+//     const response =
+//   }
+// )
 
 export const getRecommendedTagList = createAsyncThunk(
   "tagList/getRecommendedTagList",

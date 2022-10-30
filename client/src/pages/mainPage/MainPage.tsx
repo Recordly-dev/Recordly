@@ -27,7 +27,7 @@ const MainPage = ({
         <aside className={styles.MainPage__container__sideMenu}>
           <SideNavMenu />
         </aside>
-        {/* {isTagPage && <SideTagsMenu />} */}
+        {isTagPage && <SideTagsMenu />}
         <section className={cn("d-flex", "w-100")}>
           <div
             className={cn({
