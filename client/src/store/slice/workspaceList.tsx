@@ -88,14 +88,18 @@ export const patchFavoritesWorkspaceList = createAsyncThunk(
     },
     { dispatch }
   ) => {
-    const params = {
-      workspaceId: arg.uid,
-      isFavorites: arg.isFavorites,
-    };
-    await axios.patch(`/api/workspace/favorites/${arg.uid}`, params);
+    try {
+      const params = {
+        workspaceId: arg.uid,
+        isFavorites: arg.isFavorites,
+      };
+      await axios.patch(`/api/workspace/favorites/${arg.uid}`, params);
 
-    if (arg.isFavoritesPage) {
-      dispatch(fetchFavoritesWorkspaceList());
+      if (arg.isFavoritesPage) {
+        dispatch(fetchFavoritesWorkspaceList());
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 );
