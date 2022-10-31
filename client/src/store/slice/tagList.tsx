@@ -10,6 +10,15 @@ export const fetchTagList = createAsyncThunk(
   }
 );
 
+export const fetchWorkspaceTagList = createAsyncThunk(
+  "tagList/fetchWorkspaceTagList",
+  async (arg: { uid: string }) => {
+    const workspace = await axios.get(`/api/workspace/${arg.uid}`);
+
+    return workspace.data?.tags;
+  }
+);
+
 export const postTagList = createAsyncThunk(
   "tagList/postTagList",
   async (arg: { name: string; workspaceId: string }, { dispatch }) => {
@@ -18,7 +27,7 @@ export const postTagList = createAsyncThunk(
       workspaceId: arg.workspaceId,
     });
 
-    dispatch(fetchTagList());
+    dispatch(fetchWorkspaceTagList({ uid: arg.workspaceId }));
   }
 );
 
@@ -89,6 +98,13 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
+    [fetchWorkspaceTagList.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchWorkspaceTagList.fulfilled.type]: (state, action) => {
+      state.tagList = action.payload;
+      state.isLoading = false;
+    },
     [getRecommendedTagList.fulfilled.type]: (state, action) => {
       state.recommendedTagList = action.payload;
       state.isLoading = false;
@@ -100,6 +116,7 @@ export const { setTagList, setRecommendedTagList } = tagSlice.actions;
 
 export const actions = {
   fetchTagList,
+  fetchWorkspaceTagList,
   postTagList,
   getRecommendedTagList,
   ...tagSlice.actions,

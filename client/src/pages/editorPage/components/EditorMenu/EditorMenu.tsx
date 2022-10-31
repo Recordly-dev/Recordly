@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "store";
 import { Button } from "reactstrap";
 import axios from "axios";
@@ -23,23 +24,15 @@ const EditorMenu = ({
   context: React.Context<TldrawApp>;
   workspaceId: string;
 }) => {
+  const dispatch = useDispatch();
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
   const snapshot = app.useStore();
-
-  const [tagList, setTagList] = useState([]);
   const { document } = snapshot;
 
-  const dispatch = useDispatch();
-
-  const getTagList = async () => {
-    const workspace = await axios.get(`/api/workspace/${workspaceId}`);
-    setTagList(workspace.data?.tags);
-  };
+  const tagList = useSelector((state: any) => state.tag.tagList);
 
   const saveContentToDB = useDebouncedCallback((document) => {
-    const workspaceId = window.location.pathname.split("/").at(-1);
-
     const editorEl = window.document.getElementById("tldrawEditor");
     if (!editorEl) {
       return;
@@ -80,7 +73,7 @@ const EditorMenu = ({
   }, 1000);
 
   useEffect(() => {
-    getTagList();
+    dispatch(tagListActions.fetchWorkspaceTagList({ uid: workspaceId }));
   }, []);
 
   useEffect(() => {
@@ -157,7 +150,7 @@ const EditorMenu = ({
         </button>
       </div>
       <div style={{ position: "absolute", bottom: 20, left: 8, zIndex: 2 }}>
-        <TagList workspaceId={workspaceId} getTagList={getTagList} />
+        <TagList workspaceId={workspaceId} />
         <div className={styles.EditorMenu__TagList}>
           {tagList.map((tag: any) => (
             <Button>{tag?.name}</Button>

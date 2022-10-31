@@ -8,13 +8,7 @@ import { actions as tagListActions } from "store/slice/tagList";
 
 import { useDispatch } from "store";
 
-const TagList = ({
-  workspaceId,
-  getTagList,
-}: {
-  workspaceId: string;
-  getTagList: Function;
-}) => {
+const TagList = ({ workspaceId }: { workspaceId: string }) => {
   const dispatch = useDispatch();
 
   // TODO: 추천 태그 리스트 사용
@@ -32,7 +26,6 @@ const TagList = ({
 
   const postTagList = async (name: string, workspaceId: string) => {
     dispatch(tagListActions.postTagList({ name, workspaceId }));
-    getTagList();
   };
 
   const handleTextFieldKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -46,10 +39,6 @@ const TagList = ({
       }
     }
   };
-
-  useEffect(() => {
-    dispatch(tagListActions.fetchTagList());
-  }, []);
 
   return (
     <div>
