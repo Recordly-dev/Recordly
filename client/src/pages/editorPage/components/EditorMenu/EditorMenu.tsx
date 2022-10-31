@@ -31,6 +31,17 @@ const EditorMenu = ({
   const { document } = snapshot;
 
   const tagList = useSelector((state: any) => state.tag.tagList);
+  const recommendedTagList = useSelector(
+    (state: any) => state.tag.recommendedTagList
+  );
+
+  const saveRecommendedTag = (name: string) => {
+    const popRecommendedTagList = [...recommendedTagList].filter(
+      (tag) => tag !== name
+    );
+    dispatch(tagListActions.postTagList({ name, workspaceId }));
+    dispatch(tagListActions.setRecommendedTagList(popRecommendedTagList));
+  };
 
   const saveContentToDB = useDebouncedCallback((document) => {
     const editorEl = window.document.getElementById("tldrawEditor");
@@ -74,6 +85,7 @@ const EditorMenu = ({
 
   useEffect(() => {
     dispatch(tagListActions.fetchWorkspaceTagList({ uid: workspaceId }));
+    dispatch(tagListActions.setRecommendedTagList([]));
   }, []);
 
   useEffect(() => {
@@ -154,6 +166,11 @@ const EditorMenu = ({
         <div className={styles.EditorMenu__TagList}>
           {tagList.map((tag: any) => (
             <Button>{tag?.name}</Button>
+          ))}
+          {recommendedTagList?.map((tag: any) => (
+            <Button color="primary" onClick={() => saveRecommendedTag(tag)}>
+              {tag}
+            </Button>
           ))}
         </div>
       </div>

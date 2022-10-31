@@ -48,8 +48,8 @@ export const postTagList = createAsyncThunk(
 
 export const getRecommendedTagList = createAsyncThunk(
   "tagList/getRecommendedTagList",
-  async (arg: { text: string }) => {
-    const debouncedGetFunc = _.debounce(() => {
+  async (arg: { text: string }, { dispatch }) => {
+    const debouncedGetFunc = _.debounce(async () => {
       axios
         .post("/kobert/tags", JSON.stringify({ text: arg.text }), {
           headers: {
@@ -57,13 +57,12 @@ export const getRecommendedTagList = createAsyncThunk(
           },
         })
         .then((res) => {
-          console.log(res.data.tags);
-          return res.data.tags;
+          dispatch(setRecommendedTagList(res.data.tags));
         })
         .catch((err) => {
           console.log(err);
         });
-    }, 1000);
+    }, 10000);
 
     try {
       debouncedGetFunc();
@@ -105,10 +104,10 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
-    [getRecommendedTagList.fulfilled.type]: (state, action) => {
-      state.recommendedTagList = action.payload;
-      state.isLoading = false;
-    },
+    // [getRecommendedTagList.fulfilled.type]: (state, action) => {
+    //   state.recommendedTagList = action.payload;
+    //   state.isLoading = false;
+    // },
   },
 });
 
