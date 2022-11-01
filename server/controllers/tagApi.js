@@ -40,7 +40,10 @@ const createTag = async (req, res, next) => {
     const { name, workspaceId } = req.body;
     const { id: writerId } = req.user;
 
-    const findTag = await modTag.findOne({ name, writer: writerId }).exec();
+    const findTag = await modTag
+      .findOne({ name, writer: writerId, workspaces: { $in: workspaceId } })
+      .exec();
+
     if (findTag) {
       findTag.workspaces.push(workspaceId);
       await modWorkspace.update(
