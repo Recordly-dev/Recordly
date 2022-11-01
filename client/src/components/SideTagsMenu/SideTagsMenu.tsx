@@ -12,11 +12,10 @@ const SideTagsMenu = () => {
   const dispatch = useDispatch();
   const tagList = useSelector((state: any) => state.tag.tagList);
 
-  console.log(tagList);
-
   useEffect(() => {
     dispatch(tagListActions.fetchTagList());
   }, []);
+
   return (
     <div className={styles.SideTagsMenu}>
       <Tag tagList={tagList.map((v: any) => v.name)} />
