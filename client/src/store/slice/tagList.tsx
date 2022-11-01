@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Agent } from "https";
 import _, { debounce } from "lodash";
 
 export const fetchTagList = createAsyncThunk(
@@ -13,9 +14,12 @@ export const fetchTagList = createAsyncThunk(
 export const fetchWorkspaceTagList = createAsyncThunk(
   "tagList/fetchWorkspaceTagList",
   async (arg: { uid: string }) => {
-    const workspace = await axios.get(`/api/workspace/${arg.uid}`);
+    const params = {
+      workspaceId: arg.uid,
+    };
+    const workspaceTagList = await axios.get(`/api/tag/${arg.uid}`, { params });
 
-    return workspace.data?.tags;
+    return workspaceTagList?.data?.data;
   }
 );
 
@@ -104,10 +108,6 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
-    // [getRecommendedTagList.fulfilled.type]: (state, action) => {
-    //   state.recommendedTagList = action.payload;
-    //   state.isLoading = false;
-    // },
   },
 });
 
