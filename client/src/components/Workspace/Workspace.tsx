@@ -33,7 +33,7 @@ const Workspace = ({
   folderId: string | null;
   editedAt: string;
   favorites: boolean;
-  isTagPage: boolean | undefined;
+  isTagPage: boolean;
   isFavoritesPage?: boolean;
   moveWorkSpacePage: Function;
   formatWorkspaceDate: Function;

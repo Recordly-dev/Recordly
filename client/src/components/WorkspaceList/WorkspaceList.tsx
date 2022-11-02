@@ -79,7 +79,7 @@ const WorkspaceList = ({
               editedAt={workspace.editedAt}
               favorites={workspace.favorites}
               isFavoritesPage={isFavoritesPage}
-              isTagPage={isTagPage}
+              isTagPage={!!isTagPage}
               moveWorkSpacePage={moveWorkSpacePage}
               formatWorkspaceDate={formatWorkspaceDate}
             />

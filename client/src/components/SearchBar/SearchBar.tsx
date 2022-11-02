@@ -8,7 +8,13 @@ import { useDispatch } from "store";
 import searchIcon from "./assets/images/search-icon.png";
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ isFavoritesPage }: { isFavoritesPage?: boolean }) => {
+const SearchBar = ({
+  isFavoritesPage,
+  isTagPage,
+}: {
+  isFavoritesPage?: boolean;
+  isTagPage?: boolean;
+}) => {
   const dispatch = useDispatch();
 
   const [searchValue, setSearchValue] = useState("");
@@ -18,9 +24,13 @@ const SearchBar = ({ isFavoritesPage }: { isFavoritesPage?: boolean }) => {
 
     if (e.target.value === "") {
       dispatch(
-        workspaceActions.filterWorkspaceList({ value: "", isFavoritesPage })
+        workspaceActions.filterWorkspaceList({
+          value: "",
+          isFavoritesPage: !!isFavoritesPage,
+          isTagPage: !!isTagPage,
+        })
       );
-      dispatch(folderListActions.fetchFolderList());
+      !isTagPage && dispatch(folderListActions.fetchFolderList());
     }
   };
 
@@ -29,10 +39,11 @@ const SearchBar = ({ isFavoritesPage }: { isFavoritesPage?: boolean }) => {
       dispatch(
         workspaceActions.filterWorkspaceList({
           value: searchValue,
-          isFavoritesPage,
+          isFavoritesPage: !!isFavoritesPage,
+          isTagPage: !!isTagPage,
         })
       );
-      dispatch(folderListActions.setInitialFolderList());
+      !isTagPage && dispatch(folderListActions.setInitialFolderList());
     }
   };
 
