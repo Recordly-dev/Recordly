@@ -8,7 +8,7 @@ import { actions as tagListActions, setTagList } from "store/slice/tagSlice";
 
 import { useDispatch } from "store";
 
-const TagList = ({ workspaceId }: { workspaceId: string }) => {
+const TagInput = ({ workspaceId }: { workspaceId: string }) => {
   const dispatch = useDispatch();
 
   // TODO: 추천 태그 리스트 사용
@@ -61,4 +61,4 @@ const TagList = ({ workspaceId }: { workspaceId: string }) => {
   );
 };
 
-export default TagList;
+export default TagInput;

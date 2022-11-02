@@ -7,7 +7,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 
-import TagList from "../TagList";
+import TagInput from "../TagInput";
 
 import styles from "./EditorMenu.module.scss";
 
@@ -162,7 +162,7 @@ const EditorMenu = ({
         </button>
       </div>
       <div style={{ position: "absolute", bottom: 20, left: 8, zIndex: 2 }}>
-        <TagList workspaceId={workspaceId} />
+        <TagInput workspaceId={workspaceId} />
         <div className={styles.EditorMenu__TagList}>
           {tagList.map((tag: any) => (
             <Button>{tag?.name}</Button>
