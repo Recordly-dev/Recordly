@@ -88,9 +88,23 @@ const patchTag = async (req, res, next) => {
   }
 };
 
+const deleteTag = async (req, res, next) => {
+  const tagId = req.params.tagId;
+  try {
+    modTag.deleteOne({ _id: tagId }).then((data) => {
+      console.log(data);
+    });
+    res.json({ data: "delete completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 export default {
   getTagsOfCurrentUser,
   getTagsOfCurrentWorkspace,
   createTag,
   patchTag,
+  deleteTag,
 };
