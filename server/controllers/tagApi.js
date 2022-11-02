@@ -18,23 +18,6 @@ const getTagsOfCurrentUser = async (req, res, next) => {
   }
 };
 
-const getTagsOfCurrentWorkspace = async (req, res, next) => {
-  try {
-    const { id: writerId } = req.user;
-    const { workspaceId } = req.query;
-
-    const tags = await modTag
-      .find({ writer: writerId, workspaces: { $in: workspaceId } })
-      .populate("workspaces", "title");
-
-    res.json({ data: tags });
-  } catch (err) {
-    console.error(err);
-    console.dir(err);
-    next(err);
-  }
-};
-
 const createTag = async (req, res, next) => {
   try {
     const { name, workspaceId } = req.body;
@@ -67,9 +50,43 @@ const createTag = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    console.dir(err);
     next(err);
   }
 };
 
-export default { getTagsOfCurrentUser, getTagsOfCurrentWorkspace, createTag };
+const patchTag = async (req, res, next) => {
+  const tagId = req.params.tagId;
+  const { tagName } = req.body;
+  try {
+    await modTag.updateOne(
+      { _id: tagId },
+      {
+        $set: { name: tagName },
+      }
+    );
+    res.json({ message: "update completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const deleteTag = async (req, res, next) => {
+  const tagId = req.params.tagId;
+  try {
+    modTag.deleteOne({ _id: tagId }).then((data) => {
+      console.log(data);
+    });
+    res.json({ data: "delete completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+export default {
+  getTagsOfCurrentUser,
+  createTag,
+  patchTag,
+  deleteTag,
+};

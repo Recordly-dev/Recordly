@@ -14,17 +14,24 @@ router
   );
 
 router
-  .route("/:workspaceId")
-  .get(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(tagApi.getTagsOfCurrentWorkspace)
-  );
-
-router
   .route("/")
   .post(
     midError.asyncWrapper(midAuth.checkLogin),
     midError.asyncWrapper(tagApi.createTag)
+  );
+
+router
+  .route("/:tagId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(tagApi.patchTag)
+  );
+
+router
+  .route("/:tagId")
+  .delete(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(tagApi.deleteTag)
   );
 
 export default router;

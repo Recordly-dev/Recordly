@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Agent } from "https";
 import _, { debounce } from "lodash";
+import { ITagState } from "types/tag";
 
 export const fetchTagList = createAsyncThunk(
   "tagList/fetchTagList",
@@ -11,27 +12,20 @@ export const fetchTagList = createAsyncThunk(
   }
 );
 
-export const fetchWorkspaceTagList = createAsyncThunk(
-  "tagList/fetchWorkspaceTagList",
-  async (arg: { uid: string }) => {
-    const params = {
-      workspaceId: arg.uid,
-    };
-    const workspaceTagList = await axios.get(`/api/tag/${arg.uid}`, { params });
-
-    return workspaceTagList?.data?.data;
-  }
-);
-
 export const postTagList = createAsyncThunk(
   "tagList/postTagList",
-  async (arg: { name: string; workspaceId: string }, { dispatch }) => {
+  async (
+    arg: { name: string; workspaceId: string },
+    { dispatch, getState }
+  ) => {
     await axios.post("/api/tag", {
       name: arg.name,
       workspaceId: arg.workspaceId,
     });
 
-    dispatch(fetchWorkspaceTagList({ uid: arg.workspaceId }));
+    const rootState: any = getState();
+    const tagList = rootState.tag.tagList;
+    dispatch(setTagList([...tagList, { name: arg.name }]));
   }
 );
 
@@ -92,19 +86,15 @@ const tagSlice = createSlice({
     setRecommendedTagList: (state, action: PayloadAction<any>) => {
       state.recommendedTagList = action.payload;
     },
+    addTag: (state: ITagState, action: PayloadAction<any>) => {
+      state.tagList = [...state.tagList, action.payload];
+    },
   },
   extraReducers: {
     [fetchTagList.pending.type]: (state) => {
       state.isLoading = true;
     },
     [fetchTagList.fulfilled.type]: (state, action) => {
-      state.tagList = action.payload;
-      state.isLoading = false;
-    },
-    [fetchWorkspaceTagList.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [fetchWorkspaceTagList.fulfilled.type]: (state, action) => {
       state.tagList = action.payload;
       state.isLoading = false;
     },
@@ -115,7 +105,6 @@ export const { setTagList, setRecommendedTagList } = tagSlice.actions;
 
 export const actions = {
   fetchTagList,
-  fetchWorkspaceTagList,
   postTagList,
   getRecommendedTagList,
   ...tagSlice.actions,
