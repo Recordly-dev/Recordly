@@ -148,7 +148,7 @@ export const patchWorkspace = createAsyncThunk(
       });
 
       if (arg.isFavoritesPage) {
-        dispatch(fetchFavoritesWorkspaceList()); 
+        dispatch(fetchFavoritesWorkspaceList());
       } else if (arg.isTagPage) {
         dispatch(fetchAllWorkspaceList());
       } else if (arg.folderId) {
@@ -187,9 +187,9 @@ export const deleteWorkspace = createAsyncThunk(
         showConfirmButton: false,
         timer: 1000,
       });
-      
+
       if (arg.isFavoritesPage) {
-        dispatch(fetchFavoritesWorkspaceList()); 
+        dispatch(fetchFavoritesWorkspaceList());
       } else if (arg.isTagPage) {
         dispatch(fetchAllWorkspaceList());
       } else if (arg.folderId) {

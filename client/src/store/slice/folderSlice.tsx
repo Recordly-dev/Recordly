@@ -25,7 +25,7 @@ const handleError = (err: any) => {
  * 모든 폴더 가져오는 로직
  */
 export const fetchFolderList = createAsyncThunk(
-  "folderList/fetchFolderList",
+  "folder/fetchFolderList",
   async () => {
     const response = await axios.get("/api/folder");
     return response?.data;
@@ -36,7 +36,7 @@ export const fetchFolderList = createAsyncThunk(
  * 특정 폴더 삭제하는 로직
  */
 export const deleteFolderList = createAsyncThunk(
-  "folderList/deleteFolderList",
+  "folder/deleteFolderList",
   async (arg: { uid: String }, { dispatch }) => {
     await axios.delete(`/api/folder/${arg.uid}`);
 
@@ -48,7 +48,7 @@ export const deleteFolderList = createAsyncThunk(
  * 폴더 생성하는 로직
  */
 export const postFolderList = createAsyncThunk(
-  "folderList/postFolderList",
+  "folder/postFolderList",
   async (arg: { title: String }, { dispatch }) => {
     try {
       await axios.post("/api/folder", {
@@ -66,7 +66,7 @@ export const postFolderList = createAsyncThunk(
  * 폴더 이름 수정하는 로직
  */
 export const patchFolderList = createAsyncThunk(
-  "folderList/patchFolderList",
+  "folder/patchFolderList",
   async (arg: { uid: String; title: String }, { dispatch }) => {
     try {
       await axios.patch(`/api/folder/${arg.uid}`, {
@@ -84,7 +84,7 @@ export const patchFolderList = createAsyncThunk(
  * 최근 폴더 id값 정의
  */
 export const patchCurrentFolderId = createAsyncThunk(
-  "folderList/patchCurrentFolderId",
+  "folder/patchCurrentFolderId",
   async (arg: { uid: String }) => {
     try {
       return arg.uid;
@@ -100,8 +100,8 @@ const initialState = {
   isLoading: false,
 };
 
-const tagSlice = createSlice({
-  name: "folderList",
+const folderSlice = createSlice({
+  name: "folder",
   initialState,
   reducers: {
     setFolderList: (state, action: PayloadAction<any>) => {
@@ -125,7 +125,7 @@ const tagSlice = createSlice({
   },
 });
 
-export const { setFolderList } = tagSlice.actions;
+export const { setFolderList } = folderSlice.actions;
 
 export const actions = {
   fetchFolderList,
@@ -133,7 +133,7 @@ export const actions = {
   deleteFolderList,
   patchFolderList,
   patchCurrentFolderId,
-  ...tagSlice.actions,
+  ...folderSlice.actions,
 };
 
-export default tagSlice.reducer;
+export default folderSlice.reducer;

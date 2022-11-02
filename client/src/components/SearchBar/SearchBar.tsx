@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Input, InputGroup, InputGroupText } from "reactstrap";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
-import { actions as folderListActions } from "store/slice/folderList";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import { actions as folderListActions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
 import searchIcon from "./assets/images/search-icon.png";

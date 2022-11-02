@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { Input } from "reactstrap";
 
-import { actions as tagListActions, setTagList } from "store/slice/tagList";
+import { actions as tagListActions, setTagList } from "store/slice/tagSlice";
 
 import { useDispatch } from "store";
 

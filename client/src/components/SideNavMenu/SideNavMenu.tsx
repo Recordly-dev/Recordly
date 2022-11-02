@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
-import { actions as folderActions } from "store/slice/folderList";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import { actions as folderActions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
 import styles from "./SideNavMenu.module.scss";

@@ -3,7 +3,7 @@ import cn from "classnames";
 import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
-import { actions } from "store/slice/folderList";
+import { actions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
 import folderSrc from "./assets/images/Folder.png";

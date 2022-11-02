@@ -6,7 +6,7 @@ import cn from "classnames";
 
 import styles from "./Tag.module.scss";
 
-const Tag = ({ tagList }: {tagList: any}) => {
+const Tag = ({ tagList }: { tagList: any }) => {
   const workspaceList = useSelector(
     (state: any) => state.workspace.workspaceList
   );
@@ -25,8 +25,10 @@ const Tag = ({ tagList }: {tagList: any}) => {
           size="md"
           // onClick={() => getWorkspaceHaveTags(tag[0])}
         >
-          <span>{tag.name}</span>
-          <span className={styles.Tag__tag__count}>({tag.workspaces.length})</span>
+          <span>{tag?.name}</span>
+          <span className={styles.Tag__tag__count}>
+            ({tag.workspaces?.length})
+          </span>
         </Button>
       ))}
     </div>

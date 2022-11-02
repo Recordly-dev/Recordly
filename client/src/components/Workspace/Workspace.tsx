@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { Button } from "reactstrap";
 import AlertModal from "components/AlertModal";
 
-import { actions } from "store/slice/workspaceList";
+import { actions } from "store/slice/workspaceSlice";
 
 import { IFolder } from "types/folder";
 

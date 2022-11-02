@@ -13,7 +13,7 @@ import styles from "./EditorMenu.module.scss";
 
 import html2canvas from "html2canvas";
 
-import { actions as tagListActions } from "store/slice/tagList";
+import { actions as tagListActions } from "store/slice/tagSlice";
 
 import { extractTextsFromDocument } from "../../../../utils/tldraw";
 

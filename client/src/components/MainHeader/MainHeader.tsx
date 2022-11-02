@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import {
   actions,
   actions as workspaceActions,
-} from "store/slice/workspaceList";
+} from "store/slice/workspaceSlice";
 import { useDispatch } from "store";
 
 import createIcon from "./assets/images/create-icon.png";
