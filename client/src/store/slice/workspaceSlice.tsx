@@ -208,9 +208,23 @@ export const deleteWorkspace = createAsyncThunk(
  */
 export const filterWorkspaceList = createAsyncThunk(
   "workspace/filterWorkspaceList",
-  async (arg: { value: string; isFavoritesPage: boolean | undefined }) => {
+  async (arg: {
+    value: string;
+    isFavoritesPage: boolean;
+    isTagPage: boolean;
+  }) => {
     if (arg.isFavoritesPage) {
       const response = await axios.get("/api/workspace/favorites");
+
+      return response.data.filter((v: IWorkspace) => {
+        if (arg.value.length === 0) {
+          return v;
+        } else {
+          return v.title.includes(arg.value);
+        }
+      });
+    } else if (arg.isTagPage) {
+      const response = await axios.get("/api/workspace");
 
       return response.data.filter((v: IWorkspace) => {
         if (arg.value.length === 0) {

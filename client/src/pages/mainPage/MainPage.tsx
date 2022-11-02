@@ -35,11 +35,17 @@ const MainPage = ({
               [styles.MainPage__container__mainDashboard__tags]: isTagPage,
             })}
           >
-            <MainHeader isFavoritesPage={isFavoritesPage} />
+            <MainHeader
+              isFavoritesPage={isFavoritesPage}
+              isTagPage={isTagPage}
+            />
             {isFavoritesPage ? (
               <FavoritesDashboard isFavoritesPage />
             ) : (
-              <MainDashboard isFolderDetailPage={isFolderDetailPage} isTagPage={isTagPage} />
+              <MainDashboard
+                isFolderDetailPage={isFolderDetailPage}
+                isTagPage={isTagPage}
+              />
             )}
           </div>
         </section>
