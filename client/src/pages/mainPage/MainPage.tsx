@@ -39,7 +39,7 @@ const MainPage = ({
             {isFavoritesPage ? (
               <FavoritesDashboard isFavoritesPage />
             ) : (
-              <MainDashboard isFolderDetailPage={isFolderDetailPage} />
+              <MainDashboard isFolderDetailPage={isFolderDetailPage} isTagPage={isTagPage} />
             )}
           </div>
         </section>

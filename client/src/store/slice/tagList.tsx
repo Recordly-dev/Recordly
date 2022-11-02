@@ -12,6 +12,18 @@ export const fetchTagList = createAsyncThunk(
   }
 );
 
+export const fetchWorkspaceTagList = createAsyncThunk(
+  "tagList/fetchWorkspaceTagList",
+  async (arg: { uid: string }) => {
+    const params = {
+      workspaceId: arg.uid,
+    };
+    const workspaceTagList = await axios.get(`/api/tagg/${arg.uid}`, { params });
+
+    return workspaceTagList?.data?.data;
+  }
+);
+
 export const postTagList = createAsyncThunk(
   "tagList/postTagList",
   async (

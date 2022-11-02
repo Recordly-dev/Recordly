@@ -23,6 +23,7 @@ const Workspace = ({
   folderId,
   editedAt,
   favorites,
+  isTagPage,
   isFavoritesPage,
   moveWorkSpacePage,
   formatWorkspaceDate,
@@ -32,6 +33,7 @@ const Workspace = ({
   folderId: string | null;
   editedAt: string;
   favorites: boolean;
+  isTagPage: boolean | undefined;
   isFavoritesPage?: boolean;
   moveWorkSpacePage: Function;
   formatWorkspaceDate: Function;
@@ -66,6 +68,7 @@ const Workspace = ({
             workspaceId: uid,
             folderId: folderId,
             isFavoritesPage,
+            isTagPage,
           })
         );
       }
@@ -97,6 +100,7 @@ const Workspace = ({
             title: result?.value,
             folderId: folderId,
             isFavoritesPage,
+            isTagPage,
           })
         );
       }
