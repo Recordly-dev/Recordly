@@ -136,6 +136,7 @@ export const patchWorkspace = createAsyncThunk(
       folderId?: string | null;
       folder?: string;
       isFavoritesPage?: boolean;
+      isTagPage?: boolean;
     },
     { dispatch }
   ) => {
@@ -147,7 +148,9 @@ export const patchWorkspace = createAsyncThunk(
       });
 
       if (arg.isFavoritesPage) {
-        dispatch(fetchFavoritesWorkspaceList());
+        dispatch(fetchFavoritesWorkspaceList()); 
+      } else if (arg.isTagPage) {
+        dispatch(fetchAllWorkspaceList());
       } else if (arg.folderId) {
         dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
       } else {
@@ -169,6 +172,7 @@ export const deleteWorkspace = createAsyncThunk(
       workspaceId: string;
       folderId: string | null;
       isFavoritesPage?: boolean;
+      isTagPage?: boolean;
     },
     { dispatch }
   ) => {
@@ -183,9 +187,11 @@ export const deleteWorkspace = createAsyncThunk(
         showConfirmButton: false,
         timer: 1000,
       });
-
+      
       if (arg.isFavoritesPage) {
-        dispatch(fetchFavoritesWorkspaceList());
+        dispatch(fetchFavoritesWorkspaceList()); 
+      } else if (arg.isTagPage) {
+        dispatch(fetchAllWorkspaceList());
       } else if (arg.folderId) {
         dispatch(fetchWorkspaceInFolder({ uid: arg.folderId }));
       } else {

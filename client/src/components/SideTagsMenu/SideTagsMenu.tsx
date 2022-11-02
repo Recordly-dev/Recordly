@@ -18,7 +18,7 @@ const SideTagsMenu = () => {
 
   return (
     <div className={styles.SideTagsMenu}>
-      <Tag tagList={tagList.map((v: any) => v.name)} />
+      <Tag tagList={tagList} />
     </div>
   );
 };

@@ -12,9 +12,11 @@ import { IWorkspace } from "types/workspace";
 const WorkspaceList = ({
   isLoadingData,
   isFavoritesPage,
+  isTagPage,
 }: {
   isLoadingData: boolean;
   isFavoritesPage?: boolean;
+  isTagPage?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -77,6 +79,7 @@ const WorkspaceList = ({
               editedAt={workspace.editedAt}
               favorites={workspace.favorites}
               isFavoritesPage={isFavoritesPage}
+              isTagPage={isTagPage}
               moveWorkSpacePage={moveWorkSpacePage}
               formatWorkspaceDate={formatWorkspaceDate}
             />

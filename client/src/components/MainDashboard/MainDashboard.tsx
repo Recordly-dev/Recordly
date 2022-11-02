@@ -18,8 +18,10 @@ import styles from "./MainDashboard.module.scss";
 
 const MainDashboard = ({
   isFolderDetailPage,
+  isTagPage,
 }: {
   isFolderDetailPage?: boolean;
+  isTagPage?: boolean;
 }) => {
   const [isLoadingData, setIsLoadingData] = useState(false);
 
@@ -39,13 +41,18 @@ const MainDashboard = ({
   );
 
   useEffect(() => {
-    dispatch(folderActions.fetchFolderList());
-    !isFolderDetailPage
-      ? dispatch(workspaceActions.fetchWorkspaceList())
-      : dispatch(
-          workspaceActions.fetchWorkspaceInFolder({ uid: currentFolderId })
-        );
-  }, [isFolderDetailPage, currentFolderId]);
+    if(isTagPage) {
+      dispatch(folderActions.setInitialFolderList());
+      dispatch(workspaceActions.fetchAllWorkspaceList())
+    } else if (isFolderDetailPage) {
+      dispatch(
+        workspaceActions.fetchWorkspaceInFolder({ uid: currentFolderId })
+      );
+    } else {
+      dispatch(folderActions.fetchFolderList())
+      dispatch(workspaceActions.fetchWorkspaceList())
+    }
+  }, [isTagPage, isFolderDetailPage, currentFolderId]);
 
   const moveGoBack = () => {
     navigate(`/main`);
@@ -64,7 +71,7 @@ const MainDashboard = ({
         ) : (
           <FolderList isLoadingData={isLoadingData} />
         )}
-        <WorkspaceList isLoadingData={isLoadingData} />
+        <WorkspaceList isLoadingData={isLoadingData} isTagPage={isTagPage} />
       </Container>
     </section>
   );
