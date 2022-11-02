@@ -27,4 +27,11 @@ router
     midError.asyncWrapper(tagApi.createTag)
   );
 
+router
+  .route("/:tagId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(tagApi.patchTag)
+  );
+
 export default router;

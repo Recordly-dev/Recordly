@@ -67,9 +67,30 @@ const createTag = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    console.dir(err);
     next(err);
   }
 };
 
-export default { getTagsOfCurrentUser, getTagsOfCurrentWorkspace, createTag };
+const patchTag = async (req, res, next) => {
+  const tagId = req.params.tagId;
+  const { tagName } = req.body;
+  try {
+    await modTag.updateOne(
+      { _id: tagId },
+      {
+        $set: { name: tagName },
+      }
+    );
+    res.json({ message: "update completed" });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+export default {
+  getTagsOfCurrentUser,
+  getTagsOfCurrentWorkspace,
+  createTag,
+  patchTag,
+};
