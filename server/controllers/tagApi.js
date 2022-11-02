@@ -18,23 +18,6 @@ const getTagsOfCurrentUser = async (req, res, next) => {
   }
 };
 
-const getTagsOfCurrentWorkspace = async (req, res, next) => {
-  try {
-    const { id: writerId } = req.user;
-    const { workspaceId } = req.query;
-
-    const tags = await modTag
-      .find({ writer: writerId, workspaces: { $in: workspaceId } })
-      .populate("workspaces", "title");
-
-    res.json({ data: tags });
-  } catch (err) {
-    console.error(err);
-    console.dir(err);
-    next(err);
-  }
-};
-
 const createTag = async (req, res, next) => {
   try {
     const { name, workspaceId } = req.body;
@@ -103,7 +86,6 @@ const deleteTag = async (req, res, next) => {
 
 export default {
   getTagsOfCurrentUser,
-  getTagsOfCurrentWorkspace,
   createTag,
   patchTag,
   deleteTag,

@@ -14,13 +14,6 @@ router
   );
 
 router
-  .route("/:workspaceId")
-  .get(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(tagApi.getTagsOfCurrentWorkspace)
-  );
-
-router
   .route("/")
   .post(
     midError.asyncWrapper(midAuth.checkLogin),

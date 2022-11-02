@@ -1,5 +1,9 @@
 import { TDDocument } from "@tldraw/tldraw";
 
+export interface IWorkspaceState {
+  workspaceList: Array<IWorkspace>;
+  isLoading: boolean;
+}
 export interface IWorkspace {
   _id: string;
   title: string;

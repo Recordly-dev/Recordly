@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { Input } from "reactstrap";
 
-import { actions as tagListActions } from "store/slice/tagList";
+import { actions as tagListActions, setTagList } from "store/slice/tagList";
 
 import { useDispatch } from "store";
 
@@ -15,6 +15,16 @@ const TagList = ({ workspaceId }: { workspaceId: string }) => {
   const recommendedTagList = useSelector(
     (state: any) => state.tag.recommendedTagList
   );
+
+  const workspace = useSelector(
+    (state: any) => state.workspace.workspaceList
+  ).filter((workspace: any) => workspace._id === workspaceId)?.[0];
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setTagList([...workspace.tags]));
+    }
+  }, []);
 
   const [tagInputValue, setTagInputValue] = useState("");
 

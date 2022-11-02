@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { IWorkspace } from "../../types/workspace";
 import axios from "axios";
+import { IWorkspaceState } from "../../types/workspace";
 
 import Swal from "sweetalert2";
 import sortBy from "lodash/sortBy";
@@ -248,7 +249,7 @@ export const sortWorkspaceList = createAsyncThunk(
   }
 );
 
-const initialState = {
+const initialState: IWorkspaceState = {
   workspaceList: [],
   isLoading: false,
 };
@@ -262,45 +263,54 @@ const workspaceSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchWorkspaceList.pending.type]: (state) => {
+    [fetchWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [fetchWorkspaceList.fulfilled.type]: (state, action) => {
+    [fetchWorkspaceList.fulfilled.type]: (state: IWorkspaceState, action) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [fetchAllWorkspaceList.pending.type]: (state) => {
+    [fetchAllWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [fetchAllWorkspaceList.fulfilled.type]: (state, action) => {
+    [fetchAllWorkspaceList.fulfilled.type]: (
+      state: IWorkspaceState,
+      action
+    ) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [fetchWorkspaceInFolder.pending.type]: (state) => {
+    [fetchWorkspaceInFolder.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [fetchWorkspaceInFolder.fulfilled.type]: (state, action) => {
+    [fetchWorkspaceInFolder.fulfilled.type]: (
+      state: IWorkspaceState,
+      action
+    ) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [fetchFavoritesWorkspaceList.pending.type]: (state) => {
+    [fetchFavoritesWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [fetchFavoritesWorkspaceList.fulfilled.type]: (state, action) => {
+    [fetchFavoritesWorkspaceList.fulfilled.type]: (
+      state: IWorkspaceState,
+      action
+    ) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [filterWorkspaceList.pending.type]: (state) => {
+    [filterWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [filterWorkspaceList.fulfilled.type]: (state, action) => {
+    [filterWorkspaceList.fulfilled.type]: (state: IWorkspaceState, action) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
-    [sortWorkspaceList.pending.type]: (state) => {
+    [sortWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
-    [sortWorkspaceList.fulfilled.type]: (state, action) => {
+    [sortWorkspaceList.fulfilled.type]: (state: IWorkspaceState, action) => {
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
