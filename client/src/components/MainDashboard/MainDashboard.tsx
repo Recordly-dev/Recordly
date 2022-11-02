@@ -11,8 +11,8 @@ import MoveToBackCard from "./components/MoveToBackCard";
 import { useDispatch } from "store";
 import { useSelector } from "react-redux";
 
-import { actions as folderActions } from "store/slice/folderList";
-import { actions as workspaceActions } from "store/slice/workspaceList";
+import { actions as folderActions } from "store/slice/folderSlice";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import styles from "./MainDashboard.module.scss";
 
@@ -41,16 +41,16 @@ const MainDashboard = ({
   );
 
   useEffect(() => {
-    if(isTagPage) {
+    if (isTagPage) {
       dispatch(folderActions.setInitialFolderList());
-      dispatch(workspaceActions.fetchAllWorkspaceList())
+      dispatch(workspaceActions.fetchAllWorkspaceList());
     } else if (isFolderDetailPage) {
       dispatch(
         workspaceActions.fetchWorkspaceInFolder({ uid: currentFolderId })
       );
     } else {
-      dispatch(folderActions.fetchFolderList())
-      dispatch(workspaceActions.fetchWorkspaceList())
+      dispatch(folderActions.fetchFolderList());
+      dispatch(workspaceActions.fetchWorkspaceList());
     }
   }, [isTagPage, isFolderDetailPage, currentFolderId]);
 

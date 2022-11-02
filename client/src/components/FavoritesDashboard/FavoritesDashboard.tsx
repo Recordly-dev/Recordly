@@ -7,7 +7,7 @@ import { Container } from "reactstrap";
 
 import WorkspaceList from "components/WorkspaceList";
 
-import { actions as workspaceActions } from "store/slice/workspaceList";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import styles from "./FavoritesDashboard.module.scss";
 

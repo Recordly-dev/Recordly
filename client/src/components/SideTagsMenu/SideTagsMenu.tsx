@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
 
-import { actions as tagListActions } from "store/slice/tagList";
+import { actions as tagListActions } from "store/slice/tagSlice";
 
 import Tag from "components/Tag";
 

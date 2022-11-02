@@ -1,31 +1,30 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Agent } from "https";
-import _, { debounce } from "lodash";
 import { ITagState } from "types/tag";
 
-export const fetchTagList = createAsyncThunk(
-  "tagList/fetchTagList",
-  async () => {
-    const response = await axios.get("/api/tag");
-    return response?.data?.data;
-  }
-);
+import _ from "lodash";
+
+export const fetchTagList = createAsyncThunk("tag/fetchTagList", async () => {
+  const response = await axios.get("/api/tag");
+  return response?.data?.data;
+});
 
 export const fetchWorkspaceTagList = createAsyncThunk(
-  "tagList/fetchWorkspaceTagList",
+  "tag/fetchWorkspaceTagList",
   async (arg: { uid: string }) => {
     const params = {
       workspaceId: arg.uid,
     };
-    const workspaceTagList = await axios.get(`/api/tagg/${arg.uid}`, { params });
+    const workspaceTagList = await axios.get(`/api/tagg/${arg.uid}`, {
+      params,
+    });
 
     return workspaceTagList?.data?.data;
   }
 );
 
 export const postTagList = createAsyncThunk(
-  "tagList/postTagList",
+  "tag/postTagList",
   async (
     arg: { name: string; workspaceId: string },
     { dispatch, getState }
@@ -42,7 +41,7 @@ export const postTagList = createAsyncThunk(
 );
 
 // export const deleteTagList = createAsyncThunk(
-//   "tagList/deleteTagList",
+//   "tag/deleteTagList",
 //   async (arg: { workspaceId: string }, { dispatch }) => {
 //     await axios.delete(`/api/tag/${arg.workspaceId}`);
 
@@ -50,14 +49,14 @@ export const postTagList = createAsyncThunk(
 // );
 
 // export const getAllTagList = createAsyncThunk(
-//   "tagList/getAllTagList",
+//   "tag/getAllTagList",
 //   async () => {
 //     const response =
 //   }
 // )
 
 export const getRecommendedTagList = createAsyncThunk(
-  "tagList/getRecommendedTagList",
+  "tag/getRecommendedTagList",
   async (arg: { text: string }, { dispatch }) => {
     const debouncedGetFunc = _.debounce(async () => {
       axios
@@ -89,7 +88,7 @@ const initialState = {
 };
 
 const tagSlice = createSlice({
-  name: "tagList",
+  name: "tag",
   initialState,
   reducers: {
     setTagList: (state, action: PayloadAction<any>) => {

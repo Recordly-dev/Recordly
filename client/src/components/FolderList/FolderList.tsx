@@ -5,8 +5,8 @@ import { useNavigate } from "react-router";
 import Folder from "components/Folder/Folder";
 
 import { IFolder } from "types/folder";
-import { actions as folderActions } from "store/slice/folderList";
-import { actions as workspaceActions } from "store/slice/workspaceList";
+import { actions as folderActions } from "store/slice/folderSlice";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
