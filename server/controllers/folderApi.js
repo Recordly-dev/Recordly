@@ -1,6 +1,8 @@
 import modFolder from "#models/folder.js";
 import modWorkspace from "#models/workspace.js";
 
+import serWorkspace from "../services/workspaceService.js";
+
 const getFolders = async (req, res, next) => {
   try {
     const folders = await modFolder
@@ -17,8 +19,6 @@ const getFolders = async (req, res, next) => {
 const createFolder = async (req, res, next) => {
   try {
     const { title } = req.body;
-    console.log(req.body);
-    console.log(title);
     const { id: writerId } = req.user;
     const folder = await modFolder.create({
       title: title,
@@ -53,9 +53,8 @@ const patchFolder = async (req, res, next) => {
 const deleteFolder = async (req, res, next) => {
   try {
     const folderId = req.params.folderId;
-    modFolder.deleteOne({ _id: folderId }).then((data) => {
-      console.log(data);
-    });
+    await modFolder.deleteOne({ _id: folderId });
+    await serWorkspace.deleteWorkspacesInFolder(folderId);
 
     res.json({ data: "folder delete completed" });
   } catch (err) {
