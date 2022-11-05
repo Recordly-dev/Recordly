@@ -34,7 +34,6 @@ const EditorMenu = ({
   useEffect(() => {
     setInterval(async () => {
       const workspace = await axios.get(`/api/workspace/${workspaceId}`);
-      console.log(workspace);
       const texts = extractTextsFromDocument(workspace.data.content);
       dispatch(tagListActions.getRecommendedTagList({ text: texts }));
     }, 10000);

@@ -115,7 +115,6 @@ export const getRecommendedTagList = createAsyncThunk(
           },
         })
         .then((res) => {
-          console.log(res.data.tags);
           dispatch(setRecommendedTagList(res.data.tags));
         })
         .catch((err) => {
