@@ -45,25 +45,31 @@ const addTag = async (tagName, writerId, workspaceId) => {
   return newTag;
 };
 
-// 워크스페이스에서 해당 id의 태그를 삭제합니다.
-const removeTag = async (tagId, workspaceId) => {
-  const updateRet = await modTag.updateOne(
+const deleteWorkspaceInTag = async (tagId, workspaceId) => {
+  await modTag.updateOne(
     { _id: tagId },
     { $pull: { workspaces: ObjectId(workspaceId) } }
   );
-  console.log(updateRet);
+  const findTag = await modTag.findOne({ _id: tagId });
+  if (findTag.workspaces.length === 0) {
+    await modTag.deleteOne({ _id: tagId });
+  }
+  return { deleted: true };
+};
+
+const deleteTagInWorkspace = async (tagId, workspaceId) => {
   await modWorkspace.updateOne(
     { _id: workspaceId },
     { $pull: { tags: { _id: ObjectId(tagId) } } }
   );
-  const findTag = await modTag.findOne({ _id: tagId });
-  console.log(findTag);
-  if (findTag.workspaces.length === 0) {
-    await modTag.deleteOne({ _id: tagId }).then((data) => {
-      console.log(data);
-    });
-  }
+  return { deleted: true };
+};
+
+// 워크스페이스에서 해당 id의 태그를 삭제합니다.
+const removeTag = async (tagId, workspaceId) => {
+  await deleteWorkspaceInTag(tagId, workspaceId);
+  await deleteTagInWorkspace(tagId, workspaceId);
   return true;
 };
 
-export default { getSingleTag, addTag, removeTag };
+export default { getSingleTag, addTag, deleteWorkspaceInTag, removeTag };

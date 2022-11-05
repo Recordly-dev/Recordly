@@ -30,7 +30,6 @@ const createTag = async (req, res, next) => {
 
 const deleteTag = async (req, res, next) => {
   const tagId = req.params.tagId;
-  console.log(req.body);
   const { workspaceId } = req.body;
   try {
     await serTag.removeTag(tagId, workspaceId);
