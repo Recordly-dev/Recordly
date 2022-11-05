@@ -36,6 +36,8 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
 
   const postTag = async (name: string, workspaceId: string) => {
     dispatch(tagListActions.postTag({ name, workspaceId }));
+
+    setTagInputValue("");
   };
 
   const handleTextFieldKeyPress = (
@@ -45,7 +47,6 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
       case "Enter": {
         if (tagInputValue.length > 0) {
           postTag(tagInputValue, workspaceId);
-          setTagInputValue("");
         }
 
         break;

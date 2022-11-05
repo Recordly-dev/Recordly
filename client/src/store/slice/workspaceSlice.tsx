@@ -68,6 +68,18 @@ export const fetchWorkspaceInFolder = createAsyncThunk(
 );
 
 /**
+ * 특정 태그를 가지고 있는 워크스페이스 불러오는 로직
+ */
+export const fetchWorkspacesWithTag = createAsyncThunk(
+  "workspace/fetchWorkspacesWithTag",
+  async (arg: { tagId: string }) => {
+    const response = await axios.get(`/api/tag/${arg.tagId}/workspaces`);
+
+    return response?.data?.data;
+  }
+);
+
+/**
  * 즐겨찾기 workspace 불러오는 로직
  */
 export const fetchFavoritesWorkspaceList = createAsyncThunk(
@@ -310,6 +322,16 @@ const workspaceSlice = createSlice({
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
+    [fetchWorkspacesWithTag.pending.type]: (state: IWorkspaceState) => {
+      state.isLoading = true;
+    },
+    [fetchWorkspacesWithTag.fulfilled.type]: (
+      state: IWorkspaceState,
+      action
+    ) => {
+      state.workspaceList = action.payload;
+      state.isLoading = false;
+    },
     [fetchFavoritesWorkspaceList.pending.type]: (state: IWorkspaceState) => {
       state.isLoading = true;
     },
@@ -344,6 +366,7 @@ export const actions = {
   fetchAllWorkspaceList,
   fetchWorkspaceInFolder,
   fetchFavoritesWorkspaceList,
+  fetchWorkspacesWithTag,
   filterWorkspaceList,
   patchFavoritesWorkspaceList,
   sortWorkspaceList,
