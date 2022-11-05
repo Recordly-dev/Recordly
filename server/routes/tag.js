@@ -34,4 +34,11 @@ router
     midError.asyncWrapper(tagApi.deleteTag)
   );
 
+router
+  .route("/:tagId/workspaces")
+  .get(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(tagApi.getWokrspacesWithTag)
+  );
+
 export default router;

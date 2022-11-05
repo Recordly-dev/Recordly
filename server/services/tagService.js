@@ -3,6 +3,10 @@ import modWorkspace from "#models/workspace.js";
 import moment from "moment-timezone";
 import { ObjectId } from "mongodb";
 
+const getTagById = async (tagId) => {
+  return await modTag.findOne({ _id: tagId });
+};
+
 // userId, tagName을 이용해 해당하는 태그를 조회합니다.
 const getSingleTag = async (tagName, writerId) => {
   return await modTag.findOne({ name: tagName, writer: writerId }).exec();
@@ -72,4 +76,10 @@ const removeTag = async (tagId, workspaceId) => {
   return true;
 };
 
-export default { getSingleTag, addTag, deleteWorkspaceInTag, removeTag };
+export default {
+  getTagById,
+  getSingleTag,
+  addTag,
+  deleteWorkspaceInTag,
+  removeTag,
+};
