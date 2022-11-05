@@ -1,7 +1,6 @@
-import moment from "moment-timezone";
-
 import modTag from "#models/tag.js";
-import modWorkspace from "#models/workspace.js";
+
+import serTag from "../services/tagService.js";
 
 const getTagsOfCurrentUser = async (req, res, next) => {
   try {
@@ -12,74 +11,50 @@ const getTagsOfCurrentUser = async (req, res, next) => {
 
     res.json({ data: tags });
   } catch (err) {
-    console.error(err);
     console.dir(err);
     next(err);
   }
 };
 
 const createTag = async (req, res, next) => {
+  const { name: tagName, workspaceId } = req.body;
+  const { id: writerId } = req.user;
   try {
-    const { name, workspaceId } = req.body;
-    const { id: writerId } = req.user;
-
-    const findTag = await modTag.findOne({ name, writer: writerId }).exec();
-
-    if (findTag) {
-      await modTag.update(
-        { _id: findTag._id },
-        { $push: { workspaces: workspaceId } }
-      );
-      await modWorkspace.update(
-        { _id: workspaceId },
-        { $push: { tags: findTag._id } }
-      );
-      return res.status(201).json({ data: findTag });
-    } else {
-      const newTag = await modTag.create({
-        name,
-        createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-        writer: writerId,
-        workspaces: [workspaceId],
-      });
-      await modWorkspace.update(
-        { _id: workspaceId },
-        { $push: { tags: newTag._id } }
-      );
-      return res.status(201).json({ data: newTag });
-    }
+    const retTag = await serTag.addTag(tagName, writerId, workspaceId);
+    return res.status(201).json({ data: retTag });
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-const patchTag = async (req, res, next) => {
+const deleteTag = async (req, res, next) => {
   const tagId = req.params.tagId;
-  const { tagName } = req.body;
+  console.log(req.body);
+  const { workspaceId } = req.body;
   try {
-    await modTag.updateOne(
-      { _id: tagId },
-      {
-        $set: { name: tagName },
-      }
-    );
-    res.json({ message: "update completed" });
+    await serTag.removeTag(tagId, workspaceId);
+    res.json({ deleted: true });
   } catch (err) {
     console.log(err);
     next(err);
   }
 };
 
-const deleteTag = async (req, res, next) => {
+const patchTag = async (req, res, next) => {
   const tagId = req.params.tagId;
+  const { id: writerId } = req.user;
+  const { workspaceId, tagName } = req.body;
   try {
-    modTag.deleteOne({ _id: tagId }).then((data) => {
-      console.log(data);
-    });
-    res.json({ data: "delete completed" });
+    await serTag.removeTag(tagId, workspaceId);
   } catch (err) {
-    console.log(err);
+    next(err);
+  }
+
+  try {
+    const retTag = await serTag.addTag(tagName, writerId, workspaceId);
+    res.json({ data: retTag });
+  } catch (err) {
     next(err);
   }
 };
