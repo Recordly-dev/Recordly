@@ -4,4 +4,9 @@
   width: 14rem;
   background-color: rgb(109, 105, 98);
   margin-top: 2rem; // 40px
+
+  &__input {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
