@@ -1,6 +1,8 @@
 import moment from "moment-timezone";
 import modWorkspace from "#models/workspace.js";
 
+import serTag from "../services/tagService.js";
+
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
     const workspaces = await modWorkspace
@@ -99,8 +101,13 @@ const patchFavoritesWorkspace = async (req, res, next) => {
 };
 
 const deleteSingleWorkspace = async (req, res, next) => {
+  const workspaceId = req.params.workspaceId;
   try {
-    const workspaceId = req.params.workspaceId;
+    const findWorkspace = await modWorkspace.findOne({ _id: workspaceId });
+    findWorkspace.tags.forEach(({ _id: tagId }) => {
+      serTag.deleteWorkspaceInTag(tagId, workspaceId);
+    });
+
     modWorkspace.deleteOne({ _id: workspaceId }).then((data) => {
       console.log(data);
     });
