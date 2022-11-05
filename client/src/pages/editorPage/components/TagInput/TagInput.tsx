@@ -34,17 +34,18 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
     setTagInputValue(inputValue);
   };
 
-  const postTagList = async (name: string, workspaceId: string) => {
-    dispatch(tagListActions.postTagList({ name, workspaceId }));
+  const postTag = async (name: string, workspaceId: string) => {
+    dispatch(tagListActions.postTag({ name, workspaceId }));
   };
 
   const handleTextFieldKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {
       case "Enter": {
         if (tagInputValue.length > 0) {
-          postTagList(tagInputValue, workspaceId);
+          postTag(tagInputValue, workspaceId);
           setTagInputValue("");
         }
+
         break;
       }
     }

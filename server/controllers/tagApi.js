@@ -31,6 +31,7 @@ const createTag = async (req, res, next) => {
 const deleteTag = async (req, res, next) => {
   const tagId = req.params.tagId;
   const { workspaceId } = req.body;
+
   try {
     await serTag.removeTag(tagId, workspaceId);
     res.json({ deleted: true });
@@ -44,6 +45,7 @@ const patchTag = async (req, res, next) => {
   const tagId = req.params.tagId;
   const { id: writerId } = req.user;
   const { workspaceId, tagName } = req.body;
+
   try {
     await serTag.removeTag(tagId, workspaceId);
   } catch (err) {
