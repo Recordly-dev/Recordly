@@ -12,7 +12,7 @@ def getTags(rawText):
     tokenized_doc = okt.pos(rawText)
     tokenized_nouns = ' '.join([word[0] for word in tokenized_doc if word[1] == 'Noun'])
 
-    n_gram_range = (2, 3)
+    n_gram_range = (1, 1)
     count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
     candidates = count.get_feature_names()
     
@@ -24,7 +24,7 @@ def getTags(rawText):
     diversity = 0.7
     tags = mmr(doc_embedding, candidate_embeddings, candidates, top_n, diversity)
 
-    return tags;
+    return tags
 
 def mmr(doc_embedding, candidate_embeddings, words, top_n, diversity):
 
