@@ -7,4 +7,8 @@ const deleteWorkspacesInFolder = async (folderId) => {
   return { deleted: true };
 };
 
-export default { deleteWorkspacesInFolder };
+const getWorkspaceById = async (workspaceId) => {
+  return await modWorkspace.findOne({ _id: workspaceId });
+};
+
+export default { deleteWorkspacesInFolder, getWorkspaceById };
