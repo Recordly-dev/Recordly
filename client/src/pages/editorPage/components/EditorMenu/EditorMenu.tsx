@@ -103,7 +103,7 @@ const EditorMenu = ({
   return (
     <>
       {/* Tool Controls */}
-      <div className={styles.EditorMenu__Top}>
+      {/* <div className={styles.EditorMenu__Top}>
         <button
           className={styles.EditorMenu__Top__Button}
           style={{
@@ -168,7 +168,7 @@ const EditorMenu = ({
         >
           Erase
         </button>
-      </div>
+      </div> */}
       <div style={{ position: "absolute", bottom: 20, left: 8, zIndex: 2 }}>
         <TagInput workspaceId={workspaceId} />
         <div className={styles.EditorMenu__TagList}>
@@ -182,11 +182,11 @@ const EditorMenu = ({
           ))}
         </div>
       </div>
-      <div style={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}>
+      {/* <div style={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}>
         <button onClick={() => app.zoomIn()}>Zoom In</button>
         <button onClick={() => app.zoomOut()}>Zoom Out</button>
         <button onClick={() => app.resetZoom()}>Reset Zoom</button>
-      </div>
+      </div> */}
     </>
   );
 };

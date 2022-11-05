@@ -29,14 +29,7 @@ const EditorPage = () => {
 
   return (
     <div className={styles.EditorPage} id="tldrawEditor">
-      <Tldraw
-        id={workspaceId}
-        onMount={handleMount}
-        showUI={false}
-        onOpenProject={() => {
-          console.log("here1!!!");
-        }}
-      />
+      <Tldraw onMount={handleMount} />
       {/* When the app is in state, add it to the context provider and show the custom UI */}
       {app && (
         <AppContext.Provider value={app}>
