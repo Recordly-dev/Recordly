@@ -7,7 +7,7 @@ import { Agent } from "http";
 
 export const fetchTagList = createAsyncThunk("tag/fetchTagList", async () => {
   const response = await axios.get("/api/tag");
-  return response?.data?.data;
+  return response?.data;
 });
 
 export const fetchWorkspaceTagList = createAsyncThunk(
@@ -20,7 +20,7 @@ export const fetchWorkspaceTagList = createAsyncThunk(
       params,
     });
 
-    return workspaceTagList?.data?.data;
+    return workspaceTagList?.data;
   }
 );
 

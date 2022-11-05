@@ -10,7 +10,7 @@ const getTagsOfCurrentUser = async (req, res, next) => {
       .find({ writer: writerId })
       .populate("workspaces", "title");
 
-    res.json({ data: tags });
+    res.send(tags);
   } catch (err) {
     console.dir(err);
     next(err);
@@ -59,7 +59,7 @@ const patchTag = async (req, res, next) => {
 
   try {
     const retTag = await serTag.addTag(tagName, writerId, workspaceId);
-    res.json({ data: retTag });
+    res.json(retTag);
   } catch (err) {
     next(err);
   }
@@ -74,8 +74,9 @@ const getWokrspacesWithTag = async (req, res, next) => {
       serWorkspace.getWorkspaceById(workspaceId)
     )
   );
+  console.log(workspaces);
 
-  res.json({ data: workspaces });
+  res.send(workspaces);
 };
 
 export default {

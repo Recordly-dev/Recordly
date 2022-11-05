@@ -75,7 +75,7 @@ export const fetchWorkspacesWithTag = createAsyncThunk(
   async (arg: { tagId: string }) => {
     const response = await axios.get(`/api/tag/${arg.tagId}/workspaces`);
 
-    return response?.data?.data;
+    return response?.data;
   }
 );
 
