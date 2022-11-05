@@ -31,6 +31,10 @@ const MainHeader = ({
     dispatch(workspaceActions.sortWorkspaceList({ type }));
   };
 
+  const moveMainPage = () => {
+    navigate("/main");
+  };
+
   const handleButtonClick = (e: React.MouseEvent<HTMLImageElement>): void => {
     let title: string;
     let workspaceType: string;
@@ -118,7 +122,12 @@ const MainHeader = ({
         >
           {/* Todo: 로고 생기면 넣기 */}
           {/* <img src={imageUrl} className={styles.Header__image} alt="logoImage" /> */}
-          <span className={styles.MainHeader__container__title}>Recordly</span>
+          <span
+            className={styles.MainHeader__container__title}
+            onClick={moveMainPage}
+          >
+            Recordly
+          </span>
         </div>
 
         <div
