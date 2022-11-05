@@ -15,7 +15,7 @@ export const fetchWorkspaceTagList = createAsyncThunk(
     const params = {
       workspaceId: arg.uid,
     };
-    const workspaceTagList = await axios.get(`/api/tagg/${arg.uid}`, {
+    const workspaceTagList = await axios.get(`/api/tag/${arg.uid}`, {
       params,
     });
 
@@ -109,6 +109,13 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
+    [fetchWorkspaceTagList.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchWorkspaceTagList.fulfilled.type]: (state, action) => {
+      state.tagList = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
@@ -116,6 +123,7 @@ export const { setTagList, setRecommendedTagList } = tagSlice.actions;
 
 export const actions = {
   fetchTagList,
+  fetchWorkspaceTagList,
   postTagList,
   getRecommendedTagList,
   ...tagSlice.actions,

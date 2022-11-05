@@ -31,7 +31,7 @@ const EditorMenu = ({
   const { document } = snapshot;
 
   const tagList = useSelector((state: any) => state.tag.tagList);
-  console.log(tagList);
+
   const recommendedTagList = useSelector(
     (state: any) => state.tag.recommendedTagList
   );
@@ -86,6 +86,14 @@ const EditorMenu = ({
 
   useEffect(() => {
     dispatch(tagListActions.setRecommendedTagList([]));
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const currentWorkspace = await axios.get(`/api/workspace/${workspaceId}`);
+
+      dispatch(tagListActions.setTagList(currentWorkspace.data.tags));
+    })();
   }, []);
 
   useEffect(() => {

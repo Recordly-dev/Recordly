@@ -350,6 +350,7 @@ export const actions = {
   postWorkspace,
   patchWorkspace,
   deleteWorkspace,
+  ...workspaceSlice.actions,
 };
 
 export default workspaceSlice.reducer;

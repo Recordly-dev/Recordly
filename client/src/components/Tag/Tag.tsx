@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
 
+import { useDispatch } from "store";
 import { useSelector } from "react-redux";
 import { Button } from "reactstrap";
+
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+
+import { IWorkspace } from "types/workspace";
 import cn from "classnames";
 
 import styles from "./Tag.module.scss";
 
 const Tag = ({ tagList }: { tagList: any }) => {
+  const dispatch = useDispatch();
   const workspaceList = useSelector(
     (state: any) => state.workspace.workspaceList
   );
+
+  const getWorkspaceHaveTags = (workspace: IWorkspace[], tagName: string) => {
+    const filterWorkspace = workspace.filter((v: any) => {
+      const tagsArr = v.tags.map((tag: any) => tag.name);
+
+      return tagsArr.includes(tagName);
+    });
+
+    dispatch(workspaceActions.setWorkspaceList(filterWorkspace));
+  };
 
   return (
     <div className={cn(styles.Tag, "d-flex", "flex-column")}>
@@ -23,7 +39,7 @@ const Tag = ({ tagList }: { tagList: any }) => {
           )}
           color="primary"
           size="md"
-          // onClick={() => getWorkspaceHaveTags(tag[0])}
+          onClick={() => getWorkspaceHaveTags(workspaceList, tag.name)}
         >
           <span>{tag?.name}</span>
           <span className={styles.Tag__tag__count}>
