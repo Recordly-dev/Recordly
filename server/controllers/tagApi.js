@@ -74,7 +74,6 @@ const getWokrspacesWithTag = async (req, res, next) => {
       serWorkspace.getWorkspaceById(workspaceId)
     )
   );
-  console.log(workspaces);
 
   res.send(workspaces);
 };

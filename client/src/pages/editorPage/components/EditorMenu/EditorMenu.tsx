@@ -31,6 +31,16 @@ const EditorMenu = ({
   const snapshot = app.useStore();
   const { document } = snapshot;
 
+  useEffect(() => {
+    setInterval(async () => {
+      const workspace = await axios.get(`/api/workspace/${workspaceId}`);
+      const texts = extractTextsFromDocument(workspace.data.content);
+      dispatch(
+        tagListActions.getRecommendedTagList({ text: texts, workspaceId })
+      );
+    }, 10000);
+  }, [workspaceId]);
+
   const [isPatchTag, setIsPatchTag] = useState({
     state: false,
     index: 0,
@@ -117,9 +127,6 @@ const EditorMenu = ({
       })
       .then((res) => {
         console.log("content saved");
-
-        const texts = extractTextsFromDocument(document);
-        dispatch(tagListActions.getRecommendedTagList({ text: texts }));
       })
       .catch((err) => {
         console.log(err);

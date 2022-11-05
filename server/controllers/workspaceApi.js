@@ -119,6 +119,20 @@ const deleteSingleWorkspace = async (req, res, next) => {
   }
 };
 
+const saveRecommendedTags = async (req, res, next) => {
+  const workspaceId = req.params.workspaceId;
+  const { recommendedTags } = req.body;
+  try {
+    await modWorkspace.updateOne(
+      { _id: workspaceId },
+      { $set: { recommendedTags } }
+    );
+    res.send(true);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   getWorkspacesOfCurrentUser,
   createWorkspace,
@@ -127,4 +141,5 @@ export default {
   getFavoritesWorkspaceList,
   patchFavoritesWorkspace,
   deleteSingleWorkspace,
+  saveRecommendedTags,
 };
