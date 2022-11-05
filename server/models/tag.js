@@ -14,4 +14,6 @@ const tagSchema = new mongoose.Schema({
   workspaces: [{ type: ObjectId, ref: "Workspace" }],
 });
 
+tagSchema.index({ name: 1, writer: 1 }, { unique: true });
+
 export default mongoose.model("Tag", tagSchema);
