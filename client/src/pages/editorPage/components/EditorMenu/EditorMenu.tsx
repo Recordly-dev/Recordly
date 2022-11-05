@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import cn from "classnames";
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
-import { Button } from "reactstrap";
+import { Button, Input } from "reactstrap";
 import axios from "axios";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -26,9 +27,15 @@ const EditorMenu = ({
 }) => {
   const dispatch = useDispatch();
   const app = useContext(context);
-  const activeTool = app.useStore((s) => s.appState.activeTool);
+  // const activeTool = app.useStore((s) => s.appState.activeTool);
   const snapshot = app.useStore();
   const { document } = snapshot;
+
+  const [isPatchTag, setIsPatchTag] = useState({
+    state: false,
+    index: 0,
+  });
+  const [patchValue, setPatchTagValue] = useState("");
 
   const tagList = useSelector((state: any) => state.tag.tagList);
 
@@ -40,8 +47,43 @@ const EditorMenu = ({
     const popRecommendedTagList = [...recommendedTagList].filter(
       (tag) => tag !== name
     );
-    dispatch(tagListActions.postTagList({ name, workspaceId }));
+    dispatch(tagListActions.postTag({ name, workspaceId }));
     dispatch(tagListActions.setRecommendedTagList(popRecommendedTagList));
+  };
+
+  const deleteTag = (tagId: string, workspaceId: string) => {
+    dispatch(tagListActions.deleteTag({ tagId, workspaceId }));
+  };
+
+  const handlePatchTagValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    setPatchTagValue(inputValue);
+  };
+
+  const handlePatchTagKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    tagId: string,
+    workspaceId: string
+  ) => {
+    switch (e.key) {
+      case "Enter": {
+        if (patchValue.length > 0) {
+          dispatch(
+            tagListActions.patchTag({ tagId, tagName: patchValue, workspaceId })
+          );
+          setPatchTagValue("");
+          setIsPatchTag({ state: false, index: 0 });
+        }
+
+        break;
+      }
+    }
+  };
+
+  const handlePatchTagState = (tagName: string, idx: number) => {
+    setPatchTagValue(tagName);
+    setIsPatchTag({ state: true, index: idx });
   };
 
   const saveContentToDB = useDebouncedCallback((document) => {
@@ -172,8 +214,32 @@ const EditorMenu = ({
       <div style={{ position: "absolute", bottom: 20, left: 8, zIndex: 2 }}>
         <TagInput workspaceId={workspaceId} />
         <div className={styles.EditorMenu__TagList}>
-          {tagList.map((tag: any) => (
-            <Button>{tag?.name}</Button>
+          {tagList.map((tag: any, idx: number) => (
+            <div className={cn("d-flex", "m-2")}>
+              {isPatchTag.state && isPatchTag.index === idx ? (
+                <Input
+                  value={patchValue}
+                  onChange={handlePatchTagValue}
+                  onKeyDown={(e) =>
+                    handlePatchTagKeyDown(e, tag?._id, workspaceId)
+                  }
+                />
+              ) : (
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onDoubleClick={() => handlePatchTagState(tag.name, idx)}
+                >
+                  <span>{tag?.name}</span>
+                </div>
+              )}
+              <Button
+                onClick={() => deleteTag(tag?._id, workspaceId)}
+                size="sm"
+              >
+                X
+              </Button>
+            </div>
           ))}
           {recommendedTagList?.map((tag: any) => (
             <Button color="primary" onClick={() => saveRecommendedTag(tag)}>

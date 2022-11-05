@@ -3,6 +3,7 @@ import axios from "axios";
 import { ITagState } from "types/tag";
 
 import _ from "lodash";
+import { Agent } from "http";
 
 export const fetchTagList = createAsyncThunk("tag/fetchTagList", async () => {
   const response = await axios.get("/api/tag");
@@ -23,7 +24,7 @@ export const fetchWorkspaceTagList = createAsyncThunk(
   }
 );
 
-export const postTagList = createAsyncThunk(
+export const postTag = createAsyncThunk(
   "tag/postTagList",
   async (
     arg: { name: string; workspaceId: string },
@@ -40,13 +41,61 @@ export const postTagList = createAsyncThunk(
   }
 );
 
-// export const deleteTagList = createAsyncThunk(
-//   "tag/deleteTagList",
-//   async (arg: { workspaceId: string }, { dispatch }) => {
-//     await axios.delete(`/api/tag/${arg.workspaceId}`);
+export const deleteTag = createAsyncThunk(
+  "tag/deleteTagList",
+  async (
+    arg: { tagId: string; workspaceId: string },
+    { dispatch, getState }
+  ) => {
+    try {
+      await axios.delete(`/api/tag/${arg.tagId}`, {
+        data: { workspaceId: arg.workspaceId },
+      });
 
-//   }
-// );
+      const rootState: any = getState();
+      const tagList = rootState.tag.tagList;
+
+      dispatch(setTagList(tagList.filter((tag: any) => tag._id !== arg.tagId)));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const patchTag = createAsyncThunk(
+  "tag/deleteTagList",
+  async (
+    arg: { tagId: string; tagName: string; workspaceId: string },
+    { dispatch, getState }
+  ) => {
+    try {
+      await axios.patch(`/api/tag/${arg.tagId}`, {
+        workspaceId: arg.workspaceId,
+        tagName: arg.tagName,
+      });
+
+      const rootState: any = getState();
+      const tagList = rootState.tag.tagList;
+
+      dispatch(
+        setTagList(
+          tagList.map((tag: any) => {
+            if (tag._id === arg.tagId) {
+              return {
+                ...tag,
+                name: arg.tagName,
+              };
+            } else {
+              return tag;
+            }
+          })
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 // export const getAllTagList = createAsyncThunk(
 //   "tag/getAllTagList",
@@ -100,6 +149,9 @@ const tagSlice = createSlice({
     addTag: (state: ITagState, action: PayloadAction<any>) => {
       state.tagList = [...state.tagList, action.payload];
     },
+    // deleteTag: (state: ITagState, action: PayloadAction<any>) => {
+    //   state.tagList = state.tagList.filter();
+    // },
   },
   extraReducers: {
     [fetchTagList.pending.type]: (state) => {
@@ -124,7 +176,9 @@ export const { setTagList, setRecommendedTagList } = tagSlice.actions;
 export const actions = {
   fetchTagList,
   fetchWorkspaceTagList,
-  postTagList,
+  postTag,
+  deleteTag,
+  patchTag,
   getRecommendedTagList,
   ...tagSlice.actions,
 };
