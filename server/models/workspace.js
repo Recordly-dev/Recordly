@@ -36,6 +36,7 @@ const workspaceSchema = new mongoose.Schema({
     ref: "Folder",
   },
   tags: [{ type: ObjectId, ref: "Tag" }],
+  recommendedTags: [{ type: String }],
 });
 
 export default mongoose.model("Workspace", workspaceSchema);

@@ -106,7 +106,7 @@ export const patchTag = createAsyncThunk(
 
 export const getRecommendedTagList = createAsyncThunk(
   "tag/getRecommendedTagList",
-  async (arg: { text: string }, { dispatch }) => {
+  async (arg: { text: string; workspaceId: string }, { dispatch }) => {
     try {
       axios
         .post("/kobert/tags", JSON.stringify({ text: arg.text }), {
@@ -115,6 +115,10 @@ export const getRecommendedTagList = createAsyncThunk(
           },
         })
         .then((res) => {
+          const recommendedTags = res.data.tags;
+          axios.patch(`/api/workspace/${arg.workspaceId}/recommendedTags`, {
+            recommendedTags,
+          });
           dispatch(setRecommendedTagList(res.data.tags));
         })
         .catch((err) => {

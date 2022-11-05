@@ -78,4 +78,11 @@ router
     }
   );
 
+router
+  .route("/:workspaceId/recommendedTags")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.saveRecommendedTags)
+  );
+
 export default router;
