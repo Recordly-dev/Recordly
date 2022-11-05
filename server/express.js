@@ -35,7 +35,7 @@ export default function initExpress(redisClient) {
         db: 0,
       }),
 
-      cookie: { path: "/", maxAge: 1800000 },
+      cookie: { path: "/", maxAge: 180 * 60 * 1000 },
     })
   );
 
