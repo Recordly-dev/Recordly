@@ -16,13 +16,16 @@ const Tag = ({
   tagList: any;
   tagInputValue: string;
 }) => {
+  const [isSeletedTag, setIsSeletedTag] = useState(false);
   const [currentSeleteTagId, setCurrentSeleteTagId] = useState("");
   const dispatch = useDispatch();
 
   const getWorkspaceHaveTags = (tagId: string) => {
-    if (currentSeleteTagId === tagId) {
+    if (currentSeleteTagId === tagId && isSeletedTag) {
+      setIsSeletedTag(false);
       dispatch(workspaceActions.fetchAllWorkspaceList());
     } else {
+      setIsSeletedTag(true);
       setCurrentSeleteTagId(tagId);
       dispatch(workspaceActions.fetchWorkspacesWithTag({ tagId }));
     }
