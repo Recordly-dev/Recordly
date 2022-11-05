@@ -38,7 +38,9 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
     dispatch(tagListActions.postTag({ name, workspaceId }));
   };
 
-  const handleTextFieldKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleTextFieldKeyPress = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     switch (e.key) {
       case "Enter": {
         if (tagInputValue.length > 0) {
@@ -56,7 +58,7 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
       <Input
         value={tagInputValue}
         onChange={handleInputValue}
-        onKeyDown={handleTextFieldKeyDown}
+        onKeyPress={handleTextFieldKeyPress}
       />
     </div>
   );

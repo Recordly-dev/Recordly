@@ -19,7 +19,7 @@ const EditorPage = () => {
   const [app, setApp] = useState<TldrawApp>();
   const handleMount = useCallback((app: TldrawApp) => {
     axios.get(`/api/workspace/${workspaceId}`).then(({ data: workspace }) => {
-      if (workspace?.content) {
+      if (workspace?.content?.pages?.page?.shapes) {
         app.mergeDocument(cloneDeep(workspace.content));
       }
       setApp(app);

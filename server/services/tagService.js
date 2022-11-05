@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 // userId, tagName을 이용해 해당하는 태그를 조회합니다.
 const getSingleTag = async (tagName, writerId) => {
-  await modTag.findOne({ tagName, writer: writerId }).exec();
+  return await modTag.findOne({ name: tagName, writer: writerId }).exec();
 };
 
 // 사용자가 기존에 등록했던 태그를 워크스페이스에 추가한다
