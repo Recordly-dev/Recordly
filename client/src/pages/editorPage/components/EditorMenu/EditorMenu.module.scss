@@ -93,3 +93,21 @@
     cursor: pointer;
   }
 }
+
+.RecommendedTag {
+  display: flex;
+  align-items: center;
+  line-height: 0.75rem;
+  margin: 0.25rem;
+
+  background-color: rgb(119, 187, 107);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+
+  &__text {
+    font-size: 0.75rem; // 12px
+    line-height: 0.75rem; // 12px
+    color: white;
+    cursor: pointer;
+  }
+}
