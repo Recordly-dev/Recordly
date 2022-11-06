@@ -347,10 +347,16 @@ const EditorMenu = ({
               </div>
             )
           )}
-          {recommendedTagList?.map((tag: any) => (
-            <Button color="primary" onClick={() => saveRecommendedTag(tag)}>
-              {tag}
-            </Button>
+        </div>
+        <div className={styles.TagList}>
+          {recommendedTagList.slice(0, 3)?.map((tag: any) => (
+            <div
+              className={styles.RecommendedTag}
+              color="primary"
+              onClick={() => saveRecommendedTag(tag)}
+            >
+              <span className={styles.RecommendedTag__text}>{tag}</span>
+            </div>
           ))}
         </div>
         {tagList.length < 10 && <TagInput workspaceId={workspaceId} />}
