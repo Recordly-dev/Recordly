@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 
 import { Input } from "reactstrap";
 
@@ -8,13 +7,10 @@ import { actions as tagListActions, setTagList } from "store/slice/tagSlice";
 
 import { useDispatch } from "store";
 
+import styles from "./TagInput.module.scss";
+
 const TagInput = ({ workspaceId }: { workspaceId: string }) => {
   const dispatch = useDispatch();
-
-  // TODO: 추천 태그 리스트 사용
-  const recommendedTagList = useSelector(
-    (state: any) => state.tag.recommendedTagList
-  );
 
   const workspace = useSelector(
     (state: any) => state.workspace.workspaceList
@@ -57,9 +53,11 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
   return (
     <div>
       <Input
+        className={styles.TagInput}
         value={tagInputValue}
         onChange={handleInputValue}
         onKeyPress={handleTextFieldKeyPress}
+        placeholder="#태그입력"
       />
     </div>
   );

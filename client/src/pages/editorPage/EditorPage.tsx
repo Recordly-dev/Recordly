@@ -5,23 +5,27 @@ import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
 import EditorMenu from "./components/EditorMenu";
 
+import { IWorkspace } from "types/workspace";
 import styles from "./EditorPage.module.scss";
 import axios from "axios";
 
 const AppContext = createContext({} as TldrawApp);
 
 const EditorPage = () => {
+  const [workspace, setWorkspace] = useState<IWorkspace>();
+  const [app, setApp] = useState<TldrawApp>();
+
   const rTLDrawApp = useRef<TldrawApp>();
 
   // persist the tldraw document under this id
   const workspaceId: string = window.location.pathname?.split("/").at(-1) || ""; // [1]
 
-  const [app, setApp] = useState<TldrawApp>();
   const handleMount = useCallback((app: TldrawApp) => {
     axios.get(`/api/workspace/${workspaceId}`).then(({ data: workspace }) => {
       if (workspace?.content?.pages?.page?.shapes) {
         app.mergeDocument(cloneDeep(workspace.content));
       }
+      setWorkspace(workspace);
       setApp(app);
       rTLDrawApp.current = app; // [2]
     });
@@ -29,11 +33,22 @@ const EditorPage = () => {
 
   return (
     <div className={styles.EditorPage} id="tldrawEditor">
-      <Tldraw onMount={handleMount} />
+      <Tldraw
+        onMount={handleMount}
+        showTools={false}
+        showZoom={false}
+        showMultiplayerMenu={false}
+        showPages={false}
+        showMenu={false}
+      />
       {/* When the app is in state, add it to the context provider and show the custom UI */}
       {app && (
         <AppContext.Provider value={app}>
-          <EditorMenu context={AppContext} workspaceId={workspaceId} />
+          <EditorMenu
+            context={AppContext}
+            workspaceId={workspaceId}
+            title={workspace?.title}
+          />
         </AppContext.Provider>
       )}
     </div>
