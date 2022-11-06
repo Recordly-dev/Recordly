@@ -20,7 +20,7 @@ def getTags(rawText):
     doc_embedding = model.encode([rawText])
     candidate_embeddings = model.encode(candidates)
     
-    top_n = 5
+    top_n = 3
     diversity = 0.7
     tags = mmr(doc_embedding, candidate_embeddings, candidates, top_n, diversity)
 

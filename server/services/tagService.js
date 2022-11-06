@@ -41,11 +41,14 @@ const addNewTag = async (tagName, writerId, workspaceId) => {
 
 const addTag = async (tagName, writerId, workspaceId) => {
   const findTag = await getSingleTag(tagName, writerId);
+  if (findTag?.workspaces.includes(workspaceId)) {
+    throw new Error("tag already exists");
+  }
   if (findTag) {
-    addExistingTag(find);
+    await addExistingTag(findTag._id, workspaceId);
     return findTag;
   }
-  const newTag = addNewTag(tagName, writerId, workspaceId);
+  const newTag = await addNewTag(tagName, writerId, workspaceId);
   return newTag;
 };
 
