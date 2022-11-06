@@ -21,10 +21,6 @@ const createTag = async (req, res, next) => {
   const { name: tagName, workspaceId } = req.body;
   const { id: writerId } = req.user;
   try {
-    const findTag = await serTag.getSingleTag(tagName, writerId);
-    if (findTag) {
-      throw new Error("tag already exists");
-    }
     const retTag = await serTag.addTag(tagName, writerId, workspaceId);
     res.json(retTag);
   } catch (err) {
