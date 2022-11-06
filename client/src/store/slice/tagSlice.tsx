@@ -3,7 +3,6 @@ import axios from "axios";
 import { ITagState } from "types/tag";
 
 import _ from "lodash";
-import { Agent } from "http";
 
 export const fetchTagList = createAsyncThunk("tag/fetchTagList", async () => {
   const response = await axios.get("/api/tag");
@@ -30,14 +29,15 @@ export const postTag = createAsyncThunk(
     arg: { name: string; workspaceId: string },
     { dispatch, getState }
   ) => {
-    await axios.post("/api/tag", {
+    const response = await axios.post("/api/tag", {
       name: arg.name,
       workspaceId: arg.workspaceId,
     });
+    const tagId = response?.data?._id;
 
     const rootState: any = getState();
     const tagList = rootState.tag.tagList;
-    dispatch(setTagList([...tagList, { name: arg.name }]));
+    dispatch(setTagList([...tagList, { _id: tagId, name: arg.name }]));
   }
 );
 
@@ -69,11 +69,11 @@ export const patchTag = createAsyncThunk(
     { dispatch, getState }
   ) => {
     try {
-      await axios.patch(`/api/tag/${arg.tagId}`, {
+      const response = await axios.patch(`/api/tag/${arg.tagId}`, {
         workspaceId: arg.workspaceId,
         tagName: arg.tagName,
       });
-
+      const newTagId = response?.data?._id;
       const rootState: any = getState();
       const tagList = rootState.tag.tagList;
 
@@ -82,8 +82,8 @@ export const patchTag = createAsyncThunk(
           tagList.map((tag: any) => {
             if (tag._id === arg.tagId) {
               return {
-                ...tag,
                 name: arg.tagName,
+                _id: newTagId,
               };
             } else {
               return tag;
@@ -96,13 +96,6 @@ export const patchTag = createAsyncThunk(
     }
   }
 );
-
-// export const getAllTagList = createAsyncThunk(
-//   "tag/getAllTagList",
-//   async () => {
-//     const response =
-//   }
-// )
 
 export const getRecommendedTagList = createAsyncThunk(
   "tag/getRecommendedTagList",
