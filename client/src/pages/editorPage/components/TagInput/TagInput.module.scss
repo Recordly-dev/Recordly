@@ -1,0 +1,15 @@
+.TagInput {
+  display: flex;
+  align-items: center;
+  width: 6rem !important;
+  overflow: none;
+  height: 1.5rem;
+
+  font-size: 0.75rem !important;
+
+  border: none !important;
+
+  &::placeholder {
+    font-size: 0.75rem;
+  }
+}
