@@ -34,11 +34,19 @@
   position: absolute;
   bottom: 8px;
   left: 8px;
-
-  // width: 400px;
   flex-wrap: wrap;
 
   z-index: 2;
+
+  &__switch {
+    height: 1.5rem !important;
+    width: 3rem !important;
+
+    &:checked {
+      background-color: rgb(96, 96, 137) !important;
+      border-color: rgb(96, 96, 137) !important;
+    }
+  }
 }
 
 .TagList {

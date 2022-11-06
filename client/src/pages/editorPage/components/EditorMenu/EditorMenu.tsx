@@ -12,7 +12,7 @@ import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
-import { Button } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import TagInput from "../TagInput";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
@@ -56,6 +56,8 @@ const EditorMenu = ({
    * 입력 태그 value state
    */
   const [patchValue, setPatchTagValue] = useState("");
+
+  const [isViewTagList, setIsViewTagList] = useState(true);
 
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
@@ -312,54 +314,76 @@ const EditorMenu = ({
         </Button>
       </div>
       <div className={styles.TagContainer}>
-        <div className={styles.TagList}>
-          {tagList.map((tag: any, idx: number) =>
-            isPatchTag.state && isPatchTag.index === idx ? (
-              <input
-                className={styles.Tag__editInput}
-                ref={inputRef}
-                value={patchValue}
-                onChange={handlePatchTagValue}
-                onKeyDown={(e) =>
-                  handlePatchTagKeyDown(e, tag?._id, workspaceId)
-                }
-              />
-            ) : (
-              <div className={styles.Tag}>
-                <div
-                  className={styles.Tag__name}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() =>
-                    handlePatchTagState(tag.name, tag?._id, workspaceId, idx)
-                  }
-                >
-                  <span>#</span>
-                  <span>{tag?.name}</span>
-                </div>
+        <FormGroup switch>
+          <Input
+            className={styles.TagContainer__switch}
+            type="switch"
+            checked={isViewTagList}
+            onClick={() => {
+              setIsViewTagList((prev) => !prev);
+            }}
+          />
+          {/* <Label check>Watch Tags</Label> */}
+        </FormGroup>
+        {isViewTagList && (
+          <>
+            <div className={styles.TagList}>
+              {tagList.map((tag: any, idx: number) =>
+                isPatchTag.state && isPatchTag.index === idx ? (
+                  <input
+                    className={styles.Tag__editInput}
+                    ref={inputRef}
+                    value={patchValue}
+                    onChange={handlePatchTagValue}
+                    onKeyDown={(e) =>
+                      handlePatchTagKeyDown(e, tag?._id, workspaceId)
+                    }
+                  />
+                ) : (
+                  <div className={styles.Tag}>
+                    <div
+                      className={styles.Tag__name}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() =>
+                        handlePatchTagState(
+                          tag.name,
+                          tag?._id,
+                          workspaceId,
+                          idx
+                        )
+                      }
+                    >
+                      <span>#</span>
+                      <span>{tag?.name}</span>
+                    </div>
 
-                <div
-                  className={styles.Tag__deleteButton}
-                  onClick={() => deleteTag(tag?._id, workspaceId)}
-                >
-                  X
-                </div>
-              </div>
-            )
-          )}
-        </div>
-        <div className={styles.TagList}>
-          {recommendedTagList.slice(0, 3)?.map((tag: any) => (
-            <div
-              className={styles.RecommendedTag}
-              color="primary"
-              onClick={() => saveRecommendedTag(tag)}
-            >
-              <span className={styles.RecommendedTag__text}>{tag}</span>
+                    <div
+                      className={styles.Tag__deleteButton}
+                      onClick={() => deleteTag(tag?._id, workspaceId)}
+                    >
+                      X
+                    </div>
+                  </div>
+                )
+              )}
             </div>
-          ))}
-        </div>
-        {tagList.length < 10 && <TagInput workspaceId={workspaceId} />}
+            <div className={styles.TagList}>
+              {recommendedTagList.slice(0, 3)?.map((tag: any) => (
+                <div
+                  className={styles.RecommendedTag}
+                  color="primary"
+                  onClick={() => saveRecommendedTag(tag)}
+                >
+                  <span className={styles.RecommendedTag__text}>{tag}</span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {tagList.length < 10 && isViewTagList && (
+          <TagInput workspaceId={workspaceId} />
+        )}
       </div>
     </>
   );
