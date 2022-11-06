@@ -66,7 +66,7 @@ const EditorMenu = ({
   const recommendedTagList = useSelector(
     (state: any) => state.tag.recommendedTagList
   );
-  console.log(tagList);
+
   /**
    * 메인페이지로 이동하는 로직
    */

@@ -26,7 +26,7 @@ const createTag = async (req, res, next) => {
       throw new Error("tag already exists");
     }
     const retTag = await serTag.addTag(tagName, writerId, workspaceId);
-    return res.status(201).json({ data: retTag });
+    res.json(retTag);
   } catch (err) {
     console.error(err);
     next(err);
