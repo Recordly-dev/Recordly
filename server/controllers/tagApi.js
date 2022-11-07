@@ -43,19 +43,18 @@ const deleteTag = async (req, res, next) => {
 };
 
 const patchTag = async (req, res, next) => {
-  const tagId = req.params.tagId;
+  const prevTagId = req.params.tagId;
   const { id: writerId } = req.user;
   const { workspaceId, tagName } = req.body;
 
   try {
-    await serTag.removeTag(tagId, workspaceId);
-  } catch (err) {
-    next(err);
-  }
-
-  try {
-    const retTag = await serTag.addTag(tagName, writerId, workspaceId);
-    res.json(retTag);
+    const changedTag = await serTag.patchTag(
+      prevTagId,
+      tagName,
+      writerId,
+      workspaceId
+    );
+    res.json(changedTag);
   } catch (err) {
     next(err);
   }
