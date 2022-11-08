@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 import { actions } from "store/slice/folderSlice";
@@ -8,6 +9,8 @@ import { useDispatch } from "store";
 import folderIcon from "./assets/images/Folder.png";
 import dropdownIcon from "./assets/images/Dropdown.png";
 import EditIcon from "common/assets/icons/EditIcon";
+
+import { IWorkspace } from "types/workspace";
 
 import EditDropdown from "../EditDropdown";
 
@@ -23,12 +26,26 @@ const Folder = ({
   moveFolderDetailPage: Function;
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [countOfMemosInFolder, setCountOfMemosInFolder] = useState(0);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get("/api/workspace");
+      const workspaces = response?.data;
+      // 해당 폴더와 같은 것 filter
+      const filterWorkspace = workspaces?.filter(
+        (workspace: IWorkspace) => workspace.folder === uid
+      );
+
+      setCountOfMemosInFolder(filterWorkspace.length);
+    })();
+  });
 
   const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
     Swal.fire({
-      title: "정말 삭제하시겠습니까?",
-      text: "삭제한 폴더는 되돌릴 수 없습니다.",
+      title: `Are you sure want to\ndelete the "${title}" folder?`,
+      text: "Cannot revert deleted folders & inner memos",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -45,7 +62,7 @@ const Folder = ({
 
   const patchFolder = (e: React.MouseEvent<HTMLImageElement>) => {
     Swal.fire({
-      title: "수정할 폴더 이름을 입력해주세요.",
+      title: "Please enter the name of the folder you want to edit.",
       input: "text",
       inputValue: title,
       inputAttributes: {
@@ -81,7 +98,7 @@ const Folder = ({
 
   const dropdownItem = [
     {
-      title: "삭제하기",
+      title: "Delete",
       onClick: (e: any) => {
         deleteFolder(e);
       },
@@ -119,7 +136,9 @@ const Folder = ({
             color="#a9abb8"
           />
         </div>
-        <span className={styles.Folder__fileCount}>5 files</span>
+        <span className={styles.Folder__fileCount}>
+          {countOfMemosInFolder} files
+        </span>
         {/* <div>
           <Button onClick={deleteFolder}>삭제</Button>
         </div> */}
