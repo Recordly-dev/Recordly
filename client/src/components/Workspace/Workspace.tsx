@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 
 import { useSelector } from "react-redux";
@@ -7,12 +7,16 @@ import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 import AlertModal from "components/AlertModal";
+import EditDropdown from "../EditDropdown";
 
 import { actions } from "store/slice/workspaceSlice";
 
 import { IFolder } from "types/folder";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
+import EditIcon from "common/assets/icons/EditIcon";
+import StarFillIcon from "common/assets/icons/StarFillIcon";
+
 import styles from "./Workspace.module.scss";
 
 import CONSTANT from "./constants";
@@ -40,12 +44,20 @@ const Workspace = ({
 }) => {
   const dispatch = useDispatch();
   const [isFavorites, setIsFavorites] = useState(favorites);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [selectFolderId, setSelectFolderId] = useState("");
 
   const folderList: IFolder[] = useSelector(
     (state: any) => state.folder.folderList
   );
+
+  const handleDropdownOpen = (e: React.MouseEvent<HTMLImageElement>) => {
+    setIsDropdownOpen((prev) => !prev);
+
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   /**
    * 메모 삭제 로직
@@ -78,10 +90,11 @@ const Workspace = ({
   /**
    * 메모 제목 수정 로직
    */
-  const patchWorkspace = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const patchWorkspace = (e: React.MouseEvent<HTMLImageElement>) => {
     Swal.fire({
-      title: "메모 제목을 적어주세요.",
+      title: "수정할 메모 이름을 입력해주세요.",
       input: "text",
+      inputValue: title,
       inputAttributes: {
         autocapitalize: "off",
       },
@@ -105,6 +118,8 @@ const Workspace = ({
         );
       }
     });
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   /**
@@ -142,7 +157,7 @@ const Workspace = ({
   /**
    * 즐겨찾기 toggle
    */
-  const toggleFavorites = () => {
+  const toggleFavorites = (e: any) => {
     setIsFavorites((prev) => !prev);
     dispatch(
       actions.patchFavoritesWorkspaceList({
@@ -151,7 +166,25 @@ const Workspace = ({
         isFavoritesPage: isFavoritesPage,
       })
     );
+
+    e.preventDefault();
+    e.stopPropagation();
   };
+
+  const dropdownItem = [
+    {
+      title: "삭제하기",
+      onClick: (e: any) => {
+        handleDeleteWorkspace(e);
+      },
+    },
+    {
+      title: "폴더 이동",
+      onClick: (e: any) => {
+        openFolderModal(e);
+      },
+    },
+  ];
 
   /**
    * 썸네일 지정 핸들러
@@ -164,20 +197,57 @@ const Workspace = ({
 
   return (
     <div className={cn(styles.Workspace__container)}>
-      <div className={styles.Workspace__docs}>
-        <div
-          className={styles.Workspace__docs__top}
-          onClick={() => moveWorkSpacePage(uid)}
-        >
+      <div
+        className={styles.Workspace__docs}
+        onClick={() => moveWorkSpacePage(uid)}
+      >
+        <div className={styles.Workspace__docs__top}>
           <img
             className={styles.Workspace__docs__top__image}
             src={CONSTANT.IMAGE_PATH(uid)}
             onError={setThumbnail}
             alt="thumbnail"
           />
+          <div>
+            {isFavorites ? (
+              <StarFillIcon
+                onClick={toggleFavorites}
+                width={CONSTANT.ICON_SIZE.STAR}
+                height={CONSTANT.ICON_SIZE.STAR}
+                color="#ffc107"
+              />
+            ) : (
+              <StarFillIcon
+                onClick={toggleFavorites}
+                width={CONSTANT.ICON_SIZE.STAR}
+                height={CONSTANT.ICON_SIZE.STAR}
+                color="#dcdce2"
+              />
+            )}
+            <img
+              className={styles.Workspace__dropdownIcon}
+              onClick={handleDropdownOpen}
+              src={DropdownIcon}
+              alt="dropdown icon"
+            />
+            <EditDropdown
+              isDropdownOpen={isDropdownOpen}
+              toggle={handleDropdownOpen}
+              dropdownItem={dropdownItem}
+            />
+          </div>
         </div>
         <div className={styles.Workspace__docs__bottom}>
-          <h6 className={styles.Workspace__title}>{title}</h6>
+          <div className={cn("d-flex", "align-items-center", "mb-2")}>
+            <span className={styles.Workspace__title}>{title}</span>
+            <EditIcon
+              className={styles.Workspace__editIcon}
+              onClick={patchWorkspace}
+              width={CONSTANT.ICON_SIZE.EDIT}
+              height={CONSTANT.ICON_SIZE.EDIT}
+              color="#a9abb8"
+            />
+          </div>
           <div
             className={cn(
               "d-flex",
@@ -186,19 +256,9 @@ const Workspace = ({
               "w-100"
             )}
           >
-            {isFavorites && <span style={{ color: "red" }}>별</span>}
-            <Button onClick={toggleFavorites}>즐겨찾기</Button>
-            <Button onClick={patchWorkspace}>수정</Button>
-            <Button onClick={openFolderModal}>폴더</Button>
             <span className={styles.Workspace__dataEdit}>
               {formatWorkspaceDate(editedAt)}
             </span>
-            <img
-              className={styles.Workspace__dropdownIcon}
-              onClick={handleDeleteWorkspace}
-              src={DropdownIcon}
-              alt="dropdown icon"
-            />
           </div>
         </div>
       </div>

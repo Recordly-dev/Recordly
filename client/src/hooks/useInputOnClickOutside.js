@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 
-function useTagInputOnClickOutside(ref, handler, isPatch) {
+function useInputOnClickOutside(ref, handler, isPatch) {
   useEffect(() => {
+    console.log(isPatch);
     if (isPatch) {
       const listener = (event) => {
         if (!ref.current || ref.current.contains(event.target)) {
@@ -19,4 +20,4 @@ function useTagInputOnClickOutside(ref, handler, isPatch) {
   }, [isPatch]);
 }
 
-export default useTagInputOnClickOutside;
+export default useInputOnClickOutside;

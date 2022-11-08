@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { Button } from "reactstrap";
 import { actions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
-import folderSrc from "./assets/images/Folder.png";
+import folderIcon from "./assets/images/Folder.png";
+import dropdownIcon from "./assets/images/Dropdown.png";
+import EditIcon from "common/assets/icons/EditIcon";
+
+import EditDropdown from "../EditDropdown";
 
 import styles from "./Folder.module.scss";
 
@@ -19,6 +22,7 @@ const Folder = ({
   title: string;
   moveFolderDetailPage: Function;
 }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
 
   const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,10 +43,11 @@ const Folder = ({
     e.stopPropagation();
   };
 
-  const patchFolder = () => {
+  const patchFolder = (e: React.MouseEvent<HTMLImageElement>) => {
     Swal.fire({
-      title: "폴더 이름을 입력해주세요.",
+      title: "수정할 폴더 이름을 입력해주세요.",
       input: "text",
+      inputValue: title,
       inputAttributes: {
         autocapitalize: "off",
       },
@@ -63,22 +68,61 @@ const Folder = ({
         );
       }
     });
+    e.preventDefault();
+    e.stopPropagation();
   };
 
+  const handleDropdownOpen = (e: any) => {
+    setIsDropdownOpen((prev) => !prev);
+
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const dropdownItem = [
+    {
+      title: "삭제하기",
+      onClick: (e: any) => {
+        deleteFolder(e);
+      },
+    },
+  ];
+
   return (
-    <div className={styles.Folder}>
-      <img
-        className={styles.Folder__image}
-        onClick={() => moveFolderDetailPage(uid)}
-        src={folderSrc}
-        alt="folder img"
-      />
-      <div className={cn("d-flex", "flex-column", "align-items-center")}>
-        <span className={styles.Folder__title}>{title}</span>
-        <div>
-          <Button onClick={deleteFolder}>삭제</Button>
-          <Button onClick={patchFolder}>수정</Button>
+    <div className={styles.Folder} onClick={() => moveFolderDetailPage(uid)}>
+      <div className={styles.Folder__top}>
+        <img
+          className={styles.Folder__image}
+          src={folderIcon}
+          alt="folder img"
+        />
+        <img
+          className={styles.Folder__dropdownIcon}
+          onClick={handleDropdownOpen}
+          src={dropdownIcon}
+          alt="dropdown icon"
+        />
+        <EditDropdown
+          isDropdownOpen={isDropdownOpen}
+          toggle={handleDropdownOpen}
+          dropdownItem={dropdownItem}
+        />
+      </div>
+      <div className={styles.Folder__bottom}>
+        <div className={cn("d-flex", "align-items-center", "mb-2")}>
+          <p className={styles.Folder__title}>{title}</p>
+          <EditIcon
+            className={styles.Folder__editIcon}
+            onClick={patchFolder}
+            width="18px"
+            height="18px"
+            color="#a9abb8"
+          />
         </div>
+        <span className={styles.Folder__fileCount}>5 files</span>
+        {/* <div>
+          <Button onClick={deleteFolder}>삭제</Button>
+        </div> */}
       </div>
     </div>
   );

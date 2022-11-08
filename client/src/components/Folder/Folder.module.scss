@@ -4,17 +4,62 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  background-color: rgb(254, 254, 254);
   width: 16rem; // 256px
+  height: 14rem; // 224px
   margin: 1rem; // 16px
+  padding: 2rem; // 16px
 
+  cursor: pointer;
+  border-radius: 2rem;
+
+  &__top {
+    position: relative;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 3rem;
+  }
   &__image {
-    height: 12rem; // 192px
+    width: 3.5rem;
     cursor: pointer;
   }
 
+  &__dropdownIcon {
+    width: 0.625rem; // 8px
+    height: 1.5rem;
+
+    z-index: 10;
+  }
+
+  &__bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+
   &__title {
-    margin: 0.5rem;
-    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0;
+
+    max-width: 11rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__fileCount {
+    color: rgb(157, 157, 157);
+    font-size: 0.75rem;
+  }
+
+  &__editIcon {
+    width: 1.25rem; // 20px
+    margin-left: 0.5rem;
   }
 }
