@@ -1,0 +1,20 @@
+.EditInput {
+  display: flex;
+  align-items: center;
+  width: 11rem !important;
+  height: 2.25rem !important;
+  overflow: none;
+  height: 1.5rem;
+  padding-left: 0.5rem;
+  border-radius: 0.5rem;
+
+  background-color: rgb(240, 243, 242) !important;
+
+  font-size: 1.5rem !important;
+  font-weight: 500;
+  border: none !important;
+
+  &::placeholder {
+    font-size: 0.75rem;
+  }
+}

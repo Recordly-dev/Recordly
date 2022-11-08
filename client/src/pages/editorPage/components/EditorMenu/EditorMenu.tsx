@@ -18,7 +18,7 @@ import TagInput from "../TagInput";
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 
 import { useDebouncedCallback } from "use-debounce";
-import useTagInputOnClickOutside from "hooks/useTagInputOnClickOutside";
+import useInputOnClickOutside from "hooks/useInputOnClickOutside";
 import { extractTextsFromDocument } from "../../../../utils/tldraw";
 
 import styles from "./EditorMenu.module.scss";
@@ -119,7 +119,7 @@ const EditorMenu = ({
    * fix: ref.current.value 대신 patchValue쓰면 기존 값이랑 똑같은 게 들어가는 이슈가 생김(이유는 모름..)
    * Todo: 추후 원인파악 후 해결
    */
-  useTagInputOnClickOutside(
+  useInputOnClickOutside(
     inputRef,
     () =>
       patchTag(inputRef?.current?.value, tagInfo.tagId, tagInfo.workspaceId),

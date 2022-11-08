@@ -1,0 +1,22 @@
+.EditDropdown {
+  position: absolute !important;
+  right: 0;
+  &__menu {
+    background-color: white;
+  }
+
+  &__item {
+    color: rgb(88, 88, 88);
+    width: 8rem !important;
+    &:hover {
+      background-color: white !important;
+      font-weight: 600;
+      color: rgb(88, 88, 88);
+    }
+
+    &:focus {
+      background-color: white !important;
+      color: rgb(88, 88, 88);
+    }
+  }
+}

@@ -46,20 +46,19 @@ const WorkspaceList = ({
 
     return (
       <div
-        className={cn(
-          "d-flex",
-          "flex-column",
-          "justify-content-center",
-          "align-items-center"
-        )}
+        className={cn("d-flex", "justify-content-center", "align-items-center")}
       >
         {filterDate.map((v: string) => {
           if (v.split("-").map(Number).join("") === today) {
-            return "오늘";
+            return <span>오늘</span>;
           } else if (v.split("-").map(Number).join("") === yesterDay) {
-            return "어제";
+            return <span>어제</span>;
           } else {
-            return <span key={v + now}>{v}</span>;
+            return (
+              <span className={"ms-1"} key={v + now}>
+                {v}
+              </span>
+            );
           }
         })}
       </div>
@@ -69,7 +68,7 @@ const WorkspaceList = ({
   return (
     <>
       {isLoadingData
-        ? new Array(5).fill(1).map((v) => <WorkspaceSkeleton />)
+        ? new Array(30).fill(1).map((v) => <WorkspaceSkeleton />)
         : workspaceList.map((workspace: IWorkspace) => (
             <Workspace
               key={workspace._id}

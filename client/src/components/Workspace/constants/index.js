@@ -3,4 +3,9 @@ const IMAGE_PATH = (uid) =>
 
 const EMPTY_IMAGE_PATH = `/api/public/assets/images/emptyThumbnail.png`;
 
-export default { IMAGE_PATH, EMPTY_IMAGE_PATH };
+const ICON_SIZE = {
+  STAR: "24px",
+  EDIT: "18px",
+};
+
+export default { IMAGE_PATH, EMPTY_IMAGE_PATH, ICON_SIZE };
