@@ -120,6 +120,7 @@ const Workspace = ({
 
   const handleMoveFolderModalToggle = async () => {
     const folderItem = folderList.map((folder) => folder?.title);
+
     await Swal.fire({
       title: "Please select a folder",
       input: "select",
@@ -143,6 +144,10 @@ const Workspace = ({
           );
         } else {
           const seletedFolder = folderList[+value - 1];
+
+          if (seletedFolder._id === folderId) {
+            return "You cannot select the same folder.";
+          }
           dispatch(
             actions.patchWorkspace({
               workspaceId: uid,
