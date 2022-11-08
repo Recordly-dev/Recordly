@@ -5,6 +5,9 @@ import Swal from "sweetalert2";
 
 import { Button } from "reactstrap";
 
+import FolderIcon from "common/assets/icons/FolderIcon";
+import FileIcon from "common/assets/icons/FileIcon";
+
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { actions as folderActions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
@@ -23,7 +26,7 @@ const SideNavMenu = () => {
     let workspaceType: string;
 
     Swal.fire({
-      title: "메모 제목을 적어주세요.",
+      title: "Please write the memo title.",
       input: "text",
       inputAttributes: {
         autocapitalize: "off",
@@ -38,7 +41,7 @@ const SideNavMenu = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "일반 메모와 PDF를 선택해주세요.",
+          title: "Please choose\n between memo and PDF",
           showDenyButton: true,
           confirmButtonText: "MEMO",
           denyButtonText: `PDF`,
@@ -58,7 +61,7 @@ const SideNavMenu = () => {
 
   const handlePostFolder = () => {
     Swal.fire({
-      title: "폴더 이름을 적어주세요.",
+      title: "Please write the folder title.",
       input: "text",
       inputAttributes: {
         autocapitalize: "off",
@@ -92,6 +95,7 @@ const SideNavMenu = () => {
         "align-items-center"
       )}
     >
+      <p className={styles.SideNavMenu__title}>Recordly</p>
       <ul className={styles.SideNavMenu__container}>
         <li className={styles.SideNavMenu__create}>
           <Button
@@ -100,7 +104,16 @@ const SideNavMenu = () => {
             className={styles.SideNavMenu__create__button}
             onClick={handleButtonClick}
           >
-            New
+            <div
+              className={cn(
+                "d-flex",
+                "align-items-center",
+                "justify-content-center"
+              )}
+            >
+              <FileIcon width="20px" height="20px" />
+              <span className="ms-2">New Memo</span>
+            </div>
           </Button>
           <Button
             color="primary"
@@ -108,10 +121,18 @@ const SideNavMenu = () => {
             className={styles.SideNavMenu__create__button}
             onClick={handlePostFolder}
           >
-            New Folder
+            <div
+              className={cn(
+                "d-flex",
+                "align-items-center",
+                "justify-content-center"
+              )}
+            >
+              <FolderIcon width="20px" height="20px" />
+              <span className="ms-2">New Folder</span>
+            </div>
           </Button>
         </li>
-        <hr />
         {CONSTANT.NAV_ITEM.map((item) => (
           <li className={styles.SideNavMenu__item}>
             <Link to={item.link}>
