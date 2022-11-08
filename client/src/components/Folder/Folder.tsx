@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
-import axios from "axios";
 import Swal from "sweetalert2";
 
 import { actions } from "store/slice/folderSlice";
@@ -20,27 +19,23 @@ const Folder = ({
   uid,
   title,
   moveFolderDetailPage,
+  workspaceList,
 }: {
   uid: string;
   title: string;
   moveFolderDetailPage: Function;
+  workspaceList: IWorkspace[];
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [countOfMemosInFolder, setCountOfMemosInFolder] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const response = await axios.get("/api/workspace");
-      const workspaces = response?.data;
-      // 해당 폴더와 같은 것 filter
-      const filterWorkspace = workspaces?.filter(
-        (workspace: IWorkspace) => workspace.folder === uid
-      );
-
-      setCountOfMemosInFolder(filterWorkspace.length);
-    })();
-  });
+    const filterWorkspaceList = workspaceList.filter(
+      (workspace: IWorkspace) => workspace.folder === uid
+    );
+    setCountOfMemosInFolder(filterWorkspaceList.length);
+  }, []);
 
   const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
     Swal.fire({
