@@ -1,0 +1,30 @@
+.SearchInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__Input {
+    width: 20rem !important;
+    padding-left: 2.25rem !important;
+    margin-right: 0.5rem;
+
+    &--text {
+      padding-left: 0.75rem !important;
+      padding-right: 2.75rem !important;
+    }
+  }
+
+  &__SearchIcon {
+    position: absolute;
+    left: 0.75rem !important;
+  }
+
+  &__CancleIcon {
+    position: absolute;
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+
+    right: 0.75rem;
+  }
+}
