@@ -1,3 +1,5 @@
+@import "common/scss/color.scss";
+
 .EditDropdown {
   position: absolute !important;
   right: 0;
@@ -6,17 +8,17 @@
   }
 
   &__item {
-    color: rgb(88, 88, 88);
+    color: $gray-700 !important;
     width: 8rem !important;
     &:hover {
       background-color: white !important;
       font-weight: 600;
-      color: rgb(88, 88, 88);
+      color: $gray-700 !important;
     }
 
     &:focus {
       background-color: white !important;
-      color: rgb(88, 88, 88);
+      color: $gray-700 !important;
     }
   }
 }
