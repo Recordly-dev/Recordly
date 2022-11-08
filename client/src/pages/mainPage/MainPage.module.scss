@@ -1,13 +1,15 @@
 .MainPage {
   display: flex;
-  margin-top: 1rem;
   background-color: rgb(240, 243, 242);
 
   &__container {
+    position: relative;
     display: flex;
     background-color: rgb(240, 243, 242);
+    height: 100vh;
 
-    &__mainDashboard {
+    &__dashboard {
+      padding-left: 12.5rem; // 200px
     }
   }
 }
