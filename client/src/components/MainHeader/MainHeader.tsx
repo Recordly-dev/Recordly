@@ -5,13 +5,11 @@ import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import {
-  actions,
-  actions as workspaceActions,
-} from "store/slice/workspaceSlice";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { useDispatch } from "store";
 
-import createIcon from "./assets/images/create-icon.png";
+import { Button } from "reactstrap";
+
 import SearchBar from "components/SearchBar";
 import DropdownSelect from "components/DropdownSelect";
 
@@ -29,51 +27,6 @@ const MainHeader = ({
 
   const handleDropdownOnClick = (type: string) => {
     dispatch(workspaceActions.sortWorkspaceList({ type }));
-  };
-
-  const moveMainPage = () => {
-    navigate("/main");
-  };
-
-  const handleButtonClick = (e: React.MouseEvent<HTMLImageElement>): void => {
-    let title: string;
-    let workspaceType: string;
-
-    Swal.fire({
-      title: "메모 제목을 적어주세요.",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Create",
-      showLoaderOnConfirm: true,
-      preConfirm: (title) => {
-        return title;
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "일반 메모와 PDF를 선택해주세요.",
-          showDenyButton: true,
-          confirmButtonText: "MEMO",
-          denyButtonText: `PDF`,
-        }).then((workspace) => {
-          title = result.value;
-          if (workspace.isConfirmed) {
-            workspaceType = "docs";
-          } else if (workspace.isDenied) {
-            workspaceType = "pdf";
-          }
-
-          dispatch(actions.postWorkspace({ title, workspaceType }));
-        });
-      }
-    });
-
-    e.preventDefault();
-    e.stopPropagation();
   };
 
   const logout = (): void => {
@@ -119,16 +72,7 @@ const MainHeader = ({
             "align-items-center",
             "justify-content-center"
           )}
-        >
-          {/* Todo: 로고 생기면 넣기 */}
-          {/* <img src={imageUrl} className={styles.Header__image} alt="logoImage" /> */}
-          <span
-            className={styles.MainHeader__container__title}
-            onClick={moveMainPage}
-          >
-            Recordly
-          </span>
-        </div>
+        ></div>
 
         <div
           className={cn(
@@ -138,22 +82,15 @@ const MainHeader = ({
             "justify-content-center"
           )}
         >
-          <div>
-            <img
-              src={createIcon}
-              className={styles.MainHeader__container__createIcon}
-              onClick={handleButtonClick}
-              alt="create-icon"
-            />
-          </div>
           <SearchBar isFavoritesPage={isFavoritesPage} isTagPage={isTagPage} />
           <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
-          <button
+          <Button
             className={styles.MainHeader__container__right__logout}
+            color="primary"
             onClick={logout}
           >
             Logout
-          </button>
+          </Button>
         </div>
       </div>
     </header>

@@ -5,7 +5,7 @@ import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { actions as folderListActions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
-import searchIcon from "./assets/images/search-icon.png";
+import SearchInput from "components/SearchInput";
 import styles from "./SearchBar.module.scss";
 
 const SearchBar = ({
@@ -48,25 +48,14 @@ const SearchBar = ({
   };
 
   return (
-    <div className={styles.SearchBar}>
-      <InputGroup>
-        <InputGroupText className={styles.SearchBar__left}>
-          <img
-            className={styles.SearchBar__icon}
-            src={searchIcon}
-            alt="search icon"
-          />
-        </InputGroupText>
-        <Input
-          id={styles.searchInput}
-          value={searchValue}
-          onChange={handleChangeSearchValue}
-          onKeyDown={handleOnKeyPress}
-          className={styles.SearchBar__input}
-          placeholder="검색"
-        />
-      </InputGroup>
-    </div>
+    <SearchInput
+      className={styles.Searchbar}
+      inputClassName={styles.Searchbar__input}
+      value={searchValue}
+      placeholder="Search"
+      onChange={handleChangeSearchValue}
+      onKeyDown={handleOnKeyPress}
+    />
   );
 };
 

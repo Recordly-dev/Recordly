@@ -1,10 +1,12 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AlertModal.module.scss";
-import { Button } from "reactstrap";
+import CloseIcon from "common/assets/icons/CloseIcon";
 
-/** modal open에 대한 통제권이 모달에게 없는 모달 */
+import styles from "./AlertModal.module.scss";
+
+import CONSTANT from "./constants";
+
 const AlertModal = ({
   showAlertModal,
   children,
@@ -39,8 +41,7 @@ AlertModal.Header = ({
       className={styles.AlertModal__closeButton}
       onClick={closeAlertModal}
     >
-      {children}
-      <Button>닫기</Button>
+      <CloseIcon width={CONSTANT.ICON_SIZE} height={CONSTANT.ICON_SIZE} />
     </button>
   </header>
 );

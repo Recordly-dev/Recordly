@@ -1,8 +1,6 @@
 import React from "react";
 import cn from "classnames";
 
-import { Button } from "reactstrap";
-
 import Footer from "components/Footer";
 import SideNavMenu from "components/SideNavMenu";
 import FavoritesDashboard from "components/FavoritesDashboard";
@@ -28,7 +26,7 @@ const MainPage = ({
           <SideNavMenu />
         </aside>
         {isTagPage && <SideTagsMenu />}
-        <section className={cn("d-flex", "w-100")}>
+        <section className={styles.MainPage__container__dashboard}>
           <div
             className={cn({
               [styles.MainPage__container__mainDashboard]: true,

@@ -1,20 +1,31 @@
+@import "common/scss/color.scss";
+
 .DropdownSelect {
-  margin-right: 2rem; // 32px
+  margin-right: 0.5rem; // 8px
 
   &__toggle {
-    background-color: rgb(39, 39, 39) !important;
-    border: solid 0.5px rgb(62, 62, 62) !important;
-    color: rgb(173, 173, 173) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 7rem !important;
+    background-color: white !important;
+    color: black !important;
+    border: solid 1px $gray-400 !important;
+    color: $gray-700 !important;
   }
 
   &__menu {
-    background-color: rgb(39, 39, 39) !important;
-
     &__item {
-      color: rgb(173, 173, 173) !important;
+      color: $gray-700 !important;
 
       &:hover {
-        background-color: rgb(48, 48, 48) !important;
+        font-weight: 600;
+        background-color: white !important;
+      }
+
+      &:focus {
+        background-color: white !important;
       }
     }
   }

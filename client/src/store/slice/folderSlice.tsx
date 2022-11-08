@@ -7,7 +7,7 @@ const handleError = (err: any) => {
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "중복된 이름이 있습니다.",
+      title: "Duplicate name found.",
       showConfirmButton: false,
       timer: 1000,
     });
@@ -15,7 +15,7 @@ const handleError = (err: any) => {
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "메모 폴더에 실패했습니다.",
+      title: "Failed to create folder.",
       showConfirmButton: false,
       timer: 1000,
     });

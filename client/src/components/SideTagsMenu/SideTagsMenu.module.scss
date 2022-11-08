@@ -1,9 +1,14 @@
 .SideTagsMenu {
   min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 224px;
 
-  width: 14rem;
+  z-index: 9;
+
+  width: 20rem;
   background-color: rgb(109, 105, 98);
-  margin-top: 2rem; // 40px
+  margin-top: 4rem; // 40px
 
   &__input {
     margin-top: 1rem;

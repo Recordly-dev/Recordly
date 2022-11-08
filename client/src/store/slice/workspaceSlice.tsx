@@ -11,7 +11,7 @@ const handleError = (err: any) => {
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "중복된 이름이 있습니다.",
+      title: "Duplicate name found.",
       showConfirmButton: false,
       timer: 1000,
     });
@@ -20,7 +20,7 @@ const handleError = (err: any) => {
     Swal.fire({
       position: "center",
       icon: "error",
-      title: "메모 생성에 실패했습니다.",
+      title: "Failed to create memo.",
       showConfirmButton: false,
       timer: 1000,
     });
@@ -146,7 +146,7 @@ export const patchWorkspace = createAsyncThunk(
       workspaceId: string;
       title?: string;
       folderId?: string | null;
-      folder?: string;
+      folder?: string | null;
       isFavoritesPage?: boolean;
       isTagPage?: boolean;
     },
@@ -194,7 +194,7 @@ export const deleteWorkspace = createAsyncThunk(
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "메모가 삭제 되었습니다.",
+        title: "The memo has been deleted.",
 
         showConfirmButton: false,
         timer: 1000,

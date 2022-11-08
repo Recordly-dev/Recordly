@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import cn from "classnames";
+import axios from "axios";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
 import Swal from "sweetalert2";
-
-import { Button } from "reactstrap";
-import AlertModal from "components/AlertModal";
 import EditDropdown from "../EditDropdown";
 
 import { actions } from "store/slice/workspaceSlice";
@@ -45,8 +43,6 @@ const Workspace = ({
   const dispatch = useDispatch();
   const [isFavorites, setIsFavorites] = useState(favorites);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showFolderModal, setShowFolderModal] = useState(false);
-  const [selectFolderId, setSelectFolderId] = useState("");
 
   const folderList: IFolder[] = useSelector(
     (state: any) => state.folder.folderList
@@ -66,8 +62,8 @@ const Workspace = ({
     e: React.MouseEvent<HTMLImageElement>
   ): void => {
     Swal.fire({
-      title: "정말 삭제하시겠습니까?",
-      text: "삭제한 메모는 되돌릴 수 없습니다.",
+      title: `Are you sure want to\ndelete the "${title}" memo?`,
+      text: "Cannot revert deleted memos.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -122,36 +118,42 @@ const Workspace = ({
     e.stopPropagation();
   };
 
-  /**
-   * 메모를 folder안에 넣는 로직이 들어간 모달 핸들러
-   * Todo: drag & drop으로 수정
-   */
-  const openFolderModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setShowFolderModal(true);
-  };
+  const handleMoveFolderModalToggle = async () => {
+    const folderItem = folderList.map((folder) => folder?.title);
+    await Swal.fire({
+      title: "Please select a folder",
+      input: "select",
+      inputOptions: {
+        ...["Exclude from folder", ...folderItem],
+      },
+      inputPlaceholder: "Select a folder",
+      showCancelButton: true,
+      inputValidator: async (value: string) => {
+        const response = await axios.get(`/api/workspace/${uid}`);
 
-  /**
-   * folder 지정 모달 close
-   */
-  const closeFolderModal = () => {
-    setShowFolderModal(false);
-  };
-
-  /**
-   * 모달에서 폴더 클릭 시 폴더 uid 상태 변경
-   */
-  const focusFolder = (uid: any) => {
-    setSelectFolderId(uid);
-  };
-
-  /**
-   * 모달 완료 클릭 시 patch 통신으로 워크스페이스 폴더에 업로드
-   */
-  const insertWorkspaceinFolder = () => {
-    dispatch(
-      actions.patchWorkspace({ workspaceId: uid, folder: selectFolderId })
-    );
-    closeFolderModal();
+        if (+value === 0 && response.data.folder === null) {
+          return "It doesn't already belong to the folder";
+        } else if (+value === 0) {
+          dispatch(
+            actions.patchWorkspace({
+              workspaceId: uid,
+              folder: null,
+              folderId: folderId,
+            })
+          );
+        } else {
+          const seletedFolder = folderList[+value - 1];
+          dispatch(
+            actions.patchWorkspace({
+              workspaceId: uid,
+              folder: seletedFolder._id,
+              folderId: folderId,
+            })
+          );
+        }
+        return "";
+      },
+    });
   };
 
   /**
@@ -173,15 +175,15 @@ const Workspace = ({
 
   const dropdownItem = [
     {
-      title: "삭제하기",
+      title: "Delete",
       onClick: (e: any) => {
         handleDeleteWorkspace(e);
       },
     },
     {
-      title: "폴더 이동",
+      title: "Move Folder",
       onClick: (e: any) => {
-        openFolderModal(e);
+        handleMoveFolderModalToggle();
       },
     },
   ];
@@ -262,30 +264,6 @@ const Workspace = ({
           </div>
         </div>
       </div>
-      <AlertModal showAlertModal={showFolderModal}>
-        <AlertModal.Header
-          closeAlertModal={closeFolderModal}
-        ></AlertModal.Header>
-        <AlertModal.Body>
-          <div className={cn("d-flex", "flex-column", "align-items-center")}>
-            <h3>폴더 선택</h3>
-            <div className={cn("d-flex", "flex-column")}>
-              {folderList.map((folder) => (
-                <Button
-                  className={styles.Workspace__modal__button}
-                  onClick={() => focusFolder(folder._id)}
-                >
-                  {folder.title}
-                </Button>
-              ))}
-            </div>
-          </div>
-        </AlertModal.Body>
-        <AlertModal.Footer className={styles.Workspace__modal__footer}>
-          <Button onClick={closeFolderModal}>취소</Button>
-          <Button onClick={insertWorkspaceinFolder}>이동</Button>
-        </AlertModal.Footer>
-      </AlertModal>
     </div>
   );
 };

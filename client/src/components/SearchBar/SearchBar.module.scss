@@ -1,11 +1,11 @@
 .SearchBar {
-  width: 15rem; // 240px
+  width: 25rem; // 400px
   margin-right: 2rem; // 32px
 
   &__left {
     height: 2rem;
-    background-color: rgb(39, 39, 39) !important;
-    border: solid 0.5px rgb(62, 62, 62) !important;
+    // background-color: rgb(39, 39, 39) !important;
+    // border: solid 0.5px rgb(62, 62, 62) !important;
     border-right: none !important;
   }
 
@@ -14,10 +14,11 @@
   }
 
   &__input {
-    height: 2rem;
-    background-color: rgb(39, 39, 39) !important;
-    border: solid 0.5px rgb(62, 62, 62) !important;
+    height: 3.5rem;
+    border: none !important;
+    // background-color: rgb(39, 39, 39) !important;
+    // border: solid 0.5px rgb(62, 62, 62) !important;
     border-left: none !important;
-    color: white !important;
+    // color: white !important;
   }
 }
