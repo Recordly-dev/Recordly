@@ -6,7 +6,7 @@ import { Container } from "reactstrap";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
-import MoveToBackCard from "./components/MoveToBackCard";
+import MoveToBackButton from "./components/MoveToBackButton";
 
 import { useDispatch } from "store";
 import { useSelector } from "react-redux";
@@ -65,12 +65,9 @@ const MainDashboard = ({
 
   return (
     <section className={cn(styles.MainDashboard)}>
+      {isFolderDetailPage && <MoveToBackButton moveGoBack={moveGoBack} />}
       <Container fluid className={styles.MainDashboard__fileList}>
-        {isFolderDetailPage ? (
-          <MoveToBackCard moveGoBack={moveGoBack} />
-        ) : (
-          <FolderList isLoadingData={isLoadingData} />
-        )}
+        {!isFolderDetailPage && <FolderList isLoadingData={isLoadingData} />}
         <WorkspaceList isLoadingData={isLoadingData} isTagPage={isTagPage} />
       </Container>
     </section>
