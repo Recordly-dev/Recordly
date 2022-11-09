@@ -7,9 +7,12 @@
     display: flex;
     background-color: rgb(240, 243, 242);
     height: 100vh;
+    width: 100%;
 
     &__dashboard {
-      padding-left: 12.5rem; // 200px
+      padding-left: 14rem;
+      width: 100%;
+      height: 100%;
     }
   }
 }

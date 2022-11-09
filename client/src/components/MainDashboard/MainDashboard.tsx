@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
-import { useNavigate } from "react-router";
-
 import { Container } from "reactstrap";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
-import MoveToBackButton from "./components/MoveToBackButton";
 
 import { useDispatch } from "store";
 import { useSelector } from "react-redux";
@@ -15,26 +12,20 @@ import { actions as folderActions } from "store/slice/folderSlice";
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import styles from "./MainDashboard.module.scss";
+import EmptyDashboard from "components/EmptyDashboard";
 
 const MainDashboard = ({
   isFolderDetailPage,
   isTagPage,
+  isEmptyDashboard,
+  isLoadingData,
 }: {
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
+  isEmptyDashboard: boolean;
+  isLoadingData: boolean;
 }) => {
-  const [isLoadingData, setIsLoadingData] = useState(false);
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const isLoadingFetchWorkspace: boolean = useSelector(
-    (state: any) => state.workspace.isLoading
-  );
-
-  const isLoadingFetchFolder: boolean = useSelector(
-    (state: any) => state.folder.isLoading
-  );
 
   const currentFolderId: string = useSelector(
     (state: any) => state.folder.currentFolderId
@@ -54,21 +45,22 @@ const MainDashboard = ({
     }
   }, [isTagPage, isFolderDetailPage, currentFolderId]);
 
-  const moveGoBack = () => {
-    navigate(`/main`);
-    dispatch(workspaceActions.fetchWorkspaceList());
-  };
-
-  useEffect(() => {
-    setIsLoadingData(isLoadingFetchWorkspace || isLoadingFetchFolder);
-  }, [isLoadingFetchWorkspace, isLoadingFetchFolder]);
-
   return (
     <section className={cn(styles.MainDashboard)}>
-      {isFolderDetailPage && <MoveToBackButton moveGoBack={moveGoBack} />}
       <Container fluid className={styles.MainDashboard__fileList}>
-        {!isFolderDetailPage && <FolderList isLoadingData={isLoadingData} />}
-        <WorkspaceList isLoadingData={isLoadingData} isTagPage={isTagPage} />
+        {isEmptyDashboard && !isLoadingData ? (
+          <EmptyDashboard isTagPage={isTagPage} />
+        ) : (
+          <>
+            {!isFolderDetailPage && (
+              <FolderList isLoadingData={isLoadingData} />
+            )}
+            <WorkspaceList
+              isLoadingData={isLoadingData}
+              isTagPage={isTagPage}
+            />
+          </>
+        )}
       </Container>
     </section>
   );
