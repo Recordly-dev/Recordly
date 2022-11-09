@@ -3,18 +3,12 @@ import IconBase from "react-icon-base";
 
 const FileIcon = (props) => (
   <IconBase
-    width="16"
-    height="16"
     viewBox="0 0 16 16"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M4.85 8.984H11.151V7.684H4.85V8.984ZM4.85 11.666H11.151V10.367H4.85V11.666ZM7.143 13.2H3.8V2.8H8.961V6.04H12.2V13.2H7.143ZM9.5 1.5H2.5V14.5H7.143H12.286H13.5V5.5C11.938 3.938 11.063 3.062 9.5 1.5Z"
-    />
+    <path d="M9.55005 1.5H2.55005V14.5H13.45V5.5C12 3.9 11.15 3.1 9.55005 1.5ZM10.67 10.91H8.67005V12.91H7.33005V10.91H5.33005V9.58H7.33005V7.58H8.67005V9.58H10.67V10.91ZM9.05005 6V2.8L12.25 6H9.05005Z" />
   </IconBase>
 );
 

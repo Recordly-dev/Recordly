@@ -1,17 +1,60 @@
+@import "common/scss/color.scss";
+
 .SideTagsMenu {
-  min-height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 224px;
+  padding-left: 20rem;
 
-  z-index: 9;
+  &__container {
+    position: fixed;
+    height: 100vh;
+    top: 56px;
+    left: 224px;
 
-  width: 20rem;
-  background-color: rgb(109, 105, 98);
-  margin-top: 4rem; // 40px
+    z-index: 9;
+    padding: 1.5rem;
+    width: 20rem;
+    background-color: rgb(254, 254, 254);
+    border-right: 1px solid rgb(240, 243, 242);
+    border-top: 1px solid rgb(240, 243, 242);
+    border-bottom: 1px solid rgb(240, 243, 242);
+  }
+
+  &__subHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    span {
+      color: $gray-800;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
 
   &__input {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 2rem;
+  }
+
+  &__closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  &__Searchbar {
+    // margin-bottom: 1rem;
+
+    &__input {
+      width: 14rem !important;
+    }
   }
 }

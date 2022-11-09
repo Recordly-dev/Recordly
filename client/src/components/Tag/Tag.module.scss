@@ -1,15 +1,28 @@
 .Tag {
-  &__tag {
-    height: 2rem; // 32px
+  width: max-content;
+  margin: 0.25rem;
 
-    color: white;
+  background-color: #dce2f0 !important;
+  border: none !important;
+  border-radius: 1rem !important;
 
-    border-radius: 3rem !important; // 48px
-    margin-bottom: 0.5rem; // 8px
+  &__name {
+    font-size: 0.875rem; // 12px
+    font-weight: 500;
+    color: #234e70;
+  }
 
-    &__count {
-      margin-left: 0.25rem; // 8px
-      font-size: 0.75rem; // 12px
+  &__count {
+    font-size: 0.75rem; // 12px
+    margin-left: 0.5rem; // 8px
+    color: #63707a;
+  }
+
+  &:focus {
+    background-color: #c0d7eb !important;
+
+    &__name {
+      color: #dce2f0 !important;
     }
   }
 }

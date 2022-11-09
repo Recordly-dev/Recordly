@@ -6,7 +6,10 @@
   &__Input {
     width: 20rem !important;
     padding-left: 2.25rem !important;
-    margin-right: 0.5rem;
+
+    &::placeholder {
+      font-size: 0.875rem !important;
+    }
 
     &--text {
       padding-left: 0.75rem !important;

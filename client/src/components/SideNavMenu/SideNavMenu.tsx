@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
@@ -18,10 +19,14 @@ import CONSTANT from "./constants";
 
 const SideNavMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("/main");
   const currentLocation = useLocation();
 
-  const handleButtonClick = (): void => {
+  const moveDashboard = () => navigate("/main");
+
+  const createWorkspace = (): void => {
+    moveDashboard();
     let title: string;
     let workspaceType: string;
 
@@ -59,7 +64,8 @@ const SideNavMenu = () => {
     });
   };
 
-  const handlePostFolder = () => {
+  const createFolder = () => {
+    moveDashboard();
     Swal.fire({
       title: "Please write the folder title.",
       input: "text",
@@ -102,7 +108,7 @@ const SideNavMenu = () => {
             color="primary"
             size="md"
             className={styles.SideNavMenu__create__button}
-            onClick={handleButtonClick}
+            onClick={createWorkspace}
           >
             <div
               className={cn(
@@ -112,14 +118,14 @@ const SideNavMenu = () => {
               )}
             >
               <FileIcon width="20px" height="20px" />
-              <span className="ms-2">New Memo</span>
+              <span className="ms-2">Memo</span>
             </div>
           </Button>
           <Button
             color="primary"
             size="md"
             className={styles.SideNavMenu__create__button}
-            onClick={handlePostFolder}
+            onClick={createFolder}
           >
             <div
               className={cn(
@@ -129,7 +135,7 @@ const SideNavMenu = () => {
               )}
             >
               <FolderIcon width="20px" height="20px" />
-              <span className="ms-2">New Folder</span>
+              <span className="ms-2">Folder</span>
             </div>
           </Button>
         </li>

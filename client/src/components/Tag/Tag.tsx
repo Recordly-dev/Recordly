@@ -1,61 +1,40 @@
-import React, { useState } from "react";
-
-import { useDispatch } from "store";
-import { Button } from "reactstrap";
-
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
-
+import React from "react";
 import cn from "classnames";
+import PropTypes from "prop-types";
+
+import { Button } from "reactstrap";
 
 import styles from "./Tag.module.scss";
 
 const Tag = ({
-  tagList,
-  tagInputValue,
+  id,
+  name,
+  count,
+  getWorkspaceHaveTags,
 }: {
-  tagList: any;
-  tagInputValue: string;
+  id: string;
+  name: string;
+  count: number;
+  getWorkspaceHaveTags: Function;
 }) => {
-  const [isSeletedTag, setIsSeletedTag] = useState(false);
-  const [currentSeleteTagId, setCurrentSeleteTagId] = useState("");
-  const dispatch = useDispatch();
-
-  const getWorkspaceHaveTags = (tagId: string) => {
-    if (currentSeleteTagId === tagId && isSeletedTag) {
-      setIsSeletedTag(false);
-      dispatch(workspaceActions.fetchAllWorkspaceList());
-    } else {
-      setIsSeletedTag(true);
-      setCurrentSeleteTagId(tagId);
-      dispatch(workspaceActions.fetchWorkspacesWithTag({ tagId }));
-    }
-  };
-
   return (
-    <div className={cn(styles.Tag, "d-flex", "flex-column")}>
-      {tagList.map(
-        (tag: any) =>
-          tag.name.includes(tagInputValue) && (
-            <Button
-              className={cn(
-                styles.Tag__tag,
-                "d-flex",
-                "align-items-center",
-                "justify-content-center"
-              )}
-              color="primary"
-              size="md"
-              onClick={() => getWorkspaceHaveTags(tag?._id)}
-            >
-              <span>{tag?.name}</span>
-              <span className={styles.Tag__tag__count}>
-                ({tag.workspaces?.length})
-              </span>
-            </Button>
-          )
+    <Button
+      className={cn(
+        styles.Tag,
+        "d-flex",
+        "align-items-center",
+        "justify-content-center"
       )}
-    </div>
+      color="primary"
+      size="md"
+      onClick={() => getWorkspaceHaveTags(id)}
+    >
+      <span className={styles.Tag__name}>{name}</span>
+      <span className={styles.Tag__count}>{count}</span>
+    </Button>
   );
 };
+
+Tag.propTypes = {};
 
 export default Tag;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import axios from "axios";
@@ -13,21 +13,42 @@ import { Button } from "reactstrap";
 import SearchBar from "components/SearchBar";
 import DropdownSelect from "components/DropdownSelect";
 
+import { IFolder } from "types/folder";
+
 import styles from "./MainHeader.module.scss";
+import MoveToBackButton from "components/MainDashboard/components/MoveToBackButton";
 
 const MainHeader = ({
+  isFolderDetailPage,
   isFavoritesPage,
   isTagPage,
 }: {
+  isFolderDetailPage?: boolean;
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
 }) => {
+  const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleDropdownOnClick = (type: string) => {
     dispatch(workspaceActions.sortWorkspaceList({ type }));
   };
+
+  useEffect(() => {
+    (async () => {
+      if (!isFolderDetailPage) {
+        return;
+      }
+      const { data } = await axios.get("/api/folder");
+      const [currentFolder] = data.filter(
+        (folder: IFolder) =>
+          folder._id === window?.location?.pathname.split("/").at(-1) || ""
+      );
+
+      setFolderName(currentFolder?.title);
+    })();
+  }, [isFolderDetailPage]);
 
   const logout = (): void => {
     axios
@@ -44,6 +65,11 @@ const MainHeader = ({
         });
         console.log(err, "로그아웃 실패");
       });
+  };
+
+  const moveGoBack = () => {
+    navigate(`/main`);
+    dispatch(workspaceActions.fetchWorkspaceList());
   };
 
   return (
@@ -72,7 +98,16 @@ const MainHeader = ({
             "align-items-center",
             "justify-content-center"
           )}
-        ></div>
+        >
+          {isFolderDetailPage && (
+            <>
+              <MoveToBackButton moveGoBack={moveGoBack} />
+              <span className={styles.MainHeader__folderPath}>
+                {folderName}
+              </span>
+            </>
+          )}
+        </div>
 
         <div
           className={cn(
