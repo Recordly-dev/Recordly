@@ -88,7 +88,7 @@ const Workspace = ({
    */
   const patchWorkspace = (e: React.MouseEvent<HTMLImageElement>) => {
     Swal.fire({
-      title: "수정할 메모 이름을 입력해주세요.",
+      title: "Please enter the name of the memo you want to edit.",
       input: "text",
       inputValue: title,
       inputAttributes: {
@@ -125,37 +125,26 @@ const Workspace = ({
       title: "Please select a folder",
       input: "select",
       inputOptions: {
-        ...["Exclude from folder", ...folderItem],
+        ...folderItem,
       },
       inputPlaceholder: "Select a folder",
       showCancelButton: true,
       inputValidator: async (value: string) => {
-        const response = await axios.get(`/api/workspace/${uid}`);
+        // const response = await axios.get(`/api/workspace/${uid}`);
 
-        if (+value === 0 && response.data.folder === null) {
-          return "It doesn't already belong to the folder";
-        } else if (+value === 0) {
-          dispatch(
-            actions.patchWorkspace({
-              workspaceId: uid,
-              folder: null,
-              folderId: folderId,
-            })
-          );
-        } else {
-          const seletedFolder = folderList[+value - 1];
+        const seletedFolder = folderList[+value];
 
-          if (seletedFolder._id === folderId) {
-            return "You cannot select the same folder.";
-          }
-          dispatch(
-            actions.patchWorkspace({
-              workspaceId: uid,
-              folder: seletedFolder._id,
-              folderId: folderId,
-            })
-          );
+        if (seletedFolder._id === folderId) {
+          return "You cannot select the same folder.";
         }
+        dispatch(
+          actions.patchWorkspace({
+            workspaceId: uid,
+            folder: seletedFolder._id,
+            folderId: folderId,
+          })
+        );
+
         return "";
       },
     });
@@ -177,8 +166,19 @@ const Workspace = ({
     e.preventDefault();
     e.stopPropagation();
   };
-
   const dropdownItem = [
+    folderId && {
+      title: "Exclude folder",
+      onClick: (e: any) => {
+        dispatch(
+          actions.patchWorkspace({
+            workspaceId: uid,
+            folder: null,
+            folderId: folderId,
+          })
+        );
+      },
+    },
     {
       title: "Delete",
       onClick: (e: any) => {
@@ -191,7 +191,7 @@ const Workspace = ({
         handleMoveFolderModalToggle();
       },
     },
-  ];
+  ].filter((item) => item !== null);
 
   /**
    * 썸네일 지정 핸들러
