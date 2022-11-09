@@ -1,3 +1,3 @@
-const ICON_SIZE = "24px";
+const ICON_SIZE = "20px";
 
 export default { ICON_SIZE };
