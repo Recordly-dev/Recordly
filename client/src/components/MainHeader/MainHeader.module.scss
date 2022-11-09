@@ -9,6 +9,8 @@
   width: 100%;
   height: 3.5rem; // 54px
 
+  padding-left: 14rem;
+
   background-color: white;
 
   &__container {
@@ -19,7 +21,17 @@
         background-color: white !important;
         border: 1px solid $gray-400 !important;
         color: $gray-700 !important;
+
+        margin-left: 0.5rem;
       }
     }
+  }
+
+  &__folderPath {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-left: 1rem;
+
+    color: $gray-800;
   }
 }
