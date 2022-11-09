@@ -1,17 +1,35 @@
 @import "common/scss/color.scss";
 
 .ResetTag {
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
   margin-left: 0.5rem;
+
+  background-color: white !important;
+  border: 1px solid $gray-400 !important;
+  color: $gray-700 !important;
+  padding: 0 !important;
 
   height: 2.375rem; // 38px
   width: 2.375rem; // 38px
 
   border: 1px solid $gray-400;
   border-radius: 0.5rem;
+
+  &:hover {
+    box-shadow: var(--bs-btn-focus-box-shadow) !important;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   cursor: pointer;
 }

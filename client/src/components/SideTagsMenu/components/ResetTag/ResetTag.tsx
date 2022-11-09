@@ -9,16 +9,25 @@ import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import CONSTANT from "../../constants";
 
 import styles from "./ResetTag.module.scss";
+import { Button } from "reactstrap";
 
-const ResetTag = ({ setTagInputValue }: { setTagInputValue: Function }) => {
+const ResetTag = ({
+  setTagInputValue,
+  sortTagList,
+}: {
+  setTagInputValue: Function;
+  sortTagList: Function;
+}) => {
   const dispatch = useDispatch();
 
   const resetWorkspaceList = () => {
     dispatch(workspaceActions.fetchAllWorkspaceList());
     setTagInputValue("");
+    sortTagList("count");
   };
+
   return (
-    <div className={styles.ResetTag}>
+    <Button color="link" className={styles.ResetTag}>
       <RefreshIcon
         className={styles.ResetTag__icon}
         width={CONSTANT.ICON_SIZE.REFRESH}
@@ -26,7 +35,7 @@ const ResetTag = ({ setTagInputValue }: { setTagInputValue: Function }) => {
         onClick={resetWorkspaceList}
         color="#858899"
       />
-    </div>
+    </Button>
   );
 };
 
