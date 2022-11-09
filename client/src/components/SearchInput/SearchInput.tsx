@@ -21,7 +21,7 @@ const SearchInput = ({
   value: string;
   placeholder: string;
   onChange: any;
-  onKeyDown: any;
+  onKeyDown?: any;
 }) => {
   const handleCancelClick = useCallback(() => {
     onChange({ target: { value: "" }, currentTarget: { value: "" } });
