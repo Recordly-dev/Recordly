@@ -20,11 +20,13 @@ const Folder = ({
   title,
   moveFolderDetailPage,
   workspaceList,
+  isLoading,
 }: {
   uid: string;
   title: string;
   moveFolderDetailPage: Function;
   workspaceList: IWorkspace[];
+  isLoading: boolean;
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [countOfMemosInFolder, setCountOfMemosInFolder] = useState(0);
@@ -34,8 +36,8 @@ const Folder = ({
     const filterWorkspaceList = workspaceList.filter(
       (workspace: IWorkspace) => workspace.folder === uid
     );
-    setCountOfMemosInFolder(filterWorkspaceList.length);
-  }, []);
+    setCountOfMemosInFolder(filterWorkspaceList?.length);
+  }, [isLoading, uid, workspaceList]);
 
   const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
     Swal.fire({

@@ -13,6 +13,7 @@ import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
 const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [workspaceList, setWorkspaceList] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,12 +30,14 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await axios.get("/api/workspace");
       const workspaces = response?.data;
-      // 해당 폴더와 같은 것 filter
+
       setWorkspaceList(workspaces);
+      setIsLoading(false);
     })();
-  }, []);
+  }, [isLoadingData]);
 
   return (
     <>
@@ -48,6 +51,7 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
             title={folder.title}
             workspaceList={workspaceList}
             moveFolderDetailPage={moveFolderDetailPage}
+            isLoading={isLoading}
           />
         ))
       )}

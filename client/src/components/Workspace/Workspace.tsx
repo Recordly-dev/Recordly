@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import cn from "classnames";
-import axios from "axios";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
 import Swal from "sweetalert2";
 import EditDropdown from "../EditDropdown";
 
-import { actions } from "store/slice/workspaceSlice";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import { IFolder } from "types/folder";
 
@@ -72,7 +71,7 @@ const Workspace = ({
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(
-          actions.deleteWorkspace({
+          workspaceActions.deleteWorkspace({
             workspaceId: uid,
             folderId: folderId,
             isFavoritesPage,
@@ -104,7 +103,7 @@ const Workspace = ({
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(
-          actions.patchWorkspace({
+          workspaceActions.patchWorkspace({
             workspaceId: uid,
             title: result?.value,
             folderId: folderId,
@@ -138,13 +137,12 @@ const Workspace = ({
           return "You cannot select the same folder.";
         }
         dispatch(
-          actions.patchWorkspace({
+          workspaceActions.patchWorkspace({
             workspaceId: uid,
             folder: seletedFolder._id,
             folderId: folderId,
           })
         );
-
         return "";
       },
     });
@@ -156,7 +154,7 @@ const Workspace = ({
   const toggleFavorites = (e: any) => {
     setIsFavorites((prev) => !prev);
     dispatch(
-      actions.patchFavoritesWorkspaceList({
+      workspaceActions.patchFavoritesWorkspaceList({
         uid: uid,
         isFavorites: !favorites,
         isFavoritesPage: isFavoritesPage,
@@ -171,7 +169,7 @@ const Workspace = ({
       title: "Exclude folder",
       onClick: (e: any) => {
         dispatch(
-          actions.patchWorkspace({
+          workspaceActions.patchWorkspace({
             workspaceId: uid,
             folder: null,
             folderId: folderId,
