@@ -29,8 +29,8 @@ const SideTagsMenu = () => {
     setTagInputValue(value);
   };
 
-  const sortTagList = () => {
-    if (sortType === "basic") {
+  const sortTagList = (type: string) => {
+    if (type === "basic") {
       dispatch(tagListActions.fetchSortTagList({ type: "count" }));
       setSortType("count");
     } else {
@@ -54,18 +54,17 @@ const SideTagsMenu = () => {
               width={CONSTANT.ICON_SIZE.SORT}
               height={CONSTANT.ICON_SIZE.SORT}
               color="#3e404c"
-              onClick={sortTagList}
+              onClick={() => sortTagList(sortType)}
             />
           ) : (
             <SortBasicOrderIcon
               width={CONSTANT.ICON_SIZE.SORT}
               height={CONSTANT.ICON_SIZE.SORT}
               color="#3e404c"
-              onClick={sortTagList}
+              onClick={() => sortTagList(sortType)}
             />
           )}
         </div>
-        <hr />
         <div className={cn("d-flex", "align-items-center", "mb-3")}>
           <SearchInput
             className={styles.SideTagsMenu__Searchbar}
@@ -74,7 +73,10 @@ const SideTagsMenu = () => {
             placeholder="Search Tags"
             onChange={handleTagInput}
           />
-          <ResetTag setTagInputValue={setTagInputValue} />
+          <ResetTag
+            setTagInputValue={setTagInputValue}
+            sortTagList={sortTagList}
+          />
         </div>
         <TagList tagList={tagList} tagInputValue={tagInputValue} />
       </div>
