@@ -57,7 +57,7 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
         value={tagInputValue}
         onChange={handleInputValue}
         onKeyPress={handleTextFieldKeyPress}
-        placeholder="#태그입력"
+        placeholder="# input Tag"
       />
     </div>
   );

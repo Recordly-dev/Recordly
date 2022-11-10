@@ -2,14 +2,22 @@
   display: flex;
   align-items: center;
   width: 6rem !important;
+  border-radius: 1rem !important;
   overflow: none;
   height: 1.5rem;
 
   font-size: 0.75rem !important;
 
+  box-shadow: var(--shadows-panel);
+
   border: none !important;
 
   &::placeholder {
     font-size: 0.75rem;
+  }
+
+  &:active,
+  &:focus {
+    box-shadow: var(--shadows-panel);
   }
 }
