@@ -66,7 +66,7 @@ const Folder = ({
         autocapitalize: "off",
       },
       showCancelButton: true,
-      confirmButtonText: "Create",
+      confirmButtonText: "Edit",
       showLoaderOnConfirm: true,
       preConfirm: (title) => {
         return title;
