@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 function useInputOnClickOutside(ref, handler, isPatch) {
   useEffect(() => {
-    console.log(isPatch);
+    ref?.current?.focus();
     if (isPatch) {
       const listener = (event) => {
         if (!ref.current || ref.current.contains(event.target)) {

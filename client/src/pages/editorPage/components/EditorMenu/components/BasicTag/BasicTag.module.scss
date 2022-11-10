@@ -1,0 +1,55 @@
+.Tag {
+  display: flex;
+  align-items: center;
+
+  height: 1.5rem;
+
+  margin-right: 0.5rem;
+
+  background-color: white;
+  box-shadow: var(--shadows-panel);
+
+  border-radius: 1rem;
+  padding: 0.375rem 0.75rem;
+
+  &__editInput {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.75rem !important;
+    overflow: none;
+
+    width: 6rem !important;
+    height: 1.5rem;
+
+    padding-left: 0.75rem;
+
+    border: none !important;
+    border-radius: 1rem;
+
+    &::placeholder {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__name {
+    font-size: 0.75rem; // 12px
+    line-height: 0.75rem;
+
+    cursor: pointer;
+
+    :first-child {
+      color: gray;
+      margin-right: 0.125rem;
+    }
+  }
+
+  &__deleteButton {
+    font-size: 0.75rem; // 12px
+    line-height: 0.75rem;
+
+    margin-left: 0.5rem;
+
+    cursor: pointer;
+  }
+}

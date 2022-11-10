@@ -5,6 +5,7 @@ import React, {
   useState,
   useRef,
 } from "react";
+import cn from "classnames";
 import axios from "axios";
 import html2canvas from "html2canvas";
 import { useSelector } from "react-redux";
@@ -12,16 +13,24 @@ import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, FormGroup, Input } from "reactstrap";
 import TagInput from "../TagInput";
+import RecommendedTag from "./components/RecommendedTag";
+import BasicTag from "./components/BasicTag";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
+import EraserIcon from "common/assets/icons/EraserIcon";
+import TextIcon from "common/assets/icons/TextIcon";
+import BackIcon from "common/assets/icons/BackIcon";
 
-import { useDebouncedCallback } from "use-debounce";
 import useInputOnClickOutside from "hooks/useInputOnClickOutside";
+import { useDebouncedCallback } from "use-debounce";
+
 import { extractTextsFromDocument } from "../../../../utils/tldraw";
 
 import styles from "./EditorMenu.module.scss";
+
+import CONSTANT from "./constants";
 
 const EditorMenu = ({
   context = createContext({} as TldrawApp),
@@ -244,77 +253,149 @@ const EditorMenu = ({
   return (
     <>
       <div className={styles.EditorMenu__topLeft}>
-        <Button color="outline-dark" onClick={moveMainPage}>
-          Go To Main
+        <Button
+          className={styles.EditorMenu__topLeft__button}
+          color="outline-dark"
+          onClick={moveMainPage}
+        >
+          <BackIcon
+            width={CONSTANT.ICON_SIZE.BACK}
+            height={CONSTANT.ICON_SIZE.BACK}
+            color="#3e404c"
+          />
         </Button>
         <h6>{title}</h6>
       </div>
-      {/* Tool Controls */}
       <div className={styles.EditorMenu__top}>
         <Button
-          style={{
-            fontWeight: activeTool === "select" ? 600 : 400,
-          }}
-          onClick={() =>
-            // Select the tool on click
-            app.selectTool("select")
-          }
-          color="outline-dark"
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === "select",
+          })}
+          onClick={() => app.selectTool("select")}
         >
-          Select
+          <span
+            className={cn({
+              "material-symbols-outlined": true,
+              [styles.EditorMenu__icon]: true,
+              [styles.EditorMenu__icon__active]: activeTool === "select",
+            })}
+          >
+            arrow_selector_tool
+          </span>
         </Button>
         <Button
-          style={{
-            fontWeight: activeTool === TDShapeType.Rectangle ? 600 : 400,
-          }}
-          onClick={() => app.selectTool(TDShapeType.Rectangle)}
-          color="outline-dark"
-        >
-          Rectangle
-        </Button>
-        <Button
-          style={{ fontWeight: activeTool === TDShapeType.Arrow ? 600 : 400 }}
-          onClick={() => app.selectTool(TDShapeType.Arrow)}
-          color="outline-dark"
-        >
-          Arrow
-        </Button>
-        <Button
-          style={{ fontWeight: activeTool === TDShapeType.Draw ? 600 : 400 }}
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === TDShapeType.Draw,
+          })}
           onClick={() => app.selectTool(TDShapeType.Draw)}
-          color="outline-dark"
         >
-          Draw
+          <span
+            className={cn({
+              "material-symbols-outlined": true,
+              [styles.EditorMenu__icon]: true,
+              [styles.EditorMenu__icon__active]:
+                activeTool === TDShapeType.Draw,
+            })}
+          >
+            create
+          </span>
         </Button>
         <Button
-          style={{ fontWeight: activeTool === TDShapeType.Text ? 600 : 400 }}
-          onClick={() => app.selectTool(TDShapeType.Text)}
-          color="outline-dark"
-        >
-          Text
-        </Button>
-        <Button
-          style={{
-            fontWeight: activeTool === TDShapeType.Sticky ? 600 : 400,
-          }}
-          onClick={() => app.selectTool(TDShapeType.Sticky)}
-          color="outline-dark"
-        >
-          Sticky
-        </Button>
-        <Button onClick={() => app.openAsset()} color="outline-dark">
-          Image
-        </Button>
-        <Button
-          style={{ fontWeight: activeTool === "erase" ? 600 : 400 }}
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === "erase",
+          })}
           onClick={() => app.selectTool("erase")}
-          color="outline-dark"
         >
-          Erase
+          <EraserIcon
+            width={CONSTANT.ICON_SIZE.ERASER}
+            height={CONSTANT.ICON_SIZE.ERASER}
+            color={activeTool === "erase" ? "white" : "#3e404c"}
+          />
+        </Button>
+        <Button
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]:
+              activeTool === TDShapeType.Rectangle,
+          })}
+          onClick={() => app.selectTool(TDShapeType.Rectangle)}
+        >
+          <span
+            className={cn({
+              "material-symbols-outlined": true,
+              [styles.EditorMenu__icon]: true,
+              [styles.EditorMenu__icon__active]:
+                activeTool === TDShapeType.Rectangle,
+            })}
+          >
+            crop_square
+          </span>
+        </Button>
+        <Button
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === TDShapeType.Arrow,
+          })}
+          onClick={() => app.selectTool(TDShapeType.Arrow)}
+        >
+          <span
+            className={cn({
+              "material-symbols-outlined": true,
+              [styles.EditorMenu__icon]: true,
+              [styles.EditorMenu__icon__active]:
+                activeTool === TDShapeType.Arrow,
+            })}
+          >
+            north_east
+          </span>
+        </Button>
+        <Button
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === TDShapeType.Text,
+          })}
+          onClick={() => app.selectTool(TDShapeType.Text)}
+        >
+          <TextIcon
+            width={CONSTANT.ICON_SIZE.ERASER}
+            height={CONSTANT.ICON_SIZE.ERASER}
+            color={activeTool === TDShapeType.Text ? "white" : "#3e404c"}
+          />
+        </Button>
+        <Button
+          className={cn({
+            [styles.EditorMenu__tool]: true,
+            [styles.EditorMenu__activeTool]: activeTool === TDShapeType.Sticky,
+          })}
+          onClick={() => app.selectTool(TDShapeType.Sticky)}
+        >
+          <span
+            className={cn({
+              "material-symbols-outlined": true,
+              [styles.EditorMenu__icon]: true,
+              [styles.EditorMenu__icon__active]:
+                activeTool === TDShapeType.Sticky,
+            })}
+          >
+            note
+          </span>
+        </Button>
+        <Button
+          className={styles.EditorMenu__tool}
+          onClick={() => app.openAsset()}
+        >
+          <span
+            className={cn("material-symbols-outlined", styles.EditorMenu__icon)}
+          >
+            image
+          </span>
         </Button>
       </div>
       <div className={styles.TagContainer}>
-        <FormGroup switch>
+        <FormGroup className="mb-0" switch>
           <Input
             className={styles.TagContainer__switch}
             type="switch"
@@ -323,11 +404,10 @@ const EditorMenu = ({
               setIsViewTagList((prev) => !prev);
             }}
           />
-          {/* <Label check>Watch Tags</Label> */}
         </FormGroup>
         {isViewTagList && (
           <>
-            <div className={styles.TagList}>
+            <div className={cn("d-flex", "align-items-center", "flex-wrap")}>
               {tagList.map((tag: any, idx: number) =>
                 isPatchTag.state && isPatchTag.index === idx ? (
                   <input
@@ -340,43 +420,23 @@ const EditorMenu = ({
                     }
                   />
                 ) : (
-                  <div className={styles.Tag}>
-                    <div
-                      className={styles.Tag__name}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() =>
-                        handlePatchTagState(
-                          tag.name,
-                          tag?._id,
-                          workspaceId,
-                          idx
-                        )
-                      }
-                    >
-                      <span>#</span>
-                      <span>{tag?.name}</span>
-                    </div>
-
-                    <div
-                      className={styles.Tag__deleteButton}
-                      onClick={() => deleteTag(tag?._id, workspaceId)}
-                    >
-                      X
-                    </div>
-                  </div>
+                  <BasicTag
+                    tagId={tag?._id}
+                    workspaceId={workspaceId}
+                    tagName={tag?.name}
+                    idx={idx}
+                    handleDeleteTag={deleteTag}
+                    handlePatchTag={handlePatchTagState}
+                  />
                 )
               )}
             </div>
-            <div className={styles.TagList}>
+            <div className={cn("d-flex", "align-items-center", "flex-wrap")}>
               {recommendedTagList.slice(0, 3)?.map((tag: any) => (
-                <div
-                  className={styles.RecommendedTag}
-                  color="primary"
-                  onClick={() => saveRecommendedTag(tag)}
-                >
-                  <span className={styles.RecommendedTag__text}>{tag}</span>
-                </div>
+                <RecommendedTag
+                  tagName={tag}
+                  saveRecommendedTag={saveRecommendedTag}
+                />
               ))}
             </div>
           </>
