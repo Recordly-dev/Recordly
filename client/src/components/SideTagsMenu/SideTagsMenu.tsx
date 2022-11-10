@@ -6,6 +6,7 @@ import { useDispatch } from "store";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
 import TagList from "components/TagList";
+import EmptyTagList from "components/EmptyTagList";
 
 import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
 import SortBasicOrderIcon from "common/assets/icons/SortBasicOrderIcon";
@@ -43,6 +44,10 @@ const SideTagsMenu = () => {
     dispatch(tagListActions.fetchTagList());
   }, []);
 
+  const isEmptyTagList =
+    tagList.length === 0 ||
+    tagList.filter((tag: any) => tag.name.includes(tagInputValue)).length;
+
   return (
     <div className={styles.SideTagsMenu}>
       <div className={styles.SideTagsMenu__container}>
@@ -78,7 +83,11 @@ const SideTagsMenu = () => {
             sortTagList={sortTagList}
           />
         </div>
-        <TagList tagList={tagList} tagInputValue={tagInputValue} />
+        {isEmptyTagList ? (
+          <TagList tagList={tagList} tagInputValue={tagInputValue} />
+        ) : (
+          <EmptyTagList />
+        )}
       </div>
     </div>
   );
