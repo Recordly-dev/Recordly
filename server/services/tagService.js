@@ -79,10 +79,23 @@ const removeTag = async (tagId, workspaceId) => {
   return true;
 };
 
+const patchTag = async (prevTagId, tagName, writerId, workspaceId) => {
+  const addedTag = await addTag(tagName, writerId, workspaceId);
+
+  await deleteWorkspaceInTag(prevTagId, workspaceId);
+  await modWorkspace.updateOne(
+    { _id: workspaceId, "tags._id": prevTagId },
+    { "tags.$": addedTag }
+  );
+
+  return addedTag;
+};
+
 export default {
   getTagById,
   getSingleTag,
   addTag,
   deleteWorkspaceInTag,
   removeTag,
+  patchTag,
 };
