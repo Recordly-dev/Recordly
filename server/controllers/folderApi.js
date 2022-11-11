@@ -71,7 +71,8 @@ const getWorkspacesInFolder = async (req, res, next) => {
 
     const workspaces = await modWorkspace
       .find({ folder: folderId })
-      .sort({ editedAt: -1 });
+      .aggregate({})
+      .populate("tags", "name");
 
     res.json(workspaces);
   } catch (err) {
