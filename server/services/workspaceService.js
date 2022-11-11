@@ -8,7 +8,9 @@ const deleteWorkspacesInFolder = async (folderId) => {
 };
 
 const getWorkspaceById = async (workspaceId) => {
-  return await modWorkspace.findOne({ _id: workspaceId });
+  return await modWorkspace
+    .findOne({ _id: workspaceId })
+    .populate("tags", "name");
 };
 
 export default { deleteWorkspacesInFolder, getWorkspaceById };

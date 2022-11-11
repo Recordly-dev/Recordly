@@ -431,7 +431,20 @@ const EditorMenu = ({
                 )
               )}
             </div>
-            <div className={cn("d-flex", "align-items-center", "flex-wrap")}>
+            {tagList.length < 10 && isViewTagList && (
+              <TagInput workspaceId={workspaceId} />
+            )}
+            {!!recommendedTagList.length && (
+              <>
+                <div className={styles.divider} />
+                <div className={cn("d-flex", "align-items-center")}>
+                  <span className={styles.RecommendedTag__title}>
+                    Recommend :
+                  </span>
+                </div>
+              </>
+            )}
+            <div className={styles.RecommendedTag__container}>
               {recommendedTagList.slice(0, 3)?.map((tag: any) => (
                 <RecommendedTag
                   tagName={tag}
@@ -440,9 +453,6 @@ const EditorMenu = ({
               ))}
             </div>
           </>
-        )}
-        {tagList.length < 10 && isViewTagList && (
-          <TagInput workspaceId={workspaceId} />
         )}
       </div>
     </>

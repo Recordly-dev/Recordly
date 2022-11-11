@@ -15,13 +15,12 @@ const RecommendedTag = ({
 }) => {
   return (
     <div className={styles.RecommendedTag} color="primary">
-      <span className={styles.RecommendedTag__text}>{tagName}</span>
+      <span className={styles.RecommendedTag__text}># {tagName}</span>
       <PlusIcon
         className={styles.RecommendedTag__icon}
         onClick={() => saveRecommendedTag(tagName)}
         width={CONSTANT.ICON_SIZE.PLUS}
         height={CONSTANT.ICON_SIZE.PLUS}
-        color="white"
       />
     </div>
   );

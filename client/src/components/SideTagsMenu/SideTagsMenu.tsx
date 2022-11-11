@@ -45,9 +45,9 @@ const SideTagsMenu = () => {
   }, []);
 
   const isEmptyTagList =
-    tagList.length === 0 ||
-    tagList.filter((tag: any) => tag.name.includes(tagInputValue)).length;
-
+    tagList.filter((tag: any) => tag.name.includes(tagInputValue)).length ===
+      0 || tagList.length === 0;
+  console.log(tagList);
   return (
     <div className={styles.SideTagsMenu}>
       <div className={styles.SideTagsMenu__container}>
@@ -84,9 +84,9 @@ const SideTagsMenu = () => {
           />
         </div>
         {isEmptyTagList ? (
-          <TagList tagList={tagList} tagInputValue={tagInputValue} />
-        ) : (
           <EmptyTagList />
+        ) : (
+          <TagList tagList={tagList} tagInputValue={tagInputValue} />
         )}
       </div>
     </div>

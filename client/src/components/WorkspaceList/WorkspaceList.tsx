@@ -50,9 +50,9 @@ const WorkspaceList = ({
       >
         {filterDate.map((v: string) => {
           if (v.split("-").map(Number).join("") === today) {
-            return <span>오늘</span>;
+            return <span>Today</span>;
           } else if (v.split("-").map(Number).join("") === yesterDay) {
-            return <span>어제</span>;
+            return <span>Yesterday</span>;
           } else {
             return (
               <span className={"ms-1"} key={v + now}>
@@ -75,6 +75,7 @@ const WorkspaceList = ({
               uid={workspace._id}
               title={workspace.title}
               folderId={workspace.folder}
+              tagList={workspace.tags}
               editedAt={workspace.editedAt}
               favorites={workspace.favorites}
               isFavoritesPage={isFavoritesPage}

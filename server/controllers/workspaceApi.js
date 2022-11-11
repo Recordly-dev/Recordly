@@ -7,8 +7,8 @@ const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
     const workspaces = await modWorkspace
       .find({ writer: req.user.id })
-      .sort({ editedAt: -1 })
-      .populate("tags", "name");
+      .populate("tags", "name")
+      .sort({ editedAt: -1 });
 
     res.json(workspaces);
   } catch (err) {
@@ -57,6 +57,7 @@ const getFavoritesWorkspaceList = async (req, res, next) => {
   try {
     const workspaces = await modWorkspace
       .find({ writer: req.user.id, favorites: true })
+      .populate("tags", "name")
       .sort({ editedAt: -1 });
 
     res.json(workspaces);
