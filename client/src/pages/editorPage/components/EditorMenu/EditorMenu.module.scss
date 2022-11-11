@@ -103,6 +103,28 @@
   }
 }
 
+.Tag {
+  &__editInput {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.75rem !important;
+    overflow: none;
+
+    width: 5.875rem !important;
+    height: 1.5rem;
+
+    padding-left: 0.75rem;
+    margin-right: 0.5rem;
+    border: none !important;
+    border-radius: 1rem;
+
+    &::placeholder {
+      font-size: 0.75rem;
+    }
+  }
+}
+
 .TagContainer {
   position: absolute;
   bottom: 8px;
@@ -127,5 +149,28 @@
       background-color: $blue-600 !important;
       border-color: $blue-600 !important;
     }
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-right: 1px solid $gray-300;
+}
+
+.RecommendedTag {
+  &__title {
+    font-size: 0.875rem;
+    color: $gray-700;
+    margin-left: 0.25rem;
+    margin-right: 0.5rem;
+  }
+  &__container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }

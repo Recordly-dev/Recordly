@@ -32,6 +32,7 @@ const addNewTag = async (tagName, writerId, workspaceId) => {
     writer: writerId,
     workspaces: [workspaceId],
   });
+
   await modWorkspace.update(
     { _id: workspaceId },
     { $push: { tags: newTag._id } }
@@ -58,7 +59,7 @@ const deleteWorkspaceInTag = async (tagId, workspaceId) => {
     { $pull: { workspaces: ObjectId(workspaceId) } }
   );
   const findTag = await modTag.findOne({ _id: tagId });
-  if (findTag.workspaces.length === 0) {
+  if (findTag?.workspaces?.length === 0) {
     await modTag.deleteOne({ _id: tagId });
   }
   return { deleted: true };

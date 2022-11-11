@@ -1,0 +1,21 @@
+.TagPreview {
+  height: 20px !important;
+  border-radius: 1rem !important;
+
+  border: none !important;
+
+  margin-right: 0.25rem;
+  box-shadow: var(--shadows-panel) !important;
+
+  background-color: rgb(254, 254, 254) !important;
+
+  &__name {
+    font-size: 0.75rem !important;
+    color: black;
+
+    max-width: 3.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

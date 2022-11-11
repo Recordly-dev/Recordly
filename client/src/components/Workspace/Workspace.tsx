@@ -17,11 +17,14 @@ import StarFillIcon from "common/assets/icons/StarFillIcon";
 import styles from "./Workspace.module.scss";
 
 import CONSTANT from "./constants";
+import BasicTag from "pages/editorPage/components/EditorMenu/components/BasicTag";
+import TagPreview from "components/TagPreview";
 
 const Workspace = ({
   uid,
   title,
   folderId,
+  tagList,
   editedAt,
   favorites,
   isTagPage,
@@ -32,6 +35,7 @@ const Workspace = ({
   uid: string;
   title: string;
   folderId: string | null;
+  tagList: any;
   editedAt: string;
   favorites: boolean;
   isTagPage: boolean;
@@ -243,7 +247,7 @@ const Workspace = ({
           </div>
         </div>
         <div className={styles.Workspace__docs__bottom}>
-          <div className={cn("d-flex", "align-items-center", "mb-2")}>
+          <div className={cn("d-flex", "align-items-center", "mb-1")}>
             <span className={styles.Workspace__title}>{title}</span>
             <EditIcon
               className={styles.Workspace__editIcon}
@@ -253,17 +257,24 @@ const Workspace = ({
               color="#a9abb8"
             />
           </div>
+          <div className={cn("d-flex", "align-items-center", "w-100", "mb-2")}>
+            <span className={styles.Workspace__dataEdit}>
+              {formatWorkspaceDate(editedAt)}
+            </span>
+          </div>
           <div
             className={cn(
+              styles.Workspace__tagList,
               "d-flex",
-              "justify-content-between",
               "align-items-center",
               "w-100"
             )}
           >
-            <span className={styles.Workspace__dataEdit}>
-              {formatWorkspaceDate(editedAt)}
-            </span>
+            {tagList.length ? (
+              tagList.map((tag: any) => <TagPreview name={"# " + tag.name} />)
+            ) : (
+              <TagPreview name="🗒" />
+            )}
           </div>
         </div>
       </div>

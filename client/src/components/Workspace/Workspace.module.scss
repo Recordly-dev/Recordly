@@ -10,9 +10,9 @@
     width: 16rem; // 256px
     height: 14rem;
     background-color: rgb(254, 254, 254);
-    border-radius: 2rem; // 8px
+    border-radius: 2rem; // 32px
 
-    padding: 2rem 2rem 1.5rem 2rem;
+    padding: 1.5rem;
     margin: 1rem;
 
     cursor: pointer;
@@ -83,7 +83,7 @@
   &__dropdownIcon {
     width: 0.625rem; // 8px
     height: 1.5rem;
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
   }
 
   &__modal {
@@ -96,6 +96,16 @@
     &__footer {
       display: flex;
       justify-content: end;
+    }
+  }
+
+  &__tagList {
+    height: 1.5rem;
+    overflow: scroll;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
