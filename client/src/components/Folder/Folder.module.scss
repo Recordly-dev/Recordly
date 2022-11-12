@@ -1,5 +1,9 @@
 @import "common/scss/color.scss";
 
+@mixin font {
+  font-family: "Recursive", "line-Rg";
+}
+
 .Folder {
   display: flex;
   flex-direction: column;
@@ -52,11 +56,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    @include font;
   }
 
   &__fileCount {
     color: rgb(157, 157, 157);
     font-size: 0.75rem;
+
+    @include font;
   }
 
   &__editIcon {

@@ -1,5 +1,9 @@
 @import "common/scss/color.scss";
 
+@mixin font {
+  font-family: "Recursive", sans-serif;
+}
+
 .EditorMenu {
   &__topLeft {
     display: flex;
@@ -18,6 +22,8 @@
     h6 {
       margin: 0.5rem;
       padding: 0 0.25rem;
+
+      @include font;
     }
 
     &__button {
@@ -119,8 +125,11 @@
     border: none !important;
     border-radius: 1rem;
 
+    @include font;
+
     &::placeholder {
       font-size: 0.75rem;
+      @include font;
     }
   }
 }

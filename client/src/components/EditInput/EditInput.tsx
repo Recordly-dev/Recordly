@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 
 import { Input } from "reactstrap";
-// import useEditInputOnClickOutside from "hooks/useEditInputOnClickOutside";
 
 import styles from "./EditInput.module.scss";
 
@@ -30,11 +29,6 @@ const EditInput = ({
     const value = e.target.value;
     setEditInputValue(value);
   };
-
-  // useEditInputOnClickOutside();
-  // inputRef?.current?.value,
-  // () => patchFolder(inputRef?.current?.value)
-  // isEditState
 
   const handlePatchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {

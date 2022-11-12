@@ -1,5 +1,13 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .SideNavMenu {
   position: fixed;
   width: 14rem; // 224px
@@ -18,6 +26,8 @@
     color: white;
     font-size: 1.5rem;
     font-weight: 700;
+
+    @include font-Bd;
 
     margin-bottom: 0.625rem; // 10px
   }
@@ -46,6 +56,8 @@
 
       span {
         font-weight: 500;
+
+        @include font-Bd;
       }
 
       &:first-child {
@@ -68,6 +80,7 @@
       text-align: start;
 
       font-size: 1.25rem; // 20px
+      @include font-Bd;
 
       background-color: #234e70 !important;
       border: none !important;

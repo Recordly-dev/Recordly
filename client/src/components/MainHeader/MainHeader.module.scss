@@ -1,5 +1,13 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .MainHeader {
   position: fixed;
   top: 0;
@@ -23,6 +31,8 @@
         color: $gray-700 !important;
 
         margin-left: 0.5rem;
+
+        @include font-Rg;
       }
     }
   }
@@ -33,5 +43,7 @@
     margin-left: 1rem;
 
     color: $gray-800;
+
+    @include font-Bd;
   }
 }
