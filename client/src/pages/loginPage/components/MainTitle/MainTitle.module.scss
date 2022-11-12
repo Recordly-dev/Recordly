@@ -1,20 +1,42 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .MainTitle {
-  margin-left: 0.25rem; // 4px
+  width: 400px;
+  margin-right: 2rem; // 32px
   text-align: center;
 
   &__main {
-    font-size: 5rem; // 64px
-    font-weight: 800;
+    width: max-content;
+    font-size: 4.5rem; // 56px
+    line-height: 80px;
+    font-weight: 700;
     color: $blue-500;
 
-    margin-bottom: 1rem; // 16px
+    text-align: start;
+
+    color: #234e70 !important;
+    margin-bottom: 2rem;
+
+    @include font-Bd;
+
+    box-shadow: rgb(182, 194, 209) 0px -2rem 0px inset;
   }
 
   &__description {
-    font-size: 1rem; // 20px
+    font-size: 1.25rem; // 20px
     font-weight: 500;
-    color: $gray-500;
+
+    text-align: start;
+    color: $gray-700;
+
+    @include font-Rg;
   }
 }

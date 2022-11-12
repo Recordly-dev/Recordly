@@ -1,5 +1,13 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 @mixin header-button {
   color: white;
   font-weight: 600;
@@ -18,31 +26,32 @@
   position: fixed;
   top: 0;
   width: 100%;
+  height: 6rem;
+
+  background-color: rgb(254, 254, 254);
 
   &__container {
-    width: 75%;
+    width: 70%;
 
     &__title {
-      color: $blue-500;
-      font-size: 1.75rem;
+      // color: $blue-500;
+      font-size: 3rem;
       font-weight: 700;
+
+      color: #234e70;
+
+      @include font-Bd;
     }
+  }
 
-    &__image {
-      width: 3rem; // 48px
-    }
+  &__right {
+    &__button {
+      background-color: white !important;
+      color: #234e70 !important;
 
-    &__right {
-      &__button {
-        @include header-button;
-        background-color: black;
-        color: white;
-      }
+      font-size: 1.125rem !important;
 
-      &__active {
-        color: $blue-500;
-        font-weight: 700;
-      }
+      @include font-Bd;
     }
   }
 }
