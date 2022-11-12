@@ -4,6 +4,9 @@ import LoginPage from "pages/loginPage";
 import MainPage from "pages/mainPage";
 import Editor from "pages/editorPage";
 // import PdfEditor from "pages/pdfEditor";
+
+import "./common/assets/fonts/font.css";
+
 const App = () => {
   return (
     <Routes>
