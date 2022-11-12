@@ -1,3 +1,11 @@
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .SearchInput {
   position: relative;
   display: flex;
@@ -9,11 +17,15 @@
 
     &::placeholder {
       font-size: 0.875rem !important;
+
+      @include font-Rg;
     }
 
     &--text {
       padding-left: 0.75rem !important;
       padding-right: 2.75rem !important;
+
+      @include font-Rg;
     }
   }
 

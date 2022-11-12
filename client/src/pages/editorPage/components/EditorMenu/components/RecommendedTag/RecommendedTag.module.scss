@@ -1,5 +1,9 @@
 @import "common/scss/color.scss";
 
+@mixin font {
+  font-family: "Recursive", sans-serif;
+}
+
 .RecommendedTag {
   display: flex;
   align-items: center;

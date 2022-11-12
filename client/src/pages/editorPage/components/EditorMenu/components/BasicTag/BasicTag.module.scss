@@ -1,5 +1,9 @@
 @import "common/scss/color.scss";
 
+@mixin font {
+  font-family: "Recursive", sans-serif;
+}
+
 .Tag {
   display: flex;
   align-items: center;
@@ -39,6 +43,8 @@
     line-height: 0.75rem;
 
     cursor: pointer;
+
+    @include font;
 
     :first-child {
       color: gray;

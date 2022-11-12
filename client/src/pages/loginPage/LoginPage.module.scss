@@ -1,6 +1,52 @@
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .LoginPage {
   &__container {
-    background-color: black;
+    background-color: rgb(254, 254, 254);
     height: 100vh;
+  }
+
+  &__image {
+    &__dashboard {
+      width: 700px;
+      object-fit: cover;
+      box-shadow: var(--shadows-panel);
+
+      border-radius: 0.5rem;
+    }
+  }
+
+  &__first {
+    display: flex;
+    align-items: center;
+
+    height: 100vh;
+  }
+
+  &__second {
+    display: flex;
+    align-items: center;
+
+    height: 100vh;
+  }
+
+  &__third {
+    display: flex;
+    align-items: center;
+
+    height: 100vh;
+
+    &__container {
+      display: flex;
+      align-items: flex-start;
+
+      margin-top: 5rem;
+    }
   }
 }

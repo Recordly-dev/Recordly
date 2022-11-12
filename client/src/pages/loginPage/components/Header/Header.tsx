@@ -1,9 +1,9 @@
 import cn from "classnames";
 
-import { useNavigate } from "react-router";
+import { Button } from "reactstrap";
 
 import styles from "./Header.module.scss";
-const Header = ({ imageUrl }: { imageUrl?: string }) => {
+const Header = ({ onMoveToElement }: { onMoveToElement: any }) => {
   // const [selectNavi, setSelectNavi] = useState("intro");
 
   return (
@@ -33,8 +33,6 @@ const Header = ({ imageUrl }: { imageUrl?: string }) => {
             "justify-content-center"
           )}
         >
-          {/* Todo: 로고 생기면 넣기 */}
-          {/* <img src={imageUrl} className={styles.Header__image} alt="logoImage" /> */}
           <span className={styles.Header__container__title}>Recordly</span>
         </div>
         <div
@@ -45,24 +43,12 @@ const Header = ({ imageUrl }: { imageUrl?: string }) => {
             "justify-content-center"
           )}
         >
-          <button
-            className={cn(
-              styles.Header__container__right__button
-              // selectNavi === "intro" &&
-              // styles.Header__container__right__active,
-            )}
+          <Button
+            onClick={onMoveToElement}
+            className={cn(styles.Header__right__button)}
           >
-            소개
-          </button>
-          <button
-            className={cn(
-              styles.Header__container__right__button
-              // selectNavi === "notice" &&
-              // styles.Header__container__right__active,
-            )}
-          >
-            공지사항
-          </button>
+            Get Started
+          </Button>
         </div>
       </div>
     </header>

@@ -1,5 +1,13 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .DropdownSelect {
   margin-left: 0.5rem;
 
@@ -13,11 +21,14 @@
     color: black !important;
     border: solid 1px $gray-400 !important;
     color: $gray-700 !important;
+
+    @include font-Rg;
   }
 
   &__menu {
     &__item {
       color: $gray-700 !important;
+      @include font-Rg;
 
       &:hover {
         font-weight: 600;

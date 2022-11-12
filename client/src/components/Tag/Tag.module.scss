@@ -1,3 +1,11 @@
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .Tag {
   width: max-content;
   margin: 0.25rem;
@@ -15,12 +23,16 @@
     font-size: 0.875rem; // 12px
     font-weight: 500;
     color: #234e70;
+
+    @include font-Rg;
   }
 
   &__count {
     font-size: 0.75rem; // 12px
     margin-left: 0.5rem; // 8px
     color: #63707a;
+
+    @include font-Rg;
   }
 
   &:focus {
