@@ -32,6 +32,8 @@ import styles from "./EditorMenu.module.scss";
 
 import CONSTANT from "./constants";
 
+let getRecommendedTagsInterval: any = null;
+
 const EditorMenu = ({
   context = createContext({} as TldrawApp),
   workspaceId,
@@ -241,13 +243,14 @@ const EditorMenu = ({
    * 추천 태그 10초 interval useEffect
    */
   useEffect(() => {
-    setInterval(async () => {
+    getRecommendedTagsInterval = setInterval(async () => {
       const workspace = await axios.get(`/api/workspace/${workspaceId}`);
       const texts = extractTextsFromDocument(workspace.data.content);
       dispatch(
         tagListActions.getRecommendedTagList({ text: texts, workspaceId })
       );
     }, 10000);
+    return () => clearInterval(getRecommendedTagsInterval);
   }, [workspaceId]);
 
   return (
