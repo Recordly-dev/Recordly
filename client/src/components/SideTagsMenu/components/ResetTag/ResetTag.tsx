@@ -26,7 +26,6 @@ const ResetTag = ({
     dispatch(workspaceActions.fetchAllWorkspaceList());
     setTagInputValue("");
     sortTagList("count");
-    setIsSortByAlpha(false);
   };
 
   return (
