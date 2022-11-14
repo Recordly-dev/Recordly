@@ -5,12 +5,13 @@ import { useDispatch } from "store";
 import { Container } from "reactstrap";
 
 import WorkspaceList from "components/WorkspaceList";
+import EmptyDashboard from "components/EmptyDashboard";
+import CreateFileButton from "components/CreateFileButton";
 
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { actions as folderActions } from "store/slice/folderSlice";
 
 import styles from "./FavoritesDashboard.module.scss";
-import EmptyDashboard from "components/EmptyDashboard";
 
 const FavoritesDashboard = ({
   isFavoritesPage,
@@ -40,6 +41,7 @@ const FavoritesDashboard = ({
           />
         )}
       </Container>
+      <CreateFileButton />
     </section>
   );
 };

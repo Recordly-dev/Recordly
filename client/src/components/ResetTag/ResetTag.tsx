@@ -6,7 +6,7 @@ import RefreshIcon from "common/assets/icons/RefreshIcon";
 
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
-import CONSTANT from "../../constants";
+import CONSTANT from "./constants";
 
 import styles from "./ResetTag.module.scss";
 import { Button } from "reactstrap";
@@ -14,10 +14,12 @@ import { Button } from "reactstrap";
 const ResetTag = ({
   setTagInputValue,
   setIsSortByAlpha,
+  setCurrentSeleteTagId,
   sortTagList,
 }: {
   setTagInputValue: Function;
   setIsSortByAlpha: Function;
+  setCurrentSeleteTagId: Function;
   sortTagList: Function;
 }) => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const ResetTag = ({
   const resetWorkspaceList = () => {
     dispatch(workspaceActions.fetchAllWorkspaceList());
     setTagInputValue("");
+    setCurrentSeleteTagId("");
     sortTagList("count");
   };
 

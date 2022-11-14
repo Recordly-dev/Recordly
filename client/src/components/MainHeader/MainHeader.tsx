@@ -12,11 +12,11 @@ import { Button } from "reactstrap";
 
 import SearchBar from "components/SearchBar";
 import DropdownSelect from "components/DropdownSelect";
+import MoveToBackButton from "components/MoveToBackButton";
 
 import { IFolder } from "types/folder";
 
 import styles from "./MainHeader.module.scss";
-import MoveToBackButton from "components/MainDashboard/components/MoveToBackButton";
 
 const MainHeader = ({
   isFolderDetailPage,

@@ -9,21 +9,21 @@ import Tag from "components/Tag";
 
 const TagList = ({
   tagList,
+  currentSeleteTagId,
   tagInputValue,
+  setCurrentSeleteTagId,
 }: {
   tagList: any;
+  currentSeleteTagId: string;
   tagInputValue: string;
+  setCurrentSeleteTagId: Function;
 }) => {
-  const [isSeletedTag, setIsSeletedTag] = useState(false);
-  const [currentSeleteTagId, setCurrentSeleteTagId] = useState("");
   const dispatch = useDispatch();
 
   const getWorkspaceHaveTags = (tagId: string) => {
-    if (currentSeleteTagId === tagId && isSeletedTag) {
-      setIsSeletedTag(false);
+    if (currentSeleteTagId === tagId) {
       dispatch(workspaceActions.fetchAllWorkspaceList());
     } else {
-      setIsSeletedTag(true);
       setCurrentSeleteTagId(tagId);
       dispatch(workspaceActions.fetchWorkspacesWithTag({ tagId }));
     }
@@ -39,6 +39,7 @@ const TagList = ({
               name={tag?.name}
               count={tag?.workspaces?.length}
               getWorkspaceHaveTags={getWorkspaceHaveTags}
+              currentSeleteTagId={currentSeleteTagId}
             />
           )
       )}

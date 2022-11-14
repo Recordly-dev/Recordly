@@ -108,6 +108,17 @@
     }
   }
 
+  &__recommendIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: $gray-800;
+    font-size: 2.5rem;
+
+    user-select: none;
+  }
+
   &__related {
     position: absolute;
     bottom: 8px;
@@ -119,8 +130,8 @@
     align-items: center;
     justify-content: center;
 
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
 
     cursor: pointer;
@@ -143,8 +154,8 @@
 
     &__popup {
       position: absolute;
-      bottom: 80px;
-      right: 16px;
+      bottom: 4rem;
+      right: 1rem;
 
       transition: all ease-in 0.4s;
 
@@ -170,6 +181,12 @@
 
       background-color: rgb(254, 254, 254);
       box-shadow: var(--shadows-panel);
+
+      &__title {
+        @include font;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
     }
   }
 }

@@ -4,7 +4,7 @@ import PlusIcon from "common/assets/icons/PlusIcon";
 
 import styles from "./RecommendedTag.module.scss";
 
-import CONSTANT from "../../constants";
+import CONSTANT from "./constants";
 
 const RecommendedTag = ({
   tagName,

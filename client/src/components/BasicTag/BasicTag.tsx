@@ -4,7 +4,7 @@ import CloseIcon from "common/assets/icons/CloseIcon";
 
 import styles from "./BasicTag.module.scss";
 
-import CONSTANT from "../../constants";
+import CONSTANT from "./constants";
 
 const BasicTag = ({
   tagId,
