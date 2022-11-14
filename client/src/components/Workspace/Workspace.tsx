@@ -240,9 +240,11 @@ const Workspace = ({
               alt="dropdown icon"
             />
             <EditDropdown
+              className={styles.Workspace__dropdown}
               isDropdownOpen={isDropdownOpen}
               toggle={handleDropdownOpen}
               dropdownItem={dropdownItem}
+              direction="down"
             />
           </div>
         </div>

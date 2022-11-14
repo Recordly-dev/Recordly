@@ -110,17 +110,20 @@ const Folder = ({
           src={folderIcon}
           alt="folder img"
         />
-        <img
-          className={styles.Folder__dropdownIcon}
-          onClick={handleDropdownOpen}
-          src={dropdownIcon}
-          alt="dropdown icon"
-        />
-        <EditDropdown
-          isDropdownOpen={isDropdownOpen}
-          toggle={handleDropdownOpen}
-          dropdownItem={dropdownItem}
-        />
+        <div>
+          <img
+            className={styles.Folder__dropdownIcon}
+            onClick={handleDropdownOpen}
+            src={dropdownIcon}
+            alt="dropdown icon"
+          />
+          <EditDropdown
+            isDropdownOpen={isDropdownOpen}
+            toggle={handleDropdownOpen}
+            dropdownItem={dropdownItem}
+            direction="down"
+          />
+        </div>
       </div>
       <div className={styles.Folder__bottom}>
         <div className={cn("d-flex", "align-items-center", "mb-2")}>

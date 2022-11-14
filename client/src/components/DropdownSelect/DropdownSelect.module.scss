@@ -31,7 +31,7 @@
       @include font-Rg;
 
       &:hover {
-        font-weight: 600;
+        @include font-Bd;
         background-color: white !important;
       }
 

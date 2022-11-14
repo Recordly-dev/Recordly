@@ -1,18 +1,28 @@
 @import "common/scss/color.scss";
 
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
 .EditDropdown {
-  position: absolute !important;
+  position: absolute;
   right: 0;
+
   &__menu {
     background-color: white;
   }
 
   &__item {
+    @include font-Rg;
     color: $gray-700 !important;
     width: 8rem !important;
     &:hover {
+      @include font-Bd;
       background-color: white !important;
-      font-weight: 600;
       color: $gray-700 !important;
     }
 

@@ -4,6 +4,8 @@ import { Container } from "reactstrap";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
+import EmptyDashboard from "components/EmptyDashboard";
+import CreateFileButton from "components/CreateFileButton";
 
 import { useDispatch } from "store";
 import { useSelector } from "react-redux";
@@ -12,7 +14,6 @@ import { actions as folderActions } from "store/slice/folderSlice";
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import styles from "./MainDashboard.module.scss";
-import EmptyDashboard from "components/EmptyDashboard";
 
 const MainDashboard = ({
   isFolderDetailPage,
@@ -46,7 +47,7 @@ const MainDashboard = ({
   }, [isTagPage, isFolderDetailPage, currentFolderId]);
 
   return (
-    <section className={cn(styles.MainDashboard)}>
+    <section className={styles.MainDashboard}>
       <Container fluid className={styles.MainDashboard__fileList}>
         {isEmptyDashboard && !isLoadingData ? (
           <EmptyDashboard isTagPage={isTagPage} />
@@ -62,6 +63,7 @@ const MainDashboard = ({
           </>
         )}
       </Container>
+      <CreateFileButton />
     </section>
   );
 };
