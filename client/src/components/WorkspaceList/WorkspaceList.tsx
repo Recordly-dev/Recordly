@@ -68,7 +68,7 @@ const WorkspaceList = ({
   return (
     <>
       {isLoadingData
-        ? new Array(30).fill(1).map((v) => <WorkspaceSkeleton />)
+        ? new Array(50).fill(1).map((v) => <WorkspaceSkeleton />)
         : workspaceList.map((workspace: IWorkspace) => (
             <Workspace
               key={workspace._id}

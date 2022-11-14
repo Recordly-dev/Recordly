@@ -15,6 +15,7 @@ import { actions as tagListActions } from "store/slice/tagSlice";
 
 import { Button, FormGroup, Input } from "reactstrap";
 import TagInput from "../TagInput";
+import EmptyTagList from "components/EmptyTagList";
 import RecommendedTag from "./components/RecommendedTag";
 import BasicTag from "./components/BasicTag";
 import SimpleWorkspace from "components/SimpleWorkspace";
@@ -96,9 +97,7 @@ const EditorMenu = ({
   };
 
   const moveWorkSpacePage = (id: string): void => {
-    console.log(id);
     window.location.href = `/workspace/${id}`;
-    // navigate(`/workspace/${id}`);
   };
 
   /**
@@ -308,6 +307,28 @@ const EditorMenu = ({
       );
     }, 10000);
   }, [workspaceId]);
+
+  let renderRelatedWorkspaceList;
+
+  if (isRecommendeWorkspaceLoading) {
+    renderRelatedWorkspaceList = new Array(3)
+      .fill(1)
+      .map((v) => <SimpleWorkspaceSkeleton />);
+  } else if (relatedWorkspaceList.length === 0) {
+    renderRelatedWorkspaceList = <EmptyTagList />;
+  } else {
+    renderRelatedWorkspaceList = relatedWorkspaceList.map(
+      (workspace: IWorkspace) => (
+        <SimpleWorkspace
+          key={workspace._id}
+          uid={workspace._id}
+          title={workspace.title}
+          tagList={workspace.tags}
+          moveWorkSpacePage={moveWorkSpacePage}
+        />
+      )
+    );
+  }
 
   return (
     <>
@@ -525,17 +546,7 @@ const EditorMenu = ({
       </div>
       {isViewRelatedPopup && (
         <div ref={divRef} className={styles.EditorMenu__related__popup}>
-          {isRecommendeWorkspaceLoading
-            ? new Array(3).fill(1).map((v) => <SimpleWorkspaceSkeleton />)
-            : relatedWorkspaceList.map((workspace: IWorkspace) => (
-                <SimpleWorkspace
-                  key={workspace._id}
-                  uid={workspace._id}
-                  title={workspace.title}
-                  tagList={workspace.tags}
-                  moveWorkSpacePage={moveWorkSpacePage}
-                />
-              ))}
+          {renderRelatedWorkspaceList}
         </div>
       )}
     </>

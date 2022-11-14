@@ -6,7 +6,7 @@ import { useDispatch } from "store";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
 import TagList from "components/TagList";
-import EmptyTagList from "components/EmptyTagList";
+import EmptyImage from "components/EmptyImage";
 
 import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
 
@@ -96,7 +96,7 @@ const SideTagsMenu = () => {
           />
         </div>
         {isEmptyTagList ? (
-          <EmptyTagList />
+          <EmptyImage />
         ) : (
           <TagList tagList={tagList} tagInputValue={tagInputValue} />
         )}
