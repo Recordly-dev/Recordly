@@ -7,19 +7,20 @@ import { actions as tagListActions } from "store/slice/tagSlice";
 
 import TagList from "components/TagList";
 import EmptyImage from "components/EmptyImage";
+import SearchInput from "components/SearchInput";
+import ResetTag from "components/ResetTag";
 
 import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
 
 import styles from "./SideTagsMenu.module.scss";
 
 import CONSTANT from "./constants";
-import SearchInput from "components/SearchInput";
-import ResetTag from "./components/ResetTag";
 
 const SideTagsMenu = () => {
   const [sortType, setSortType] = useState("basic");
   const [isSortByAlpha, setIsSortByAlpha] = useState(false);
   const [tagInputValue, setTagInputValue] = useState("");
+  const [currentSeleteTagId, setCurrentSeleteTagId] = useState("");
 
   const dispatch = useDispatch();
   const tagList = useSelector((state: any) => state.tag.tagList);
@@ -92,13 +93,19 @@ const SideTagsMenu = () => {
           <ResetTag
             setIsSortByAlpha={setIsSortByAlpha}
             setTagInputValue={setTagInputValue}
+            setCurrentSeleteTagId={setCurrentSeleteTagId}
             sortTagList={sortTagList}
           />
         </div>
         {isEmptyTagList ? (
           <EmptyImage />
         ) : (
-          <TagList tagList={tagList} tagInputValue={tagInputValue} />
+          <TagList
+            tagList={tagList}
+            tagInputValue={tagInputValue}
+            setCurrentSeleteTagId={setCurrentSeleteTagId}
+            currentSeleteTagId={currentSeleteTagId}
+          />
         )}
       </div>
     </div>

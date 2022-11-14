@@ -10,20 +10,20 @@ const Tag = ({
   name,
   count,
   getWorkspaceHaveTags,
+  currentSeleteTagId,
 }: {
   id: string;
   name: string;
   count: number;
   getWorkspaceHaveTags: Function;
+  currentSeleteTagId: string;
 }) => {
   return (
     <Button
-      className={cn(
-        styles.Tag,
-        "d-flex",
-        "align-items-center",
-        "justify-content-center"
-      )}
+      className={cn({
+        [styles.Tag]: true,
+        [styles.Tag__active]: currentSeleteTagId === id,
+      })}
       color="primary"
       size="md"
       onClick={() => getWorkspaceHaveTags(id)}

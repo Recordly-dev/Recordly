@@ -7,10 +7,13 @@
 }
 
 .Tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: max-content;
   margin: 0.25rem;
 
-  // background-color: #dce2f0 !important;
   border: none !important;
   border-radius: 1rem !important;
   box-shadow: var(--shadows-panel);
@@ -35,11 +38,8 @@
     @include font-Rg;
   }
 
-  &:focus {
+  &__active {
     background-color: #c0d7eb !important;
-
-    &__name {
-      color: #dce2f0 !important;
-    }
+    box-shadow: 0 0 0 0.125rem rgba(var(--bs-btn-focus-shadow-rgb), 0.5);
   }
 }

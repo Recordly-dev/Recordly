@@ -2,9 +2,9 @@ import React from "react";
 import cn from "classnames";
 import { FullPage, Slide } from "react-full-page";
 
-import Header from "./components/Header";
-import MainTitle from "./components/MainTitle";
-import GoogleOauth from "./components/GoogleOauth";
+import Header from "components/Header";
+import MainTitle from "components/MainTitle";
+import GoogleOauth from "components/GoogleOauth";
 
 import Footer from "components/Footer";
 

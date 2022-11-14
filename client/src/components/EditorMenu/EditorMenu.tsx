@@ -16,8 +16,8 @@ import { actions as tagListActions } from "store/slice/tagSlice";
 import { Button, FormGroup, Input } from "reactstrap";
 import TagInput from "../TagInput";
 import EmptyImage from "components/EmptyImage";
-import RecommendedTag from "./components/RecommendedTag";
-import BasicTag from "./components/BasicTag";
+import RecommendedTag from "components/RecommendedTag";
+import BasicTag from "components/BasicTag";
 import SimpleWorkspace from "components/SimpleWorkspace";
 import SimpleWorkspaceSkeleton from "components/Skeleton/SimpleWorkspaceSkeleton";
 
@@ -30,7 +30,7 @@ import useOnClickOutside from "hooks/useOnClickOutside";
 import useInputOnClickOutside from "hooks/useInputOnClickOutside";
 import { useDebouncedCallback } from "use-debounce";
 
-import { extractTextsFromDocument } from "../../../../utils/tldraw";
+import { extractTextsFromDocument } from "utils/tldraw";
 
 import { IWorkspace } from "types/workspace";
 
@@ -540,12 +540,21 @@ const EditorMenu = ({
           onClick={handleRelatedPopup}
           className={styles.EditorMenu__related__text}
         >
-          Related
-          <br /> Memos
+          <span
+            className={cn(
+              "material-symbols-outlined",
+              styles.EditorMenu__recommendIcon
+            )}
+          >
+            recommend
+          </span>
         </span>
       </div>
       {isViewRelatedPopup && (
         <div ref={divRef} className={styles.EditorMenu__related__popup}>
+          <span className={styles.EditorMenu__related__popup__title}>
+            Recommended Memos
+          </span>
           {renderRelatedWorkspaceList}
         </div>
       )}

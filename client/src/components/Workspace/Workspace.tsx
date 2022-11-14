@@ -14,11 +14,11 @@ import DropdownIcon from "./assets/images/dropdown-icon.png";
 import EditIcon from "common/assets/icons/EditIcon";
 import StarFillIcon from "common/assets/icons/StarFillIcon";
 
+import TagPreview from "components/TagPreview";
+
 import styles from "./Workspace.module.scss";
 
 import CONSTANT from "./constants";
-import BasicTag from "pages/editorPage/components/EditorMenu/components/BasicTag";
-import TagPreview from "components/TagPreview";
 
 const Workspace = ({
   uid,

@@ -3,7 +3,7 @@ import { cloneDeep } from "lodash";
 
 import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
-import EditorMenu from "./components/EditorMenu";
+import EditorMenu from "components/EditorMenu";
 
 import { IWorkspace } from "types/workspace";
 import styles from "./EditorPage.module.scss";
