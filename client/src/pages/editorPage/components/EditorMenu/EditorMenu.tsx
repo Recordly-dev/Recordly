@@ -262,6 +262,8 @@ const EditorMenu = ({
 
       const relatedWorkspaceList = workspaceList.filter(
         (workspace: IWorkspace) => {
+          if (workspace.title === title) return false;
+
           const tags = workspace.tags.map((tag: any) => tag.name);
 
           for (let i = 0; i < tags.length; i++) {
