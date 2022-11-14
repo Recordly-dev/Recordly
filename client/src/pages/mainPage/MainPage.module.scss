@@ -9,6 +9,13 @@
     height: 100vh;
     width: 100%;
 
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     &__dashboard {
       padding-left: 14rem;
       width: 100%;

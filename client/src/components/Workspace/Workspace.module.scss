@@ -88,6 +88,11 @@
     @include font;
   }
 
+  &__dropdown {
+    position: absolute !important;
+    right: 0.5rem;
+  }
+
   &__dropdownIcon {
     width: 0.625rem; // 8px
     height: 1.5rem;

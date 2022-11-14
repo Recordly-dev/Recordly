@@ -15,7 +15,7 @@ import { actions as tagListActions } from "store/slice/tagSlice";
 
 import { Button, FormGroup, Input } from "reactstrap";
 import TagInput from "../TagInput";
-import EmptyTagList from "components/EmptyTagList";
+import EmptyImage from "components/EmptyImage";
 import RecommendedTag from "./components/RecommendedTag";
 import BasicTag from "./components/BasicTag";
 import SimpleWorkspace from "components/SimpleWorkspace";
@@ -315,7 +315,7 @@ const EditorMenu = ({
       .fill(1)
       .map((v) => <SimpleWorkspaceSkeleton />);
   } else if (relatedWorkspaceList.length === 0) {
-    renderRelatedWorkspaceList = <EmptyTagList />;
+    renderRelatedWorkspaceList = <EmptyImage />;
   } else {
     renderRelatedWorkspaceList = relatedWorkspaceList.map(
       (workspace: IWorkspace) => (
