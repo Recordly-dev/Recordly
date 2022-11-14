@@ -9,7 +9,6 @@ import TagList from "components/TagList";
 import EmptyTagList from "components/EmptyTagList";
 
 import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
-import SortBasicOrderIcon from "common/assets/icons/SortBasicOrderIcon";
 
 import styles from "./SideTagsMenu.module.scss";
 
@@ -19,6 +18,7 @@ import ResetTag from "./components/ResetTag";
 
 const SideTagsMenu = () => {
   const [sortType, setSortType] = useState("basic");
+  const [isSortByAlpha, setIsSortByAlpha] = useState(false);
   const [tagInputValue, setTagInputValue] = useState("");
 
   const dispatch = useDispatch();
@@ -40,6 +40,14 @@ const SideTagsMenu = () => {
     }
   };
 
+  const sortByAlphaTagList = () => {
+    setIsSortByAlpha((prev) => !prev);
+  };
+
+  useEffect(() => {
+    dispatch(tagListActions.fetchSortByAlphaTagList({ isSort: isSortByAlpha }));
+  }, [isSortByAlpha]);
+
   useEffect(() => {
     dispatch(tagListActions.fetchTagList());
   }, []);
@@ -54,21 +62,24 @@ const SideTagsMenu = () => {
         <div className={styles.SideTagsMenu__header} />
         <div className={styles.SideTagsMenu__subHeader}>
           <span>Tags</span>
-          {sortType === "basic" ? (
+          <div className={styles.SideTagsMenu__icons}>
+            <span
+              onClick={sortByAlphaTagList}
+              className={cn({
+                "material-symbols-outlined": true,
+                [styles.SideTagsMenu__sortIcon]: true,
+                [styles.SideTagsMenu__sortIcon__active]: isSortByAlpha,
+              })}
+            >
+              sort_by_alpha
+            </span>
             <SortBigOrderIcon
               width={CONSTANT.ICON_SIZE.SORT}
               height={CONSTANT.ICON_SIZE.SORT}
-              color="#3e404c"
+              color={sortType === "basic" ? "#3e404c" : "#0c7ae2"}
               onClick={() => sortTagList(sortType)}
             />
-          ) : (
-            <SortBasicOrderIcon
-              width={CONSTANT.ICON_SIZE.SORT}
-              height={CONSTANT.ICON_SIZE.SORT}
-              color="#3e404c"
-              onClick={() => sortTagList(sortType)}
-            />
-          )}
+          </div>
         </div>
         <div className={cn("d-flex", "align-items-center", "mb-3")}>
           <SearchInput
@@ -79,6 +90,7 @@ const SideTagsMenu = () => {
             onChange={handleTagInput}
           />
           <ResetTag
+            setIsSortByAlpha={setIsSortByAlpha}
             setTagInputValue={setTagInputValue}
             sortTagList={sortTagList}
           />

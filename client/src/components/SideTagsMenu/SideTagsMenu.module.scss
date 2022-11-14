@@ -47,6 +47,29 @@
     margin-bottom: 0.75rem;
   }
 
+  &__icons {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__sortIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    margin-right: 0.125rem;
+    user-select: none;
+
+    cursor: pointer;
+
+    &__active {
+      color: #0c7ae2 !important;
+    }
+  }
+
   &__closeButton {
     position: absolute;
     top: 16px;

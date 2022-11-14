@@ -13,9 +13,11 @@ import { Button } from "reactstrap";
 
 const ResetTag = ({
   setTagInputValue,
+  setIsSortByAlpha,
   sortTagList,
 }: {
   setTagInputValue: Function;
+  setIsSortByAlpha: Function;
   sortTagList: Function;
 }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const ResetTag = ({
     dispatch(workspaceActions.fetchAllWorkspaceList());
     setTagInputValue("");
     sortTagList("count");
+    setIsSortByAlpha(false);
   };
 
   return (
