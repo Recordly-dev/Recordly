@@ -17,6 +17,7 @@ import { Button, FormGroup, Input } from "reactstrap";
 import TagInput from "../TagInput";
 import RecommendedTag from "./components/RecommendedTag";
 import BasicTag from "./components/BasicTag";
+import SimpleWorkspace from "components/SimpleWorkspace";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 import EraserIcon from "common/assets/icons/EraserIcon";
@@ -27,6 +28,8 @@ import useInputOnClickOutside from "hooks/useInputOnClickOutside";
 import { useDebouncedCallback } from "use-debounce";
 
 import { extractTextsFromDocument } from "../../../../utils/tldraw";
+
+import { IWorkspace } from "types/workspace";
 
 import styles from "./EditorMenu.module.scss";
 
@@ -67,6 +70,8 @@ const EditorMenu = ({
   const [patchValue, setPatchTagValue] = useState("");
 
   const [isViewTagList, setIsViewTagList] = useState(true);
+  const [isViewRelatedPopup, setIsViewRelatedPopup] = useState(false);
+  const [relatedWorkspaceList, setRelatedWorkspaceList] = useState([]);
 
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
@@ -83,6 +88,12 @@ const EditorMenu = ({
    */
   const moveMainPage = () => {
     navigate("/main");
+  };
+
+  const moveWorkSpacePage = (id: string): void => {
+    console.log(id);
+    window.location.href = `/workspace/${id}`;
+    // navigate(`/workspace/${id}`);
   };
 
   /**
@@ -215,6 +226,9 @@ const EditorMenu = ({
       });
   }, 1000);
 
+  const handleRelatedPopup = () => {
+    setIsViewRelatedPopup((prev) => !prev);
+  };
   /**
    * 추천 태그 불러오는 useEffect
    */
@@ -227,9 +241,39 @@ const EditorMenu = ({
    */
   useEffect(() => {
     (async () => {
-      const currentWorkspace = await axios.get(`/api/workspace/${workspaceId}`);
+      const response = await axios.get(`/api/workspace/${workspaceId}`);
+      const currentWorkspaceTagList = response.data.tags;
 
-      dispatch(tagListActions.setTagList(currentWorkspace.data.tags));
+      dispatch(tagListActions.setTagList(currentWorkspaceTagList));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const workspaceResponse = await axios.get(`/api/workspace`);
+      const currentWorkspaceResponse = await axios.get(
+        `/api/workspace/${workspaceId}`
+      );
+
+      const workspaceList = workspaceResponse.data;
+      const currentWorkspaceTagList = currentWorkspaceResponse?.data?.tags.map(
+        (tag: any) => tag.name
+      );
+
+      const relatedWorkspaceList = workspaceList.filter(
+        (workspace: IWorkspace) => {
+          const tags = workspace.tags.map((tag: any) => tag.name);
+
+          for (let i = 0; i < tags.length; i++) {
+            if (currentWorkspaceTagList.includes(tags[i])) {
+              return true;
+            }
+          }
+          return false;
+        }
+      );
+
+      setRelatedWorkspaceList(relatedWorkspaceList);
     })();
   }, []);
 
@@ -439,7 +483,7 @@ const EditorMenu = ({
                 <div className={styles.divider} />
                 <div className={cn("d-flex", "align-items-center")}>
                   <span className={styles.RecommendedTag__title}>
-                    Recommend :
+                    Recommended :
                   </span>
                 </div>
               </>
@@ -455,6 +499,28 @@ const EditorMenu = ({
           </>
         )}
       </div>
+      <div className={styles.EditorMenu__related}>
+        <span
+          onClick={handleRelatedPopup}
+          className={styles.EditorMenu__related__text}
+        >
+          Related
+          <br /> Memos
+        </span>
+      </div>
+      {isViewRelatedPopup && (
+        <div className={styles.EditorMenu__related__popup}>
+          {relatedWorkspaceList.map((workspace: IWorkspace) => (
+            <SimpleWorkspace
+              key={workspace._id}
+              uid={workspace._id}
+              title={workspace.title}
+              tagList={workspace.tags}
+              moveWorkSpacePage={moveWorkSpacePage}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

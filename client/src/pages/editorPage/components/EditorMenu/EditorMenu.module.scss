@@ -107,6 +107,66 @@
       color: white !important;
     }
   }
+
+  &__related {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+
+    transition: all 0.3s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    background-color: rgb(254, 254, 254);
+    box-shadow: var(--shadows-panel);
+
+    z-index: 3;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &__text {
+      font-size: 0.75rem;
+      color: $gray-700;
+      text-align: center;
+      @include font;
+    }
+
+    &__popup {
+      position: absolute;
+      bottom: 80px;
+      right: 16px;
+
+      transition: all ease-in 0.4s;
+
+      width: 300px;
+      height: 500px;
+
+      padding: 1rem;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      overflow-y: scroll;
+
+      border-radius: 2rem;
+
+      z-index: 3;
+
+      background-color: rgb(254, 254, 254);
+      box-shadow: var(--shadows-panel);
+    }
+  }
 }
 
 .Tag {
