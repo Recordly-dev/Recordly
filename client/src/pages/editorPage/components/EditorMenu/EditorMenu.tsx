@@ -24,6 +24,7 @@ import EraserIcon from "common/assets/icons/EraserIcon";
 import TextIcon from "common/assets/icons/TextIcon";
 import BackIcon from "common/assets/icons/BackIcon";
 
+import useOnClickOutside from "hooks/useOnClickOutside";
 import useInputOnClickOutside from "hooks/useInputOnClickOutside";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -49,6 +50,7 @@ const EditorMenu = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef<any>(null);
+  const divRef = useRef<any>(null);
 
   /**
    * 태그 수정 외부 클릭 로직에서 쓸 state
@@ -147,6 +149,8 @@ const EditorMenu = ({
       patchTag(inputRef?.current?.value, tagInfo.tagId, tagInfo.workspaceId),
     isPatchTag.state
   );
+
+  useOnClickOutside(divRef, () => setIsViewRelatedPopup(false));
 
   /**
    * 엔터 눌렀을 때 태그 수정되는 로직
@@ -514,7 +518,7 @@ const EditorMenu = ({
         </span>
       </div>
       {isViewRelatedPopup && (
-        <div className={styles.EditorMenu__related__popup}>
+        <div ref={divRef} className={styles.EditorMenu__related__popup}>
           {relatedWorkspaceList.map((workspace: IWorkspace) => (
             <SimpleWorkspace
               key={workspace._id}
