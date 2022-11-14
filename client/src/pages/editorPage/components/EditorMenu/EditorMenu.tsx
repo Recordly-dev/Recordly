@@ -18,6 +18,7 @@ import TagInput from "../TagInput";
 import RecommendedTag from "./components/RecommendedTag";
 import BasicTag from "./components/BasicTag";
 import SimpleWorkspace from "components/SimpleWorkspace";
+import SimpleWorkspaceSkeleton from "components/Skeleton/SimpleWorkspaceSkeleton";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 import EraserIcon from "common/assets/icons/EraserIcon";
@@ -74,6 +75,8 @@ const EditorMenu = ({
   const [isViewTagList, setIsViewTagList] = useState(true);
   const [isViewRelatedPopup, setIsViewRelatedPopup] = useState(false);
   const [relatedWorkspaceList, setRelatedWorkspaceList] = useState([]);
+  const [isRecommendeWorkspaceLoading, setIsRecommendeWorkspaceLoading] =
+    useState(false);
 
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
@@ -233,12 +236,49 @@ const EditorMenu = ({
   const handleRelatedPopup = () => {
     setIsViewRelatedPopup((prev) => !prev);
   };
+
+  const getRelatedWorkspaceList = async () => {
+    setIsRecommendeWorkspaceLoading(true);
+    const workspaceResponse = await axios.get(`/api/workspace`);
+    const currentWorkspaceResponse = await axios.get(
+      `/api/workspace/${workspaceId}`
+    );
+
+    const workspaceList = workspaceResponse.data;
+    const currentWorkspaceTagList = currentWorkspaceResponse?.data?.tags.map(
+      (tag: any) => tag.name
+    );
+
+    const relatedWorkspaceList = await workspaceList.filter(
+      (workspace: IWorkspace) => {
+        if (workspace.title === title) return false;
+
+        const tags = workspace.tags.map((tag: any) => tag.name);
+
+        for (let i = 0; i < tags.length; i++) {
+          if (currentWorkspaceTagList.includes(tags[i])) {
+            return true;
+          }
+        }
+        return false;
+      }
+    );
+
+    setRelatedWorkspaceList(relatedWorkspaceList);
+    setIsRecommendeWorkspaceLoading(false);
+  };
   /**
    * 추천 태그 불러오는 useEffect
    */
   useEffect(() => {
     dispatch(tagListActions.setRecommendedTagList([]));
   }, []);
+
+  useEffect(() => {
+    if (!isViewRelatedPopup) return;
+
+    getRelatedWorkspaceList();
+  }, [isViewRelatedPopup]);
 
   /**
    * 워크스페이스 태그 목록 불러와서 보여주는 useEffect
@@ -249,37 +289,6 @@ const EditorMenu = ({
       const currentWorkspaceTagList = response.data.tags;
 
       dispatch(tagListActions.setTagList(currentWorkspaceTagList));
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const workspaceResponse = await axios.get(`/api/workspace`);
-      const currentWorkspaceResponse = await axios.get(
-        `/api/workspace/${workspaceId}`
-      );
-
-      const workspaceList = workspaceResponse.data;
-      const currentWorkspaceTagList = currentWorkspaceResponse?.data?.tags.map(
-        (tag: any) => tag.name
-      );
-
-      const relatedWorkspaceList = workspaceList.filter(
-        (workspace: IWorkspace) => {
-          if (workspace.title === title) return false;
-
-          const tags = workspace.tags.map((tag: any) => tag.name);
-
-          for (let i = 0; i < tags.length; i++) {
-            if (currentWorkspaceTagList.includes(tags[i])) {
-              return true;
-            }
-          }
-          return false;
-        }
-      );
-
-      setRelatedWorkspaceList(relatedWorkspaceList);
     })();
   }, []);
 
@@ -516,15 +525,17 @@ const EditorMenu = ({
       </div>
       {isViewRelatedPopup && (
         <div ref={divRef} className={styles.EditorMenu__related__popup}>
-          {relatedWorkspaceList.map((workspace: IWorkspace) => (
-            <SimpleWorkspace
-              key={workspace._id}
-              uid={workspace._id}
-              title={workspace.title}
-              tagList={workspace.tags}
-              moveWorkSpacePage={moveWorkSpacePage}
-            />
-          ))}
+          {isRecommendeWorkspaceLoading
+            ? new Array(3).fill(1).map((v) => <SimpleWorkspaceSkeleton />)
+            : relatedWorkspaceList.map((workspace: IWorkspace) => (
+                <SimpleWorkspace
+                  key={workspace._id}
+                  uid={workspace._id}
+                  title={workspace.title}
+                  tagList={workspace.tags}
+                  moveWorkSpacePage={moveWorkSpacePage}
+                />
+              ))}
         </div>
       )}
     </>
