@@ -114,6 +114,23 @@ export const fetchSortTagList = createAsyncThunk(
   }
 );
 
+export const fetchSortByAlphaTagList = createAsyncThunk(
+  "tag/fetchSortByAlphaTagList",
+  async (arg: { isSort: boolean }) => {
+    const response = await axios.get("/api/tag");
+
+    if (arg.isSort) {
+      const sortedTagList = response?.data.sort((a: any, b: any) =>
+        a.name.localeCompare(b.name)
+      );
+
+      return sortedTagList;
+    } else {
+      return response?.data;
+    }
+  }
+);
+
 export const getRecommendedTagList = createAsyncThunk(
   "tag/getRecommendedTagList",
   async (arg: { text: string; workspaceId: string }, { dispatch }) => {
@@ -185,6 +202,13 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
+    [fetchSortByAlphaTagList.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchSortByAlphaTagList.fulfilled.type]: (state, action) => {
+      state.tagList = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
@@ -194,6 +218,7 @@ export const actions = {
   fetchTagList,
   fetchWorkspaceTagList,
   fetchSortTagList,
+  fetchSortByAlphaTagList,
   postTag,
   deleteTag,
   patchTag,
