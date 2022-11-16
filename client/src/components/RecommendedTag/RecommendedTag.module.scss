@@ -20,6 +20,8 @@
 
   border-radius: 1rem !important;
 
+  cursor: pointer;
+
   &__text {
     font-size: 0.75rem; // 12px
     line-height: 0.75rem; // 12px
@@ -29,5 +31,9 @@
   &__icon {
     margin-left: 0.5rem;
     cursor: pointer;
+  }
+
+  &__tooltip {
+    @include font;
   }
 }

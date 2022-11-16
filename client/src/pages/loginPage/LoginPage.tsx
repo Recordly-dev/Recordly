@@ -10,6 +10,7 @@ import Footer from "components/Footer";
 
 import dashboardImage from "common/assets/images/dashboard.png";
 import workspaceImage from "common/assets/images/workspace.png";
+import recommendedImage from "common/assets/images/recommended.png";
 
 import useMoveScroll from "hooks/useMoveScroll";
 
@@ -82,8 +83,8 @@ const LoginPage = () => {
                     />
                     <img
                       className={styles.LoginPage__image__dashboard}
-                      src={workspaceImage}
-                      alt="dashboard"
+                      src={recommendedImage}
+                      alt="recommended"
                     />
                   </div>
                   <GoogleOauth loginRef={element} />
