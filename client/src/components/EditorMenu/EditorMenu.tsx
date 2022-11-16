@@ -517,21 +517,19 @@ const EditorMenu = ({
             {!!recommendedTagList.length && (
               <>
                 <div className={styles.divider} />
-                <div className={cn("d-flex", "align-items-center")}>
-                  <span className={styles.RecommendedTag__title}>
-                    Recommended :
-                  </span>
+                <div className={styles.RecommendedTag__container}>
+                  {recommendedTagList
+                    .slice(0, 3)
+                    ?.map((tag: any, idx: number) => (
+                      <RecommendedTag
+                        tagName={tag}
+                        saveRecommendedTag={saveRecommendedTag}
+                        idx={idx}
+                      />
+                    ))}
                 </div>
               </>
             )}
-            <div className={styles.RecommendedTag__container}>
-              {recommendedTagList.slice(0, 3)?.map((tag: any) => (
-                <RecommendedTag
-                  tagName={tag}
-                  saveRecommendedTag={saveRecommendedTag}
-                />
-              ))}
-            </div>
           </>
         )}
       </div>
