@@ -12,11 +12,15 @@ import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import WorkspaceSkeleton from "components/Skeleton/WorkspaceSkeleton";
 
+import { IWorkspace } from "types/workspace";
+
 const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [workspaceList, setWorkspaceList] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const workspaceList: IWorkspace[] = useSelector(
+    (state: any) => state.workspace.workspaceList
+  );
 
   const folderList: IFolder[] = useSelector(
     (state: any) => state.folder.folderList
@@ -27,17 +31,6 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
     dispatch(folderActions.patchCurrentFolderId({ uid: id }));
     dispatch(workspaceActions.fetchWorkspaceInFolder({ uid: id }));
   };
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const response = await axios.get("/api/workspace");
-      const workspaces = response?.data;
-
-      setWorkspaceList(workspaces);
-      setIsLoading(false);
-    })();
-  }, [isLoadingData]);
 
   return (
     <>
@@ -51,7 +44,6 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
             title={folder.title}
             workspaceList={workspaceList}
             moveFolderDetailPage={moveFolderDetailPage}
-            isLoading={isLoading}
           />
         ))
       )}
