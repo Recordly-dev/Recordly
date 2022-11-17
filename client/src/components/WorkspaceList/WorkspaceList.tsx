@@ -13,10 +13,12 @@ const WorkspaceList = ({
   isLoadingData,
   isFavoritesPage,
   isTagPage,
+  isFolderDetailPage,
 }: {
   isLoadingData: boolean;
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
+  isFolderDetailPage?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -24,6 +26,11 @@ const WorkspaceList = ({
   const workspaceList: IWorkspace[] = useSelector(
     (state: any) => state.workspace.workspaceList
   );
+  const filteredWorkspaces = isFolderDetailPage
+    ? workspaceList
+    : workspaceList.filter(
+        (workspace: IWorkspace) => workspace.folder === null
+      );
 
   const moveWorkSpacePage = (id: string): void => {
     navigate(`/workspace/${id}`);
@@ -69,7 +76,7 @@ const WorkspaceList = ({
     <>
       {isLoadingData
         ? new Array(50).fill(1).map((v) => <WorkspaceSkeleton />)
-        : workspaceList.map((workspace: IWorkspace) => (
+        : filteredWorkspaces.map((workspace: IWorkspace) => (
             <Workspace
               key={workspace._id}
               uid={workspace._id}

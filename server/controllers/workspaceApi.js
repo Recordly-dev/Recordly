@@ -8,8 +8,9 @@ const getWorkspacesOfCurrentUser = async (req, res, next) => {
     const workspaces = await modWorkspace
       .find({ writer: req.user.id })
       .populate("tags", "name")
-      .sort({ editedAt: -1 });
-
+      .select({ content: 0 })
+      .sort({ editedAt: -1 })
+      .lean();
     res.json(workspaces);
   } catch (err) {
     console.log(err);

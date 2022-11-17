@@ -42,7 +42,7 @@ const MainDashboard = ({
       );
     } else {
       dispatch(folderActions.fetchFolderList());
-      dispatch(workspaceActions.fetchWorkspaceList());
+      dispatch(workspaceActions.fetchAllWorkspaceList());
     }
   }, [isTagPage, isFolderDetailPage, currentFolderId]);
 
@@ -59,6 +59,7 @@ const MainDashboard = ({
             <WorkspaceList
               isLoadingData={isLoadingData}
               isTagPage={isTagPage}
+              isFolderDetailPage={isFolderDetailPage}
             />
           </>
         )}
