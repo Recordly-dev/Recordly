@@ -45,8 +45,7 @@ const getSingleWorkspace = async (req, res, next) => {
     const workspaceId = req.params.workspaceId;
     const workspace = await modWorkspace
       .find({ _id: workspaceId })
-      .populate("tags", "name")
-      .select({ content: 0 });
+      .populate("tags", "name");
     res.json(workspace[0]);
   } catch (err) {
     console.log(err);
