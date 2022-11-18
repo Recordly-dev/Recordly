@@ -203,6 +203,10 @@ const EditorMenu = ({
       return;
     }
 
+    if (document?.pages?.shapes) {
+      return;
+    }
+
     html2canvas(editorEl).then((editorCanvas) => {
       editorCanvas.toBlob((blob) => {
         if (!blob) {
