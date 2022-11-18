@@ -1,7 +1,7 @@
 import modTag from "#models/tag.js";
+import modWorkspace from "#models/workspace.js";
 
 import serTag from "../services/tagService.js";
-import serWorkspace from "../services/workspaceService.js";
 
 const getTagsOfCurrentUser = async (req, res, next) => {
   try {
@@ -66,7 +66,11 @@ const getWokrspacesWithTag = async (req, res, next) => {
   const findTag = await serTag.getTagById(tagId);
   const workspaces = await Promise.all(
     findTag.workspaces.map((workspaceId) =>
-      serWorkspace.getWorkspaceById(workspaceId)
+      modWorkspace
+        .findOne({ _id: workspaceId })
+        .select({ content: 0 })
+        .populate("tags", { name: 1 })
+        .lean()
     )
   );
 
