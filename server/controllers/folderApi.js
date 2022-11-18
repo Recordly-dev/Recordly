@@ -67,11 +67,10 @@ const getWorkspacesInFolder = async (req, res, next) => {
   try {
     const folderId = req.params.folderId;
 
-    console.log(folderId);
-
     const workspaces = await modWorkspace
       .find({ folder: folderId })
       .populate("tags", "name")
+      .select({ content: 0 })
       .sort({ editedAt: -1 });
 
     res.json(workspaces);
