@@ -26,11 +26,12 @@ const WorkspaceList = ({
   const workspaceList: IWorkspace[] = useSelector(
     (state: any) => state.workspace.workspaceList
   );
-  const filteredWorkspaces = isFolderDetailPage
-    ? workspaceList
-    : workspaceList.filter(
-        (workspace: IWorkspace) => workspace.folder === null
-      );
+  const filteredWorkspaces =
+    isFolderDetailPage || isFavoritesPage
+      ? workspaceList
+      : workspaceList.filter(
+          (workspace: IWorkspace) => workspace.folder === null
+        );
 
   const moveWorkSpacePage = (id: string): void => {
     navigate(`/workspace/${id}`);

@@ -45,8 +45,8 @@ const getSingleWorkspace = async (req, res, next) => {
     const workspaceId = req.params.workspaceId;
     const workspace = await modWorkspace
       .find({ _id: workspaceId })
-      .populate("tags", "name");
-
+      .populate("tags", "name")
+      .select({ content: 0 });
     res.json(workspace[0]);
   } catch (err) {
     console.log(err);
@@ -59,6 +59,7 @@ const getFavoritesWorkspaceList = async (req, res, next) => {
     const workspaces = await modWorkspace
       .find({ writer: req.user.id, favorites: true })
       .populate("tags", "name")
+      .select({ content: 0 })
       .sort({ editedAt: -1 });
 
     res.json(workspaces);
