@@ -8,4 +8,13 @@ const logout = (req, res, next) => {
   });
 };
 
-export default { logout };
+const getProfile = async (req, res, next) => {
+  const { username, profileImage, email } = req.user;
+  res.send({
+    username,
+    profileImage,
+    email,
+  });
+};
+
+export default { logout, getProfile };
