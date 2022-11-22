@@ -108,7 +108,7 @@ const Folder = ({
           src={folderIcon}
           alt="folder img"
         />
-        <div>
+        <div className={styles.Folder__dropdownContainer}>
           <img
             className={styles.Folder__dropdownIcon}
             onClick={handleDropdownOpen}
@@ -116,6 +116,7 @@ const Folder = ({
             alt="dropdown icon"
           />
           <EditDropdown
+            className={styles.Folder__dropdown}
             isDropdownOpen={isDropdownOpen}
             toggle={handleDropdownOpen}
             dropdownItem={dropdownItem}
