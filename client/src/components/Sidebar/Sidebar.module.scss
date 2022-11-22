@@ -1,0 +1,66 @@
+@import "common/scss/Utils.scss";
+
+.Sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 1000;
+  background-color: #fff;
+  transition: all 100ms linear;
+  overflow-x: hidden;
+
+  box-shadow: var(--shadows-panel);
+
+  &--hidden {
+    overflow-y: hidden;
+  }
+  &--auto {
+    overflow-y: auto;
+  }
+
+  &_entered {
+    transform: translateX(0);
+  }
+  &_entering,
+  &__exiting,
+  &__exited {
+    transform: translateX(100%);
+  }
+}
+
+.withServiceNavigation {
+  top: 37px;
+
+  @include media-breakpoint-down(sm) {
+    top: 0;
+  }
+}
+
+.dark {
+  background-color: #384051;
+  border-right: 1px solid #14161c;
+}
+.reverse .Sidebar {
+  right: initial;
+  left: 0;
+  transition: all 100ms linear;
+  transform: translateX(-100%);
+
+  &_entered {
+    transform: translateX(0);
+  }
+  &_entering,
+  &__exiting,
+  &__exited {
+    transform: translateX(-100%);
+  }
+}
+
+:global(.override-v1) {
+  .dark {
+    background-color: #384051;
+    border-right: 1px solid #14161c;
+  }
+}
