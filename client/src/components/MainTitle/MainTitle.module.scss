@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 @mixin font-Rg {
   font-family: "line-Rg" !important;
@@ -28,6 +29,16 @@
     @include font-Bd;
 
     box-shadow: rgb(182, 194, 209) 0px -2rem 0px inset;
+
+    @include media-breakpoint-down(lg) {
+      font-size: 3.5rem; // 56px
+      line-height: 60px;
+    }
+
+    @include media-breakpoint-down(md) {
+      font-size: 2.5rem; // 56px
+      line-height: 50px;
+    }
   }
 
   &__description {
@@ -38,5 +49,21 @@
     color: $gray-700;
 
     @include font-Rg;
+
+    @include media-breakpoint-down(lg) {
+      font-size: 1rem; // 56px
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    margin-right: 0;
+    margin-bottom: 3rem;
+
+    width: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
   }
 }

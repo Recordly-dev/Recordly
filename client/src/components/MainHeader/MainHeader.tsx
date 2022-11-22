@@ -8,15 +8,22 @@ import Swal from "sweetalert2";
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { useDispatch } from "store";
 
-import { Button } from "reactstrap";
+import useMediaQuery from "hooks/useMediaQuery";
+
+import MenuIcon from "common/assets/icons/MenuIcon";
 
 import SearchBar from "components/SearchBar";
+import Avatar from "components/Avatar";
 import DropdownSelect from "components/DropdownSelect";
 import MoveToBackButton from "components/MoveToBackButton";
+import MoblieSideNavMenu from "components/MoblieSideNavMenu";
 
 import { IFolder } from "types/folder";
+import { IUser } from "types/user";
 
 import styles from "./MainHeader.module.scss";
+
+import CONSTANT from "./constants";
 
 const MainHeader = ({
   isFolderDetailPage,
@@ -27,9 +34,25 @@ const MainHeader = ({
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
 }) => {
+  const [userData, setUserData] = useState<IUser>();
+  const [toggleMobileSidebar, setToggleMobileSidebar] = useState(false);
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const { data: profile } = await axios.get("/api/profile");
+      setUserData(profile);
+    })();
+  }, []);
+
+  const maxWidthMd = useMediaQuery("(max-width: 991px)");
+  const maxWidthXs = useMediaQuery("(max-width: 575px)");
+
+  const toggleMobileMenu = () => {
+    setToggleMobileSidebar((prev) => !prev);
+  };
 
   const handleDropdownOnClick = (type: string) => {
     dispatch(workspaceActions.sortWorkspaceList({ type }));
@@ -78,7 +101,10 @@ const MainHeader = ({
         styles.MainHeader,
         "d-flex",
         "align-items-center",
-        "justify-content-center"
+        "justify-content-center",
+        {
+          [styles.MainHeader__mobile]: maxWidthXs,
+        }
       )}
     >
       <div
@@ -86,9 +112,7 @@ const MainHeader = ({
           styles.MainHeader__container,
           "d-flex",
           "align-items-center",
-          "justify-content-between",
-          "ps-4",
-          "pe-4"
+          "justify-content-between"
         )}
       >
         <div
@@ -99,13 +123,15 @@ const MainHeader = ({
             "justify-content-center"
           )}
         >
-          {isFolderDetailPage && (
+          {isFolderDetailPage ? (
             <>
               <MoveToBackButton moveGoBack={moveGoBack} />
               <span className={styles.MainHeader__folderPath}>
                 {folderName}
               </span>
             </>
+          ) : (
+            <h3 className={styles.MainHeader__mainTitle}>Recordly</h3>
           )}
         </div>
 
@@ -117,17 +143,66 @@ const MainHeader = ({
             "justify-content-center"
           )}
         >
-          <SearchBar isFavoritesPage={isFavoritesPage} isTagPage={isTagPage} />
-          <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
-          <Button
-            className={styles.MainHeader__container__right__logout}
-            color="primary"
-            onClick={logout}
-          >
-            Logout
-          </Button>
+          {!maxWidthXs && (
+            <>
+              <SearchBar
+                isFavoritesPage={isFavoritesPage}
+                isTagPage={isTagPage}
+              />
+              <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
+            </>
+          )}
+
+          {maxWidthMd ? (
+            <>
+              <MenuIcon
+                className={styles.MainHeader__menuIcon}
+                onClick={toggleMobileMenu}
+                color="black"
+                width={CONSTANT.ICON_SIZE.MENU}
+                height={CONSTANT.ICON_SIZE.MENU}
+              />
+              <MoblieSideNavMenu
+                toggleMobileMenu={toggleMobileMenu}
+                isLoggedIn={true}
+                isOpen={toggleMobileSidebar}
+                logout={logout}
+                userData={userData}
+              />
+            </>
+          ) : (
+            <Avatar
+              libAvatarProps={{
+                src: userData?.profileImage,
+                name: userData?.username,
+                size: 40,
+                round: true,
+                className: styles.MainHeader__avatar,
+              }}
+            />
+          )}
         </div>
       </div>
+      {maxWidthXs && (
+        <>
+          <div className={styles.devider} />
+          <div
+            className={cn(
+              "d-flex",
+              "align-items-center",
+              "justify-content-end",
+              "w-100",
+              "me-4"
+            )}
+          >
+            <SearchBar
+              isFavoritesPage={isFavoritesPage}
+              isTagPage={isTagPage}
+            />
+            <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
+          </div>
+        </>
+      )}
     </header>
   );
 };

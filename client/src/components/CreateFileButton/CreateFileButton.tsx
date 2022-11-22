@@ -136,7 +136,6 @@ const CreateFileButton = () => {
       />
       <EditDropdown
         className={styles.CreateFileButton__dropdown}
-        itemClassName={styles.CreateFileButton__dropdownItem}
         isDropdownOpen={isDropdownOpen}
         toggle={handleDropdownOpen}
         dropdownItem={dropdownItem}

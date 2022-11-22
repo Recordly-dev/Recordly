@@ -1,0 +1,123 @@
+@import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
+@import "common/scss/typography.scss";
+
+@mixin font-Rg {
+  font-family: "line-Rg" !important;
+}
+
+@mixin font-Bd {
+  font-family: "line-Bd" !important;
+}
+
+.MoblieSideNavMenu {
+  width: 18rem;
+  max-width: 100vw;
+
+  &__userWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 7rem;
+    padding: 2.5rem 1.5rem 1.5rem;
+    background-color: #102a3e;
+
+    &__logout {
+      padding: 3.1875rem 1.5rem 1.5rem;
+    }
+  }
+
+  &__closeIcon {
+    position: absolute;
+    top: 1.125rem;
+    right: 1rem;
+    cursor: pointer;
+    color: $white;
+  }
+
+  &__userInfo {
+    width: 100%;
+  }
+
+  &__avatarWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__avatarFont > div > div > span > span {
+    @include h5;
+
+    cursor: pointer;
+    font-weight: 700 !important;
+    color: $white;
+  }
+
+  &__nameInfo {
+    margin-left: 1rem;
+
+    &__icon {
+      margin-left: 0.125rem;
+    }
+  }
+
+  &__userName {
+    @include h5;
+    @include font-Rg;
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-weight: 700 !important;
+    color: $white !important;
+    text-decoration: none !important;
+  }
+
+  &__userEmail {
+    @include paragraph-sm;
+
+    color: $white;
+  }
+
+  &__itemWrapper {
+    padding: 0 !important;
+    border-radius: 0 !important;
+
+    text-decoration: none !important;
+
+    background-color: white;
+
+    &:hover {
+      background-color: $gray-600-transparent-8;
+    }
+  }
+
+  &__menuWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;
+    padding: 0 0 0.5rem 0;
+    list-style: none;
+  }
+
+  &__menuDivider {
+    height: 0.0625rem;
+    opacity: 0.05;
+    background-color: $black;
+  }
+
+  &__menuItem {
+    @include h5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0 !important;
+    padding: 1rem 1.5rem;
+
+    @include font-Bd;
+
+    &__signOut {
+      color: $gray-500 !important;
+    }
+  }
+}

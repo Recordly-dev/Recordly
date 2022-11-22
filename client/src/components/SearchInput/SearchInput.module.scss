@@ -1,3 +1,5 @@
+@import "common/scss/Utils.scss";
+
 @mixin font-Rg {
   font-family: "line-Rg" !important;
 }
@@ -26,6 +28,10 @@
       padding-right: 2.75rem !important;
 
       @include font-Rg;
+    }
+
+    @include media-breakpoint-down(md) {
+      width: 13rem !important;
     }
   }
 

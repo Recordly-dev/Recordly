@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 @mixin font-Rg {
   font-family: "line-Rg" !important;
@@ -41,6 +42,18 @@
       color: #234e70;
 
       @include font-Bd;
+
+      @include media-breakpoint-down(lg) {
+        font-size: 2rem;
+      }
+
+      @include media-breakpoint-down(md) {
+        font-size: 1.75rem;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
     }
   }
 
@@ -52,6 +65,13 @@
       font-size: 1.125rem !important;
 
       @include font-Bd;
+
+      @include media-breakpoint-down(lg) {
+        font-size: 1rem !important;
+      }
+      @include media-breakpoint-down(md) {
+        font-size: 0.875rem !important;
+      }
     }
   }
 }
