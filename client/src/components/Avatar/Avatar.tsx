@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 
 import LibAvatar from "react-avatar";
 
-const Avatar = ({ libAvatarProps, ...props }: { libAvatarProps: any }) => {
+const Avatar = ({
+  libAvatarProps,
+  toggleDropdown,
+}: {
+  libAvatarProps: any;
+  toggleDropdown?: any;
+}) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -15,7 +21,7 @@ const Avatar = ({ libAvatarProps, ...props }: { libAvatarProps: any }) => {
 
   return (
     <>
-      <div {...props}>
+      <div onClick={toggleDropdown}>
         <LibAvatar {...libAvatarProps} />
       </div>
     </>

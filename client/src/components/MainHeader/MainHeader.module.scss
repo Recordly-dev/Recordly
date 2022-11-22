@@ -27,8 +27,15 @@
     flex-direction: column;
   }
 
-  &__avatar {
-    margin-left: 0.25rem;
+  &__dropdown {
+    position: absolute;
+    top: 0.5rem;
+    right: 8rem;
+  }
+
+  &__Avatar {
+    position: relative;
+    margin-left: 0.5rem;
   }
 
   &__mainTitle {
