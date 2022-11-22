@@ -16,7 +16,7 @@ def getTags(rawText):
     count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
     candidates = count.get_feature_names()
     
-    model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens')
+    model = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v1')
     doc_embedding = model.encode([rawText])
     candidate_embeddings = model.encode(candidates)
     
