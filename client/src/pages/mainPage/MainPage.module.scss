@@ -1,3 +1,5 @@
+@import "common/scss/Utils.scss";
+
 .MainPage {
   display: flex;
   background-color: rgb(240, 243, 242);
@@ -20,6 +22,16 @@
       padding-left: 14rem;
       width: 100%;
       height: 100%;
+
+      @include media-breakpoint-down(md) {
+        padding-left: 0;
+      }
+    }
+
+    &__sideMenu {
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
     }
   }
 }
