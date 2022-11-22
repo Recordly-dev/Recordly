@@ -9,9 +9,6 @@
 }
 
 .EditDropdown {
-  position: absolute;
-  right: 0;
-
   &__menu {
     background-color: white;
   }
@@ -20,6 +17,7 @@
     @include font-Rg;
     color: $gray-700 !important;
     width: 8rem !important;
+
     &:hover {
       @include font-Bd;
       background-color: white !important;
