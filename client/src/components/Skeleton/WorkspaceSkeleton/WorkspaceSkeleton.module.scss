@@ -1,3 +1,5 @@
+@import "common/scss/Utils.scss";
+
 @keyframes shimmer {
   100% {
     transform: translateX(100%);
@@ -117,5 +119,50 @@
         @include animation;
       }
     }
+  }
+
+  @include media-breakpoint-down(lg) {
+    width: 12rem; // 256px
+    height: 12rem; // 224px
+
+    padding: 1rem; // 24px
+  }
+
+  @media (max-width: 900px) {
+    width: 14rem; // 256px
+    height: 13rem; // 224px
+
+    padding: 1.25rem; // 20px
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: 12rem; // 256px
+    height: 12rem; // 224px
+
+    padding: 1.25rem; // 24px
+  }
+
+  @media (max-width: 676px) {
+    width: 10rem; // 256px
+    height: 10rem; // 224px
+
+    margin: 0.75rem;
+    padding: 1rem; // 16px
+  }
+
+  @include media-breakpoint-down(xs) {
+    width: 12rem; // 256px
+    height: 12rem; // 224px
+
+    padding: 1.25rem; // 20px
+    margin: 1rem; // 16px
+  }
+
+  @media (max-width: 436px) {
+    width: 10rem; // 256px
+    height: 10rem; // 224px
+
+    margin: 0.75rem;
+    padding: 1rem; // 16px
   }
 }

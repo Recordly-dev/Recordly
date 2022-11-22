@@ -217,7 +217,7 @@ const Workspace = ({
             onError={setThumbnail}
             alt="thumbnail"
           />
-          <div>
+          <div className={cn("d-flex")}>
             {isFavorites ? (
               <StarFillIcon
                 onClick={toggleFavorites}
@@ -233,19 +233,21 @@ const Workspace = ({
                 color="#dcdce2"
               />
             )}
-            <img
-              className={styles.Workspace__dropdownIcon}
-              onClick={handleDropdownOpen}
-              src={DropdownIcon}
-              alt="dropdown icon"
-            />
-            <EditDropdown
-              className={styles.Workspace__dropdown}
-              isDropdownOpen={isDropdownOpen}
-              toggle={handleDropdownOpen}
-              dropdownItem={dropdownItem}
-              direction="down"
-            />
+            <div className={styles.Workspace__dropdownContainer}>
+              <img
+                className={styles.Workspace__dropdownIcon}
+                onClick={handleDropdownOpen}
+                src={DropdownIcon}
+                alt="dropdown icon"
+              />
+              <EditDropdown
+                className={styles.Workspace__dropdown}
+                isDropdownOpen={isDropdownOpen}
+                toggle={handleDropdownOpen}
+                dropdownItem={dropdownItem}
+                direction="down"
+              />
+            </div>
           </div>
         </div>
         <div className={styles.Workspace__docs__bottom}>
@@ -259,8 +261,8 @@ const Workspace = ({
               color="#a9abb8"
             />
           </div>
-          <div className={cn("d-flex", "align-items-center", "w-100", "mb-2")}>
-            <span className={styles.Workspace__dataEdit}>
+          <div className={styles.Workspace__dateEdit}>
+            <span className={styles.Workspace__dateEdit__date}>
               {formatWorkspaceDate(editedAt)}
             </span>
           </div>
