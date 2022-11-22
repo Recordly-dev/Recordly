@@ -21,10 +21,18 @@
 
     padding: 0 !important;
 
-    @include media-breakpoint-down(xl) {
+    @media (max-width: 1919px) {
       display: grid;
       place-items: center;
       overflow: hidden;
+      grid-template-columns: repeat(auto-fill, minmax(20%, auto));
+    }
+
+    @media (max-width: 1680px) {
+      grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+    }
+
+    @include media-breakpoint-down(xl) {
       grid-template-columns: repeat(auto-fill, minmax(33%, auto));
     }
 

@@ -15,6 +15,7 @@ import MenuIcon from "common/assets/icons/MenuIcon";
 import SearchBar from "components/SearchBar";
 import Avatar from "components/Avatar";
 import DropdownSelect from "components/DropdownSelect";
+import EditDropdown from "components/EditDropdown";
 import MoveToBackButton from "components/MoveToBackButton";
 import MoblieSideNavMenu from "components/MoblieSideNavMenu";
 
@@ -35,6 +36,7 @@ const MainHeader = ({
   isTagPage?: boolean;
 }) => {
   const [userData, setUserData] = useState<IUser>();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [toggleMobileSidebar, setToggleMobileSidebar] = useState(false);
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
@@ -52,6 +54,10 @@ const MainHeader = ({
 
   const toggleMobileMenu = () => {
     setToggleMobileSidebar((prev) => !prev);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
   };
 
   const handleDropdownOnClick = (type: string) => {
@@ -95,6 +101,15 @@ const MainHeader = ({
     dispatch(workspaceActions.fetchWorkspaceList());
   };
 
+  const dropdownItem = [
+    {
+      title: "Logout",
+      onClick: () => {
+        logout();
+      },
+    },
+  ];
+
   return (
     <header
       className={cn(
@@ -131,7 +146,9 @@ const MainHeader = ({
               </span>
             </>
           ) : (
-            <h3 className={styles.MainHeader__mainTitle}>Recordly</h3>
+            maxWidthMd && (
+              <h3 className={styles.MainHeader__mainTitle}>Recordly</h3>
+            )
           )}
         </div>
 
@@ -171,15 +188,24 @@ const MainHeader = ({
               />
             </>
           ) : (
-            <Avatar
-              libAvatarProps={{
-                src: userData?.profileImage,
-                name: userData?.username,
-                size: 40,
-                round: true,
-                className: styles.MainHeader__avatar,
-              }}
-            />
+            <div className={styles.MainHeader__Avatar}>
+              <Avatar
+                toggleDropdown={toggleDropdown}
+                libAvatarProps={{
+                  src: userData?.profileImage,
+                  name: userData?.username,
+                  size: 40,
+                  round: true,
+                }}
+              />
+              <EditDropdown
+                className={styles.MainHeader__dropdown}
+                isDropdownOpen={isDropdownOpen}
+                toggle={toggleDropdown}
+                dropdownItem={dropdownItem}
+                direction={"down"}
+              />
+            </div>
           )}
         </div>
       </div>
