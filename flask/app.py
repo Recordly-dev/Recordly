@@ -10,7 +10,6 @@ def hello():
 @application.route('/kobert/tags', methods=['POST'])
 def getTags():
     text = request.json['text']
-    print(text)
     if not text: return jsonify(tags=[])
 
     try: 
