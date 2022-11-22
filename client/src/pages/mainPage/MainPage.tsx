@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
 
-import Footer from "components/Footer";
 import SideNavMenu from "components/SideNavMenu";
 import FavoritesDashboard from "components/FavoritesDashboard";
 import MainDashboard from "components/MainDashboard";
@@ -87,7 +86,6 @@ const MainPage = ({
           </section>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
