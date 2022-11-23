@@ -119,6 +119,7 @@ const MainHeader = ({
         "justify-content-center",
         {
           [styles.MainHeader__mobile]: maxWidthXs,
+          [styles.TagPageHeader]: isTagPage,
         }
       )}
     >
@@ -209,7 +210,7 @@ const MainHeader = ({
           )}
         </div>
       </div>
-      {maxWidthXs && (
+      {maxWidthXs && !isTagPage && (
         <>
           <div className={styles.devider} />
           <div

@@ -94,3 +94,9 @@
 
   border-top: 1px solid rgb(240, 243, 242);
 }
+
+.TagPageHeader {
+  @include media-breakpoint-down(md) {
+    height: 3rem;
+  }
+}

@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 .ResetTag {
   display: flex !important;
@@ -32,4 +33,8 @@
   }
 
   cursor: pointer;
+
+  @include media-breakpoint-down(md) {
+    margin-right: 0.5rem;
+  }
 }
