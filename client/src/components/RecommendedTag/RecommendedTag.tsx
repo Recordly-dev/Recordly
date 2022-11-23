@@ -22,7 +22,7 @@ const RecommendedTag = ({
     setTooltipOpen((prev) => !prev);
   };
   return (
-    <>
+    <div>
       <div
         id={`${tagName}${idx}`}
         className={styles.RecommendedTag}
@@ -36,15 +36,15 @@ const RecommendedTag = ({
           height={CONSTANT.ICON_SIZE.PLUS}
         />
       </div>
-      <Tooltip
+      {/*<Tooltip
         placement="top"
         isOpen={tootipOpen}
         target={`${tagName}${idx}`}
         toggle={toggleTooltip}
       >
         <span className={styles.RecommendedTag__tooltip}>Recommended Tags</span>
-      </Tooltip>
-    </>
+  </Tooltip>*/}
+    </div>
   );
 };
 
