@@ -1,5 +1,20 @@
+@import "common/scss/Utils.scss";
+
 .TagList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  @include media-breakpoint-down(md) {
+    height: 2.375rem;
+
+    flex-wrap: nowrap;
+    overflow: scroll;
+
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

@@ -65,4 +65,19 @@
   @include media-breakpoint-down(xs) {
     padding-top: 7rem;
   }
+
+  &__tagPage {
+    &__fileList {
+      display: flex;
+      align-items: center;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-top: 11.5rem;
+    }
+
+    @include media-breakpoint-down(xs) {
+      padding-top: 14.5rem;
+    }
+  }
 }

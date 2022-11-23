@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 .SideTagsMenu {
   padding-left: 20rem;
@@ -16,6 +17,19 @@
     border-right: 1px solid rgb(240, 243, 242);
     border-top: 1px solid rgb(240, 243, 242);
     border-bottom: 1px solid rgb(240, 243, 242);
+
+    @include media-breakpoint-down(md) {
+      top: 48px;
+      left: 0;
+      padding-top: 0;
+      padding-bottom: 1rem;
+      width: 100%;
+      height: auto;
+    }
+
+    @include media-breakpoint-down(xs) {
+      top: 48px;
+    }
   }
 
   &__subHeader {
@@ -24,13 +38,39 @@
     justify-content: space-between;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-
+    z-index: 100;
     border-bottom: 1px solid #234e70;
 
     span {
       color: $gray-800;
       font-size: 1.25rem;
       font-weight: 600;
+    }
+  }
+
+  &__tagContainer {
+    @include media-breakpoint-down(md) {
+      display: flex;
+      align-items: start;
+    }
+
+    @include media-breakpoint-down(xs) {
+      display: block;
+    }
+  }
+
+  &__searchContainer {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 1rem;
+
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
+
+    @include media-breakpoint-down(xs) {
+      margin-bottom: 0.75rem;
     }
   }
 
@@ -77,10 +117,12 @@
   }
 
   &__Searchbar {
-    // margin-bottom: 1rem;
-
     &__input {
       width: 14rem !important;
     }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding-left: 0;
   }
 }

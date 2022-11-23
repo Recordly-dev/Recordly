@@ -47,8 +47,17 @@ const MainDashboard = ({
   }, [isTagPage, isFolderDetailPage, currentFolderId]);
 
   return (
-    <section className={styles.MainDashboard}>
-      <Container fluid className={styles.MainDashboard__fileList}>
+    <section
+      className={cn(styles.MainDashboard, {
+        [styles.MainDashboard__tagPage]: isTagPage,
+      })}
+    >
+      <Container
+        fluid
+        className={cn(styles.MainDashboard__fileList, {
+          [styles.MainDashboard__tagPage__fileList]: isTagPage,
+        })}
+      >
         {isEmptyDashboard && !isLoadingData ? (
           <EmptyDashboard isTagPage={isTagPage} />
         ) : (

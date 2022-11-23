@@ -82,31 +82,33 @@ const SideTagsMenu = () => {
             />
           </div>
         </div>
-        <div className={cn("d-flex", "align-items-center", "mb-3")}>
-          <SearchInput
-            className={styles.SideTagsMenu__Searchbar}
-            inputClassName={styles.SideTagsMenu__Searchbar__input}
-            value={tagInputValue}
-            placeholder="Search Tags"
-            onChange={handleTagInput}
-          />
-          <ResetTag
-            setIsSortByAlpha={setIsSortByAlpha}
-            setTagInputValue={setTagInputValue}
-            setCurrentSeleteTagId={setCurrentSeleteTagId}
-            sortTagList={sortTagList}
-          />
+        <div className={styles.SideTagsMenu__tagContainer}>
+          <div className={cn(styles.SideTagsMenu__searchContainer)}>
+            <SearchInput
+              className={styles.SideTagsMenu__Searchbar}
+              inputClassName={styles.SideTagsMenu__Searchbar__input}
+              value={tagInputValue}
+              placeholder="Search Tags"
+              onChange={handleTagInput}
+            />
+            <ResetTag
+              setIsSortByAlpha={setIsSortByAlpha}
+              setTagInputValue={setTagInputValue}
+              setCurrentSeleteTagId={setCurrentSeleteTagId}
+              sortTagList={sortTagList}
+            />
+          </div>
+          {isEmptyTagList ? (
+            <EmptyImage />
+          ) : (
+            <TagList
+              tagList={tagList}
+              tagInputValue={tagInputValue}
+              setCurrentSeleteTagId={setCurrentSeleteTagId}
+              currentSeleteTagId={currentSeleteTagId}
+            />
+          )}
         </div>
-        {isEmptyTagList ? (
-          <EmptyImage />
-        ) : (
-          <TagList
-            tagList={tagList}
-            tagInputValue={tagInputValue}
-            setCurrentSeleteTagId={setCurrentSeleteTagId}
-            currentSeleteTagId={currentSeleteTagId}
-          />
-        )}
       </div>
     </div>
   );
