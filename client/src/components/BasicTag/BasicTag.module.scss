@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 @mixin font {
   font-family: "Recursive", sans-serif;
@@ -9,8 +10,9 @@
   align-items: center;
 
   height: 1.5rem;
+  min-width: fit-content;
 
-  margin-right: 0.5rem;
+  margin: 0.25rem;
 
   background-color: white;
   box-shadow: var(--shadows-panel);
@@ -40,7 +42,11 @@
 
   &__name {
     font-size: 0.75rem; // 12px
-    line-height: 0.75rem;
+
+    max-width: 7.5rem; // 120px
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     cursor: pointer;
 
