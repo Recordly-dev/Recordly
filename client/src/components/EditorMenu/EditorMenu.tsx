@@ -13,13 +13,14 @@ import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
-import { Button, FormGroup, Input } from "reactstrap";
+import { Button } from "reactstrap";
 import TagInput from "../TagInput";
 import EmptyImage from "components/EmptyImage";
 import RecommendedTag from "components/RecommendedTag";
 import BasicTag from "components/BasicTag";
 import SimpleWorkspace from "components/SimpleWorkspace";
 import SimpleWorkspaceSkeleton from "components/Skeleton/SimpleWorkspaceSkeleton";
+import RecommendedTagSkeleton from "components/Skeleton/RecommendedTagSkeleton";
 
 import { TDShapeType, TldrawApp } from "@tldraw/tldraw";
 import EraserIcon from "common/assets/icons/EraserIcon";
@@ -53,6 +54,7 @@ const EditorMenu = ({
   const navigate = useNavigate();
   const inputRef = useRef<any>(null);
   const divRef = useRef<any>(null);
+  const tagRef = useRef<any>(null);
 
   /**
    * 태그 수정 외부 클릭 로직에서 쓸 state
@@ -153,6 +155,7 @@ const EditorMenu = ({
   );
 
   useOnClickOutside(divRef, () => setIsViewRelatedPopup(false));
+  useOnClickOutside(tagRef, () => setIsViewTagList(false));
 
   /**
    * 엔터 눌렀을 때 태그 수정되는 로직
@@ -482,62 +485,80 @@ const EditorMenu = ({
         </Button>
       </div>
       <div className={styles.TagContainer}>
-        <FormGroup className="mb-0" switch>
-          <Input
-            className={styles.TagContainer__switch}
-            type="switch"
-            checked={isViewTagList}
+        <div className={styles.TagBox}>
+          <span
             onClick={() => {
               setIsViewTagList((prev) => !prev);
             }}
-          />
-        </FormGroup>
+            className={styles.TagBox__text}
+          >
+            <span
+              className={cn("material-symbols-outlined", styles.TagBox__icon)}
+            >
+              sell
+            </span>
+          </span>
+        </div>
         {isViewTagList && (
-          <>
-            <div className={cn("d-flex", "align-items-center", "flex-wrap")}>
-              {tagList.map((tag: any, idx: number) =>
-                isPatchTag.state && isPatchTag.index === idx ? (
-                  <input
-                    className={styles.Tag__editInput}
-                    ref={inputRef}
-                    value={patchValue}
-                    onChange={handlePatchTagValue}
-                    onKeyDown={(e) =>
-                      handlePatchTagKeyDown(e, tag?._id, workspaceId)
-                    }
-                  />
-                ) : (
-                  <BasicTag
-                    tagId={tag?._id}
-                    workspaceId={workspaceId}
-                    tagName={tag?.name}
-                    idx={idx}
-                    handleDeleteTag={deleteTag}
-                    handlePatchTag={handlePatchTagState}
-                  />
-                )
-              )}
-            </div>
-            {tagList.length < 10 && isViewTagList && (
-              <TagInput workspaceId={workspaceId} />
-            )}
-            {!!recommendedTagList.length && (
-              <>
-                <div className={styles.divider} />
-                <div className={styles.RecommendedTag__container}>
-                  {recommendedTagList
-                    .slice(0, 3)
-                    ?.map((tag: any, idx: number) => (
-                      <RecommendedTag
-                        tagName={tag}
-                        saveRecommendedTag={saveRecommendedTag}
-                        idx={idx}
+          <div ref={tagRef} className={styles.TagList__popup}>
+            <>
+              <div className={styles.TagList__BasicTag}>
+                <span className={styles.TagList__title}>TagList</span>
+                <div className={styles.TagList}>
+                  {tagList.map((tag: any, idx: number) =>
+                    isPatchTag.state && isPatchTag.index === idx ? (
+                      <input
+                        className={styles.Tag__editInput}
+                        ref={inputRef}
+                        value={patchValue}
+                        onChange={handlePatchTagValue}
+                        onKeyDown={(e) =>
+                          handlePatchTagKeyDown(e, tag?._id, workspaceId)
+                        }
                       />
-                    ))}
+                    ) : (
+                      <BasicTag
+                        tagId={tag?._id}
+                        workspaceId={workspaceId}
+                        tagName={tag?.name}
+                        idx={idx}
+                        handleDeleteTag={deleteTag}
+                        handlePatchTag={handlePatchTagState}
+                      />
+                    )
+                  )}
+                  {tagList.length < 10 && isViewTagList && (
+                    <TagInput workspaceId={workspaceId} />
+                  )}
                 </div>
-              </>
-            )}
-          </>
+              </div>
+              <div className={styles.TagList__RecommendedTag}>
+                <span className={cn(styles.TagList__title, "mt-2")}>
+                  Recommended Tags
+                </span>
+                {!!recommendedTagList.length ? (
+                  <div className={styles.RecommendedTag}>
+                    <div className={styles.divider} />
+                    {recommendedTagList
+                      .slice(0, 3)
+                      ?.map((tag: any, idx: number) => (
+                        <RecommendedTag
+                          tagName={tag}
+                          saveRecommendedTag={saveRecommendedTag}
+                          idx={idx}
+                        />
+                      ))}
+                  </div>
+                ) : (
+                  <div className={cn("d-flex", "align-items-center")}>
+                    {new Array(3).fill(1).map((v) => (
+                      <RecommendedTagSkeleton />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          </div>
         )}
       </div>
       <div className={styles.EditorMenu__related}>

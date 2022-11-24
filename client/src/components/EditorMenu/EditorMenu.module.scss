@@ -1,4 +1,5 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 @mixin font {
   font-family: "Recursive", sans-serif;
@@ -61,6 +62,16 @@
     background-color: rgb(254, 254, 254);
     border: none;
     box-shadow: var(--shadows-panel);
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+
+      border-top-right-radius: 0.5rem;
+      border-bottom-left-radius: 0;
+    }
   }
 
   &__tool {
@@ -114,7 +125,7 @@
     justify-content: center;
 
     color: $gray-800;
-    font-size: 2.5rem;
+    font-size: 2rem;
 
     user-select: none;
   }
@@ -216,13 +227,59 @@
   }
 }
 
+.TagBox {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+
+  transition: all 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background-color: rgb(254, 254, 254);
+  box-shadow: var(--shadows-panel);
+
+  z-index: 3;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &__text {
+    font-size: 0.75rem;
+    color: $gray-700;
+    text-align: center;
+    @include font;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    color: $gray-800;
+
+    user-select: none;
+  }
+}
+
 .TagContainer {
+  width: 100%;
   position: absolute;
   bottom: 8px;
   left: 8px;
 
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
 
   z-index: 2;
@@ -250,18 +307,99 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   border-right: 1px solid $gray-300;
+
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
+.TagList {
+  display: flex;
+  align-items: center;
+
+  max-width: 31.25rem; // 500px
+
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__BasicTag {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__RecommendedTag {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__title {
+    @include font;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    margin-bottom: 0.5rem;
+  }
+
+  &__popup {
+    position: absolute;
+    bottom: 3.5rem;
+    left: 1rem;
+
+    transition: all ease-in 0.4s;
+
+    width: 20rem;
+    height: 20rem;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    border-radius: 2rem;
+
+    z-index: 3;
+
+    background-color: rgb(254, 254, 254);
+    box-shadow: var(--shadows-panel);
+  }
+
+  @include media-breakpoint-down(md) {
+    overflow: auto;
+    flex-wrap: wrap;
+  }
 }
 
 .RecommendedTag {
+  width: 17.5rem;
+  display: flex;
+  align-items: center;
+
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   &__title {
     font-size: 0.875rem;
     color: $gray-700;
     margin-left: 0.25rem;
     margin-right: 0.5rem;
-  }
-  &__container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
   }
 }
