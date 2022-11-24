@@ -77,7 +77,7 @@ const EditorMenu = ({
    */
   const [patchValue, setPatchTagValue] = useState("");
 
-  const [isViewTagList, setIsViewTagList] = useState(true);
+  const [isViewTagList, setIsViewTagList] = useState(false);
   const [isViewRelatedPopup, setIsViewRelatedPopup] = useState(false);
   const [relatedWorkspaceList, setRelatedWorkspaceList] = useState([]);
   const [isRecommendeWorkspaceLoading, setIsRecommendeWorkspaceLoading] =
