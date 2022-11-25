@@ -32,7 +32,7 @@ const WorkspaceList = ({
       : workspaceList.filter(
           (workspace: IWorkspace) => workspace.folder === null
         );
-  console.log(workspaceList)
+
   const moveWorkSpacePage = (id: string): void => {
     navigate(`/workspace/${id}`);
   };
