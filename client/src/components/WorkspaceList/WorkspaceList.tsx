@@ -27,12 +27,12 @@ const WorkspaceList = ({
     (state: any) => state.workspace.workspaceList
   );
   const filteredWorkspaces =
-    isFolderDetailPage || isFavoritesPage
+    isFolderDetailPage || isFavoritesPage || isTagPage
       ? workspaceList
       : workspaceList.filter(
           (workspace: IWorkspace) => workspace.folder === null
         );
-
+  console.log(workspaceList)
   const moveWorkSpacePage = (id: string): void => {
     navigate(`/workspace/${id}`);
   };
