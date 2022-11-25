@@ -316,15 +316,11 @@
 .TagList {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  
+  overflow: auto;
 
   max-width: 31.25rem; // 500px
-
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   &__BasicTag {
     display: flex;
@@ -379,8 +375,7 @@
   }
 
   @include media-breakpoint-down(md) {
-    overflow: auto;
-    flex-wrap: wrap;
+
   }
 }
 
