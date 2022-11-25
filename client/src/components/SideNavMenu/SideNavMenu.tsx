@@ -44,24 +44,24 @@ const SideNavMenu = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Please choose\n between memo and PDF",
-          showDenyButton: true,
-          confirmButtonText: "MEMO",
-          denyButtonText: `PDF`,
-        }).then((workspace) => {
-          title = result.value;
-          if (workspace.isConfirmed) {
-            workspaceType = "docs";
-          } else if (workspace.isDenied) {
-            workspaceType = "pdf";
-          }
+      // if (result.isConfirmed) {
+      //   Swal.fire({
+      //     title: "Please choose\n between memo and PDF",
+      //     showDenyButton: true,
+      //     confirmButtonText: "MEMO",
+      //     denyButtonText: `PDF`,
+      //   }).then((workspace) => {
+      title = result.value;
+      // if (workspace.isConfirmed) {
+      workspaceType = "docs";
+      // } else if (workspace.isDenied) {
+      // workspaceType = "pdf";
+      // }
 
-          dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
-        });
-      }
+      dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
     });
+    // }
+    // });
   };
 
   const createFolder = () => {

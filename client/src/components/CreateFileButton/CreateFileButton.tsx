@@ -57,16 +57,16 @@ const CreateFileButton = () => {
       //     confirmButtonText: "MEMO",
       //     denyButtonText: `PDF`,
       //   }).then((workspace) => {
-          title = result.value;
-          // if (workspace.isConfirmed) {
-          workspaceType = "docs";
-          // } else if (workspace.isDenied) {
-            // workspaceType = "pdf";
-          // }
-
-          dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
-        });
+      title = result.value;
+      // if (workspace.isConfirmed) {
+      workspaceType = "docs";
+      // } else if (workspace.isDenied) {
+      // workspaceType = "pdf";
       // }
+
+      dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
+    });
+    // }
     // });
   };
 
