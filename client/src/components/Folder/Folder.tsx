@@ -18,11 +18,13 @@ import styles from "./Folder.module.scss";
 const Folder = ({
   uid,
   title,
+  isLoading,
   moveFolderDetailPage,
   workspaceList,
 }: {
   uid: string;
   title: string;
+  isLoading: boolean;
   moveFolderDetailPage: Function;
   workspaceList: IWorkspace[];
 }) => {
@@ -35,7 +37,7 @@ const Folder = ({
       (workspace: IWorkspace) => workspace.folder === uid
     );
     setCountOfMemosInFolder(filterWorkspaceList?.length);
-  }, [uid, workspaceList]);
+  }, [uid, workspaceList, isLoading]);
 
   const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
     Swal.fire({

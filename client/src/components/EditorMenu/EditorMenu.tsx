@@ -38,6 +38,7 @@ import { IWorkspace } from "types/workspace";
 import styles from "./EditorMenu.module.scss";
 
 import CONSTANT from "./constants";
+import { ITag, ITagState } from "types/tag";
 
 let getRecommendedTagsInterval: any = null;
 
@@ -539,6 +540,10 @@ const EditorMenu = ({
                 {!!recommendedTagList.length ? (
                   <div className={styles.RecommendedTag}>
                     {recommendedTagList
+                      .filter(
+                        (tag: string) =>
+                          !tagList.map((v: ITag) => v.name).includes(tag)
+                      )
                       .slice(0, 3)
                       ?.map((tag: any, idx: number) => (
                         <RecommendedTag
