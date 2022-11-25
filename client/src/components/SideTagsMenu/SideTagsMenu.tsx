@@ -83,7 +83,9 @@ const SideTagsMenu = () => {
           </div>
         </div>
         <div className={styles.SideTagsMenu__tagContainer}>
-          <div className={cn(styles.SideTagsMenu__searchContainer)}>
+          <div className={cn(styles.SideTagsMenu__searchContainer, {
+            [styles.SideTagsMenu__searchContainer__empty]: tagList.length === 0
+          })}>
             <SearchInput
               className={styles.SideTagsMenu__Searchbar}
               inputClassName={styles.SideTagsMenu__Searchbar__input}
