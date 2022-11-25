@@ -317,7 +317,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  
+
   overflow: auto;
 
   max-width: 31.25rem; // 500px
@@ -372,10 +372,6 @@
 
     background-color: rgb(254, 254, 254);
     box-shadow: var(--shadows-panel);
-  }
-
-  @include media-breakpoint-down(md) {
-
   }
 }
 
