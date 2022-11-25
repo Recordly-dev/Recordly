@@ -114,6 +114,8 @@
     margin-bottom: 0 !important;
     padding: 1rem 1.5rem;
 
+    cursor: pointer;
+
     @include font-Bd;
 
     &__signOut {
