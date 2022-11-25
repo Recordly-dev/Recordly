@@ -538,7 +538,6 @@ const EditorMenu = ({
                 </span>
                 {!!recommendedTagList.length ? (
                   <div className={styles.RecommendedTag}>
-                    <div className={styles.divider} />
                     {recommendedTagList
                       .slice(0, 3)
                       ?.map((tag: any, idx: number) => (
