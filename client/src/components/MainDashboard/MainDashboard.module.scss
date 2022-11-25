@@ -14,11 +14,6 @@
     display: flex;
     flex-wrap: wrap;
 
-    // display: grid;
-    // grid-template-columns: repeat(auto-fill, minmax(25%, auto));
-    // place-items: center;
-    // overflow: hidden;
-
     padding: 0 !important;
 
     @media (max-width: 1919px) {
@@ -70,8 +65,22 @@
     &__fileList {
       display: flex;
       align-items: center;
-    }
 
+      @include media-breakpoint-down(md) {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+      }
+  
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(auto-fill, minmax(33%, auto));
+      }
+  
+      @include media-breakpoint-down(xs) {
+        padding-top: 14.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+      }
+    }
+    
     @include media-breakpoint-down(md) {
       padding-top: 11.5rem;
     }
@@ -79,5 +88,6 @@
     @include media-breakpoint-down(xs) {
       padding-top: 14.5rem;
     }
-  }
+
+  } 
 }
