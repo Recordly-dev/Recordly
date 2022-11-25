@@ -71,6 +71,10 @@
 
     @include media-breakpoint-down(xs) {
       margin-bottom: 0.75rem;
+
+      &__empty {
+        margin-bottom: 0;
+      }
     }
   }
 

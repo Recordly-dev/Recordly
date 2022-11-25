@@ -1,8 +1,15 @@
 @import "common/scss/color.scss";
+@import "common/scss/Utils.scss";
 
 .EmptyDashboard {
-  width: 100%;
-  height: 80vh;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  margin-left: 14rem;
 
   display: flex;
   flex-direction: column;
@@ -18,5 +25,17 @@
     margin-top: -1.5rem;
     font-size: 1.25rem;
     color: $gray-600;
+  }
+
+  @include media-breakpoint-down(md) {
+    margin-left: 0;
+  }
+
+  &__tag {
+    margin-left: 34rem;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+    }
   }
 }

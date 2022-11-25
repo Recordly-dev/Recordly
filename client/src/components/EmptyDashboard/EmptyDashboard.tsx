@@ -1,5 +1,5 @@
 import React from "react";
-
+import cn from 'classnames';
 import styles from "./EmptyDashboard.module.scss";
 
 import emptyImage from "./assets/images/emptyDocs.svg";
@@ -21,7 +21,9 @@ const EmptyDashboard = ({
   }
 
   return (
-    <div className={styles.EmptyDashboard}>
+    <div className={cn(styles.EmptyDashboard, {
+      [styles.EmptyDashboard__tag]: isTagPage
+    })}>
       <img
         className={styles.EmptyDashboard__image}
         src={emptyImage}
