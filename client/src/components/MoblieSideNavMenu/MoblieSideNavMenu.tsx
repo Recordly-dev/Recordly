@@ -43,9 +43,9 @@ const MoblieSideNavMenu = ({
           <div className={styles.MoblieSideNavMenu__avatarWrapper}>
             <Avatar
               libAvatarProps={{
-                src: userData?.profileImage,
-                name: userData?.username,
-                size: 40,
+                src: userData?.profileImage!,
+                name: userData?.username!,
+                size: "40",
                 round: true,
                 className: styles.MoblieSideNavMenu__avatarFont,
               }}
