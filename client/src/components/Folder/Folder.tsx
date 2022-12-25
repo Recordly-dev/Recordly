@@ -84,7 +84,7 @@ const Folder = ({
     e.stopPropagation();
   };
 
-  const handleDropdownOpen = (e: any) => {
+  const handleDropdownOpen = (e: React.MouseEvent<Element>) => {
     setIsDropdownOpen((prev) => !prev);
 
     e.preventDefault();
@@ -138,9 +138,6 @@ const Folder = ({
         <span className={styles.Folder__fileCount}>
           {countOfMemosInFolder} files
         </span>
-        {/* <div>
-          <Button onClick={deleteFolder}>삭제</Button>
-        </div> */}
       </div>
     </div>
   );
