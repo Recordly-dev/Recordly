@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES2017",
+    "outDir": "./dist",
+    "moduleResolution": "Node",
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "module": "es6",
+    "paths": {
+      "#middlewares/*": ["./middlewares/*"],
+      "#models/*": ["./models/*"],
+      "#controllers/*": ["./controllers/*"],
+      "#error/*": ["./utils/error/*"]
+    }
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "dist"]
+}

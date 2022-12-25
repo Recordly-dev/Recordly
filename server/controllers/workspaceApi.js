@@ -1,7 +1,7 @@
 import moment from "moment-timezone";
 import modWorkspace from "#models/workspace.js";
 
-import serWorkspace from "../services/workspaceService.js";
+import * as serWorkspace from "../services/workspaceService.js";
 
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {

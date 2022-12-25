@@ -1,7 +1,7 @@
 import modFolder from "#models/folder.js";
 import modWorkspace from "#models/workspace.js";
 
-import serWorkspace from "../services/workspaceService.js";
+import * as serWorkspace from "../services/workspaceService.js";
 
 const getFolders = async (req, res, next) => {
   try {

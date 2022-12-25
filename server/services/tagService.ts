@@ -1,6 +1,6 @@
-import modTag from "#models/tag.js";
-import modWorkspace from "#models/workspace.js";
-import moment from "moment-timezone";
+import modTag from "../models/tag.js";
+import modWorkspace from "../models/workspace.js";
+import * as moment from "moment-timezone";
 import { ObjectId } from "mongodb";
 
 const getTagById = (tagId) => modTag.findOne({ _id: tagId });
@@ -54,7 +54,7 @@ const addTag = async (tagName, writerId, workspaceId) => {
 const deleteWorkspaceInTag = async (tagId, workspaceId) => {
   await modTag.updateOne(
     { _id: tagId },
-    { $pull: { workspaces: ObjectId(workspaceId) } }
+    { $pull: { workspaces: new ObjectId(workspaceId) } }
   );
   const findTag = await modTag.findOne({ _id: tagId });
   if (findTag?.workspaces?.length === 0) {
@@ -66,7 +66,7 @@ const deleteWorkspaceInTag = async (tagId, workspaceId) => {
 const deleteTagInWorkspace = async (tagId, workspaceId) => {
   await modWorkspace.updateOne(
     { _id: workspaceId },
-    { $pull: { tags: { _id: ObjectId(tagId) } } }
+    { $pull: { tags: { _id: new ObjectId(tagId) } } }
   );
   return { deleted: true };
 };
