@@ -5,6 +5,8 @@ import styles from "./SimpleWorkspace.module.scss";
 
 import TagPreview from "components/TagPreview";
 
+import { ITag } from "types/tag";
+
 import CONSTANT from "./constants";
 
 const SimpleWorkspace = ({
@@ -18,7 +20,7 @@ const SimpleWorkspace = ({
   uid: string;
   title: string;
   // folderId: string | null;
-  tagList: any;
+  tagList: ITag[];
   moveWorkSpacePage: Function;
   // formatWorkspaceDate: Function;
 }) => {
@@ -60,7 +62,7 @@ const SimpleWorkspace = ({
               "w-100"
             )}
           >
-            {tagList.map((tag: any) => (
+            {tagList.map((tag: ITag) => (
               <TagPreview name={"# " + tag.name} />
             ))}
           </div>
