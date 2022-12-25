@@ -18,6 +18,8 @@ import TagPreview from "components/TagPreview";
 
 import styles from "./Workspace.module.scss";
 
+import { ITag } from "types/tag";
+
 import CONSTANT from "./constants";
 
 const Workspace = ({
@@ -35,7 +37,7 @@ const Workspace = ({
   uid: string;
   title: string;
   folderId: string | null;
-  tagList: any;
+  tagList: ITag[];
   editedAt: string;
   favorites: boolean;
   isTagPage: boolean;
@@ -153,7 +155,7 @@ const Workspace = ({
   /**
    * 즐겨찾기 toggle
    */
-  const toggleFavorites = (e: any) => {
+  const toggleFavorites = (e: React.MouseEvent<Element>) => {
     setIsFavorites((prev) => !prev);
     dispatch(
       workspaceActions.patchFavoritesWorkspaceList({
@@ -183,7 +185,7 @@ const Workspace = ({
   const basicDropdownItem = [
     {
       title: "Delete",
-      onClick: (e: any) => {
+      onClick: () => {
         handleDeleteWorkspace();
       },
     },
