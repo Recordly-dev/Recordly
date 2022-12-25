@@ -7,7 +7,7 @@ import styles from "./EditDropdown.module.scss";
 
 interface IDropdownItem {
   title: JSX.Element | string;
-  onClick: Function;
+  onClick: MouseEventHandler;
 }
 
 const EditDropdown = ({
@@ -32,7 +32,7 @@ const EditDropdown = ({
     direction={direction}
   >
     <DropdownMenu className={cn(styles.EditDropdown__menu, itemClassName)}>
-      {dropdownItem.map((item: any) => (
+      {dropdownItem.map((item: IDropdownItem) => (
         <DropdownItem
           onClick={item.onClick}
           className={styles.EditDropdown__item}
