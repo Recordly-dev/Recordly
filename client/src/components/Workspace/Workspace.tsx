@@ -280,7 +280,7 @@ const Workspace = ({
               "w-100"
             )}
           >
-            {tagList.map((tag: any) => (
+            {tagList.map((tag: ITag) => (
               <TagPreview name={"# " + tag.name} />
             ))}
           </div>
