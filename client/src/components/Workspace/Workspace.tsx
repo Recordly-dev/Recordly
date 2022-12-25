@@ -61,9 +61,7 @@ const Workspace = ({
   /**
    * 메모 삭제 로직
    */
-  const handleDeleteWorkspace = (
-    e: React.MouseEvent<HTMLImageElement>
-  ): void => {
+  const handleDeleteWorkspace = (): void => {
     Swal.fire({
       title: `Are you sure want to\ndelete the "${title}" memo?`,
       text: "Cannot revert deleted memos.",
@@ -168,32 +166,34 @@ const Workspace = ({
     e.preventDefault();
     e.stopPropagation();
   };
-  const dropdownItem = [
-    folderId && {
-      title: "Exclude folder",
-      onClick: (e: any) => {
-        dispatch(
-          workspaceActions.patchWorkspace({
-            workspaceId: uid,
-            folder: null,
-            folderId: folderId,
-          })
-        );
-      },
+
+  const inFolderDropdownItem = {
+    title: "Exclude folder",
+    onClick: () => {
+      dispatch(
+        workspaceActions.patchWorkspace({
+          workspaceId: uid,
+          folder: null,
+          folderId: folderId,
+        })
+      );
     },
+  };
+
+  const basicDropdownItem = [
     {
       title: "Delete",
       onClick: (e: any) => {
-        handleDeleteWorkspace(e);
+        handleDeleteWorkspace();
       },
     },
     {
       title: "Move Folder",
-      onClick: (e: any) => {
+      onClick: () => {
         handleMoveFolderModalToggle();
       },
     },
-  ].filter((item) => item !== null);
+  ];
 
   /**
    * 썸네일 지정 핸들러
@@ -244,7 +244,11 @@ const Workspace = ({
                 className={styles.Workspace__dropdown}
                 isDropdownOpen={isDropdownOpen}
                 toggle={handleDropdownOpen}
-                dropdownItem={dropdownItem}
+                dropdownItem={
+                  folderId
+                    ? [inFolderDropdownItem, ...basicDropdownItem]
+                    : basicDropdownItem
+                }
                 direction="down"
               />
             </div>

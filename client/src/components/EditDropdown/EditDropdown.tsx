@@ -1,24 +1,29 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import cn from "classnames";
 import { Dropdown, DropdownMenu, DropdownItem } from "reactstrap";
 import { Direction } from "reactstrap/types/lib/Dropdown";
 
 import styles from "./EditDropdown.module.scss";
 
+interface IDropdownItem {
+  title: JSX.Element | string;
+  onClick: Function;
+}
+
 const EditDropdown = ({
   className,
   itemClassName,
   isDropdownOpen,
-  toggle,
   dropdownItem,
   direction,
+  toggle,
 }: {
   className?: string;
   itemClassName?: string;
   isDropdownOpen: boolean;
-  toggle: any;
-  dropdownItem: any;
+  dropdownItem: IDropdownItem[];
   direction: Direction;
+  toggle: MouseEventHandler;
 }) => (
   <Dropdown
     className={cn(styles.EditDropdown, className)}
