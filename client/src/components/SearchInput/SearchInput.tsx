@@ -21,10 +21,10 @@ const SearchInput = ({
   value: string;
   placeholder: string;
   onChange: any;
-  onKeyDown?: any;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }) => {
   const handleCancelClick = useCallback(() => {
-    onChange({ target: { value: "" }, currentTarget: { value: "" } });
+    onChange({ target: { value: "" } });
   }, [onChange]);
 
   return (

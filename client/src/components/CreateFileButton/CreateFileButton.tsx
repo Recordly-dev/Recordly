@@ -24,7 +24,7 @@ const CreateFileButton = () => {
 
   const moveDashboard = () => navigate("/main");
 
-  const handleDropdownOpen = (e: any) => {
+  const handleDropdownOpen = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDropdownOpen((prev) => !prev);
 
     e.preventDefault();

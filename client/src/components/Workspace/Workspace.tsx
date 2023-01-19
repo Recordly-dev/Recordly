@@ -18,6 +18,8 @@ import TagPreview from "components/TagPreview";
 
 import styles from "./Workspace.module.scss";
 
+import { ITag } from "types/tag";
+
 import CONSTANT from "./constants";
 
 const Workspace = ({
@@ -35,7 +37,7 @@ const Workspace = ({
   uid: string;
   title: string;
   folderId: string | null;
-  tagList: any;
+  tagList: ITag[];
   editedAt: string;
   favorites: boolean;
   isTagPage: boolean;
@@ -61,9 +63,7 @@ const Workspace = ({
   /**
    * 메모 삭제 로직
    */
-  const handleDeleteWorkspace = (
-    e: React.MouseEvent<HTMLImageElement>
-  ): void => {
+  const handleDeleteWorkspace = (): void => {
     Swal.fire({
       title: `Are you sure want to\ndelete the "${title}" memo?`,
       text: "Cannot revert deleted memos.",
@@ -155,7 +155,7 @@ const Workspace = ({
   /**
    * 즐겨찾기 toggle
    */
-  const toggleFavorites = (e: any) => {
+  const toggleFavorites = (e: React.MouseEvent<Element>) => {
     setIsFavorites((prev) => !prev);
     dispatch(
       workspaceActions.patchFavoritesWorkspaceList({
@@ -168,32 +168,34 @@ const Workspace = ({
     e.preventDefault();
     e.stopPropagation();
   };
-  const dropdownItem = [
-    folderId && {
-      title: "Exclude folder",
-      onClick: (e: any) => {
-        dispatch(
-          workspaceActions.patchWorkspace({
-            workspaceId: uid,
-            folder: null,
-            folderId: folderId,
-          })
-        );
-      },
+
+  const inFolderDropdownItem = {
+    title: "Exclude folder",
+    onClick: () => {
+      dispatch(
+        workspaceActions.patchWorkspace({
+          workspaceId: uid,
+          folder: null,
+          folderId: folderId,
+        })
+      );
     },
+  };
+
+  const basicDropdownItem = [
     {
       title: "Delete",
-      onClick: (e: any) => {
-        handleDeleteWorkspace(e);
+      onClick: () => {
+        handleDeleteWorkspace();
       },
     },
     {
       title: "Move Folder",
-      onClick: (e: any) => {
+      onClick: () => {
         handleMoveFolderModalToggle();
       },
     },
-  ].filter((item) => item !== null);
+  ];
 
   /**
    * 썸네일 지정 핸들러
@@ -244,7 +246,11 @@ const Workspace = ({
                 className={styles.Workspace__dropdown}
                 isDropdownOpen={isDropdownOpen}
                 toggle={handleDropdownOpen}
-                dropdownItem={dropdownItem}
+                dropdownItem={
+                  folderId
+                    ? [inFolderDropdownItem, ...basicDropdownItem]
+                    : basicDropdownItem
+                }
                 direction="down"
               />
             </div>
@@ -274,7 +280,7 @@ const Workspace = ({
               "w-100"
             )}
           >
-            {tagList.map((tag: any) => (
+            {tagList.map((tag: ITag) => (
               <TagPreview name={"# " + tag.name} />
             ))}
           </div>

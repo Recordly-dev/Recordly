@@ -1,24 +1,29 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import cn from "classnames";
 import { Dropdown, DropdownMenu, DropdownItem } from "reactstrap";
 import { Direction } from "reactstrap/types/lib/Dropdown";
 
 import styles from "./EditDropdown.module.scss";
 
+interface IDropdownItem {
+  title: JSX.Element | string;
+  onClick: MouseEventHandler;
+}
+
 const EditDropdown = ({
   className,
   itemClassName,
   isDropdownOpen,
-  toggle,
   dropdownItem,
   direction,
+  toggle,
 }: {
   className?: string;
   itemClassName?: string;
   isDropdownOpen: boolean;
-  toggle: any;
-  dropdownItem: any;
+  dropdownItem: IDropdownItem[];
   direction: Direction;
+  toggle: MouseEventHandler;
 }) => (
   <Dropdown
     className={cn(styles.EditDropdown, className)}
@@ -27,7 +32,7 @@ const EditDropdown = ({
     direction={direction}
   >
     <DropdownMenu className={cn(styles.EditDropdown__menu, itemClassName)}>
-      {dropdownItem.map((item: any) => (
+      {dropdownItem.map((item: IDropdownItem) => (
         <DropdownItem
           onClick={item.onClick}
           className={styles.EditDropdown__item}

@@ -39,6 +39,7 @@
     "react-fullpage": "^0.1.19",
     "react-google-login": "^5.2.2",
     "react-icon-base": "^2.1.2",
+    "react-query": "^3.39.2",
     "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",

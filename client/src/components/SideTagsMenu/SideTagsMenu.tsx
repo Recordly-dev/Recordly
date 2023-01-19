@@ -14,6 +14,8 @@ import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
 
 import styles from "./SideTagsMenu.module.scss";
 
+import { ITag } from "types/tag";
+
 import CONSTANT from "./constants";
 
 const SideTagsMenu = () => {
@@ -54,7 +56,7 @@ const SideTagsMenu = () => {
   }, []);
 
   const isEmptyTagList =
-    tagList.filter((tag: any) => tag.name.includes(tagInputValue)).length ===
+    tagList.filter((tag: ITag) => tag.name.includes(tagInputValue)).length ===
       0 || tagList.length === 0;
 
   return (
@@ -83,9 +85,12 @@ const SideTagsMenu = () => {
           </div>
         </div>
         <div className={styles.SideTagsMenu__tagContainer}>
-          <div className={cn(styles.SideTagsMenu__searchContainer, {
-            [styles.SideTagsMenu__searchContainer__empty]: tagList.length === 0
-          })}>
+          <div
+            className={cn(styles.SideTagsMenu__searchContainer, {
+              [styles.SideTagsMenu__searchContainer__empty]:
+                tagList.length === 0,
+            })}
+          >
             <SearchInput
               className={styles.SideTagsMenu__Searchbar}
               inputClassName={styles.SideTagsMenu__Searchbar__input}

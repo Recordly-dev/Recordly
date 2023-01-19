@@ -39,7 +39,7 @@ const Folder = ({
     setCountOfMemosInFolder(filterWorkspaceList?.length);
   }, [uid, workspaceList, isLoading]);
 
-  const deleteFolder = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const deleteFolder = () => {
     Swal.fire({
       title: `Are you sure want to\ndelete the "${title}" folder?`,
       text: "Cannot revert deleted folders & inner memos",
@@ -53,8 +53,6 @@ const Folder = ({
         dispatch(actions.deleteFolderList({ uid }));
       }
     });
-    e.preventDefault();
-    e.stopPropagation();
   };
 
   const patchFolder = (e: React.MouseEvent<HTMLImageElement>) => {
@@ -86,7 +84,7 @@ const Folder = ({
     e.stopPropagation();
   };
 
-  const handleDropdownOpen = (e: any) => {
+  const handleDropdownOpen = (e: React.MouseEvent<Element>) => {
     setIsDropdownOpen((prev) => !prev);
 
     e.preventDefault();
@@ -96,8 +94,8 @@ const Folder = ({
   const dropdownItem = [
     {
       title: "Delete",
-      onClick: (e: any) => {
-        deleteFolder(e);
+      onClick: () => {
+        deleteFolder();
       },
     },
   ];
@@ -140,9 +138,6 @@ const Folder = ({
         <span className={styles.Folder__fileCount}>
           {countOfMemosInFolder} files
         </span>
-        {/* <div>
-          <Button onClick={deleteFolder}>삭제</Button>
-        </div> */}
       </div>
     </div>
   );

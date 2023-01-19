@@ -1,13 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEventHandler } from "react";
 
 import LibAvatar from "react-avatar";
+
+interface Avatar {
+  name: string;
+  round: boolean;
+  size: string;
+  src: string;
+  className?: string;
+}
 
 const Avatar = ({
   libAvatarProps,
   toggleDropdown,
 }: {
-  libAvatarProps: any;
-  toggleDropdown?: any;
+  libAvatarProps: Avatar;
+  toggleDropdown?: MouseEventHandler;
 }) => {
   const [mounted, setMounted] = useState(false);
 

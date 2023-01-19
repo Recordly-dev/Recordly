@@ -193,9 +193,9 @@ const MainHeader = ({
               <Avatar
                 toggleDropdown={toggleDropdown}
                 libAvatarProps={{
-                  src: userData?.profileImage,
-                  name: userData?.username,
-                  size: 40,
+                  src: userData?.profileImage!,
+                  name: userData?.username!,
+                  size: "40",
                   round: true,
                 }}
               />
