@@ -13,16 +13,18 @@ import {
 
 import TAG_KEYS from "./keys";
 
-// 태그 조회
+// 전체 태그 조회
 export const useGetTag = () => useQuery(TAG_KEYS.all(), getTag);
 
-//
+// 이름 순으로 정렬된 태그 조회
 export const useGetSortedTag = ({ type }: { type: string }) =>
   useQuery(TAG_KEYS.all(), () => getSortedTag({ type }));
 
+// 알파벳 순서로 정렬된 태그 조회
 export const useGetSortedAlphaTag = ({ isSort }: { isSort: boolean }) =>
   useQuery(TAG_KEYS.all(), () => getSortedAlphaTag({ isSort }));
 
+// 추천 태그 조회
 export const useGetRecommendedTag = ({
   text,
   workspaceId,
@@ -34,6 +36,7 @@ export const useGetRecommendedTag = ({
     getRecommendedTag({ text, workspaceId })
   );
 
+// 워크스페이스 내부 태그 목록 조회
 export const useGetWorkspaceTag = ({ uid }: { uid: string }) => {
   useQuery(TAG_KEYS.workspcaeTag(uid), () => getWorkspaceTag({ uid }));
 };
