@@ -16,40 +16,46 @@ import {
 
 import WORKSPACE_KEYS from "./keys";
 
-// 워크스페이스 조회
+// 전체 워크스페이스 조회
 export const useGetTag = () =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspace());
 
-export const useGetSortedTag = ({ type }: { type: string }) =>
+// type에 따라 정렬된 워크스페이스 조회
+export const useGetSortWorkspace = ({ type }: { type: string }) =>
   useQuery(WORKSPACE_KEYS.all(), () => getSortWorkspace({ type }));
 
+// 폴더 외부에 있는 워크스페이스 조회
 export const useGetWorkspaceOutsideOfFolder = () => {
   useQuery(WORKSPACE_KEYS.outsideOfFolder(), () =>
     getWorkspaceOutsideOfFolder()
   );
 };
 
+// 특정 폴더 안에 있는 워크스페이스 조회
 export const useGetWorkspaceInFolder = ({ uid }: { uid: string }) => {
   useQuery(WORKSPACE_KEYS.workspaceInFolder(uid), () =>
     getWorkspaceInFolder({ uid })
   );
 };
 
+// 특정 태그를 가진 워크스페이스 조회
 export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
   useQuery(WORKSPACE_KEYS.withTag(tagId), () =>
     getWorkspacesWithTag({ tagId })
   );
 };
 
+// 검색한 결과에 따른 워크스페이스 조회
 export const useGetSearchWorkspace = ({ value }: { value: string }) => {
   useQuery(WORKSPACE_KEYS.search(value), () => getSearchWorkspace({ value }));
 };
 
+// 즐겨찾기 되어있는 워크스페이스 조회
 export const useGetFavoritesWorkspace = () => {
   useQuery(WORKSPACE_KEYS.favoritesWorkspace(), () => getFavoritesWorkspace());
 };
 
-// 즐겨찾기 수정
+// 워크스페이스 즐겨찾기 수정
 export const usePatchFavoritesWorkspace = () => {
   const queryClient = useQueryClient();
 
