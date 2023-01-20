@@ -3,7 +3,7 @@ import axios from "axios";
 /**
  * 전체 태그 가져오기
  */
-export async function getTagList() {
+export async function getTag() {
   const { data } = await axios.get("/api/tag");
 
   return data;
@@ -12,7 +12,7 @@ export async function getTagList() {
 /**
  * 태그 목록 정렬하는 api
  */
-export async function getSortedTagList({ type }: { type: string }) {
+export async function getSortedTag({ type }: { type: string }) {
   const { data } = await axios.get("/api/tag");
 
   if (type === "basic") {
@@ -29,7 +29,7 @@ export async function getSortedTagList({ type }: { type: string }) {
 /**
  * 태그 목록 이름 순 정렬하는 api
  */
-export async function getSortedAlphaTagList({ isSort }: { isSort: boolean }) {
+export async function getSortedAlphaTag({ isSort }: { isSort: boolean }) {
   const { data } = await axios.get("/api/tag");
 
   if (isSort) {
@@ -46,7 +46,7 @@ export async function getSortedAlphaTagList({ isSort }: { isSort: boolean }) {
 /**
  * 파이썬 서버 추천 태그 가져오기
  */
-export async function getRecommendedTagList({
+export async function getRecommendedTag({
   text,
   workspaceId,
 }: {
@@ -77,7 +77,7 @@ export async function getRecommendedTagList({
 /**
  * 워크스페이스 안에 태그 목록 가져오는 api
  */
-export async function getWorkspaceTagList({ uid }: { uid: string }) {
+export async function getWorkspaceTag({ uid }: { uid: string }) {
   const params = {
     workspaceId: uid,
   };
