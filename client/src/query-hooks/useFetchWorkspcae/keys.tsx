@@ -2,9 +2,9 @@ const workspaceKeys = {
   all: () => ["workspace"],
   withTag: (tagId: string) => [...workspaceKeys.all(), tagId],
   search: (value: string) => [...workspaceKeys.all(), value],
-  outsideOfFolder: () => [...workspaceKeys.all(), "externalFolder"],
+  outsideOfFolder: () => [...workspaceKeys.all(), "outside"],
   workspaceInFolder: (folderId: string) => [...workspaceKeys.all(), folderId],
-  favoritesWorkspace: () => [...workspaceKeys.all(), "favorites"],
+  favoritedWorkspace: () => [...workspaceKeys.all(), "favorited"],
 };
 
 export default workspaceKeys;

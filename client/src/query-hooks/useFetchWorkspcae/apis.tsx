@@ -59,7 +59,11 @@ export async function getSearchWorkspace({ value }: { value: string }) {
 /**
  * 드롭다운(최신, 오래된 순)일 때 실행되는 api
  */
-export async function getSortWorkspace({ type }: { type: string }) {
+export async function getWorkspacesSortedByEditedAt({
+  type,
+}: {
+  type: string;
+}) {
   const { data } = await axios.get("/api/workspace");
 
   const sortedData = sortBy(data, "editedAt").reverse();
@@ -76,7 +80,7 @@ export async function getSortWorkspace({ type }: { type: string }) {
 /**
  * 즐겨찾기 workspace 불러오는 api
  */
-export async function getFavoritesWorkspace() {
+export async function getFavoratedWorkspace() {
   const { data } = await axios.get("/api/workspace/favorites");
 
   return data;

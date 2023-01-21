@@ -6,8 +6,8 @@ import {
   getWorkspaceInFolder,
   getWorkspacesWithTag,
   getSearchWorkspace,
-  getSortWorkspace,
-  getFavoritesWorkspace,
+  getWorkspacesSortedByEditedAt,
+  getFavoratedWorkspace,
   patchFavoritesWorkspace,
   postWorkspace,
   patchWorkspace,
@@ -21,8 +21,8 @@ export const useGetTag = () =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspace());
 
 // type에 따라 정렬된 워크스페이스 조회
-export const useGetSortWorkspace = ({ type }: { type: string }) =>
-  useQuery(WORKSPACE_KEYS.all(), () => getSortWorkspace({ type }));
+export const useGetWorkspacesSortedByEditedAt = ({ type }: { type: string }) =>
+  useQuery(WORKSPACE_KEYS.all(), () => getWorkspacesSortedByEditedAt({ type }));
 
 // 폴더 외부에 있는 워크스페이스 조회
 export const useGetWorkspaceOutsideOfFolder = () => {
@@ -51,8 +51,8 @@ export const useGetSearchWorkspace = ({ value }: { value: string }) => {
 };
 
 // 즐겨찾기 되어있는 워크스페이스 조회
-export const useGetFavoritesWorkspace = () => {
-  useQuery(WORKSPACE_KEYS.favoritesWorkspace(), () => getFavoritesWorkspace());
+export const useGetFavoratedWorkspace = () => {
+  useQuery(WORKSPACE_KEYS.favoritedWorkspace(), () => getFavoratedWorkspace());
 };
 
 // 워크스페이스 즐겨찾기 수정
@@ -64,7 +64,7 @@ export const usePatchFavoritesWorkspace = () => {
       patchFavoritesWorkspace({ uid, isFavorites }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(WORKSPACE_KEYS.favoritesWorkspace());
+        queryClient.invalidateQueries(WORKSPACE_KEYS.favoritedWorkspace());
       },
     }
   );
