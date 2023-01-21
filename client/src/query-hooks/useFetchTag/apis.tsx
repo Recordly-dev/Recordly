@@ -3,7 +3,7 @@ import axios from "axios";
 /**
  * 전체 태그 가져오기
  */
-export async function getTag() {
+export async function getTags() {
   const { data } = await axios.get("/api/tag");
 
   return data;
@@ -12,7 +12,7 @@ export async function getTag() {
 /**
  * 태그 목록 정렬하는 api
  */
-export async function getSortedTag({ type }: { type: string }) {
+export async function getTagsSortedByCount({ type }: { type: string }) {
   const { data } = await axios.get("/api/tag");
 
   if (type === "basic") {
@@ -29,7 +29,7 @@ export async function getSortedTag({ type }: { type: string }) {
 /**
  * 태그 목록 이름 순 정렬하는 api
  */
-export async function getSortedAlphaTag({ isSort }: { isSort: boolean }) {
+export async function getTagsSortedByName({ isSort }: { isSort: boolean }) {
   const { data } = await axios.get("/api/tag");
 
   if (isSort) {
@@ -77,7 +77,7 @@ export async function getRecommendedTag({
 /**
  * 워크스페이스 안에 태그 목록 가져오는 api
  */
-export async function getWorkspaceTag({ uid }: { uid: string }) {
+export async function getTagsInWorkspace({ uid }: { uid: string }) {
   const params = {
     workspaceId: uid,
   };

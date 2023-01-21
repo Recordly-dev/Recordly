@@ -1,11 +1,11 @@
 import { useQueryClient, useQuery, useMutation } from "react-query";
 
 import {
-  getTag,
-  getSortedTag,
-  getSortedAlphaTag,
+  getTags,
+  getTagsSortedByCount,
+  getTagsSortedByName,
   getRecommendedTag,
-  getWorkspaceTag,
+  getTagsInWorkspace,
   postTag,
   patchTag,
   deleteTag,
@@ -14,15 +14,15 @@ import {
 import TAG_KEYS from "./keys";
 
 // 전체 태그 조회
-export const useGetTag = () => useQuery(TAG_KEYS.all(), getTag);
+export const useGetTag = () => useQuery(TAG_KEYS.all(), getTags);
 
 // 이름 순으로 정렬된 태그 조회
-export const useGetSortedTag = ({ type }: { type: string }) =>
-  useQuery(TAG_KEYS.all(), () => getSortedTag({ type }));
+export const useGetTagsSortedByCount = ({ type }: { type: string }) =>
+  useQuery(TAG_KEYS.all(), () => getTagsSortedByCount({ type }));
 
 // 알파벳 순서로 정렬된 태그 조회
-export const useGetSortedAlphaTag = ({ isSort }: { isSort: boolean }) =>
-  useQuery(TAG_KEYS.all(), () => getSortedAlphaTag({ isSort }));
+export const useGetTagsSortedByName = ({ isSort }: { isSort: boolean }) =>
+  useQuery(TAG_KEYS.all(), () => getTagsSortedByName({ isSort }));
 
 // 추천 태그 조회
 export const useGetRecommendedTag = ({
@@ -37,8 +37,8 @@ export const useGetRecommendedTag = ({
   );
 
 // 워크스페이스 내부 태그 목록 조회
-export const useGetWorkspaceTag = ({ uid }: { uid: string }) => {
-  useQuery(TAG_KEYS.workspcaeTag(uid), () => getWorkspaceTag({ uid }));
+export const useGetTagsInWorkspace = ({ uid }: { uid: string }) => {
+  useQuery(TAG_KEYS.workspcaeTag(uid), () => getTagsInWorkspace({ uid }));
 };
 
 // 태그 생성
