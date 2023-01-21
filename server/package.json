@@ -10,7 +10,7 @@
     "server:ts": "NODE_ENV=development npx ts-node app.ts",
     "server:js": "NODE_ENV=development nodemon app.js",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register app.js",
-    "dev": "concurrently \"npm run server\" \"cd ../client && npm run start\""
+    "dev": "concurrently \"npm run server:ts\" \"cd ../client && npm run start\""
   },
   "keywords": [],
   "author": "",
