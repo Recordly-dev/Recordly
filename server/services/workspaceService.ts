@@ -1,6 +1,6 @@
-import modWorkspace from "../models/workspace.js";
+import modWorkspace from "../models/workspace";
 
-import serTag from "./tagService.js";
+import serTag from "./tagService";
 
 const deleteWorkspaceById = async (workspaceId) => {
   const findWorkspace = await modWorkspace.findOne({ _id: workspaceId });

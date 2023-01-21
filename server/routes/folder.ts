@@ -1,10 +1,10 @@
-import express from "express";
+import { Router } from "express";
 
-import folderApi from "#controllers/folderApi.js";
-import midAuth from "#middlewares/auth.js";
-import midError from "#middlewares/error.js";
+import folderApi from "../controllers/folderApi";
+import midAuth from "../middlewares/auth";
+import midError from "../middlewares/error";
 
-const router = express.Router();
+const router = Router();
 
 router
   .route("/")

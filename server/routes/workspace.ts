@@ -1,11 +1,12 @@
-import express from "express";
-import multer from "multer";
+import { Router } from "express";
+import { diskStorage } from "multer";
+import * as multer from "multer";
 
-import workspaceApi from "#controllers/workspaceApi.js";
-import midAuth from "#middlewares/auth.js";
-import midError from "#middlewares/error.js";
+import workspaceApi from "../controllers/workspaceApi";
+import midAuth from "../middlewares/auth";
+import midError from "../middlewares/error";
 
-const router = express.Router();
+const router = Router();
 
 router
   .route("/favorites")
@@ -57,7 +58,7 @@ router
   );
 
 const upload = multer({
-  storage: multer.diskStorage({
+  storage: diskStorage({
     destination(req, file, cb) {
       cb(null, "public/assets/images/thumbnail/");
     },

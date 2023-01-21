@@ -1,7 +1,6 @@
-import modTag from "#models/tag.js";
-import modWorkspace from "#models/workspace.js";
-
-import * as serTag from "../services/tagService.js";
+import modTag from "../models/tag";
+import modWorkspace from "../models/workspace";
+import serTag from "../services/tagService";
 
 const getTagsOfCurrentUser = async (req, res, next) => {
   try {

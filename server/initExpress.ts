@@ -1,14 +1,16 @@
-import express from "express";
-import morgan from "morgan";
-import connectRedis from "connect-redis";
-const redisStore = connectRedis(session);
-import http from "http";
-import session from "express-session";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import * as express from "express";
+import * as morgan from "morgan";
+import * as connectRedis from "connect-redis";
 
-import initOAuth from "./oauth.js";
-import routers from "./routes/index.js";
+import * as http from "http";
+import * as session from "express-session";
+import * as cors from "cors";
+import * as cookieParser from "cookie-parser";
+
+import initOAuth from "./oauth";
+import routers from "./routes/index";
+
+const redisStore = connectRedis(session);
 
 export default function initExpress(redisClient) {
   const app = express();

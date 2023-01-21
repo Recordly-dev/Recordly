@@ -1,5 +1,5 @@
-import modTag from "../models/tag.js";
-import modWorkspace from "../models/workspace.js";
+import modTag from "../models/tag";
+import modWorkspace from "../models/workspace";
 import * as moment from "moment-timezone";
 import { ObjectId } from "mongodb";
 

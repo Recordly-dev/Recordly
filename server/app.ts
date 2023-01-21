@@ -1,9 +1,9 @@
-import dotenv from "dotenv";
-import path from "path";
+import * as dotenv from "dotenv";
+import * as path from "path";
 
-import initMongo from "./mongo.js";
-import initRedis from "./redis.js";
-import initExpress from "./express.js";
+import initMongo from "./initMongo";
+import initRedis from "./initRedis";
+import initExpress from "./initExpress";
 
 const main = async () => {
   dotenv.config({
