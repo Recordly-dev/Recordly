@@ -15,12 +15,13 @@ export async function getWorkspaces() {
  * 폴더에 있는 것 빼고 전체 workspace 불러오는 api
  */
 export async function getWorkspaceOutsideOfFolder() {
-  const { data } = await axios.get("/api/folder");
+  const { data } = await axios.get("/api/workspace");
 
   const filterData = data.filter(
     (workspace: IWorkspace) => workspace.folder === null
   );
 
+  console.log(filterData);
   return filterData;
 }
 
@@ -82,7 +83,7 @@ export async function getWorkspacesSortedByEditedAt({
  */
 export async function getFavoratedWorkspace() {
   const { data } = await axios.get("/api/workspace/favorites");
-
+  console.log(data);
   return data;
 }
 
