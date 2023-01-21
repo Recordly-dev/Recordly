@@ -1,7 +1,7 @@
-import moment from "moment-timezone";
-import modWorkspace from "#models/workspace.js";
+import * as moment from "moment-timezone";
+import modWorkspace from "../models/workspace";
 
-import serWorkspace from "../services/workspaceService.js";
+import serWorkspace from "../services/workspaceService";
 
 const getWorkspacesOfCurrentUser = async (req, res, next) => {
   try {
@@ -62,7 +62,7 @@ const getFavoritesWorkspaceList = async (req, res, next) => {
       .sort({ editedAt: -1 });
 
     res.json(workspaces);
-  } catch {
+  } catch (err) {
     console.log(err);
     next(err);
   }

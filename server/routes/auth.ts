@@ -1,20 +1,19 @@
-import express from "express";
-import passport from "passport";
+import { Router } from "express";
+import * as passport from "passport";
 
-import midAuth from "#middlewares/auth.js";
-import midError from "#middlewares/error.js";
-import authApi from "#controllers/authApi.js";
+import midAuth from "../middlewares/auth";
+import midError from "../middlewares/error";
+import authApi from "../controllers/authApi";
 
-const router = express.Router();
+const router = Router();
 
 router
   .route("/google")
-  .get(
-    midError.asyncWrapper(midAuth.checkNotLogin),
+  .get(midError.asyncWrapper(midAuth.checkNotLogin), () =>
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
-router.route("/google/callback").get(
+router.route("/google/callback").get(() =>
   passport.authenticate("google", {
     successRedirect: "http://localhost:3000/main",
     failureRedirect: "http://localhost:3000",

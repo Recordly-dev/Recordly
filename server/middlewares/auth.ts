@@ -1,6 +1,6 @@
-import modUser from "#models/user.js";
+import modUser from "../models/user";
 
-import ForbiddenError from "#error/ForbiddenError.js";
+import ForbiddenError from "../utils/error/ForbiddenError";
 
 const checkLogin = async (req, res, next) => {
   if (!req?.user || !(await modUser.exists({ _id: req.user.id }))) {

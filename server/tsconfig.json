@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "moduleResolution": "Node",
+    "lib": ["es5", "es6"],
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+    // "paths": {
+    //   "#middlewares/*": ["./middlewares/*"],
+    //   "#models/*": ["./models/*"],
+    //   "#controllers/*": ["./controllers/*"],
+    //   "#error/*": ["./utils/error/*"]
+    // }
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "dist"]
+}
