@@ -1,5 +1,5 @@
 const folderKeys = {
-  folder: () => ["folder"],
+  all: () => ["folder"],
 };
 
 export default folderKeys;

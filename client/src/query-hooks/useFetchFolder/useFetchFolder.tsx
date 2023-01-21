@@ -6,7 +6,7 @@ import FOLDER_KEYS from "./keys";
 
 // 폴더 조회
 export const useGetFolder = () =>
-  useQuery(FOLDER_KEYS.folder(), () => getFolder());
+  useQuery(FOLDER_KEYS.all(), () => getFolder());
 
 // 폴더 생성
 export const usePostFolder = () => {
@@ -14,7 +14,7 @@ export const usePostFolder = () => {
 
   return useMutation(({ title }: { title: string }) => postFolder({ title }), {
     onSuccess: () => {
-      queryClient.invalidateQueries(FOLDER_KEYS.folder());
+      queryClient.invalidateQueries(FOLDER_KEYS.all());
     },
   });
 };
@@ -28,7 +28,7 @@ export const usePatchFolder = () => {
       patchFolder({ title, uid }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(FOLDER_KEYS.folder());
+        queryClient.invalidateQueries(FOLDER_KEYS.all());
       },
     }
   );
@@ -40,7 +40,7 @@ export const useDeleteFolder = () => {
 
   return useMutation(({ uid }: { uid: string }) => deleteFolder({ uid }), {
     onSuccess: () => {
-      queryClient.invalidateQueries(FOLDER_KEYS.folder());
+      queryClient.invalidateQueries(FOLDER_KEYS.all());
     },
   });
 };
