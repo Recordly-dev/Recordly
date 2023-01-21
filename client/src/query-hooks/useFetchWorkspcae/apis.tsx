@@ -5,7 +5,7 @@ import { IWorkspace } from "../../types/workspace";
 /**
  * 전체 workspace 불러오는 api
  */
-export async function getWorkspace() {
+export async function getWorkspaces() {
   const { data } = await axios.get("/api/workspace");
 
   return data;

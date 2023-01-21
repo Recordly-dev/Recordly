@@ -1,7 +1,7 @@
 import { useQueryClient, useQuery, useMutation } from "react-query";
 
 import {
-  getWorkspace,
+  getWorkspaces,
   getWorkspaceOutsideOfFolder,
   getWorkspaceInFolder,
   getWorkspacesWithTag,
@@ -17,8 +17,8 @@ import {
 import WORKSPACE_KEYS from "./keys";
 
 // 전체 워크스페이스 조회
-export const useGetTag = () =>
-  useQuery(WORKSPACE_KEYS.all(), () => getWorkspace());
+export const useGetWorkspaces = () =>
+  useQuery(WORKSPACE_KEYS.all(), () => getWorkspaces());
 
 // type에 따라 정렬된 워크스페이스 조회
 export const useGetWorkspacesSortedByEditedAt = ({ type }: { type: string }) =>
