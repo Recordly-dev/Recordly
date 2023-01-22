@@ -1,12 +1,14 @@
+import { NextFunction, Request, Response } from "express";
+
 import modFolder from "../models/folder";
 import modWorkspace from "../models/workspace";
 
 import serWorkspace from "../services/workspaceService";
 
-const getFolders = async (req, res, next) => {
+const getFolders = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const folders = await modFolder
-      .find({ writer: req.user.id })
+      .find({ writer: req.user._id })
       .sort({ title: 1 });
 
     res.json(folders);
@@ -16,10 +18,14 @@ const getFolders = async (req, res, next) => {
   }
 };
 
-const createFolder = async (req, res, next) => {
+const createFolder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { title } = req.body;
-    const { id: writerId } = req.user;
+    const { _id: writerId } = req.user;
     const folder = await modFolder.create({
       title: title,
       writer: writerId,
@@ -32,7 +38,7 @@ const createFolder = async (req, res, next) => {
   }
 };
 
-const patchFolder = async (req, res, next) => {
+const patchFolder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { folderId, title: newTitle } = req.body;
 
@@ -50,7 +56,11 @@ const patchFolder = async (req, res, next) => {
   }
 };
 
-const deleteFolder = async (req, res, next) => {
+const deleteFolder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const folderId = req.params.folderId;
     await modFolder.deleteOne({ _id: folderId });
@@ -63,7 +73,11 @@ const deleteFolder = async (req, res, next) => {
   }
 };
 
-const getWorkspacesInFolder = async (req, res, next) => {
+const getWorkspacesInFolder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const folderId = req.params.folderId;
 

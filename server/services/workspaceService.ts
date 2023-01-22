@@ -1,8 +1,9 @@
+import { Types } from "mongoose";
 import modWorkspace from "../models/workspace";
 
 import serTag from "./tagService";
 
-const deleteWorkspaceById = async (workspaceId) => {
+const deleteWorkspaceById = async (workspaceId: Types.ObjectId | string) => {
   const findWorkspace = await modWorkspace.findOne({ _id: workspaceId });
   findWorkspace.tags.forEach(({ _id: tagId }) => {
     serTag.deleteWorkspaceInTag(tagId, workspaceId);
@@ -13,7 +14,7 @@ const deleteWorkspaceById = async (workspaceId) => {
   return true;
 };
 
-const deleteWorkspacesInFolder = async (folderId) => {
+const deleteWorkspacesInFolder = async (folderId: Types.ObjectId | string) => {
   const workspaces = await modWorkspace.find({
     folder: folderId,
   });
@@ -24,7 +25,7 @@ const deleteWorkspacesInFolder = async (folderId) => {
   return { deleted: true };
 };
 
-const getWorkspaceById = async (workspaceId) => {
+const getWorkspaceById = async (workspaceId: Types.ObjectId | string) => {
   return await modWorkspace
     .findOne({ _id: workspaceId })
     .populate("tags", "name");

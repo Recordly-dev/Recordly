@@ -9,11 +9,12 @@ const router = Router();
 
 router
   .route("/google")
-  .get(midError.asyncWrapper(midAuth.checkNotLogin), () =>
+  .get(
+    midError.asyncWrapper(midAuth.checkNotLogin),
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
-router.route("/google/callback").get(() =>
+router.route("/google/callback").get(
   passport.authenticate("google", {
     successRedirect: "http://localhost:3000/main",
     failureRedirect: "http://localhost:3000",

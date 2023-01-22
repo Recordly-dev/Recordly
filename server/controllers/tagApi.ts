@@ -1,10 +1,16 @@
+import { NextFunction, Request, Response } from "express";
+
 import modTag from "../models/tag";
 import modWorkspace from "../models/workspace";
 import serTag from "../services/tagService";
 
-const getTagsOfCurrentUser = async (req, res, next) => {
+const getTagsOfCurrentUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { id: writerId } = req.user;
+    const { _id: writerId } = req.user;
     const tags = await modTag
       .find({ writer: writerId })
       .populate("workspaces", "title");
@@ -16,9 +22,9 @@ const getTagsOfCurrentUser = async (req, res, next) => {
   }
 };
 
-const createTag = async (req, res, next) => {
+const createTag = async (req: Request, res: Response, next: NextFunction) => {
   const { name: tagName, workspaceId } = req.body;
-  const { id: writerId } = req.user;
+  const { _id: writerId } = req.user;
   try {
     const retTag = await serTag.addTag(tagName, writerId, workspaceId);
     res.json(retTag);
@@ -28,7 +34,7 @@ const createTag = async (req, res, next) => {
   }
 };
 
-const deleteTag = async (req, res, next) => {
+const deleteTag = async (req: Request, res: Response, next: NextFunction) => {
   const tagId = req.params.tagId;
   const { workspaceId } = req.body;
 
@@ -41,9 +47,9 @@ const deleteTag = async (req, res, next) => {
   }
 };
 
-const patchTag = async (req, res, next) => {
+const patchTag = async (req: Request, res: Response, next: NextFunction) => {
   const prevTagId = req.params.tagId;
-  const { id: writerId } = req.user;
+  const { _id: writerId } = req.user;
   const { workspaceId, tagName } = req.body;
 
   try {
@@ -59,7 +65,11 @@ const patchTag = async (req, res, next) => {
   }
 };
 
-const getWokrspacesWithTag = async (req, res, next) => {
+const getWokrspacesWithTag = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const tagId = req.params.tagId;
 
   const findTag = await serTag.getTagById(tagId);

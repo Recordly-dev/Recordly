@@ -5,20 +5,20 @@ import { Express } from "express-serve-static-core";
 import { VerifyCallback } from "passport-google-oauth2";
 
 import modUser from "./models/user";
-import { IUser } from "types/user";
+import { IUser } from "types/models/user";
 
 export default function initOAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
   // 최초 회원 가입 시 실행
-  passport.serializeUser(function (user, done) {
+  passport.serializeUser((user, done) => {
     console.log("serializeUser!!");
-    done(null, user);
+    done(null, user._id);
   });
 
   // 기존 회원 로그인 시 실행
-  passport.deserializeUser(function (id, done) {
+  passport.deserializeUser((id, done) => {
     modUser.findById(id, (err: NativeError | null, user: IUser) => {
       done(err, user);
     });
@@ -46,20 +46,20 @@ export default function initOAuth(app: Express) {
           picture: profileImage,
         } = profile;
         try {
-          const findedUser = modUser.findOne({ email });
+          const findedUser = await modUser.findOne({ email }).lean().exec();
           if (findedUser) {
-            done(findedUser);
+            done(null, findedUser);
           } else {
-            const createdUser = modUser.create({
+            const createdUser = await modUser.create({
               email,
               username,
               oauthId,
               profileImage,
             });
-            done(createdUser);
+            done(null, createdUser);
           }
         } catch (err) {
-          done(err);
+          done(err, null);
         }
       }
     )

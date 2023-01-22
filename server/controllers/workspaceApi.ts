@@ -1,12 +1,17 @@
 import * as moment from "moment-timezone";
-import modWorkspace from "../models/workspace";
+import { NextFunction, Request, Response } from "express";
 
+import modWorkspace from "../models/workspace";
 import serWorkspace from "../services/workspaceService";
 
-const getWorkspacesOfCurrentUser = async (req, res, next) => {
+const getWorkspacesOfCurrentUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const workspaces = await modWorkspace
-      .find({ writer: req.user.id })
+      .find({ writer: req.user._id })
       .populate("tags", "name")
       .select({ content: 0 })
       .sort({ editedAt: -1 })
@@ -18,10 +23,14 @@ const getWorkspacesOfCurrentUser = async (req, res, next) => {
   }
 };
 
-const createWorkspace = async (req, res, next) => {
+const createWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { title, workspaceType } = req.body;
-    const { id: writerId } = req.user;
+    const { _id: writerId } = req.user;
 
     const workspace = await modWorkspace.create({
       title,
@@ -40,7 +49,11 @@ const createWorkspace = async (req, res, next) => {
   }
 };
 
-const getSingleWorkspace = async (req, res, next) => {
+const getSingleWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const workspaceId = req.params.workspaceId;
     const workspace = await modWorkspace
@@ -53,10 +66,14 @@ const getSingleWorkspace = async (req, res, next) => {
   }
 };
 
-const getFavoritesWorkspaceList = async (req, res, next) => {
+const getFavoritesWorkspaceList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const workspaces = await modWorkspace
-      .find({ writer: req.user.id, favorites: true })
+      .find({ writer: req.user._id, favorites: true })
       .populate("tags", "name")
       .select({ content: 0 })
       .sort({ editedAt: -1 });
@@ -68,7 +85,11 @@ const getFavoritesWorkspaceList = async (req, res, next) => {
   }
 };
 
-const patchSingleWorkspace = async (req, res, next) => {
+const patchSingleWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     await modWorkspace.updateOne(
       { _id: req.params.workspaceId },
@@ -85,7 +106,11 @@ const patchSingleWorkspace = async (req, res, next) => {
   }
 };
 
-const patchFavoritesWorkspace = async (req, res, next) => {
+const patchFavoritesWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { workspaceId, isFavorites } = req.body;
 
@@ -102,7 +127,11 @@ const patchFavoritesWorkspace = async (req, res, next) => {
   }
 };
 
-const deleteSingleWorkspace = async (req, res, next) => {
+const deleteSingleWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const workspaceId = req.params.workspaceId;
   try {
     serWorkspace.deleteWorkspaceById(workspaceId);
@@ -113,7 +142,11 @@ const deleteSingleWorkspace = async (req, res, next) => {
   }
 };
 
-const saveRecommendedTags = async (req, res, next) => {
+const saveRecommendedTags = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const workspaceId = req.params.workspaceId;
   const { recommendedTags } = req.body;
   try {

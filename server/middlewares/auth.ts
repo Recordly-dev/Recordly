@@ -13,8 +13,12 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-const checkNotLogin = (req: Request, res: Response, next: NextFunction) => {
-  if (req?.user) {
+const checkNotLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user && (await modUser.exists({ _id: req.user._id }))) {
     res.redirect(`${process.env.PROTOCOL}://${process.env.CLIENT_HOST}/main`);
     return;
   }
