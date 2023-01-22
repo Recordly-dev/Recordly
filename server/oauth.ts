@@ -1,9 +1,13 @@
 import * as passport from "passport";
 import { Strategy } from "passport-google-oauth2";
+import { Request } from "express";
+import { Express } from "express-serve-static-core";
+import { VerifyCallback } from "passport-google-oauth2";
 
 import modUser from "./models/user";
+import { IUser } from "types/user";
 
-export default function initOAuth(app) {
+export default function initOAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -15,8 +19,8 @@ export default function initOAuth(app) {
 
   // 기존 회원 로그인 시 실행
   passport.deserializeUser(function (id, done) {
-    modUser.findById(id, (err, user) => {
-      done(null, user);
+    modUser.findById(id, (err: NativeError | null, user: IUser) => {
+      done(err, user);
     });
   });
 
@@ -28,7 +32,13 @@ export default function initOAuth(app) {
         callbackURL: `${process.env.PROTOCOL}://${process.env.SERVER_HOST}/api/auth/google/callback`,
         passReqToCallback: true,
       },
-      async (request, accessToken, refreshToken, profile, done) => {
+      async (
+        request: Request,
+        accessToken: string,
+        refreshToken: string,
+        profile: any,
+        done: VerifyCallback
+      ) => {
         const {
           email,
           displayName: username,

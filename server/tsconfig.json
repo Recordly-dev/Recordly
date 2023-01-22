@@ -8,7 +8,9 @@
     "lib": ["es5", "es6"],
     "baseUrl": ".",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "typeRoots": ["./node_modules/@types", "./types"]
     // "paths": {
     //   "#middlewares/*": ["./middlewares/*"],
     //   "#models/*": ["./models/*"],

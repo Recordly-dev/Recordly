@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "server": "NODE_ENV=development npm run build:live",
-    "server:ts": "NODE_ENV=development npx ts-node app.ts",
+    "server:ts": "NODE_ENV=development nodemon --exec ts-node --files app.ts",
     "server:js": "NODE_ENV=development nodemon app.js",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register app.js",
     "dev": "concurrently \"npm run server:ts\" \"cd ../client && npm run start\""
@@ -47,6 +47,10 @@
     "#error/*": "./utils/error/*"
   },
   "devDependencies": {
+    "@types/connect-redis": "^0.0.19",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/morgan": "^1.9.4",
     "@types/multer": "^1.4.7",
     "@types/passport": "^1.0.11",
     "@types/passport-google-oauth2": "^0.1.5",
