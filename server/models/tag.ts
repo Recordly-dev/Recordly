@@ -1,7 +1,8 @@
 import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import { ITag } from "../types/models/tag";
 
-const tagSchema = new mongoose.Schema({
+const tagSchema = new Schema<ITag>({
   name: {
     type: String,
     required: true,
@@ -16,4 +17,4 @@ const tagSchema = new mongoose.Schema({
 
 tagSchema.index({ name: 1, writer: 1 }, { unique: true });
 
-export default mongoose.model("Tag", tagSchema);
+export default model("Tag", tagSchema);

@@ -28,9 +28,9 @@ export default function initExpress(redisClient: RedisClientType) {
   app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(
     session({
+      secret: process.env.COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
-      secret: process.env.COOKIE_SECRET,
       store: new redisStore({
         port: 6379,
         client: redisClient,

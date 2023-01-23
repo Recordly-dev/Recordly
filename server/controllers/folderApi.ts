@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import * as mongodb from "mongodb";
 
 import modFolder from "../models/folder";
 import modWorkspace from "../models/workspace";
-
 import serWorkspace from "../services/workspaceService";
+import AuthenticationError from "../utils/error/AuthenticationError";
 
 const getFolders = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+
   try {
     const folders = await modFolder
       .find({ writer: req.user._id })
@@ -24,6 +29,10 @@ const createFolder = async (
   next: NextFunction
 ) => {
   try {
+    if (!req.user) {
+      throw new AuthenticationError();
+    }
+
     const { title } = req.body;
     const { _id: writerId } = req.user;
     const folder = await modFolder.create({
@@ -61,8 +70,8 @@ const deleteFolder = async (
   res: Response,
   next: NextFunction
 ) => {
+  const folderId = new mongodb.ObjectId(req.params.folderId);
   try {
-    const folderId = req.params.folderId;
     await modFolder.deleteOne({ _id: folderId });
     await serWorkspace.deleteWorkspacesInFolder(folderId);
 

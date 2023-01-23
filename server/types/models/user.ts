@@ -1,7 +1,6 @@
-import { Types } from "mongoose";
+import { Document } from "mongoose";
 
-export interface IUser {
-  _id: Types.ObjectId;
+export interface IUser extends Document {
   username: string;
   profileImage?: string;
   oauthId: string;

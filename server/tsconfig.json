@@ -10,7 +10,14 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true
     // "paths": {
     //   "#middlewares/*": ["./middlewares/*"],
     //   "#models/*": ["./models/*"],

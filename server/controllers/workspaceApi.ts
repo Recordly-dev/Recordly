@@ -1,14 +1,19 @@
 import * as moment from "moment-timezone";
 import { NextFunction, Request, Response } from "express";
+import * as mongodb from "mongodb";
 
 import modWorkspace from "../models/workspace";
 import serWorkspace from "../services/workspaceService";
+import AuthenticationError from "../utils/error/AuthenticationError";
 
 const getWorkspacesOfCurrentUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
   try {
     const workspaces = await modWorkspace
       .find({ writer: req.user._id })
@@ -29,6 +34,9 @@ const createWorkspace = async (
   next: NextFunction
 ) => {
   try {
+    if (!req.user) {
+      throw new AuthenticationError();
+    }
     const { title, workspaceType } = req.body;
     const { _id: writerId } = req.user;
 
@@ -71,6 +79,9 @@ const getFavoritesWorkspaceList = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
   try {
     const workspaces = await modWorkspace
       .find({ writer: req.user._id, favorites: true })
@@ -132,7 +143,7 @@ const deleteSingleWorkspace = async (
   res: Response,
   next: NextFunction
 ) => {
-  const workspaceId = req.params.workspaceId;
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   try {
     serWorkspace.deleteWorkspaceById(workspaceId);
     res.json({ data: "delete completed" });
