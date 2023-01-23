@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
 
-import { IWorkspace } from "types/models/workspace";
+import { IWorkspace } from "../types/models/workspace";
 
 const workspaceSchema = new Schema<IWorkspace>({
   title: {

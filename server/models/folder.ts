@@ -1,4 +1,4 @@
-import { IFolder } from "types/models/folder";
+import { IFolder } from "../types/models/folder";
 
 import { ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
