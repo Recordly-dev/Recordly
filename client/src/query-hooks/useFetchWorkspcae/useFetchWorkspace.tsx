@@ -20,40 +20,35 @@ import WORKSPACE_KEYS from "./keys";
 export const useGetWorkspaces = () =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspaces());
 
+// 즐겨찾기 되어있는 워크스페이스 조회
+export const useGetFavoratedWorkspace = () =>
+  useQuery(WORKSPACE_KEYS.favoritedWorkspace(), () => getFavoratedWorkspace());
+
 // type에 따라 정렬된 워크스페이스 조회
 export const useGetWorkspacesSortedByEditedAt = ({ type }: { type: string }) =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspacesSortedByEditedAt({ type }));
 
 // 폴더 외부에 있는 워크스페이스 조회
-export const useGetWorkspaceOutsideOfFolder = () => {
+export const useGetWorkspaceOutsideOfFolder = () =>
   useQuery(WORKSPACE_KEYS.outsideOfFolder(), () =>
     getWorkspaceOutsideOfFolder()
   );
-};
 
 // 특정 폴더 안에 있는 워크스페이스 조회
-export const useGetWorkspaceInFolder = ({ uid }: { uid: string }) => {
+export const useGetWorkspaceInFolder = ({ uid }: { uid: string }) =>
   useQuery(WORKSPACE_KEYS.workspaceInFolder(uid), () =>
     getWorkspaceInFolder({ uid })
   );
-};
 
 // 특정 태그를 가진 워크스페이스 조회
-export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
+export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) =>
   useQuery(WORKSPACE_KEYS.withTag(tagId), () =>
     getWorkspacesWithTag({ tagId })
   );
-};
 
 // 검색한 결과에 따른 워크스페이스 조회
-export const useGetSearchWorkspace = ({ value }: { value: string }) => {
+export const useGetSearchWorkspace = ({ value }: { value: string }) =>
   useQuery(WORKSPACE_KEYS.search(value), () => getSearchWorkspace({ value }));
-};
-
-// 즐겨찾기 되어있는 워크스페이스 조회
-export const useGetFavoratedWorkspace = () => {
-  useQuery(WORKSPACE_KEYS.favoritedWorkspace(), () => getFavoratedWorkspace());
-};
 
 // 워크스페이스 즐겨찾기 수정
 export const usePatchFavoritesWorkspace = () => {
@@ -86,22 +81,32 @@ export const usePostWorkspace = () => {
 };
 
 // 워크스페이스 수정
-export const usePatchWorkspace = () => {
+export const usePatchWorkspace = ({
+  folderId,
+}: {
+  folderId: string | null;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation(
     ({
       workspaceId,
       folder,
+      folderId,
       title,
     }: {
       workspaceId: string;
       title?: string;
+      folderId?: string | null;
       folder?: string | null;
-    }) => patchWorkspace({ workspaceId, title, folder }),
+    }) => patchWorkspace({ workspaceId, title, folder, folderId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(WORKSPACE_KEYS.outsideOfFolder());
+        queryClient.invalidateQueries(
+          WORKSPACE_KEYS.workspaceInFolder(folderId)
+        );
+        queryClient.invalidateQueries(WORKSPACE_KEYS.all());
       },
     }
   );
@@ -117,6 +122,7 @@ export const useDeleteWorkspace = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(WORKSPACE_KEYS.outsideOfFolder());
+        queryClient.invalidateQueries(WORKSPACE_KEYS.all());
       },
     }
   );

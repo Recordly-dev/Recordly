@@ -21,7 +21,6 @@ export async function getWorkspaceOutsideOfFolder() {
     (workspace: IWorkspace) => workspace.folder === null
   );
 
-  console.log(filterData);
   return filterData;
 }
 
@@ -83,7 +82,7 @@ export async function getWorkspacesSortedByEditedAt({
  */
 export async function getFavoratedWorkspace() {
   const { data } = await axios.get("/api/workspace/favorites");
-  console.log(data);
+
   return data;
 }
 
@@ -127,16 +126,19 @@ export async function postWorkspace({
 export async function patchWorkspace({
   workspaceId,
   folder,
+  folderId,
   title,
 }: {
   workspaceId: string;
   title?: string;
+  folderId?: string | null;
   folder?: string | null;
 }) {
   await axios.patch(`/api/workspace/${workspaceId}`, {
-    workspaceId: workspaceId,
-    folder: folder,
-    title: title,
+    workspaceId,
+    folder,
+    folderId,
+    title,
   });
 }
 
