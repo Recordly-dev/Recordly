@@ -37,7 +37,6 @@ const Folder = ({
       (workspace: IWorkspace) => workspace.folder === uid
     );
     setCountOfMemosInFolder(filterWorkspaceList?.length);
-    console.log("1");
   }, [uid, workspaces, isLoading]);
 
   const deleteFolder = () => {
