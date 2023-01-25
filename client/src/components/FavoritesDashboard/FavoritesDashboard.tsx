@@ -1,43 +1,34 @@
-import React, { useEffect } from "react";
 import cn from "classnames";
-import { useDispatch } from "store";
 
 import { Container } from "reactstrap";
+
+import { useGetFavoratedWorkspace } from "query-hooks/useFetchWorkspcae";
 
 import WorkspaceList from "components/WorkspaceList";
 import EmptyDashboard from "components/EmptyDashboard";
 import CreateFileButton from "components/CreateFileButton";
 
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
-import { actions as folderActions } from "store/slice/folderSlice";
-
 import styles from "./FavoritesDashboard.module.scss";
 
 const FavoritesDashboard = ({
   isFavoritesPage,
-  isEmptyDashboard,
-  isLoadingData,
 }: {
   isFavoritesPage: boolean;
-  isEmptyDashboard: boolean;
-  isLoadingData: boolean;
 }) => {
-  const dispatch = useDispatch();
+  const { data: favoritedWorkspaces, isLoading } = useGetFavoratedWorkspace();
 
-  useEffect(() => {
-    dispatch(workspaceActions.fetchFavoritesWorkspaceList());
-    dispatch(folderActions.setInitialFolderList());
-  }, []);
+  const isEmptyFavoritedWorkspace = favoritedWorkspaces?.length === 0;
 
   return (
     <section className={cn(styles.FavoritesDashboard)}>
       <Container fluid className={styles.FavoritesDashboard__fileList}>
-        {isEmptyDashboard ? (
+        {isEmptyFavoritedWorkspace ? (
           <EmptyDashboard isFavoritesPage />
         ) : (
           <WorkspaceList
-            isLoadingData={isLoadingData}
+            isLoadingData={isLoading}
             isFavoritesPage={isFavoritesPage}
+            workspaces={favoritedWorkspaces}
           />
         )}
       </Container>
