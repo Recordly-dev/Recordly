@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { actions } from "store/slice/folderSlice";
-import { useDispatch } from "store";
+import { usePatchFolder, useDeleteFolder } from "query-hooks/useFetchFolder";
+import { useGetWorkspaces } from "query-hooks/useFetchWorkspcae";
 
 import folderIcon from "./assets/images/Folder.png";
 import dropdownIcon from "./assets/images/Dropdown.png";
 import EditIcon from "common/assets/icons/EditIcon";
+import EditDropdown from "../EditDropdown";
 
 import { IWorkspace } from "types/workspace";
-
-import EditDropdown from "../EditDropdown";
 
 import styles from "./Folder.module.scss";
 
@@ -20,24 +19,26 @@ const Folder = ({
   title,
   isLoading,
   moveFolderDetailPage,
-  workspaceList,
 }: {
   uid: string;
   title: string;
   isLoading: boolean;
   moveFolderDetailPage: Function;
-  workspaceList: IWorkspace[];
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [countOfMemosInFolder, setCountOfMemosInFolder] = useState(0);
-  const dispatch = useDispatch();
+
+  const { data: workspaces } = useGetWorkspaces();
+  const { mutateAsync: mutatePatchFolder } = usePatchFolder();
+  const { mutateAsync: mutateDeleteFolder } = useDeleteFolder();
 
   useEffect(() => {
-    const filterWorkspaceList = workspaceList.filter(
+    const filterWorkspaceList = workspaces.filter(
       (workspace: IWorkspace) => workspace.folder === uid
     );
     setCountOfMemosInFolder(filterWorkspaceList?.length);
-  }, [uid, workspaceList, isLoading]);
+    console.log("1");
+  }, [uid, workspaces, isLoading]);
 
   const deleteFolder = () => {
     Swal.fire({
@@ -50,7 +51,9 @@ const Folder = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(actions.deleteFolderList({ uid }));
+        mutateDeleteFolder({
+          uid,
+        });
       }
     });
   };
@@ -72,12 +75,10 @@ const Folder = ({
       allowOutsideClick: () => !Swal.isLoading(),
     }).then(async (res) => {
       if (res.isConfirmed) {
-        dispatch(
-          actions.patchFolderList({
-            uid: uid,
-            title: res?.value,
-          })
-        );
+        await mutatePatchFolder({
+          uid,
+          title: res?.value,
+        });
       }
     });
     e.preventDefault();
