@@ -19,9 +19,11 @@ import styles from "./MainDashboard.module.scss";
 const MainDashboard = ({
   isFolderDetailPage,
   isTagPage,
+  isSearch,
 }: {
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
+  isSearch: boolean;
 }) => {
   const currentFolderId: string = useSelector(
     (state: any) => state.folder.currentFolderId
@@ -55,6 +57,8 @@ const MainDashboard = ({
 
   const isEmptyWorkspaces = workspaces?.length === 0;
 
+  const isViewFolderList = !isFolderDetailPage && !isTagPage && !isSearch;
+
   return (
     <section
       className={cn(styles.MainDashboard, {
@@ -71,9 +75,7 @@ const MainDashboard = ({
           <EmptyDashboard isTagPage={isTagPage} />
         ) : (
           <>
-            {!isFolderDetailPage && !isTagPage && (
-              <FolderList isLoadingData={isLoading} />
-            )}
+            {isViewFolderList && <FolderList isLoadingData={isLoading} />}
             <WorkspaceList
               isLoadingData={isLoading}
               isTagPage={isTagPage}

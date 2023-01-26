@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Input, InputGroup, InputGroupText } from "reactstrap";
+import { useQueryClient } from "react-query";
 
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
-import { actions as folderListActions } from "store/slice/folderSlice";
-import { useDispatch } from "store";
+import { useGetSearchWorkspace } from "query-hooks/useFetchWorkspcae";
 
 import SearchInput from "components/SearchInput";
 import styles from "./SearchBar.module.scss";
@@ -11,40 +9,30 @@ import styles from "./SearchBar.module.scss";
 const SearchBar = ({
   isFavoritesPage,
   isTagPage,
+  setIsSearch,
 }: {
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
+  setIsSearch: Function;
 }) => {
-  const dispatch = useDispatch();
-
   const [searchValue, setSearchValue] = useState("");
+
+  const { data } = useGetSearchWorkspace({
+    value: searchValue,
+    isFavoritesPage: !!isFavoritesPage,
+    isTagPage: !!isTagPage,
+  });
+
+  useEffect(() => {
+    if (searchValue === "") {
+      setIsSearch(false);
+      return;
+    }
+    setIsSearch(true);
+  }, [searchValue, setIsSearch]);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-
-    if (e.target.value === "") {
-      dispatch(
-        workspaceActions.filterWorkspaceList({
-          value: "",
-          isFavoritesPage: !!isFavoritesPage,
-          isTagPage: !!isTagPage,
-        })
-      );
-      !isTagPage && dispatch(folderListActions.fetchFolderList());
-    }
-  };
-
-  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      dispatch(
-        workspaceActions.filterWorkspaceList({
-          value: searchValue,
-          isFavoritesPage: !!isFavoritesPage,
-          isTagPage: !!isTagPage,
-        })
-      );
-      !isTagPage && dispatch(folderListActions.setInitialFolderList());
-    }
   };
 
   return (
@@ -54,7 +42,6 @@ const SearchBar = ({
       value={searchValue}
       placeholder="Search"
       onChange={handleChangeSearchValue}
-      onKeyDown={handleOnKeyPress}
     />
   );
 };
