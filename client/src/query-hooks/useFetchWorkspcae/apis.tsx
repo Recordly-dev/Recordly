@@ -45,16 +45,46 @@ export async function getWorkspacesWithTag({ tagId }: { tagId: string }) {
 /**
  * 검색에 포함된 workspace 불러오는 api
  */
-export async function getSearchWorkspace({ value }: { value: string }) {
-  const { data } = await axios.get("/api/workspace");
+export async function getSearchWorkspace({
+  value,
+  isFavoritesPage,
+  isTagPage,
+}: {
+  value: string;
+  isFavoritesPage: boolean;
+  isTagPage: boolean;
+}) {
+  if (isFavoritesPage) {
+    const { data: workspaces } = await axios.get("/api/workspace/favorites");
 
-  return data?.filter((v: IWorkspace) => {
-    if (value.length === 0) {
-      return v.folder === null;
-    } else {
-      return v.title.includes(value);
-    }
-  });
+    return workspaces.filter((v: IWorkspace) => {
+      if (value.length === 0) {
+        return v;
+      } else {
+        return v.title.includes(value);
+      }
+    });
+  } else if (isTagPage) {
+    const { data: workspaces } = await axios.get("/api/workspace");
+
+    return workspaces.filter((v: IWorkspace) => {
+      if (value.length === 0) {
+        return v;
+      } else {
+        return v.title.includes(value);
+      }
+    });
+  } else {
+    const { data: workspaces } = await axios.get("/api/workspace");
+
+    return workspaces.filter((v: IWorkspace) => {
+      if (value.length === 0) {
+        return v.folder === null;
+      } else {
+        return v.title.includes(value);
+      }
+    });
+  }
 }
 /**
  * 드롭다운(최신, 오래된 순)일 때 실행되는 api

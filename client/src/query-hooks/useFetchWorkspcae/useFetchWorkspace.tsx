@@ -16,6 +16,8 @@ import {
 
 import WORKSPACE_KEYS from "./keys";
 
+import { IWorkspace } from "types/workspace";
+
 // 전체 워크스페이스 조회
 export const useGetWorkspaces = () =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspaces());
@@ -47,8 +49,35 @@ export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) =>
   );
 
 // 검색한 결과에 따른 워크스페이스 조회
-export const useGetSearchWorkspace = ({ value }: { value: string }) =>
-  useQuery(WORKSPACE_KEYS.search(value), () => getSearchWorkspace({ value }));
+export const useGetSearchWorkspace = ({
+  value,
+  isFavoritesPage,
+  isTagPage,
+}: {
+  value: string;
+  isFavoritesPage: boolean;
+  isTagPage: boolean;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    WORKSPACE_KEYS.search(value),
+    () => getSearchWorkspace({ value, isFavoritesPage, isTagPage }),
+    {
+      // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
+      // 추후 Debounce or key 최적화로 해결 예정
+      onSuccess: (data: IWorkspace[]) => {
+        if (isFavoritesPage) {
+          queryClient.setQueryData(WORKSPACE_KEYS.favoritedWorkspace(), data);
+        } else if (isTagPage) {
+          queryClient.setQueryData(WORKSPACE_KEYS.all(), data);
+        } else {
+          queryClient.setQueryData(WORKSPACE_KEYS.outsideOfFolder(), data);
+        }
+      },
+    }
+  );
+};
 
 // 워크스페이스 즐겨찾기 수정
 export const usePatchFavoritesWorkspace = () => {
