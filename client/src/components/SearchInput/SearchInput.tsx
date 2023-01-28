@@ -14,12 +14,14 @@ const SearchInput = ({
   value,
   placeholder,
   onChange,
+  onKeyDown,
 }: {
   className: string;
   inputClassName: string;
   value: string;
   placeholder: string;
   onChange: any;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }) => {
   const handleCancelClick = useCallback(() => {
     onChange({ target: { value: "" } });
@@ -42,6 +44,7 @@ const SearchInput = ({
         type="text"
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         className={cn(
           styles.SearchInput__Input,
           styles[`SearchInput__Input`],

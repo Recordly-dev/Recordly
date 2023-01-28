@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useQueryClient } from "react-query";
 
 import { useGetSearchWorkspace } from "query-hooks/useFetchWorkspcae";
+
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import { useDispatch } from "store";
 
 import SearchInput from "components/SearchInput";
 import styles from "./SearchBar.module.scss";
@@ -9,30 +11,40 @@ import styles from "./SearchBar.module.scss";
 const SearchBar = ({
   isFavoritesPage,
   isTagPage,
-  setIsSearch,
 }: {
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
-  setIsSearch: Function;
 }) => {
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
+  const [isFetchWorkspace, setIsFetchWorkspace] = useState(false);
 
-  const { data } = useGetSearchWorkspace({
-    value: searchValue,
+  useGetSearchWorkspace({
+    keyword: searchValue,
     isFavoritesPage: !!isFavoritesPage,
     isTagPage: !!isTagPage,
+    isFetchWorkspace,
   });
 
   useEffect(() => {
     if (searchValue === "") {
-      setIsSearch(false);
+      dispatch(workspaceActions.patchSearchStatus({ isSearch: false }));
+      setIsFetchWorkspace(true);
       return;
     }
-    setIsSearch(true);
-  }, [searchValue, setIsSearch]);
+  }, [searchValue]);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+  };
+
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setIsFetchWorkspace(true);
+      dispatch(workspaceActions.patchSearchStatus({ isSearch: true }));
+    } else {
+      setIsFetchWorkspace(false);
+    }
   };
 
   return (
@@ -42,6 +54,7 @@ const SearchBar = ({
       value={searchValue}
       placeholder="Search"
       onChange={handleChangeSearchValue}
+      onKeyDown={handleOnKeyPress}
     />
   );
 };

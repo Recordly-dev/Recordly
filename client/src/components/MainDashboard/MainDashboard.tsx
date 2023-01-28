@@ -19,14 +19,16 @@ import styles from "./MainDashboard.module.scss";
 const MainDashboard = ({
   isFolderDetailPage,
   isTagPage,
-  isSearch,
 }: {
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
-  isSearch: boolean;
 }) => {
   const currentFolderId: string = useSelector(
     (state: any) => state.folder.currentFolderId
+  );
+
+  const isSearch: boolean = useSelector(
+    (state: any) => state.workspace.isSearchStatus
   );
 
   const { data: allWorkspaces, isLoading } = useGetWorkspaces();
