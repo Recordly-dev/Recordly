@@ -99,7 +99,6 @@ const SideTagsMenu = () => {
               onChange={handleTagInput}
             />
             <ResetTag
-              setIsSortByAlpha={setIsSortByAlpha}
               setTagInputValue={setTagInputValue}
               setCurrentSeleteTagId={setCurrentSeleteTagId}
               sortTagList={sortTagList}

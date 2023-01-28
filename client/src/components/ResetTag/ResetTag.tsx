@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useResetWorkspace } from "query-hooks/useFetchWorkspcae";
+import { useGetWorkspaces } from "query-hooks/useFetchWorkspcae";
 
 import { Button } from "reactstrap";
 import RefreshIcon from "common/assets/icons/RefreshIcon";
@@ -11,19 +11,17 @@ import CONSTANT from "./constants";
 
 const ResetTag = ({
   setTagInputValue,
-  setIsSortByAlpha,
   setCurrentSeleteTagId,
   sortTagList,
 }: {
   setTagInputValue: Function;
-  setIsSortByAlpha: Function;
   setCurrentSeleteTagId: Function;
   sortTagList: Function;
 }) => {
-  const { mutate: resetWorkspace } = useResetWorkspace();
+  const { refetch: refetchWorkspaces } = useGetWorkspaces();
 
   const resetWorkspaceList = () => {
-    resetWorkspace();
+    refetchWorkspaces();
     setTagInputValue("");
     setCurrentSeleteTagId("");
     sortTagList("count");

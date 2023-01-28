@@ -198,14 +198,3 @@ export const useDeleteWorkspace = () => {
     }
   );
 };
-
-// 워크스페이스 초기값으로 초기화
-export const useResetWorkspace = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation(() => getWorkspaces(), {
-    onSuccess: (workspaces: IWorkspace[]) => {
-      queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
-    },
-  });
-};
