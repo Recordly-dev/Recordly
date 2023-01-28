@@ -12,9 +12,11 @@ import styles from "./ResetTag.module.scss";
 import CONSTANT from "./constants";
 
 const ResetTag = ({
+  setIsSortByName,
   setTagInputValue,
   sortTagList,
 }: {
+  setIsSortByName: Function;
   setTagInputValue: Function;
   sortTagList: Function;
 }) => {
@@ -24,9 +26,12 @@ const ResetTag = ({
 
   const resetWorkspaceList = () => {
     refetchWorkspaces();
+
     setTagInputValue("");
-    dispatch(tagListActions.patchCurrentTagId({ tagId: "" }));
+    setIsSortByName(false);
     sortTagList("count");
+
+    dispatch(tagListActions.patchCurrentTagId({ tagId: "" }));
   };
 
   return (

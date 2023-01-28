@@ -127,6 +127,7 @@ const SideTagsMenu = () => {
             <ResetTag
               setTagInputValue={setTagInputValue}
               sortTagList={sortTagList}
+              setIsSortByName={setIsSortByName}
             />
           </div>
           {isEmptyTagList ? (
