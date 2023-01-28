@@ -30,12 +30,10 @@ const MainHeader = ({
   isFolderDetailPage,
   isFavoritesPage,
   isTagPage,
-  setIsSearch,
 }: {
   isFolderDetailPage?: boolean;
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
-  setIsSearch: Function;
 }) => {
   const [userData, setUserData] = useState<IUser>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -43,8 +41,6 @@ const MainHeader = ({
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const { da}
 
   useEffect(() => {
     (async () => {
@@ -170,7 +166,6 @@ const MainHeader = ({
               <SearchBar
                 isFavoritesPage={isFavoritesPage}
                 isTagPage={isTagPage}
-                setIsSearch={setIsSearch}
               />
               <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
             </>
@@ -230,7 +225,6 @@ const MainHeader = ({
             <SearchBar
               isFavoritesPage={isFavoritesPage}
               isTagPage={isTagPage}
-              setIsSearch={setIsSearch}
             />
             <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
           </div>

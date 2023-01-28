@@ -18,8 +18,6 @@ const MainPage = ({
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
 }) => {
-  const [isSearch, setIsSearch] = useState(false);
-
   return (
     <div className={styles.MainPage}>
       <div className={cn("d-flex", "w-100")}>
@@ -39,7 +37,6 @@ const MainPage = ({
                 isFolderDetailPage={isFolderDetailPage}
                 isFavoritesPage={isFavoritesPage}
                 isTagPage={isTagPage}
-                setIsSearch={setIsSearch}
               />
               {isFavoritesPage ? (
                 <FavoritesDashboard isFavoritesPage />
@@ -47,7 +44,6 @@ const MainPage = ({
                 <MainDashboard
                   isFolderDetailPage={isFolderDetailPage}
                   isTagPage={isTagPage}
-                  isSearch={isSearch}
                 />
               )}
             </div>
