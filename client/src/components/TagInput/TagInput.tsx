@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 
 import { Input } from "reactstrap";
 
 import { usePostTag } from "query-hooks/useFetchTag";
 
-import { actions as tagListActions, setTagList } from "store/slice/tagSlice";
-
-import { useDispatch } from "store";
-
 import styles from "./TagInput.module.scss";
 
 const TagInput = ({ workspaceId }: { workspaceId: string }) => {
-  const dispatch = useDispatch();
-
   const { mutateAsync: mutatePostTag } = usePostTag({ workspaceId });
-
-  const workspace = useSelector(
-    (state: any) => state.workspace.workspaceList
-  )?.filter((workspace: any) => workspace._id === workspaceId)?.[0];
-
-  useEffect(() => {
-    if (workspace) {
-      dispatch(setTagList([...workspace.tags]));
-    }
-  }, []);
 
   const [tagInputValue, setTagInputValue] = useState("");
 
