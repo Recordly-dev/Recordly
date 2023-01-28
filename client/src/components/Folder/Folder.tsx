@@ -51,7 +51,7 @@ const Folder = ({
     }).then((result) => {
       if (result.isConfirmed) {
         mutateDeleteFolder({
-          uid,
+          folderId: uid,
         });
       }
     });
@@ -75,7 +75,7 @@ const Folder = ({
     }).then(async (res) => {
       if (res.isConfirmed) {
         await mutatePatchFolder({
-          uid,
+          folderId: uid,
           title: res?.value,
         });
       }
