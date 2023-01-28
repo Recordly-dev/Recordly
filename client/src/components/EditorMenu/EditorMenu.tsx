@@ -13,6 +13,13 @@ import { useDispatch } from "store";
 import { useNavigate } from "react-router";
 import { actions as tagListActions } from "store/slice/tagSlice";
 
+import {
+  usePostTag,
+  usePatchTag,
+  useDeleteTag,
+  useGetTagsInWorkspace,
+} from "query-hooks/useFetchTag";
+
 import { Button } from "reactstrap";
 import TagInput from "../TagInput";
 import EmptyImage from "components/EmptyImage";
@@ -57,6 +64,11 @@ const EditorMenu = ({
   const divRef = useRef<any>(null);
   const tagRef = useRef<any>(null);
 
+  const { mutateAsync: mutatePostTag } = usePostTag({ workspaceId });
+  const { mutateAsync: mutateDeleteTag } = useDeleteTag({ workspaceId });
+  const { mutateAsync: mutatePatchTag } = usePatchTag({ workspaceId });
+
+  const { data: tagList } = useGetTagsInWorkspace({ workspaceId });
   /**
    * 태그 수정 외부 클릭 로직에서 쓸 state
    */
@@ -89,7 +101,6 @@ const EditorMenu = ({
   const snapshot = app.useStore();
   const { document } = snapshot;
 
-  const tagList = useSelector((state: any) => state.tag.tagList);
   const recommendedTagList = useSelector(
     (state: any) => state.tag.recommendedTagList
   );
@@ -112,7 +123,7 @@ const EditorMenu = ({
     const popRecommendedTagList = [...recommendedTagList].filter(
       (tag) => tag !== name
     );
-    dispatch(tagListActions.postTag({ name, workspaceId }));
+    mutatePostTag({ name, workspaceId });
     dispatch(tagListActions.setRecommendedTagList(popRecommendedTagList));
   };
 
@@ -120,7 +131,7 @@ const EditorMenu = ({
    * 태그 삭제 로직
    */
   const deleteTag = (tagId: string, workspaceId: string) => {
-    dispatch(tagListActions.deleteTag({ tagId, workspaceId }));
+    mutateDeleteTag({ tagId, workspaceId });
   };
 
   /**
@@ -137,7 +148,7 @@ const EditorMenu = ({
    */
   const patchTag = (value: string, tagId: string, workspaceId: string) => {
     if (value.length > 0) {
-      dispatch(tagListActions.patchTag({ tagId, tagName: value, workspaceId }));
+      mutatePatchTag({ tagId, tagName: value, workspaceId });
       setPatchTagValue("");
       setIsPatchTag({ state: false, index: 0 });
     }

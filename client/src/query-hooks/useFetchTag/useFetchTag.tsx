@@ -37,9 +37,14 @@ export const useGetRecommendedTag = ({
   );
 
 // 워크스페이스 내부 태그 목록 조회
-export const useGetTagsInWorkspace = ({ uid }: { uid: string }) => {
-  useQuery(TAG_KEYS.workspcaeTag(uid), () => getTagsInWorkspace({ uid }));
-};
+export const useGetTagsInWorkspace = ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) =>
+  useQuery(TAG_KEYS.workspcaeTag(workspaceId), () =>
+    getTagsInWorkspace({ workspaceId })
+  );
 
 // 태그 생성
 export const usePostTag = ({ workspaceId }: { workspaceId: string }) => {

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 
 import { Input } from "reactstrap";
 
+import { usePostTag } from "query-hooks/useFetchTag";
+
 import { actions as tagListActions, setTagList } from "store/slice/tagSlice";
 
 import { useDispatch } from "store";
@@ -11,6 +13,8 @@ import styles from "./TagInput.module.scss";
 
 const TagInput = ({ workspaceId }: { workspaceId: string }) => {
   const dispatch = useDispatch();
+
+  const { mutateAsync: mutatePostTag } = usePostTag({ workspaceId });
 
   const workspace = useSelector(
     (state: any) => state.workspace.workspaceList
@@ -31,7 +35,7 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
   };
 
   const postTag = async (name: string, workspaceId: string) => {
-    dispatch(tagListActions.postTag({ name, workspaceId }));
+    mutatePostTag({ name, workspaceId });
 
     setTagInputValue("");
   };
