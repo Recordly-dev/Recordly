@@ -5,13 +5,15 @@ const TagList = ({
   tagList,
   currentSeleteTagId,
   tagInputValue,
+  getWorkspaceWithTags,
 }: {
   tagList: any;
   currentSeleteTagId: string;
   tagInputValue: string;
+  getWorkspaceWithTags: Function;
 }) => (
   <div className={styles.TagList}>
-    {tagList.map(
+    {tagList?.map(
       (tag: any) =>
         tag.name.includes(tagInputValue) && (
           <Tag
@@ -19,6 +21,7 @@ const TagList = ({
             name={tag?.name}
             count={tag?.workspaces?.length}
             currentSeleteTagId={currentSeleteTagId}
+            getWorkspaceWithTags={getWorkspaceWithTags}
           />
         )
     )}

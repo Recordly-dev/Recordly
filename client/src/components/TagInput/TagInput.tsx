@@ -14,7 +14,7 @@ const TagInput = ({ workspaceId }: { workspaceId: string }) => {
 
   const workspace = useSelector(
     (state: any) => state.workspace.workspaceList
-  ).filter((workspace: any) => workspace._id === workspaceId)?.[0];
+  )?.filter((workspace: any) => workspace._id === workspaceId)?.[0];
 
   useEffect(() => {
     if (workspace) {

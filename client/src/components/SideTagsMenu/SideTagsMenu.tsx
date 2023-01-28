@@ -5,6 +5,13 @@ import { useDispatch } from "store";
 
 import { actions as tagListActions } from "store/slice/tagSlice";
 
+import {
+  useGetTags,
+  useGetTagsSortedByName,
+  useGetTagsSortedByCount,
+} from "query-hooks/useFetchTag";
+import { useGetWorkspacesWithTag } from "query-hooks/useFetchWorkspcae";
+
 import TagList from "components/TagList";
 import EmptyImage from "components/EmptyImage";
 import SearchInput from "components/SearchInput";
@@ -20,15 +27,24 @@ import CONSTANT from "./constants";
 
 const SideTagsMenu = () => {
   const [sortType, setSortType] = useState("basic");
-  const [isSortByAlpha, setIsSortByAlpha] = useState(false);
+  const [isSortByName, setIsSortByName] = useState(false);
   const [tagInputValue, setTagInputValue] = useState("");
+  const [tagId, setTagId] = useState("");
 
   const currentSeleteTagId = useSelector(
     (state: any) => state.tag.currentTagId
   );
 
+  const { data: tagList } = useGetTags();
+  const { refetch: refetchByCount } = useGetTagsSortedByCount({
+    type: sortType,
+  });
+  const { refetch: refetchByName } = useGetTagsSortedByName({
+    isSort: isSortByName,
+  });
+  const { refetch: refetchTags } = useGetWorkspacesWithTag({ tagId });
+
   const dispatch = useDispatch();
-  const tagList = useSelector((state: any) => state.tag.tagList);
 
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -36,31 +52,38 @@ const SideTagsMenu = () => {
     setTagInputValue(value);
   };
 
+  const getWorkspaceWithTags = (tagId: string) => {
+    setTagId(tagId);
+  };
+
   const sortTagList = (type: string) => {
     if (type === "basic") {
-      dispatch(tagListActions.fetchSortTagList({ type: "count" }));
       setSortType("count");
     } else {
-      dispatch(tagListActions.fetchSortTagList({ type: "basic" }));
       setSortType("basic");
     }
   };
 
-  const sortByAlphaTagList = () => {
-    setIsSortByAlpha((prev) => !prev);
+  const sortByNameTagList = () => {
+    setIsSortByName((prev) => !prev);
   };
 
   useEffect(() => {
-    dispatch(tagListActions.fetchSortByAlphaTagList({ isSort: isSortByAlpha }));
-  }, [isSortByAlpha]);
+    refetchTags();
+    dispatch(tagListActions.patchCurrentTagId({ tagId }));
+  }, [tagId]);
 
   useEffect(() => {
-    dispatch(tagListActions.fetchTagList());
-  }, []);
+    refetchByCount();
+  }, [sortType]);
+
+  useEffect(() => {
+    refetchByName();
+  }, [isSortByName]);
 
   const isEmptyTagList =
-    tagList.filter((tag: ITag) => tag.name.includes(tagInputValue)).length ===
-      0 || tagList.length === 0;
+    tagList?.filter((tag: ITag) => tag.name.includes(tagInputValue)).length ===
+      0 || tagList?.length === 0;
 
   return (
     <div className={styles.SideTagsMenu}>
@@ -70,11 +93,11 @@ const SideTagsMenu = () => {
           <span>Tags</span>
           <div className={styles.SideTagsMenu__icons}>
             <span
-              onClick={sortByAlphaTagList}
+              onClick={sortByNameTagList}
               className={cn({
                 "material-symbols-outlined": true,
                 [styles.SideTagsMenu__sortIcon]: true,
-                [styles.SideTagsMenu__sortIcon__active]: isSortByAlpha,
+                [styles.SideTagsMenu__sortIcon__active]: isSortByName,
               })}
             >
               sort_by_alpha
@@ -91,7 +114,7 @@ const SideTagsMenu = () => {
           <div
             className={cn(styles.SideTagsMenu__searchContainer, {
               [styles.SideTagsMenu__searchContainer__empty]:
-                tagList.length === 0,
+                tagList?.length === 0,
             })}
           >
             <SearchInput
@@ -113,6 +136,7 @@ const SideTagsMenu = () => {
               tagList={tagList}
               tagInputValue={tagInputValue}
               currentSeleteTagId={currentSeleteTagId}
+              getWorkspaceWithTags={getWorkspaceWithTags}
             />
           )}
         </div>

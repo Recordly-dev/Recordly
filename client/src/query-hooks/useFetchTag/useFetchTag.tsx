@@ -14,7 +14,7 @@ import {
 import TAG_KEYS from "./keys";
 
 // 전체 태그 조회
-export const useGetTag = () => useQuery(TAG_KEYS.all(), getTags);
+export const useGetTags = () => useQuery(TAG_KEYS.all(), getTags);
 
 // 이름 순으로 정렬된 태그 조회
 export const useGetTagsSortedByCount = ({ type }: { type: string }) =>
