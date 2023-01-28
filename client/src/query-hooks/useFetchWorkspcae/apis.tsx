@@ -46,45 +46,37 @@ export async function getWorkspacesWithTag({ tagId }: { tagId: string }) {
  * 검색에 포함된 workspace 불러오는 api
  */
 export async function getSearchWorkspace({
-  value,
+  keyword,
   isFavoritesPage,
   isTagPage,
 }: {
-  value: string;
+  keyword: string;
   isFavoritesPage: boolean;
   isTagPage: boolean;
 }) {
+  const isKeywordBlank = keyword.length === 0;
+  const isMainPage = !isTagPage && !isFavoritesPage;
+  let workspaces;
+
   if (isFavoritesPage) {
-    const { data: workspaces } = await axios.get("/api/workspace/favorites");
+    const { data } = await axios.get("/api/workspace/favorites");
 
-    return workspaces.filter((v: IWorkspace) => {
-      if (value.length === 0) {
-        return v;
-      } else {
-        return v.title.includes(value);
-      }
-    });
-  } else if (isTagPage) {
-    const { data: workspaces } = await axios.get("/api/workspace");
-
-    return workspaces.filter((v: IWorkspace) => {
-      if (value.length === 0) {
-        return v;
-      } else {
-        return v.title.includes(value);
-      }
-    });
+    workspaces = data;
   } else {
-    const { data: workspaces } = await axios.get("/api/workspace");
+    const { data } = await axios.get("/api/workspace");
 
-    return workspaces.filter((v: IWorkspace) => {
-      if (value.length === 0) {
-        return v.folder === null;
-      } else {
-        return v.title.includes(value);
-      }
-    });
+    workspaces = data;
   }
+
+  if (isKeywordBlank) {
+    return isMainPage
+      ? workspaces.filter((workspace: IWorkspace) => workspace.folder === null)
+      : workspaces;
+  }
+
+  return workspaces.filter((workspace: IWorkspace) =>
+    workspace.title.includes(keyword)
+  );
 }
 /**
  * 드롭다운(최신, 오래된 순)일 때 실행되는 api

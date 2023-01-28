@@ -50,31 +50,40 @@ export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) =>
 
 // 검색한 결과에 따른 워크스페이스 조회
 export const useGetSearchWorkspace = ({
-  value,
+  keyword,
   isFavoritesPage,
   isTagPage,
+  isFetchWorkspace,
 }: {
-  value: string;
+  keyword: string;
   isFavoritesPage: boolean;
   isTagPage: boolean;
+  isFetchWorkspace: boolean;
 }) => {
   const queryClient = useQueryClient();
 
   return useQuery(
-    WORKSPACE_KEYS.search(value),
-    () => getSearchWorkspace({ value, isFavoritesPage, isTagPage }),
+    WORKSPACE_KEYS.search(keyword),
+    () => getSearchWorkspace({ keyword, isFavoritesPage, isTagPage }),
     {
       // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
       // 추후 Debounce or key 최적화로 해결 예정
-      onSuccess: (data: IWorkspace[]) => {
+      onSuccess: (workspaces: IWorkspace[]) => {
         if (isFavoritesPage) {
-          queryClient.setQueryData(WORKSPACE_KEYS.favoritedWorkspace(), data);
+          queryClient.setQueryData(
+            WORKSPACE_KEYS.favoritedWorkspace(),
+            workspaces
+          );
         } else if (isTagPage) {
-          queryClient.setQueryData(WORKSPACE_KEYS.all(), data);
+          queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
         } else {
-          queryClient.setQueryData(WORKSPACE_KEYS.outsideOfFolder(), data);
+          queryClient.setQueryData(
+            WORKSPACE_KEYS.outsideOfFolder(),
+            workspaces
+          );
         }
       },
+      enabled: isFetchWorkspace,
     }
   );
 };
