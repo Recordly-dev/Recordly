@@ -83,17 +83,39 @@ export async function getSearchWorkspace({
  */
 export async function getWorkspacesSortedByEditedAt({
   type,
+  isFavoritesPage,
+  isTagPage,
 }: {
   type: string;
+  isFavoritesPage: boolean | undefined;
+  isTagPage: boolean | undefined;
 }) {
-  const { data } = await axios.get("/api/workspace");
+  let workspaces;
 
-  const sortedData = sortBy(data, "editedAt").reverse();
+  if (isFavoritesPage) {
+    const { data } = await axios.get("/api/workspace/favorites");
 
-  if (type === "newest") {
+    workspaces = data;
+  } else if (isTagPage) {
+    const { data } = await axios.get("/api/workspace");
+
+    workspaces = data;
+  } else {
+    const { data } = await axios.get("/api/workspace");
+
+    const outsideOfFolderWorkspace = data.filter(
+      (workspace: IWorkspace) => workspace.folder === null
+    );
+
+    workspaces = outsideOfFolderWorkspace;
+  }
+
+  const sortedData = sortBy(workspaces, "editedAt").reverse();
+
+  if (type === "Newest") {
     return sortedData;
   } else {
-    const sortedReverseData = sortBy(data, "editedAt");
+    const sortedReverseData = sortBy(workspaces, "editedAt");
 
     return sortedReverseData;
   }

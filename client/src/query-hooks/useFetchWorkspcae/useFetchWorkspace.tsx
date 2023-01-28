@@ -26,10 +26,6 @@ export const useGetWorkspaces = () =>
 export const useGetFavoratedWorkspace = () =>
   useQuery(WORKSPACE_KEYS.favoritedWorkspace(), () => getFavoratedWorkspace());
 
-// type에 따라 정렬된 워크스페이스 조회
-export const useGetWorkspacesSortedByEditedAt = ({ type }: { type: string }) =>
-  useQuery(WORKSPACE_KEYS.all(), () => getWorkspacesSortedByEditedAt({ type }));
-
 // 폴더 외부에 있는 워크스페이스 조회
 export const useGetWorkspaceOutsideOfFolder = () =>
   useQuery(WORKSPACE_KEYS.outsideOfFolder(), () =>
@@ -84,6 +80,43 @@ export const useGetSearchWorkspace = ({
         }
       },
       enabled: isFetchWorkspace,
+    }
+  );
+};
+
+// type에 따라 정렬된 워크스페이스 조회
+export const useGetWorkspacesSortedByEditedAt = ({
+  type,
+  isFavoritesPage,
+  isTagPage,
+}: {
+  type: string;
+  isFavoritesPage: boolean | undefined;
+  isTagPage: boolean | undefined;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    WORKSPACE_KEYS.sort(type),
+    () => getWorkspacesSortedByEditedAt({ type, isFavoritesPage, isTagPage }),
+    {
+      // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
+      // 추후 Debounce or key 최적화로 해결 예정
+      onSuccess: (workspaces: IWorkspace[]) => {
+        if (isFavoritesPage) {
+          queryClient.setQueryData(
+            WORKSPACE_KEYS.favoritedWorkspace(),
+            workspaces
+          );
+        } else if (isTagPage) {
+          queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
+        } else {
+          queryClient.setQueryData(
+            WORKSPACE_KEYS.outsideOfFolder(),
+            workspaces
+          );
+        }
+      },
     }
   );
 };
