@@ -1,15 +1,13 @@
 import React from "react";
 
-import { useDispatch } from "store";
+import { useResetWorkspace } from "query-hooks/useFetchWorkspcae";
 
+import { Button } from "reactstrap";
 import RefreshIcon from "common/assets/icons/RefreshIcon";
 
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import styles from "./ResetTag.module.scss";
 
 import CONSTANT from "./constants";
-
-import styles from "./ResetTag.module.scss";
-import { Button } from "reactstrap";
 
 const ResetTag = ({
   setTagInputValue,
@@ -22,10 +20,10 @@ const ResetTag = ({
   setCurrentSeleteTagId: Function;
   sortTagList: Function;
 }) => {
-  const dispatch = useDispatch();
+  const { mutate: resetWorkspace } = useResetWorkspace();
 
   const resetWorkspaceList = () => {
-    dispatch(workspaceActions.fetchAllWorkspaceList());
+    resetWorkspace();
     setTagInputValue("");
     setCurrentSeleteTagId("");
     sortTagList("count");
