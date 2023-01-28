@@ -7,7 +7,6 @@ const workspaceSchema = new Schema<IWorkspace>({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   workspaceType: {
     type: String,

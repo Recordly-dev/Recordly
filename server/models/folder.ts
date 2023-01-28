@@ -7,7 +7,6 @@ const folderSchema = new Schema<IFolder>({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   writer: {
     type: ObjectId,

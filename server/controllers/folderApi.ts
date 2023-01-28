@@ -1,112 +1,118 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import * as mongodb from "mongodb";
 
-import modFolder from "../models/folder";
-import modWorkspace from "../models/workspace";
-import serWorkspace from "../services/workspaceService";
-import AuthenticationError from "../utils/error/AuthenticationError";
+import * as serFolder from "../services/folderService";
+import * as serWorkspace from "../services/workspaceService";
+import AuthenticationError from "../errors/AuthenticationError";
+import { HttpCode } from "../constants/httpCode";
 
-const getFolders = async (req: Request, res: Response, next: NextFunction) => {
+export const getFolders = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  const userId = new mongodb.ObjectId(req.user.id);
+  const folders = await serFolder.getFoldersByWriterId(userId);
+
+  res.status(HttpCode.OK).json({
+    message: "폴더 리스트가 정상적으로 조회되었습니다.",
+    result: {
+      folders,
+    },
+  });
+};
+
+export const createFolder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   if (!req.user) {
     throw new AuthenticationError();
   }
 
-  try {
-    const folders = await modFolder
-      .find({ writer: req.user._id })
-      .sort({ title: 1 });
+  const { title } = req.body;
+  const writerId = new mongodb.ObjectId(req.user.id);
+  const folder = serFolder.createFolder(title, writerId);
 
-    res.json(folders);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+  res.status(HttpCode.CREATED).json({
+    message: "폴더가 정상적으로 생성되었습니다.",
+    result: {
+      folder,
+    },
+  });
 };
 
-const createFolder = async (
+export const patchFolder = async (
   req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    if (!req.user) {
-      throw new AuthenticationError();
-    }
-
-    const { title } = req.body;
-    const { _id: writerId } = req.user;
-    const folder = await modFolder.create({
-      title: title,
-      writer: writerId,
-    });
-
-    res.status(201).json({ data: folder });
-  } catch (err) {
-    console.error(err);
-    next(err);
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
-};
-
-const patchFolder = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { folderId, title: newTitle } = req.body;
-
-    await modFolder.updateOne(
-      { _id: folderId },
-      {
-        $set: { title: newTitle },
-      }
-    );
-
-    res.json({ message: "update folder completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
-const deleteFolder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+  const userId = new mongodb.ObjectId(req.user.id);
   const folderId = new mongodb.ObjectId(req.params.folderId);
-  try {
-    await modFolder.deleteOne({ _id: folderId });
-    await serWorkspace.deleteWorkspacesInFolder(folderId);
+  const { title } = req.body;
 
-    res.json({ data: "folder delete completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+  const findedFolder = await serFolder.getFolderById(folderId);
+  serFolder.validateOwnerOfFolder(findedFolder, userId);
+
+  const updatedFolder = await serFolder.updateFolder(folderId, { title });
+
+  res.status(HttpCode.OK).json({
+    message: "폴더가 정상적으로 수정되었습니다.",
+    result: {
+      folder: updatedFolder,
+    },
+  });
 };
 
-const getWorkspacesInFolder = async (
+export const deleteFolder = async (
   req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const folderId = req.params.folderId;
-
-    const workspaces = await modWorkspace
-      .find({ folder: folderId })
-      .populate("tags", "name")
-      .select({ content: 0 })
-      .sort({ editedAt: -1 });
-
-    res.json(workspaces);
-  } catch (err) {
-    console.log(err);
-    next(err);
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
+
+  const folderId = new mongodb.ObjectId(req.params.folderId);
+  const userId = new mongodb.ObjectId(req.user.id);
+
+  const findedFolder = await serFolder.getFolderById(folderId);
+  serFolder.validateOwnerOfFolder(findedFolder, userId);
+
+  await serFolder.deleteFolderById(folderId);
+
+  res.status(HttpCode.OK).json({
+    message: "폴더가 정상적으로 삭제되었습니다.",
+    result: {
+      folderId: folderId,
+    },
+  });
 };
 
-export default {
-  getFolders,
-  createFolder,
-  patchFolder,
-  deleteFolder,
-  getWorkspacesInFolder,
+export const getWorkspacesInFolder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+
+  const folderId = new mongodb.ObjectId(req.params.folderId);
+  const userId = new mongodb.ObjectId(req.user.id);
+
+  const findedFolder = await serFolder.getFolderById(folderId);
+  serFolder.validateOwnerOfFolder(findedFolder, userId);
+
+  const workspaces = await serWorkspace.getWorkspacesByFolderId(folderId);
+
+  res.status(HttpCode.OK).json({
+    message: "폴더 안의 워크스페이스 리스트가 성공적으로 조회되었습니다.",
+    result: {
+      workspaces,
+      folder: findedFolder.title,
+    },
+  });
 };
