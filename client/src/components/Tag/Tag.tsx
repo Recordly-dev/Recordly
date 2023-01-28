@@ -1,6 +1,10 @@
 import React from "react";
 import cn from "classnames";
 
+import { useGetWorkspacesWithTag } from "query-hooks/useFetchWorkspcae";
+import { actions as tagListActions } from "store/slice/tagSlice";
+import { useDispatch } from "store";
+
 import { Button } from "reactstrap";
 
 import styles from "./Tag.module.scss";
@@ -9,15 +13,16 @@ const Tag = ({
   id,
   name,
   count,
-  getWorkspaceHaveTags,
   currentSeleteTagId,
 }: {
   id: string;
   name: string;
   count: number;
-  getWorkspaceHaveTags: Function;
   currentSeleteTagId: string;
 }) => {
+  const dispatch = useDispatch();
+  const { refetch: refetchTags } = useGetWorkspacesWithTag({ tagId: id });
+
   return (
     <Button
       className={cn({
@@ -26,14 +31,15 @@ const Tag = ({
       })}
       color="primary"
       size="md"
-      onClick={() => getWorkspaceHaveTags(id)}
+      onClick={() => {
+        refetchTags();
+        dispatch(tagListActions.patchCurrentTagId({ tagId: id }));
+      }}
     >
       <span className={styles.Tag__name}>{name}</span>
       <span className={styles.Tag__count}>{count}</span>
     </Button>
   );
 };
-
-Tag.propTypes = {};
 
 export default Tag;

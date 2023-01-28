@@ -39,10 +39,19 @@ export const useGetWorkspaceInFolder = ({ uid }: { uid: string }) =>
   );
 
 // 특정 태그를 가진 워크스페이스 조회
-export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) =>
-  useQuery(WORKSPACE_KEYS.withTag(tagId), () =>
-    getWorkspacesWithTag({ tagId })
+export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    WORKSPACE_KEYS.withTag(tagId),
+    () => getWorkspacesWithTag({ tagId }),
+    {
+      onSuccess: (workspaces: IWorkspace[]) => {
+        queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
+      },
+    }
   );
+};
 
 // 검색한 결과에 따른 워크스페이스 조회
 export const useGetSearchWorkspace = ({

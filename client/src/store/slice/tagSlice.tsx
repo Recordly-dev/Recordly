@@ -157,10 +157,25 @@ export const getRecommendedTagList = createAsyncThunk(
   }
 );
 
+/**
+ * 최근 태그 id값 정의
+ */
+export const patchCurrentTagId = createAsyncThunk(
+  "folder/patchCurrentFolderId",
+  async (arg: { tagId: String }) => {
+    try {
+      return arg.tagId;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   tagList: [],
   isLoading: false,
   recommendedTagList: [],
+  currentTagId: "",
 };
 
 const tagSlice = createSlice({
@@ -209,6 +224,9 @@ const tagSlice = createSlice({
       state.tagList = action.payload;
       state.isLoading = false;
     },
+    [patchCurrentTagId.fulfilled.type]: (state, action) => {
+      state.currentTagId = action.payload;
+    },
   },
 });
 
@@ -223,6 +241,7 @@ export const actions = {
   deleteTag,
   patchTag,
   getRecommendedTagList,
+  patchCurrentTagId,
   ...tagSlice.actions,
 };
 

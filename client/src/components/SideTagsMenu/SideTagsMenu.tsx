@@ -22,7 +22,10 @@ const SideTagsMenu = () => {
   const [sortType, setSortType] = useState("basic");
   const [isSortByAlpha, setIsSortByAlpha] = useState(false);
   const [tagInputValue, setTagInputValue] = useState("");
-  const [currentSeleteTagId, setCurrentSeleteTagId] = useState("");
+
+  const currentSeleteTagId = useSelector(
+    (state: any) => state.tag.currentTagId
+  );
 
   const dispatch = useDispatch();
   const tagList = useSelector((state: any) => state.tag.tagList);
@@ -100,7 +103,6 @@ const SideTagsMenu = () => {
             />
             <ResetTag
               setTagInputValue={setTagInputValue}
-              setCurrentSeleteTagId={setCurrentSeleteTagId}
               sortTagList={sortTagList}
             />
           </div>
@@ -110,7 +112,6 @@ const SideTagsMenu = () => {
             <TagList
               tagList={tagList}
               tagInputValue={tagInputValue}
-              setCurrentSeleteTagId={setCurrentSeleteTagId}
               currentSeleteTagId={currentSeleteTagId}
             />
           )}
