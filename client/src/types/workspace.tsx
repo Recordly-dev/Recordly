@@ -5,6 +5,7 @@ import { ITag } from "./tag";
 export interface IWorkspaceState {
   workspaceList: Array<IWorkspace>;
   isLoading: boolean;
+  isSearchStatus: boolean;
 }
 export interface IWorkspace {
   _id: string;

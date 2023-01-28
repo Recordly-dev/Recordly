@@ -281,9 +281,24 @@ export const sortWorkspaceList = createAsyncThunk(
   }
 );
 
+/**
+ * 검색 중인지 아닌지 판단
+ */
+export const patchSearchStatus = createAsyncThunk(
+  "workspace/patchSearchStatus",
+  async (arg: { isSearch: Boolean }) => {
+    try {
+      return arg.isSearch;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState: IWorkspaceState = {
   workspaceList: [],
   isLoading: false,
+  isSearchStatus: false,
 };
 
 const workspaceSlice = createSlice({
@@ -356,6 +371,9 @@ const workspaceSlice = createSlice({
       state.workspaceList = action.payload;
       state.isLoading = false;
     },
+    [patchSearchStatus.fulfilled.type]: (state, action) => {
+      state.isSearchStatus = action.payload;
+    },
   },
 });
 
@@ -373,6 +391,7 @@ export const actions = {
   postWorkspace,
   patchWorkspace,
   deleteWorkspace,
+  patchSearchStatus,
   ...workspaceSlice.actions,
 };
 
