@@ -2,6 +2,7 @@ import { useQueryClient, useQuery, useMutation } from "react-query";
 
 import {
   getWorkspaces,
+  getCurrentWorkspace,
   getWorkspaceOutsideOfFolder,
   getWorkspaceInFolder,
   getWorkspacesWithTag,
@@ -10,17 +11,30 @@ import {
   getFavoratedWorkspace,
   patchFavoritesWorkspace,
   postWorkspace,
+  postWorkspaceThumbnail,
   patchWorkspace,
+  patchWorkspaceInner,
   deleteWorkspace,
 } from "./apis";
 
 import WORKSPACE_KEYS from "./keys";
 
 import { IWorkspace } from "types/workspace";
+import { TDDocument } from "@tldraw/tldraw";
 
 // 전체 워크스페이스 조회
 export const useGetWorkspaces = () =>
   useQuery(WORKSPACE_KEYS.all(), () => getWorkspaces());
+
+// 특정 워크스페이스 조회
+export const useGetCurrentWorkspace = ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) =>
+  useQuery(WORKSPACE_KEYS.current(workspaceId), () =>
+    getCurrentWorkspace({ workspaceId })
+  );
 
 // 즐겨찾기 되어있는 워크스페이스 조회
 export const useGetFavoratedWorkspace = () =>
@@ -160,6 +174,13 @@ export const usePostWorkspace = () => {
   );
 };
 
+// 워크스페이스 썸네일 생성
+export const usePostWorkspaceThumbnail = () =>
+  useMutation(
+    ({ workspaceId, formData }: { workspaceId: string; formData: any }) =>
+      postWorkspaceThumbnail({ workspaceId, formData })
+  );
+
 // 워크스페이스 수정
 export const usePatchWorkspace = ({
   folderId,
@@ -191,6 +212,18 @@ export const usePatchWorkspace = ({
     }
   );
 };
+
+// 워크스페이스 내부 수정
+export const usePatchWorkspaceInner = () =>
+  useMutation(
+    ({
+      workspaceId,
+      document,
+    }: {
+      workspaceId: string;
+      document: TDDocument;
+    }) => patchWorkspaceInner({ workspaceId, document })
+  );
 
 // 워크스페이스 삭제
 export const useDeleteWorkspace = () => {

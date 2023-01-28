@@ -1,12 +1,27 @@
+import { TDDocument } from "@tldraw/tldraw";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 
 import { IWorkspace } from "../../types/workspace";
+
 /**
  * 전체 workspace 불러오는 api
  */
 export async function getWorkspaces() {
   const { data } = await axios.get("/api/workspace");
+
+  return data;
+}
+
+/**
+ * 전체 workspace 불러오는 api
+ */
+export async function getCurrentWorkspace({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) {
+  const { data } = await axios.get(`/api/workspace/${workspaceId}`);
 
   return data;
 }
@@ -165,6 +180,19 @@ export async function postWorkspace({
 }
 
 /**
+ * 워크스페이스 썸네일 생성
+ */
+export async function postWorkspaceThumbnail({
+  workspaceId,
+  formData,
+}: {
+  workspaceId: string;
+  formData: any;
+}) {
+  await axios.post(`/api/workspace/${workspaceId}/thumbnail`, formData);
+}
+
+/**
  * 워크스페이스 수정 api
  */
 export async function patchWorkspace({
@@ -183,6 +211,21 @@ export async function patchWorkspace({
     folder,
     folderId,
     title,
+  });
+}
+
+/**
+ * 워크스페이스 수정 api
+ */
+export async function patchWorkspaceInner({
+  workspaceId,
+  document,
+}: {
+  workspaceId: string;
+  document: TDDocument;
+}) {
+  await axios.patch(`/api/workspace/${workspaceId}`, {
+    content: document,
   });
 }
 

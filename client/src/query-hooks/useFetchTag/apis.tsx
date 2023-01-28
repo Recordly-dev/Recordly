@@ -69,6 +69,8 @@ export async function getRecommendedTag({
     axios.patch(`/api/workspace/${workspaceId}/recommendedTags`, {
       recommendedTags,
     });
+
+    return recommendedTags;
   } catch (err) {
     console.log(err);
   }
