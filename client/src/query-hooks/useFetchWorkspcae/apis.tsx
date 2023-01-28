@@ -42,8 +42,8 @@ export async function getWorkspaceOutsideOfFolder() {
 /**
  * 특정 폴더의 workspace 불러오는 api
  */
-export async function getWorkspaceInFolder({ uid }: { uid: string }) {
-  const { data } = await axios.get(`/api/folder/${uid}/workspace`);
+export async function getWorkspaceInFolder({ folderId }: { folderId: string }) {
+  const { data } = await axios.get(`/api/folder/${folderId}/workspace`);
 
   return data;
 }
@@ -149,18 +149,18 @@ export async function getFavoratedWorkspace() {
  * 즐겨찾기 상태 수정하는 api
  */
 export async function patchFavoritesWorkspace({
-  uid,
+  workspaceId,
   isFavorites,
 }: {
-  uid: string;
+  workspaceId: string;
   isFavorites: boolean;
 }) {
   const params = {
-    workspaceId: uid,
-    isFavorites: isFavorites,
+    workspaceId,
+    isFavorites,
   };
 
-  await axios.patch(`/api/workspace/favorites/${uid}`, params);
+  await axios.patch(`/api/workspace/favorites/${workspaceId}`, params);
 }
 
 /**

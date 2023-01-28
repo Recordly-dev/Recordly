@@ -36,7 +36,7 @@ const MainDashboard = ({
   const { data: workspaceOutSideOfFolder } = useGetWorkspaceOutsideOfFolder();
 
   const { data: workspaceInFolder } = useGetWorkspaceInFolder({
-    uid: currentFolderId,
+    folderId: currentFolderId,
   });
 
   function getWorkspaces({

@@ -146,7 +146,7 @@ const Workspace = ({
     setIsFavorites((prev) => !prev);
 
     mutatePatchFavoritesWorkspace({
-      uid: uid,
+      workspaceId: uid,
       isFavorites: !favorites,
     });
 

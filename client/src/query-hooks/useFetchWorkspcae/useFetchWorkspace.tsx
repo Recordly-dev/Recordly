@@ -38,7 +38,7 @@ export const useGetCurrentWorkspace = ({
 
 // 즐겨찾기 되어있는 워크스페이스 조회
 export const useGetFavoratedWorkspace = () =>
-  useQuery(WORKSPACE_KEYS.favoritedWorkspace(), () => getFavoratedWorkspace());
+  useQuery(WORKSPACE_KEYS.favorited(), () => getFavoratedWorkspace());
 
 // 폴더 외부에 있는 워크스페이스 조회
 export const useGetWorkspaceOutsideOfFolder = () =>
@@ -47,9 +47,9 @@ export const useGetWorkspaceOutsideOfFolder = () =>
   );
 
 // 특정 폴더 안에 있는 워크스페이스 조회
-export const useGetWorkspaceInFolder = ({ uid }: { uid: string }) =>
-  useQuery(WORKSPACE_KEYS.workspaceInFolder(uid), () =>
-    getWorkspaceInFolder({ uid })
+export const useGetWorkspaceInFolder = ({ folderId }: { folderId: string }) =>
+  useQuery(WORKSPACE_KEYS.workspaceInFolder(folderId), () =>
+    getWorkspaceInFolder({ folderId })
   );
 
 // 특정 태그를 가진 워크스페이스 조회
@@ -57,7 +57,7 @@ export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
   const queryClient = useQueryClient();
 
   return useQuery(
-    WORKSPACE_KEYS.withTag(tagId),
+    WORKSPACE_KEYS.haveTags(tagId),
     () => getWorkspacesWithTag({ tagId }),
     {
       onSuccess: (workspaces: IWorkspace[]) => {
@@ -82,17 +82,14 @@ export const useGetSearchWorkspace = ({
   const queryClient = useQueryClient();
 
   return useQuery(
-    WORKSPACE_KEYS.search(keyword),
+    WORKSPACE_KEYS.searched(keyword),
     () => getSearchWorkspace({ keyword, isFavoritesPage, isTagPage }),
     {
       // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
       // 추후 Debounce or key 최적화로 해결 예정
       onSuccess: (workspaces: IWorkspace[]) => {
         if (isFavoritesPage) {
-          queryClient.setQueryData(
-            WORKSPACE_KEYS.favoritedWorkspace(),
-            workspaces
-          );
+          queryClient.setQueryData(WORKSPACE_KEYS.favorited(), workspaces);
         } else if (isTagPage) {
           queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
         } else {
@@ -120,17 +117,14 @@ export const useGetWorkspacesSortedByEditedAt = ({
   const queryClient = useQueryClient();
 
   return useQuery(
-    WORKSPACE_KEYS.sort(type),
+    WORKSPACE_KEYS.sorted(type),
     () => getWorkspacesSortedByEditedAt({ type, isFavoritesPage, isTagPage }),
     {
       // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
       // 추후 Debounce or key 최적화로 해결 예정
       onSuccess: (workspaces: IWorkspace[]) => {
         if (isFavoritesPage) {
-          queryClient.setQueryData(
-            WORKSPACE_KEYS.favoritedWorkspace(),
-            workspaces
-          );
+          queryClient.setQueryData(WORKSPACE_KEYS.favorited(), workspaces);
         } else if (isTagPage) {
           queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
         } else {
@@ -149,11 +143,16 @@ export const usePatchFavoritesWorkspace = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ uid, isFavorites }: { uid: string; isFavorites: boolean }) =>
-      patchFavoritesWorkspace({ uid, isFavorites }),
+    ({
+      workspaceId,
+      isFavorites,
+    }: {
+      workspaceId: string;
+      isFavorites: boolean;
+    }) => patchFavoritesWorkspace({ workspaceId, isFavorites }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(WORKSPACE_KEYS.favoritedWorkspace());
+        queryClient.invalidateQueries(WORKSPACE_KEYS.favorited());
       },
     }
   );
