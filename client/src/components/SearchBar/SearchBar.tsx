@@ -17,19 +17,21 @@ const SearchBar = ({
 }) => {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
-  const [isFetchWorkspace, setIsFetchWorkspace] = useState(false);
 
-  useGetSearchWorkspace({
+  // enabled false로 두고 refetch로 조건에 따라 fetch하는 로직
+  const { refetch: refetchWorkspace } = useGetSearchWorkspace({
     keyword: searchValue,
     isFavoritesPage: !!isFavoritesPage,
     isTagPage: !!isTagPage,
-    isFetchWorkspace,
+    options: {
+      enabled: false,
+    },
   });
 
   useEffect(() => {
     if (searchValue === "") {
+      refetchWorkspace();
       dispatch(workspaceActions.updateSearchStatus({ isSearch: false }));
-      setIsFetchWorkspace(true);
       return;
     }
   }, [searchValue]);
@@ -40,10 +42,8 @@ const SearchBar = ({
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setIsFetchWorkspace(true);
+      refetchWorkspace();
       dispatch(workspaceActions.updateSearchStatus({ isSearch: true }));
-    } else {
-      setIsFetchWorkspace(false);
     }
   };
 

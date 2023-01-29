@@ -72,12 +72,12 @@ export const useGetSearchWorkspace = ({
   keyword,
   isFavoritesPage,
   isTagPage,
-  isFetchWorkspace,
+  options,
 }: {
   keyword: string;
   isFavoritesPage: boolean;
   isTagPage: boolean;
-  isFetchWorkspace: boolean;
+  options: object;
 }) => {
   const queryClient = useQueryClient();
 
@@ -99,7 +99,7 @@ export const useGetSearchWorkspace = ({
           );
         }
       },
-      enabled: isFetchWorkspace,
+      ...options,
     }
   );
 };
