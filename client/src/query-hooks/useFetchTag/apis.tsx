@@ -69,6 +69,8 @@ export async function getRecommendedTag({
     axios.patch(`/api/workspace/${workspaceId}/recommendedTags`, {
       recommendedTags,
     });
+
+    return recommendedTags;
   } catch (err) {
     console.log(err);
   }
@@ -77,16 +79,16 @@ export async function getRecommendedTag({
 /**
  * 워크스페이스 안에 태그 목록 가져오는 api
  */
-export async function getTagsInWorkspace({ uid }: { uid: string }) {
-  const params = {
-    workspaceId: uid,
-  };
+export async function getTagsInWorkspace({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) {
+  const { data } = await axios.get(`/api/workspace/${workspaceId}`);
 
-  const { data } = await axios.get(`/api/tag/${uid}`, {
-    params,
-  });
+  const currentWorkspaceTagList = data.tags;
 
-  return data;
+  return currentWorkspaceTagList;
 }
 
 /**
