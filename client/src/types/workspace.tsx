@@ -8,7 +8,7 @@ export interface IWorkspaceState {
 export interface IWorkspace {
   _id: string;
   title: string;
-  workspcaeType: string;
+  workspaceType: string;
   tags: ITag[];
   createdAt: string;
   editedAt: string;

@@ -42,7 +42,7 @@ export const useGetTagsInWorkspace = ({
 }: {
   workspaceId: string;
 }) =>
-  useQuery(TAG_KEYS.workspcaeTag(workspaceId), () =>
+  useQuery(TAG_KEYS.workspaceTag(workspaceId), () =>
     getTagsInWorkspace({ workspaceId })
   );
 
@@ -55,7 +55,7 @@ export const usePostTag = ({ workspaceId }: { workspaceId: string }) => {
       postTag({ name, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );
@@ -77,7 +77,7 @@ export const usePatchTag = ({ workspaceId }: { workspaceId: string }) => {
     }) => patchTag({ tagId, tagName, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );
@@ -92,7 +92,7 @@ export const useDeleteTag = ({ workspaceId }: { workspaceId: string }) => {
       deleteTag({ tagId, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );

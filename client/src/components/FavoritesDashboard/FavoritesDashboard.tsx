@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import { Container } from "reactstrap";
 
-import { useGetFavoratedWorkspace } from "query-hooks/useFetchWorkspcae";
+import { useGetFavoratedWorkspace } from "query-hooks/useFetchWorkspace";
 
 import WorkspaceList from "components/WorkspaceList";
 import EmptyDashboard from "components/EmptyDashboard";

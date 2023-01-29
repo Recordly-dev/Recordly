@@ -3,7 +3,7 @@ import cn from "classnames";
 import Swal from "sweetalert2";
 
 import { usePatchFolder, useDeleteFolder } from "query-hooks/useFetchFolder";
-import { useGetWorkspaces } from "query-hooks/useFetchWorkspcae";
+import { useGetWorkspaces } from "query-hooks/useFetchWorkspace";
 
 import folderIcon from "./assets/images/Folder.png";
 import dropdownIcon from "./assets/images/Dropdown.png";

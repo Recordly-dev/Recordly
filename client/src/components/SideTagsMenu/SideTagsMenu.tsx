@@ -10,7 +10,7 @@ import {
   useGetTagsSortedByName,
   useGetTagsSortedByCount,
 } from "query-hooks/useFetchTag";
-import { useGetWorkspacesWithTag } from "query-hooks/useFetchWorkspcae";
+import { useGetWorkspacesWithTag } from "query-hooks/useFetchWorkspace";
 
 import TagList from "components/TagList";
 import EmptyImage from "components/EmptyImage";

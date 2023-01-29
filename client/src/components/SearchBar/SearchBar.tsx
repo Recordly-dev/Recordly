@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useGetSearchWorkspace } from "query-hooks/useFetchWorkspcae";
+import { useGetSearchWorkspace } from "query-hooks/useFetchWorkspace";
 
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
 import { useDispatch } from "store";

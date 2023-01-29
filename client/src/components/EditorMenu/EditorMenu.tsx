@@ -22,7 +22,7 @@ import {
   usePatchWorkspaceInner,
   useGetWorkspaces,
   useGetCurrentWorkspace,
-} from "query-hooks/useFetchWorkspcae";
+} from "query-hooks/useFetchWorkspace";
 
 import { Button } from "reactstrap";
 import TagInput from "../TagInput";

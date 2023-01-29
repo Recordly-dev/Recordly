@@ -10,7 +10,7 @@ import {
   usePatchWorkspace,
   useDeleteWorkspace,
   usePatchFavoritesWorkspace,
-} from "query-hooks/useFetchWorkspcae";
+} from "query-hooks/useFetchWorkspace";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import EditIcon from "common/assets/icons/EditIcon";

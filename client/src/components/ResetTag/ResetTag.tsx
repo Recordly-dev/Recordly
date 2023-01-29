@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useGetWorkspaces } from "query-hooks/useFetchWorkspcae";
+import { useGetWorkspaces } from "query-hooks/useFetchWorkspace";
 import { actions as tagListActions } from "store/slice/tagSlice";
 import { useDispatch } from "store";
 

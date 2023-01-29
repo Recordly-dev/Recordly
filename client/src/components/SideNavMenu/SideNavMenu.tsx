@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { usePostWorkspace } from "query-hooks/useFetchWorkspcae";
+import { usePostWorkspace } from "query-hooks/useFetchWorkspace";
 import { usePostFolder } from "query-hooks/useFetchFolder";
 
 import FolderIcon from "common/assets/icons/FolderIcon";

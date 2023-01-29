@@ -6,7 +6,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 
-import { useGetWorkspacesSortedByEditedAt } from "query-hooks/useFetchWorkspcae";
+import { useGetWorkspacesSortedByEditedAt } from "query-hooks/useFetchWorkspace";
 
 import styles from "./DropdownSelect.module.scss";
 

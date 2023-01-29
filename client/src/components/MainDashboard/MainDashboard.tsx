@@ -5,7 +5,7 @@ import {
   useGetWorkspaces,
   useGetWorkspaceInFolder,
   useGetWorkspaceOutsideOfFolder,
-} from "query-hooks/useFetchWorkspcae";
+} from "query-hooks/useFetchWorkspace";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
