@@ -18,7 +18,7 @@ const FolderList = ({ isLoadingData }: { isLoadingData: boolean }) => {
 
   const moveFolderDetailPage = (id: string) => {
     navigate(`/main/${id}`);
-    dispatch(folderActions.patchCurrentFolderId({ uid: id }));
+    dispatch(folderActions.updateCurrentFolderId({ uid: id }));
   };
 
   return (

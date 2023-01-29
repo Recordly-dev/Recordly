@@ -3,8 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 /**
  * 최근 폴더 id값 정의
  */
-export const patchCurrentFolderId = createAsyncThunk(
-  "folder/patchCurrentFolderId",
+export const updateCurrentFolderId = createAsyncThunk(
+  "folder/updateCurrentFolderId",
   async (arg: { uid: String }) => {
     try {
       return arg.uid;
@@ -23,14 +23,14 @@ const folderSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [patchCurrentFolderId.fulfilled.type]: (state, action) => {
+    [updateCurrentFolderId.fulfilled.type]: (state, action) => {
       state.currentFolderId = action.payload;
     },
   },
 });
 
 export const actions = {
-  patchCurrentFolderId,
+  updateCurrentFolderId,
   ...folderSlice.actions,
 };
 
