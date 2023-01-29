@@ -67,6 +67,10 @@ export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
   );
 };
 
+type searchWorkspaceOptions = {
+  enabled: boolean;
+};
+
 // 검색한 결과에 따른 워크스페이스 조회
 export const useGetSearchWorkspace = ({
   keyword,
@@ -77,7 +81,7 @@ export const useGetSearchWorkspace = ({
   keyword: string;
   isFavoritesPage: boolean;
   isTagPage: boolean;
-  options: object;
+  options: searchWorkspaceOptions;
 }) => {
   const queryClient = useQueryClient();
 
