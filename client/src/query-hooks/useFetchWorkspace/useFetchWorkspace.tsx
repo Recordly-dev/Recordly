@@ -111,8 +111,8 @@ export const useGetWorkspacesSortedByEditedAt = ({
   isTagPage,
 }: {
   type: string;
-  isFavoritesPage: boolean | undefined;
-  isTagPage: boolean | undefined;
+  isFavoritesPage?: boolean;
+  isTagPage?: boolean;
 }) => {
   const queryClient = useQueryClient();
 
