@@ -181,11 +181,7 @@ export const usePostWorkspaceThumbnail = () =>
   );
 
 // 워크스페이스 수정
-export const usePatchWorkspace = ({
-  folderId,
-}: {
-  folderId: string | null;
-}) => {
+export const usePatchWorkspace = ({ folderId }: { folderId?: string }) => {
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -197,7 +193,7 @@ export const usePatchWorkspace = ({
     }: {
       workspaceId: string;
       title?: string;
-      folderId?: string | null;
+      folderId?: string;
       folder?: string | null;
     }) => patchWorkspace({ workspaceId, title, folder, folderId }),
     {

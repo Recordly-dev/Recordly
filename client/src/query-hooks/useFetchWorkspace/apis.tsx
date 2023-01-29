@@ -102,8 +102,8 @@ export async function getWorkspacesSortedByEditedAt({
   isTagPage,
 }: {
   type: string;
-  isFavoritesPage: boolean | undefined;
-  isTagPage: boolean | undefined;
+  isFavoritesPage?: boolean;
+  isTagPage?: boolean;
 }) {
   let workspaces;
 

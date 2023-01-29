@@ -35,7 +35,7 @@ const Workspace = ({
 }: {
   uid: string;
   title: string;
-  folderId: string | null;
+  folderId: string;
   tagList: ITag[];
   editedAt: string;
   favorites: boolean;
