@@ -28,7 +28,7 @@ const SearchBar = ({
 
   useEffect(() => {
     if (searchValue === "") {
-      dispatch(workspaceActions.patchSearchStatus({ isSearch: false }));
+      dispatch(workspaceActions.updateSearchStatus({ isSearch: false }));
       setIsFetchWorkspace(true);
       return;
     }
@@ -41,7 +41,7 @@ const SearchBar = ({
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setIsFetchWorkspace(true);
-      dispatch(workspaceActions.patchSearchStatus({ isSearch: true }));
+      dispatch(workspaceActions.updateSearchStatus({ isSearch: true }));
     } else {
       setIsFetchWorkspace(false);
     }

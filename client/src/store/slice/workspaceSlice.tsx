@@ -4,8 +4,8 @@ import { IWorkspaceState } from "../../types/workspace";
 /**
  * 검색 중인지 아닌지 판단
  */
-export const patchSearchStatus = createAsyncThunk(
-  "workspace/patchSearchStatus",
+export const updateSearchStatus = createAsyncThunk(
+  "workspace/updateSearchStatus",
   (arg: { isSearch: Boolean }) => {
     return arg.isSearch;
   }
@@ -20,14 +20,14 @@ const workspaceSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [patchSearchStatus.fulfilled.type]: (state, action) => {
+    [updateSearchStatus.fulfilled.type]: (state, action) => {
       state.isSearchStatus = action.payload;
     },
   },
 });
 
 export const actions = {
-  patchSearchStatus,
+  updateSearchStatus,
   ...workspaceSlice.actions,
 };
 
