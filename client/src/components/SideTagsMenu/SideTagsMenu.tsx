@@ -81,9 +81,10 @@ const SideTagsMenu = () => {
     refetchByName();
   }, [isSortByName]);
 
-  const isEmptyTagList =
-    tagList?.filter((tag: ITag) => tag.name.includes(tagInputValue)).length ===
-      0 || tagList?.length === 0;
+  const isEmptyTagList = !tagList
+    ? true
+    : tagList.filter((tag: ITag) => tag.name.includes(tagInputValue)).length ===
+        0 || tagList?.length === 0;
 
   return (
     <div className={styles.SideTagsMenu}>
