@@ -6,12 +6,8 @@ import { IWorkspaceState } from "../../types/workspace";
  */
 export const patchSearchStatus = createAsyncThunk(
   "workspace/patchSearchStatus",
-  async (arg: { isSearch: Boolean }) => {
-    try {
-      return arg.isSearch;
-    } catch (err) {
-      console.log(err);
-    }
+  (arg: { isSearch: Boolean }) => {
+    return arg.isSearch;
   }
 );
 
