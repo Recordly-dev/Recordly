@@ -31,7 +31,7 @@ const ResetTag = ({
     setIsSortByName(false);
     sortTagList("count");
 
-    dispatch(tagListActions.patchCurrentTagId({ tagId: "" }));
+    dispatch(tagListActions.updateCurrentTagId({ tagId: "" }));
   };
 
   return (

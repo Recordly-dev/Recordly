@@ -6,8 +6,8 @@ import _ from "lodash";
 /**
  * 최근 태그 id값 정의
  */
-export const patchCurrentTagId = createAsyncThunk(
-  "folder/patchCurrentFolderId",
+export const updateCurrentTagId = createAsyncThunk(
+  "folder/updateCurrentFolderId",
   async (arg: { tagId: String }) => {
     try {
       return arg.tagId;
@@ -29,14 +29,14 @@ const tagSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [patchCurrentTagId.fulfilled.type]: (state, action) => {
+    [updateCurrentTagId.fulfilled.type]: (state, action) => {
       state.currentTagId = action.payload;
     },
   },
 });
 
 export const actions = {
-  patchCurrentTagId,
+  updateCurrentTagId,
   ...tagSlice.actions,
 };
 

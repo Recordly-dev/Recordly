@@ -70,7 +70,7 @@ const SideTagsMenu = () => {
 
   useEffect(() => {
     refetchTags();
-    dispatch(tagListActions.patchCurrentTagId({ tagId }));
+    dispatch(tagListActions.updateCurrentTagId({ tagId }));
   }, [tagId]);
 
   useEffect(() => {
