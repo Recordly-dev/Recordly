@@ -1,50 +1,65 @@
-import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { Container } from "reactstrap";
+
+import {
+  useGetWorkspaces,
+  useGetWorkspaceInFolder,
+  useGetWorkspaceOutsideOfFolder,
+} from "query-hooks/useFetchWorkspace";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
 import EmptyDashboard from "components/EmptyDashboard";
 import CreateFileButton from "components/CreateFileButton";
 
-import { useDispatch } from "store";
 import { useSelector } from "react-redux";
-
-import { actions as folderActions } from "store/slice/folderSlice";
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import styles from "./MainDashboard.module.scss";
 
 const MainDashboard = ({
   isFolderDetailPage,
   isTagPage,
-  isEmptyDashboard,
-  isLoadingData,
 }: {
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
-  isEmptyDashboard: boolean;
-  isLoadingData: boolean;
 }) => {
-  const dispatch = useDispatch();
-
   const currentFolderId: string = useSelector(
     (state: any) => state.folder.currentFolderId
   );
 
-  useEffect(() => {
-    if (isTagPage) {
-      dispatch(folderActions.setInitialFolderList());
-      dispatch(workspaceActions.fetchAllWorkspaceList());
-    } else if (isFolderDetailPage) {
-      dispatch(
-        workspaceActions.fetchWorkspaceInFolder({ uid: currentFolderId })
-      );
+  const isSearch: boolean = useSelector(
+    (state: any) => state.workspace.isSearchStatus
+  );
+
+  const { data: allWorkspaces, isLoading } = useGetWorkspaces();
+
+  const { data: workspaceOutSideOfFolder } = useGetWorkspaceOutsideOfFolder();
+
+  const { data: workspaceInFolder } = useGetWorkspaceInFolder({
+    folderId: currentFolderId,
+  });
+
+  function getWorkspaces({
+    isFolderDetailPage,
+    isTagPage,
+  }: {
+    isFolderDetailPage?: boolean;
+    isTagPage?: boolean;
+  }) {
+    if (isFolderDetailPage) {
+      return workspaceInFolder;
+    } else if (isTagPage) {
+      return allWorkspaces;
     } else {
-      dispatch(folderActions.fetchFolderList());
-      dispatch(workspaceActions.fetchAllWorkspaceList());
+      return workspaceOutSideOfFolder;
     }
-  }, [isTagPage, isFolderDetailPage, currentFolderId]);
+  }
+
+  const workspaces = getWorkspaces({ isFolderDetailPage, isTagPage });
+
+  const isEmptyWorkspaces = workspaces?.length === 0;
+
+  const isViewFolderList = !isFolderDetailPage && !isTagPage && !isSearch;
 
   return (
     <section
@@ -58,17 +73,16 @@ const MainDashboard = ({
           [styles.MainDashboard__tagPage__fileList]: isTagPage,
         })}
       >
-        {isEmptyDashboard && !isLoadingData ? (
+        {isEmptyWorkspaces ? (
           <EmptyDashboard isTagPage={isTagPage} />
         ) : (
           <>
-            {!isFolderDetailPage && (
-              <FolderList isLoadingData={isLoadingData} />
-            )}
+            {isViewFolderList && <FolderList isLoadingData={isLoading} />}
             <WorkspaceList
-              isLoadingData={isLoadingData}
+              isLoadingData={isLoading}
               isTagPage={isTagPage}
               isFolderDetailPage={isFolderDetailPage}
+              workspaces={workspaces}
             />
           </>
         )}

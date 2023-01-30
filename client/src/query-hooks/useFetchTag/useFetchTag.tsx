@@ -14,7 +14,7 @@ import {
 import TAG_KEYS from "./keys";
 
 // 전체 태그 조회
-export const useGetTag = () => useQuery(TAG_KEYS.all(), getTags);
+export const useGetTags = () => useQuery(TAG_KEYS.all(), getTags);
 
 // 이름 순으로 정렬된 태그 조회
 export const useGetTagsSortedByCount = ({ type }: { type: string }) =>
@@ -37,9 +37,14 @@ export const useGetRecommendedTag = ({
   );
 
 // 워크스페이스 내부 태그 목록 조회
-export const useGetTagsInWorkspace = ({ uid }: { uid: string }) => {
-  useQuery(TAG_KEYS.workspcaeTag(uid), () => getTagsInWorkspace({ uid }));
-};
+export const useGetTagsInWorkspace = ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) =>
+  useQuery(TAG_KEYS.workspaceTag(workspaceId), () =>
+    getTagsInWorkspace({ workspaceId })
+  );
 
 // 태그 생성
 export const usePostTag = ({ workspaceId }: { workspaceId: string }) => {
@@ -50,7 +55,7 @@ export const usePostTag = ({ workspaceId }: { workspaceId: string }) => {
       postTag({ name, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );
@@ -72,7 +77,7 @@ export const usePatchTag = ({ workspaceId }: { workspaceId: string }) => {
     }) => patchTag({ tagId, tagName, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );
@@ -87,7 +92,7 @@ export const useDeleteTag = ({ workspaceId }: { workspaceId: string }) => {
       deleteTag({ tagId, workspaceId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(TAG_KEYS.workspcaeTag(workspaceId));
+        queryClient.invalidateQueries(TAG_KEYS.workspaceTag(workspaceId));
       },
     }
   );

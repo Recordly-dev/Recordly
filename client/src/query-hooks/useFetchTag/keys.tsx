@@ -1,6 +1,6 @@
 const tagKeys = {
   all: () => ["tag"],
-  workspcaeTag: (uid: string) => [...tagKeys.all(), uid],
+  workspaceTag: (workspaceId: string) => [...tagKeys.all(), workspaceId],
   recommendedTag: (workspaceId: string) => [
     ...tagKeys.all(),
     workspaceId,

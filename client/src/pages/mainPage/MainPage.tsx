@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import cn from "classnames";
 
 import SideNavMenu from "components/SideNavMenu";
 import FavoritesDashboard from "components/FavoritesDashboard";
 import MainDashboard from "components/MainDashboard";
 import MainHeader from "components/MainHeader";
-
-import { useSelector } from "react-redux";
 
 import styles from "./MainPage.module.scss";
 import SideTagsMenu from "components/SideTagsMenu";
@@ -20,34 +18,6 @@ const MainPage = ({
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
 }) => {
-  const [isEmptyDashboard, setIsEmptyDashboard] = useState(false);
-  const [isLoadingData, setIsLoadingData] = useState(false);
-
-  const workspaceList = useSelector(
-    (state: any) => state.workspace.workspaceList
-  );
-  const folderList = useSelector((state: any) => state.folder.folderList);
-
-  const isLoadingFetchWorkspace: boolean = useSelector(
-    (state: any) => state.workspace.isLoading
-  );
-
-  const isLoadingFetchFolder: boolean = useSelector(
-    (state: any) => state.folder.isLoading
-  );
-
-  useEffect(() => {
-    if (workspaceList?.length === 0 && folderList?.length === 0) {
-      setIsEmptyDashboard(true);
-      return;
-    }
-    setIsEmptyDashboard(false);
-  }, [isTagPage, isFolderDetailPage, isFavoritesPage, isLoadingData]);
-
-  useEffect(() => {
-    setIsLoadingData(isLoadingFetchWorkspace || isLoadingFetchFolder);
-  }, [isLoadingFetchWorkspace, isLoadingFetchFolder]);
-
   return (
     <div className={styles.MainPage}>
       <div className={cn("d-flex", "w-100")}>
@@ -69,17 +39,11 @@ const MainPage = ({
                 isTagPage={isTagPage}
               />
               {isFavoritesPage ? (
-                <FavoritesDashboard
-                  isFavoritesPage
-                  isEmptyDashboard={isEmptyDashboard}
-                  isLoadingData={isLoadingData}
-                />
+                <FavoritesDashboard isFavoritesPage />
               ) : (
                 <MainDashboard
                   isFolderDetailPage={isFolderDetailPage}
                   isTagPage={isTagPage}
-                  isEmptyDashboard={isEmptyDashboard}
-                  isLoadingData={isLoadingData}
                 />
               )}
             </div>
