@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { ITagState } from "types/tag";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import _ from "lodash";
 
@@ -7,7 +6,7 @@ import _ from "lodash";
  * 최근 태그 id값 정의
  */
 export const updateCurrentTagId = createAsyncThunk(
-  "folder/updateCurrentFolderId",
+  "folder/updateCurrentTagId",
   async (arg: { tagId: String }) => {
     try {
       return arg.tagId;
@@ -18,9 +17,6 @@ export const updateCurrentTagId = createAsyncThunk(
 );
 
 const initialState = {
-  tagList: [],
-  isLoading: false,
-  recommendedTagList: [],
   currentTagId: "",
 };
 
