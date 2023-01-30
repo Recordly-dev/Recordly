@@ -12,18 +12,20 @@ import styles from "./MoblieSideNavMenu.module.scss";
 
 import CONSTANT from "./constants";
 
+import { IUser } from "types/user";
+
 const MoblieSideNavMenu = ({
-  toggleMobileMenu,
   userData,
-  logout,
   isLoggedIn,
   isOpen,
+  toggleMobileMenu,
+  logout,
 }: {
-  toggleMobileMenu: any;
-  userData: any;
-  logout: any;
+  userData?: IUser;
   isLoggedIn: boolean;
   isOpen: boolean;
+  toggleMobileMenu: React.MouseEventHandler<HTMLAnchorElement>;
+  logout: React.MouseEventHandler<HTMLDivElement>;
 }) => (
   <Sidebar isOpen={isOpen}>
     <div className={styles.MoblieSideNavMenu}>

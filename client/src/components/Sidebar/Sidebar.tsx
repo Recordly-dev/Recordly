@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import cn from "classnames";
 import { Transition } from "react-transition-group";
 
@@ -11,7 +11,13 @@ const DEFAULT_TRANSITION_STYLE: any = {
   exited: styles.Sidebar_exited,
 };
 
-const Sidebar = ({ isOpen, children }: { isOpen: boolean; children: any }) => {
+const Sidebar = ({
+  isOpen,
+  children,
+}: {
+  isOpen: boolean;
+  children: ReactNode;
+}) => {
   const [mount, setMount] = useState(false);
 
   const doMount = (isOpen: boolean) => {

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Input } from "reactstrap";
 import cn from "classnames";
 
@@ -13,6 +13,7 @@ const SearchInput = ({
   inputClassName,
   value,
   placeholder,
+  setSearchValue,
   onChange,
   onKeyDown,
 }: {
@@ -20,12 +21,13 @@ const SearchInput = ({
   inputClassName: string;
   value: string;
   placeholder: string;
-  onChange: any;
+  setSearchValue: Function;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }) => {
-  const handleCancelClick = useCallback(() => {
-    onChange({ target: { value: "" } });
-  }, [onChange]);
+  const handleCancelClick = () => {
+    setSearchValue("");
+  };
 
   return (
     <div className={cn(styles.SearchInput, className)}>

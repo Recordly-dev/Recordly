@@ -49,7 +49,7 @@ import { IWorkspace } from "types/workspace";
 import styles from "./EditorMenu.module.scss";
 
 import CONSTANT from "./constants";
-import { ITag } from "types/tag";
+import { IRecommendedTag, ITag } from "types/tag";
 
 let getRecommendedTagsInterval: NodeJS.Timeout;
 
@@ -521,8 +521,8 @@ const EditorMenu = ({
                   <div className={styles.RecommendedTag}>
                     {recommendedTags
                       ?.filter(
-                        (tag: string) =>
-                          !tagList.map((v: ITag) => v.name).includes(tag)
+                        (tag: IRecommendedTag) =>
+                          !tagList.map((tag: ITag) => tag.name).includes(tag)
                       )
                       .slice(0, 3)
                       ?.map((tag: string, idx: number) => (

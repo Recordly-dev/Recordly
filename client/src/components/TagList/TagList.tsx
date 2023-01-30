@@ -1,20 +1,22 @@
 import styles from "./TagList.module.scss";
 import Tag from "components/Tag";
 
+import { ITag } from "types/tag";
+
 const TagList = ({
   tagList,
   currentSeleteTagId,
   tagInputValue,
   getWorkspaceWithTags,
 }: {
-  tagList: any;
+  tagList: ITag[];
   currentSeleteTagId: string;
   tagInputValue: string;
   getWorkspaceWithTags: Function;
 }) => (
   <div className={styles.TagList}>
     {tagList?.map(
-      (tag: any) =>
+      (tag: ITag) =>
         tag.name.includes(tagInputValue) && (
           <Tag
             id={tag?._id}
