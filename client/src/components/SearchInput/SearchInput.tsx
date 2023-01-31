@@ -44,7 +44,7 @@ const SearchInput = ({
         type="text"
         value={value}
         onChange={onChange}
-        onKeyPress={onKeyDown}
+        onKeyDown={onKeyDown}
         className={cn(
           styles.SearchInput__Input,
           styles[`SearchInput__Input`],

@@ -4,24 +4,25 @@ import { useNavigate } from "react-router";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { Button } from "reactstrap";
+import { usePostWorkspace } from "query-hooks/useFetchWorkspace";
+import { usePostFolder } from "query-hooks/useFetchFolder";
 
 import FolderIcon from "common/assets/icons/FolderIcon";
 import FileIcon from "common/assets/icons/FileIcon";
 
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
-import { actions as folderActions } from "store/slice/folderSlice";
-import { useDispatch } from "store";
+import { Button } from "reactstrap";
 
 import styles from "./SideNavMenu.module.scss";
 
 import CONSTANT from "./constants";
 
 const SideNavMenu = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("/main");
   const currentLocation = useLocation();
+
+  const { mutateAsync: mutatePostWorkspace } = usePostWorkspace();
+  const { mutateAsync: mutatePostFolder } = usePostFolder();
 
   const moveDashboard = () => navigate("/main");
 
@@ -44,24 +45,11 @@ const SideNavMenu = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
-      // if (result.isConfirmed) {
-      //   Swal.fire({
-      //     title: "Please choose\n between memo and PDF",
-      //     showDenyButton: true,
-      //     confirmButtonText: "MEMO",
-      //     denyButtonText: `PDF`,
-      //   }).then((workspace) => {
       title = result.value;
-      // if (workspace.isConfirmed) {
       workspaceType = "docs";
-      // } else if (workspace.isDenied) {
-      // workspaceType = "pdf";
-      // }
 
-      dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
+      mutatePostWorkspace({ title, workspaceType });
     });
-    // }
-    // });
   };
 
   const createFolder = () => {
@@ -81,7 +69,9 @@ const SideNavMenu = () => {
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((res) => {
       if (res.isConfirmed) {
-        dispatch(folderActions.postFolderList({ title: res?.value }));
+        const title = res?.value;
+
+        mutatePostFolder({ title });
       }
     });
   };

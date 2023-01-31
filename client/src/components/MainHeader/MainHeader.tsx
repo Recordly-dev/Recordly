@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import axios from "axios";
 import cn from "classnames";
 import Swal from "sweetalert2";
-
-import { actions as workspaceActions } from "store/slice/workspaceSlice";
-import { useDispatch } from "store";
 
 import useMediaQuery from "hooks/useMediaQuery";
 
@@ -40,7 +37,6 @@ const MainHeader = ({
   const [toggleMobileSidebar, setToggleMobileSidebar] = useState(false);
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -60,17 +56,13 @@ const MainHeader = ({
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleDropdownOnClick = (type: string) => {
-    dispatch(workspaceActions.sortWorkspaceList({ type }));
-  };
-
   useEffect(() => {
     (async () => {
       if (!isFolderDetailPage) {
         return;
       }
       const { data } = await axios.get("/api/folder");
-      const [currentFolder] = data.filter(
+      const [currentFolder] = data.result.folders.filter(
         (folder: IFolder) =>
           folder._id === window?.location?.pathname.split("/").at(-1) || ""
       );
@@ -98,7 +90,6 @@ const MainHeader = ({
 
   const moveGoBack = () => {
     navigate(`/main`);
-    dispatch(workspaceActions.fetchWorkspaceList());
   };
 
   const dropdownItem = [
@@ -167,7 +158,10 @@ const MainHeader = ({
                 isFavoritesPage={isFavoritesPage}
                 isTagPage={isTagPage}
               />
-              <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
+              <DropdownSelect
+                isTagPage={isTagPage}
+                isFavoritesPage={isFavoritesPage}
+              />
             </>
           )}
 
@@ -226,7 +220,10 @@ const MainHeader = ({
               isFavoritesPage={isFavoritesPage}
               isTagPage={isTagPage}
             />
-            <DropdownSelect handleDropdownItem={handleDropdownOnClick} />
+            <DropdownSelect
+              isTagPage={isTagPage}
+              isFavoritesPage={isFavoritesPage}
+            />
           </div>
         </>
       )}

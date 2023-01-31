@@ -5,7 +5,7 @@ import { Express } from "express-serve-static-core";
 import { VerifyCallback } from "passport-google-oauth2";
 
 import modUser from "./models/user";
-import { IUser } from "types/models/user";
+import { IUser } from "./types/models/user";
 
 export default function initOAuth(app: Express) {
   app.use(passport.initialize());

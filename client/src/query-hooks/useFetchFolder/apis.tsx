@@ -6,7 +6,7 @@ import axios from "axios";
 export async function getFolder() {
   const { data } = await axios.get("/api/folder");
 
-  return data;
+  return data.result.folders;
 }
 
 /**
@@ -22,14 +22,14 @@ export async function postFolder({ title }: { title: string }) {
  * 폴더 수정하는 로직
  */
 export async function patchFolder({
-  uid,
+  folderId,
   title,
 }: {
-  uid: string;
+  folderId: string;
   title: string;
 }) {
-  await axios.patch(`/api/folder/${uid}`, {
-    folderId: uid,
+  await axios.patch(`/api/folder/${folderId}`, {
+    folderId: folderId,
     title: title,
   });
 }
@@ -37,6 +37,6 @@ export async function patchFolder({
 /**
  * 특정 폴더 삭제하는 로직
  */
-export async function deleteFolder({ uid }: { uid: string }) {
-  await axios.delete(`/api/folder/${uid}`);
+export async function deleteFolder({ folderId }: { folderId: string }) {
+  await axios.delete(`/api/folder/${folderId}`);
 }

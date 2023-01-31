@@ -9,14 +9,14 @@ const Tag = ({
   id,
   name,
   count,
-  getWorkspaceHaveTags,
   currentSeleteTagId,
+  getWorkspaceWithTags,
 }: {
   id: string;
   name: string;
   count: number;
-  getWorkspaceHaveTags: Function;
   currentSeleteTagId: string;
+  getWorkspaceWithTags: Function;
 }) => {
   return (
     <Button
@@ -26,14 +26,14 @@ const Tag = ({
       })}
       color="primary"
       size="md"
-      onClick={() => getWorkspaceHaveTags(id)}
+      onClick={() => {
+        getWorkspaceWithTags(id);
+      }}
     >
       <span className={styles.Tag__name}>{name}</span>
       <span className={styles.Tag__count}>{count}</span>
     </Button>
   );
 };
-
-Tag.propTypes = {};
 
 export default Tag;
