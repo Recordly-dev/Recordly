@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dropdown,
   DropdownToggle,
@@ -20,11 +20,18 @@ const DropdownSelect = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [selectedItemName, setSelectedItemName] = useState("Newest");
 
-  useGetWorkspacesSortedByEditedAt({
+  const { refetch: refetchWorkspace } = useGetWorkspacesSortedByEditedAt({
     isFavoritesPage,
     isTagPage,
     type: selectedItemName,
+    options: {
+      enabled: false,
+    },
   });
+
+  useEffect(() => {
+    refetchWorkspace();
+  }, [selectedItemName]);
 
   const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
 

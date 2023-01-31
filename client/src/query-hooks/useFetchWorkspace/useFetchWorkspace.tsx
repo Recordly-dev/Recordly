@@ -113,10 +113,12 @@ export const useGetWorkspacesSortedByEditedAt = ({
   type,
   isFavoritesPage,
   isTagPage,
+  options,
 }: {
   type: string;
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
+  options: searchWorkspaceOptions;
 }) => {
   const queryClient = useQueryClient();
 
@@ -138,6 +140,7 @@ export const useGetWorkspacesSortedByEditedAt = ({
           );
         }
       },
+      ...options,
     }
   );
 };
