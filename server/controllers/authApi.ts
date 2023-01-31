@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import AuthenticationError from "../utils/error/AuthenticationError";
+import AuthenticationError from "../errors/AuthenticationError";
 
 const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {

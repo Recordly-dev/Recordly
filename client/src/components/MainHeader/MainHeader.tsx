@@ -62,7 +62,7 @@ const MainHeader = ({
         return;
       }
       const { data } = await axios.get("/api/folder");
-      const [currentFolder] = data.filter(
+      const [currentFolder] = data.result.folders.filter(
         (folder: IFolder) =>
           folder._id === window?.location?.pathname.split("/").at(-1) || ""
       );

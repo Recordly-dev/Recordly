@@ -1,3 +1,4 @@
 /redis-7.0.3
 .DS_Store
 .ssh*
+server/docs/*

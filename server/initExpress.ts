@@ -11,6 +11,8 @@ import * as cookieParser from "cookie-parser";
 import initOAuth from "./oauth";
 import routers from "./routes/index";
 import { RedisClientType } from "@redis/client";
+import { HttpCode } from "./constants/httpCode";
+import { AppError, isTrustedError } from "./errors/AppError";
 
 const redisStore = connectRedis(session);
 
@@ -50,11 +52,22 @@ export default function initExpress(redisClient: RedisClientType) {
 
   app.use("/api", routers);
 
-  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    console.log(err.message);
-    res
-      .status(err.status || 500)
-      .json({ error: err.code, description: err.message });
+  const errorHandler: ErrorRequestHandler = (
+    err: Error | AppError,
+    request,
+    response,
+    next
+  ) => {
+    if (err instanceof AppError && isTrustedError(err)) {
+      response.status(err.httpCode).json({
+        message: err.message,
+      });
+    } else {
+      response &&
+        response.status(HttpCode.INTERNAL_SERVER_ERROR).json({
+          message: "Internal Server Error",
+        });
+    }
   };
   app.use(errorHandler);
 

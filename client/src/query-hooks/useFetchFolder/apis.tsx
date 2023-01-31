@@ -6,7 +6,7 @@ import axios from "axios";
 export async function getFolder() {
   const { data } = await axios.get("/api/folder");
 
-  return data;
+  return data.result.folders;
 }
 
 /**

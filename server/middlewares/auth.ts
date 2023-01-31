@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import modUser from "../models/user";
 
-import ForbiddenError from "../utils/error/ForbiddenError";
+import AuthenticationError from "../errors/AuthenticationError";
 
 const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   if (!req?.user || !(await modUser.exists({ _id: req.user._id }))) {
-    throw new ForbiddenError("Not Authorized User", {
-      originalUrl: req.originalUrl,
-    });
+    throw new AuthenticationError();
   }
 
   next();
