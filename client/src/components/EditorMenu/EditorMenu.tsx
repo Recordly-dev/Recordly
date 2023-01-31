@@ -6,23 +6,12 @@ import React, {
   useRef,
 } from "react";
 import cn from "classnames";
-
+import axios from "axios";
 import html2canvas from "html2canvas";
+import { useSelector } from "react-redux";
+import { useDispatch } from "store";
 import { useNavigate } from "react-router";
-
-import {
-  usePostTag,
-  usePatchTag,
-  useDeleteTag,
-  useGetTagsInWorkspace,
-  useGetRecommendedTag,
-} from "query-hooks/useFetchTag";
-import {
-  usePostWorkspaceThumbnail,
-  usePatchWorkspaceInner,
-  useGetWorkspaces,
-  useGetCurrentWorkspace,
-} from "query-hooks/useFetchWorkspace";
+import { actions as tagListActions } from "store/slice/tagSlice";
 
 import { Button } from "reactstrap";
 import TagInput from "../TagInput";
@@ -49,7 +38,7 @@ import { IWorkspace } from "types/workspace";
 import styles from "./EditorMenu.module.scss";
 
 import CONSTANT from "./constants";
-import { ITag } from "types/tag";
+import { ITag, ITagState } from "types/tag";
 
 let getRecommendedTagsInterval: any = null;
 
@@ -62,33 +51,11 @@ const EditorMenu = ({
   workspaceId: string;
   title: string | undefined;
 }) => {
-  const app = useContext(context);
-  const activeTool = app.useStore((s) => s.appState.activeTool);
-  const snapshot = app.useStore();
-  const { document } = snapshot;
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef<any>(null);
   const divRef = useRef<any>(null);
   const tagRef = useRef<any>(null);
-
-  const { mutateAsync: mutatePostTag } = usePostTag({ workspaceId });
-  const { mutateAsync: mutateDeleteTag } = useDeleteTag({ workspaceId });
-  const { mutateAsync: mutatePatchTag } = usePatchTag({ workspaceId });
-  const { mutateAsync: mutateWorkspace } = usePostWorkspaceThumbnail();
-  const { mutateAsync: mutateWorkspaceInner } = usePatchWorkspaceInner();
-
-  const texts = extractTextsFromDocument(document);
-
-  const { data: recommendedTags, refetch: refetchRecommendedTags } =
-    useGetRecommendedTag({
-      text: texts,
-      workspaceId,
-    });
-
-  const { data: tagList } = useGetTagsInWorkspace({ workspaceId });
-  const { data: workspaces } = useGetWorkspaces();
-  const { data: currentWorkspace } = useGetCurrentWorkspace({ workspaceId });
 
   /**
    * 태그 수정 외부 클릭 로직에서 쓸 state
@@ -117,6 +84,16 @@ const EditorMenu = ({
   const [isRecommendeWorkspaceLoading, setIsRecommendeWorkspaceLoading] =
     useState(false);
 
+  const app = useContext(context);
+  const activeTool = app.useStore((s) => s.appState.activeTool);
+  const snapshot = app.useStore();
+  const { document } = snapshot;
+
+  const tagList = useSelector((state: any) => state.tag.tagList);
+  const recommendedTagList = useSelector(
+    (state: any) => state.tag.recommendedTagList
+  );
+
   /**
    * 메인페이지로 이동하는 로직
    */
@@ -132,14 +109,18 @@ const EditorMenu = ({
    * 추천 태그 클릭 시 저장하는 로직
    */
   const saveRecommendedTag = (name: string) => {
-    mutatePostTag({ name, workspaceId });
+    const popRecommendedTagList = [...recommendedTagList].filter(
+      (tag) => tag !== name
+    );
+    dispatch(tagListActions.postTag({ name, workspaceId }));
+    dispatch(tagListActions.setRecommendedTagList(popRecommendedTagList));
   };
 
   /**
    * 태그 삭제 로직
    */
   const deleteTag = (tagId: string, workspaceId: string) => {
-    mutateDeleteTag({ tagId, workspaceId });
+    dispatch(tagListActions.deleteTag({ tagId, workspaceId }));
   };
 
   /**
@@ -156,7 +137,7 @@ const EditorMenu = ({
    */
   const patchTag = (value: string, tagId: string, workspaceId: string) => {
     if (value.length > 0) {
-      mutatePatchTag({ tagId, tagName: value, workspaceId });
+      dispatch(tagListActions.patchTag({ tagId, tagName: value, workspaceId }));
       setPatchTagValue("");
       setIsPatchTag({ state: false, index: 0 });
     }
@@ -220,7 +201,7 @@ const EditorMenu = ({
   /**
    * 워크스페이스 저장하는 로직
    */
-  const saveContentToDB = useDebouncedCallback(async (document) => {
+  const saveContentToDB = useDebouncedCallback((document) => {
     const editorEl = window.document.getElementById("tldrawEditor");
     if (!editorEl) {
       return;
@@ -231,18 +212,34 @@ const EditorMenu = ({
     }
 
     html2canvas(editorEl).then((editorCanvas) => {
-      editorCanvas.toBlob(async (blob) => {
+      editorCanvas.toBlob((blob) => {
         if (!blob) {
           console.log("no blob");
           return;
         }
         const formData = new FormData();
         formData.append("file", blob, `${workspaceId}.png`);
-        await mutateWorkspace({ workspaceId, formData });
+        axios
+          .post(`/api/workspace/${workspaceId}/thumbnail`, formData)
+          .then((res) => {
+            console.log("thumbnail saved");
+          })
+          .catch((err) => {
+            console.error("thumnail capture failed");
+          });
       });
     });
 
-    await mutateWorkspaceInner({ workspaceId, document });
+    axios
+      .patch(`/api/workspace/${workspaceId}`, {
+        content: document,
+      })
+      .then((res) => {
+        console.log("content saved");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, 1000);
 
   const handleRelatedPopup = () => {
@@ -251,12 +248,17 @@ const EditorMenu = ({
 
   const getRelatedWorkspaceList = async () => {
     setIsRecommendeWorkspaceLoading(true);
+    const workspaceResponse = await axios.get(`/api/workspace`);
+    const currentWorkspaceResponse = await axios.get(
+      `/api/workspace/${workspaceId}`
+    );
 
-    const currentWorkspaceTagList = currentWorkspace?.tags?.map(
+    const workspaceList = workspaceResponse.data;
+    const currentWorkspaceTagList = currentWorkspaceResponse?.data?.tags.map(
       (tag: any) => tag.name
     );
 
-    const relatedWorkspaceList = await workspaces?.filter(
+    const relatedWorkspaceList = await workspaceList.filter(
       (workspace: IWorkspace) => {
         if (workspace.title === title) return false;
 
@@ -274,12 +276,30 @@ const EditorMenu = ({
     setRelatedWorkspaceList(relatedWorkspaceList);
     setIsRecommendeWorkspaceLoading(false);
   };
+  /**
+   * 추천 태그 불러오는 useEffect
+   */
+  useEffect(() => {
+    dispatch(tagListActions.setRecommendedTagList([]));
+  }, []);
 
   useEffect(() => {
     if (!isViewRelatedPopup) return;
 
     getRelatedWorkspaceList();
   }, [isViewRelatedPopup]);
+
+  /**
+   * 워크스페이스 태그 목록 불러와서 보여주는 useEffect
+   */
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`/api/workspace/${workspaceId}`);
+      const currentWorkspaceTagList = response.data.tags;
+
+      dispatch(tagListActions.setTagList(currentWorkspaceTagList));
+    })();
+  }, []);
 
   useEffect(() => {
     saveContentToDB(document);
@@ -290,7 +310,11 @@ const EditorMenu = ({
    */
   useEffect(() => {
     getRecommendedTagsInterval = setInterval(async () => {
-      refetchRecommendedTags();
+      const workspace = await axios.get(`/api/workspace/${workspaceId}`);
+      const texts = extractTextsFromDocument(workspace.data.content);
+      dispatch(
+        tagListActions.getRecommendedTagList({ text: texts, workspaceId })
+      );
     }, 10000);
     return () => clearInterval(getRecommendedTagsInterval);
   }, [workspaceId]);
@@ -513,10 +537,10 @@ const EditorMenu = ({
                 <span className={cn(styles.TagList__title, "mt-2")}>
                   Recommended Tags
                 </span>
-                {!!recommendedTags?.length ? (
+                {!!recommendedTagList.length ? (
                   <div className={styles.RecommendedTag}>
-                    {recommendedTags
-                      ?.filter(
+                    {recommendedTagList
+                      .filter(
                         (tag: string) =>
                           !tagList.map((v: ITag) => v.name).includes(tag)
                       )

@@ -24,8 +24,8 @@ export const usePatchFolder = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ title, folderId }: { title: string; folderId: string }) =>
-      patchFolder({ title, folderId }),
+    ({ title, uid }: { title: string; uid: string }) =>
+      patchFolder({ title, uid }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(FOLDER_KEYS.all());
@@ -38,12 +38,9 @@ export const usePatchFolder = () => {
 export const useDeleteFolder = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    ({ folderId }: { folderId: string }) => deleteFolder({ folderId }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(FOLDER_KEYS.all());
-      },
-    }
-  );
+  return useMutation(({ uid }: { uid: string }) => deleteFolder({ uid }), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(FOLDER_KEYS.all());
+    },
+  });
 };

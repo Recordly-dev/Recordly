@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-
-import { useGetSearchWorkspace } from "query-hooks/useFetchWorkspace";
+import { Input, InputGroup, InputGroupText } from "reactstrap";
 
 import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import { actions as folderListActions } from "store/slice/folderSlice";
 import { useDispatch } from "store";
 
 import SearchInput from "components/SearchInput";
@@ -16,34 +16,34 @@ const SearchBar = ({
   isTagPage?: boolean;
 }) => {
   const dispatch = useDispatch();
+
   const [searchValue, setSearchValue] = useState("");
-
-  // enabled false로 두고 refetch로 조건에 따라 fetch하는 로직
-  const { refetch: refetchWorkspace } = useGetSearchWorkspace({
-    keyword: searchValue,
-    isFavoritesPage: !!isFavoritesPage,
-    isTagPage: !!isTagPage,
-    options: {
-      enabled: false,
-    },
-  });
-
-  useEffect(() => {
-    if (searchValue === "") {
-      refetchWorkspace();
-      dispatch(workspaceActions.updateSearchStatus({ isSearch: false }));
-      return;
-    }
-  }, [searchValue]);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+
+    if (e.target.value === "") {
+      dispatch(
+        workspaceActions.filterWorkspaceList({
+          value: "",
+          isFavoritesPage: !!isFavoritesPage,
+          isTagPage: !!isTagPage,
+        })
+      );
+      !isTagPage && dispatch(folderListActions.fetchFolderList());
+    }
   };
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      refetchWorkspace();
-      dispatch(workspaceActions.updateSearchStatus({ isSearch: true }));
+      dispatch(
+        workspaceActions.filterWorkspaceList({
+          value: searchValue,
+          isFavoritesPage: !!isFavoritesPage,
+          isTagPage: !!isTagPage,
+        })
+      );
+      !isTagPage && dispatch(folderListActions.setInitialFolderList());
     }
   };
 

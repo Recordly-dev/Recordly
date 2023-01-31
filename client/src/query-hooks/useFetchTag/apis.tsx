@@ -6,7 +6,7 @@ import axios from "axios";
 export async function getTags() {
   const { data } = await axios.get("/api/tag");
 
-  return data.result.tags;
+  return data;
 }
 
 /**
@@ -16,9 +16,9 @@ export async function getTagsSortedByCount({ type }: { type: string }) {
   const { data } = await axios.get("/api/tag");
 
   if (type === "basic") {
-    return data.result.tags;
+    return data;
   } else if (type === "count") {
-    const sortedTagList = data.result.tags.sort(
+    const sortedTagList = data.sort(
       (a: any, b: any) => b.workspaces.length - a.workspaces.length
     );
 
@@ -33,13 +33,13 @@ export async function getTagsSortedByName({ isSort }: { isSort: boolean }) {
   const { data } = await axios.get("/api/tag");
 
   if (isSort) {
-    const sortedTagList = data.result.tags.sort((a: any, b: any) =>
+    const sortedTagList = data.sort((a: any, b: any) =>
       a.name.localeCompare(b.name)
     );
 
     return sortedTagList;
   } else {
-    return data.result.tags;
+    return data;
   }
 }
 
@@ -64,13 +64,11 @@ export async function getRecommendedTag({
       }
     );
 
-    const recommendedTags = data.result.tags;
+    const recommendedTags = data.tags;
 
     axios.patch(`/api/workspace/${workspaceId}/recommendedTags`, {
       recommendedTags,
     });
-
-    return recommendedTags;
   } catch (err) {
     console.log(err);
   }
@@ -79,16 +77,16 @@ export async function getRecommendedTag({
 /**
  * 워크스페이스 안에 태그 목록 가져오는 api
  */
-export async function getTagsInWorkspace({
-  workspaceId,
-}: {
-  workspaceId: string;
-}) {
-  const { data } = await axios.get(`/api/workspace/${workspaceId}`);
+export async function getTagsInWorkspace({ uid }: { uid: string }) {
+  const params = {
+    workspaceId: uid,
+  };
 
-  const currentWorkspaceTagList = data.result.workspace.tags;
+  const { data } = await axios.get(`/api/tag/${uid}`, {
+    params,
+  });
 
-  return currentWorkspaceTagList;
+  return data;
 }
 
 /**
@@ -124,7 +122,7 @@ export async function patchTag({
     tagName: tagName,
   });
 
-  return data.result.tag;
+  return data;
 }
 
 /**

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Swal from "sweetalert2";
 
-import { usePatchFolder, useDeleteFolder } from "query-hooks/useFetchFolder";
-import { useGetWorkspaces } from "query-hooks/useFetchWorkspace";
+import { actions } from "store/slice/folderSlice";
+import { useDispatch } from "store";
 
 import folderIcon from "./assets/images/Folder.png";
 import dropdownIcon from "./assets/images/Dropdown.png";
 import EditIcon from "common/assets/icons/EditIcon";
-import EditDropdown from "../EditDropdown";
 
 import { IWorkspace } from "types/workspace";
+
+import EditDropdown from "../EditDropdown";
 
 import styles from "./Folder.module.scss";
 
@@ -19,25 +20,24 @@ const Folder = ({
   title,
   isLoading,
   moveFolderDetailPage,
+  workspaceList,
 }: {
   uid: string;
   title: string;
   isLoading: boolean;
   moveFolderDetailPage: Function;
+  workspaceList: IWorkspace[];
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [countOfMemosInFolder, setCountOfMemosInFolder] = useState(0);
-
-  const { data: workspaces } = useGetWorkspaces();
-  const { mutateAsync: mutatePatchFolder } = usePatchFolder();
-  const { mutateAsync: mutateDeleteFolder } = useDeleteFolder();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const filterWorkspaceList = workspaces.filter(
+    const filterWorkspaceList = workspaceList.filter(
       (workspace: IWorkspace) => workspace.folder === uid
     );
     setCountOfMemosInFolder(filterWorkspaceList?.length);
-  }, [uid, workspaces, isLoading]);
+  }, [uid, workspaceList, isLoading]);
 
   const deleteFolder = () => {
     Swal.fire({
@@ -50,9 +50,7 @@ const Folder = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteFolder({
-          folderId: uid,
-        });
+        dispatch(actions.deleteFolderList({ uid }));
       }
     });
   };
@@ -74,10 +72,12 @@ const Folder = ({
       allowOutsideClick: () => !Swal.isLoading(),
     }).then(async (res) => {
       if (res.isConfirmed) {
-        await mutatePatchFolder({
-          folderId: uid,
-          title: res?.value,
-        });
+        dispatch(
+          actions.patchFolderList({
+            uid: uid,
+            title: res?.value,
+          })
+        );
       }
     });
     e.preventDefault();

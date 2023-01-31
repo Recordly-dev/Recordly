@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import midAuth from "../middlewares/auth";
 import midError from "../middlewares/error";
-import * as tagApi from "../controllers/tagApi";
+import tagApi from "../controllers/tagApi";
 
 const router = Router();
 

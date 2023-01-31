@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import * as folderApi from "../controllers/folderApi";
+import folderApi from "../controllers/folderApi";
 import midAuth from "../middlewares/auth";
 import midError from "../middlewares/error";
 

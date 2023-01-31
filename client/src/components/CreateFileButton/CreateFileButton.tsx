@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import cn from "classnames";
-
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
-import { usePostWorkspace } from "query-hooks/useFetchWorkspace";
-import { usePostFolder } from "query-hooks/useFetchFolder";
-
 import PlusIcon from "common/assets/icons/PlusIcon";
+import EditDropdown from "components/EditDropdown";
+
 import FolderIcon from "common/assets/icons/FolderIcon";
 import FileIcon from "common/assets/icons/FileIcon";
-import EditDropdown from "components/EditDropdown";
+
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+import { actions as folderActions } from "store/slice/folderSlice";
+import { useDispatch } from "store";
 
 import styles from "./CreateFileButton.module.scss";
 
 import CONSTANT from "./constants";
 
 const CreateFileButton = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const { mutateAsync: mutatePostWorkspace } = usePostWorkspace();
-  const { mutateAsync: mutatePostFolder } = usePostFolder();
 
   const moveDashboard = () => navigate("/main");
 
@@ -51,11 +50,24 @@ const CreateFileButton = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
+      // if (result.isConfirmed) {
+      //   Swal.fire({
+      //     title: "Please choose\n between memo and PDF",
+      //     showDenyButton: true,
+      //     confirmButtonText: "MEMO",
+      //     denyButtonText: `PDF`,
+      //   }).then((workspace) => {
       title = result.value;
+      // if (workspace.isConfirmed) {
       workspaceType = "docs";
+      // } else if (workspace.isDenied) {
+      // workspaceType = "pdf";
+      // }
 
-      mutatePostWorkspace({ title, workspaceType });
+      dispatch(workspaceActions.postWorkspace({ title, workspaceType }));
     });
+    // }
+    // });
   };
 
   const createFolder = () => {
@@ -75,9 +87,7 @@ const CreateFileButton = () => {
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((res) => {
       if (res.isConfirmed) {
-        const title = res?.value;
-
-        mutatePostFolder({ title });
+        dispatch(folderActions.postFolderList({ title: res?.value }));
       }
     });
   };

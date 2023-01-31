@@ -3,12 +3,13 @@ import { TDDocument } from "@tldraw/tldraw";
 import { ITag } from "./tag";
 
 export interface IWorkspaceState {
-  isSearchStatus: boolean;
+  workspaceList: Array<IWorkspace>;
+  isLoading: boolean;
 }
 export interface IWorkspace {
   _id: string;
   title: string;
-  workspaceType: string;
+  workspcaeType: string;
   tags: ITag[];
   createdAt: string;
   editedAt: string;

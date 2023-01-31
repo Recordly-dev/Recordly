@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import cn from "classnames";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "store";
 import Swal from "sweetalert2";
-import { IFolder } from "types/folder";
-import { ITag } from "types/tag";
+import EditDropdown from "../EditDropdown";
 
-import { useGetFolder } from "query-hooks/useFetchFolder";
-import {
-  usePatchWorkspace,
-  useDeleteWorkspace,
-  usePatchFavoritesWorkspace,
-} from "query-hooks/useFetchWorkspace";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
+
+import { IFolder } from "types/folder";
 
 import DropdownIcon from "./assets/images/dropdown-icon.png";
 import EditIcon from "common/assets/icons/EditIcon";
 import StarFillIcon from "common/assets/icons/StarFillIcon";
 
-import EditDropdown from "../EditDropdown";
 import TagPreview from "components/TagPreview";
 
 import styles from "./Workspace.module.scss";
+
+import { ITag } from "types/tag";
 
 import CONSTANT from "./constants";
 
@@ -30,27 +29,29 @@ const Workspace = ({
   tagList,
   editedAt,
   favorites,
+  isTagPage,
+  isFavoritesPage,
   moveWorkSpacePage,
   formatWorkspaceDate,
 }: {
   uid: string;
   title: string;
-  folderId: string;
+  folderId: string | null;
   tagList: ITag[];
   editedAt: string;
   favorites: boolean;
+  isTagPage: boolean;
+  isFavoritesPage?: boolean;
   moveWorkSpacePage: Function;
   formatWorkspaceDate: Function;
 }) => {
+  const dispatch = useDispatch();
   const [isFavorites, setIsFavorites] = useState(favorites);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { mutateAsync: mutatePatchWorkspace } = usePatchWorkspace({ folderId });
-  const { mutateAsync: mutateDeleteWorkspace } = useDeleteWorkspace();
-  const { mutateAsync: mutatePatchFavoritesWorkspace } =
-    usePatchFavoritesWorkspace();
-
-  const { data: folderList } = useGetFolder();
+  const folderList: IFolder[] = useSelector(
+    (state: any) => state.folder.folderList
+  );
 
   const handleDropdownOpen = (e: React.MouseEvent<HTMLImageElement>) => {
     setIsDropdownOpen((prev) => !prev);
@@ -73,9 +74,14 @@ const Workspace = ({
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteWorkspace({
-          workspaceId: uid,
-        });
+        dispatch(
+          workspaceActions.deleteWorkspace({
+            workspaceId: uid,
+            folderId: folderId,
+            isFavoritesPage,
+            isTagPage,
+          })
+        );
       }
     });
   };
@@ -100,11 +106,15 @@ const Workspace = ({
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
       if (result.isConfirmed) {
-        mutatePatchWorkspace({
-          workspaceId: uid,
-          folderId,
-          title: result?.value,
-        });
+        dispatch(
+          workspaceActions.patchWorkspace({
+            workspaceId: uid,
+            title: result?.value,
+            folderId: folderId,
+            isFavoritesPage,
+            isTagPage,
+          })
+        );
       }
     });
     e.preventDefault();
@@ -112,7 +122,7 @@ const Workspace = ({
   };
 
   const handleMoveFolderModalToggle = async () => {
-    const folderItem = folderList.map((folder: IFolder) => folder?.title);
+    const folderItem = folderList.map((folder) => folder?.title);
 
     await Swal.fire({
       title: "Please select a folder",
@@ -123,17 +133,20 @@ const Workspace = ({
       inputPlaceholder: "Select a folder",
       showCancelButton: true,
       inputValidator: async (value: string) => {
+        // const response = await axios.get(`/api/workspace/${uid}`);
+
         const seletedFolder = folderList[+value];
 
         if (seletedFolder._id === folderId) {
           return "You cannot select the same folder.";
         }
-
-        mutatePatchWorkspace({
-          workspaceId: uid,
-          folder: seletedFolder._id,
-        });
-
+        dispatch(
+          workspaceActions.patchWorkspace({
+            workspaceId: uid,
+            folder: seletedFolder._id,
+            folderId: folderId,
+          })
+        );
         return "";
       },
     });
@@ -144,11 +157,13 @@ const Workspace = ({
    */
   const toggleFavorites = (e: React.MouseEvent<Element>) => {
     setIsFavorites((prev) => !prev);
-
-    mutatePatchFavoritesWorkspace({
-      workspaceId: uid,
-      isFavorites: !favorites,
-    });
+    dispatch(
+      workspaceActions.patchFavoritesWorkspaceList({
+        uid: uid,
+        isFavorites: !favorites,
+        isFavoritesPage: isFavoritesPage,
+      })
+    );
 
     e.preventDefault();
     e.stopPropagation();
@@ -157,11 +172,13 @@ const Workspace = ({
   const inFolderDropdownItem = {
     title: "Exclude folder",
     onClick: () => {
-      mutatePatchWorkspace({
-        workspaceId: uid,
-        folderId,
-        folder: null,
-      });
+      dispatch(
+        workspaceActions.patchWorkspace({
+          workspaceId: uid,
+          folder: null,
+          folderId: folderId,
+        })
+      );
     },
   };
 

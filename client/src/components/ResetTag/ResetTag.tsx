@@ -1,37 +1,34 @@
 import React from "react";
 
-import { useGetWorkspaces } from "query-hooks/useFetchWorkspace";
-import { actions as tagListActions } from "store/slice/tagSlice";
 import { useDispatch } from "store";
 
-import { Button } from "reactstrap";
 import RefreshIcon from "common/assets/icons/RefreshIcon";
 
-import styles from "./ResetTag.module.scss";
+import { actions as workspaceActions } from "store/slice/workspaceSlice";
 
 import CONSTANT from "./constants";
 
+import styles from "./ResetTag.module.scss";
+import { Button } from "reactstrap";
+
 const ResetTag = ({
-  setIsSortByName,
   setTagInputValue,
+  setIsSortByAlpha,
+  setCurrentSeleteTagId,
   sortTagList,
 }: {
-  setIsSortByName: Function;
   setTagInputValue: Function;
+  setIsSortByAlpha: Function;
+  setCurrentSeleteTagId: Function;
   sortTagList: Function;
 }) => {
   const dispatch = useDispatch();
 
-  const { refetch: refetchWorkspaces } = useGetWorkspaces();
-
   const resetWorkspaceList = () => {
-    refetchWorkspaces();
-
+    dispatch(workspaceActions.fetchAllWorkspaceList());
     setTagInputValue("");
-    setIsSortByName(false);
+    setCurrentSeleteTagId("");
     sortTagList("count");
-
-    dispatch(tagListActions.updateCurrentTagId({ tagId: "" }));
   };
 
   return (

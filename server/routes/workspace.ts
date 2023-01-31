@@ -1,11 +1,26 @@
 import { Router } from "express";
+import { diskStorage } from "multer";
+import * as multer from "multer";
 
-import * as workspaceApi from "../controllers/workspaceApi";
+import workspaceApi from "../controllers/workspaceApi";
 import midAuth from "../middlewares/auth";
 import midError from "../middlewares/error";
-import * as thumbnailApi from "../controllers/thumbnailApi";
 
 const router = Router();
+
+router
+  .route("/favorites")
+  .get(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.getFavoritesWorkspaceList)
+  );
+
+router
+  .route("/favorites/:workspaceId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
+  );
 
 router
   .route("/")
@@ -42,11 +57,26 @@ router
     midError.asyncWrapper(workspaceApi.deleteSingleWorkspace)
   );
 
+const upload = multer({
+  storage: diskStorage({
+    destination(req, file, cb) {
+      cb(null, "public/assets/images/thumbnail/");
+    },
+    filename(req, file, cb) {
+      cb(null, `${req.params.workspaceId}.png`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+
 router
   .route("/:workspaceId/thumbnail")
   .post(
     midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(thumbnailApi.uploadThumbnail)
+    upload.single("file"),
+    (req, res) => {
+      res.json({ data: "thumbnail saved" });
+    }
   );
 
 router
@@ -54,20 +84,6 @@ router
   .patch(
     midError.asyncWrapper(midAuth.checkLogin),
     midError.asyncWrapper(workspaceApi.saveRecommendedTags)
-  );
-
-router
-  .route("/favorites")
-  .get(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(workspaceApi.getFavoritedWorkspaceList)
-  );
-
-router
-  .route("/favorites/:workspaceId")
-  .patch(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
   );
 
 export default router;

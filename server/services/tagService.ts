@@ -4,68 +4,30 @@ import { ObjectId } from "bson";
 
 import modTag from "../models/tag";
 import modWorkspace from "../models/workspace";
-import TagServiceError from "../errors/service/TagServiceError";
+import TagServiceError from "../utils/error/service/TagServiceError";
 import { ITag } from "../types/models/tag";
-import { HttpCode } from "../constants/httpCode";
-import { validateObjectId } from "./commonService";
-import InvalidParameterError from "../errors/InvalidParameterError";
 
-export const validateTagId = (tagId: string) => {
-  try {
-    validateObjectId(tagId);
-  } catch (e) {
-    throw new InvalidParameterError("tagId");
-  }
-};
-
-export const validateOwnerOfTag = (data: ITag, writerId: ObjectId): void => {
-  if (!data.writer.equals(writerId)) {
-    throw new TagServiceError({
-      httpCode: HttpCode.FORBIDDEN,
-      description: `해당 태그의 작성자가 아닙니다.`,
-    });
-  }
-};
-
-export const getTagById = async (tagId: ObjectId): Promise<ITag> => {
+const getTagById = async (tagId: ObjectId | string): Promise<ITag | null> => {
   const findedTag = await modTag.findOne({ _id: tagId }).lean().exec();
-  if (!findedTag) {
-    throw new TagServiceError({
-      httpCode: HttpCode.NOT_FOUND,
-      description: "태그가 존재하지 않습니다.",
-    });
-  }
+  if (!findedTag) return null;
   return findedTag;
 };
 
 // userId, tagName을 이용해 해당하는 태그를 조회한다
-export const getTagByNameAndWriter = async (
-  tagName: string,
-  writerId: ObjectId
-): Promise<ITag> => {
-  const findedTag = (await modTag
-    .findOne({ name: tagName, writer: writerId })
-    .lean()) as ITag;
-  if (!findedTag) {
-    throw new TagServiceError({
-      httpCode: HttpCode.NOT_FOUND,
-      description: "태그가 존재하지 않습니다.",
-    });
-  }
-  return findedTag;
+const getSingleTag = (tagName: string, writerId: ObjectId) => {
+  return modTag.findOne({ name: tagName, writer: writerId });
 };
 
 // 사용자가 기존에 등록했던 태그를 워크스페이스에 추가한다
-const addExistingTag = async (
-  tagId: ObjectId,
-  workspaceId: ObjectId
-): Promise<void> => {
-  await modTag
-    .updateOne({ _id: tagId }, { $push: { workspaces: workspaceId } })
-    .lean();
-  await modWorkspace
-    .updateOne({ _id: workspaceId }, { $push: { tags: tagId } })
-    .lean();
+const addExistingTag = async (tagId: ObjectId, workspaceId: ObjectId) => {
+  await modTag.updateOne(
+    { _id: tagId },
+    { $push: { workspaces: workspaceId } }
+  );
+  await modWorkspace.updateOne(
+    { _id: workspaceId },
+    { $push: { tags: tagId } }
+  );
 };
 
 // 사용자가 처음 만드는 태그를 워크스페이스에 추가한다
@@ -73,7 +35,7 @@ const addNewTag = async (
   tagName: string,
   writerId: ObjectId,
   workspaceId: ObjectId
-): Promise<ITag> => {
+) => {
   const newTag = await modTag.create({
     name: tagName,
     createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
@@ -81,92 +43,88 @@ const addNewTag = async (
     workspaces: [workspaceId],
   });
 
-  await modWorkspace
-    .updateOne({ _id: workspaceId }, { $push: { tags: newTag._id } })
-    .lean();
+  await modWorkspace.updateOne(
+    { _id: workspaceId },
+    { $push: { tags: newTag._id } }
+  );
   return newTag;
 };
 
-export const addTag = async (
+const addTag = async (
   tagName: string,
   writerId: ObjectId,
   workspaceId: ObjectId
-): Promise<ITag> => {
-  const findedTag = await getTagByNameAndWriter(tagName, writerId);
-  if (!findedTag) {
+) => {
+  const findTag = await getSingleTag(tagName, writerId);
+  if (!findTag) {
     const newTag = await addNewTag(tagName, writerId, workspaceId);
     return newTag;
   }
 
-  const isTagAlreadyIncluded = findedTag.workspaces.some(
+  const isTagAlreadyIncluded = findTag?.workspaces.some(
     (workspace) => workspace === workspaceId
   );
   if (isTagAlreadyIncluded) {
-    throw new TagServiceError({
-      httpCode: HttpCode.CONFLICT,
-      description: "추가하려는 태그가 이미 존재합니다.",
-    });
+    throw new TagServiceError("추가하려는 태그가 이미 존재합니다.");
   }
 
-  await addExistingTag(findedTag._id, workspaceId);
-
-  return findedTag;
+  await addExistingTag(findTag._id, workspaceId);
+  return findTag;
 };
 
-export const deleteWorkspaceInTag = async (
-  tagId: ObjectId,
-  workspaceId: ObjectId
-): Promise<void> => {
-  await modTag
-    .updateOne(
-      { _id: tagId },
-      { $pull: { workspaces: new mongodb.ObjectId(workspaceId) } }
-    )
-    .lean();
-
-  const findedTag = await modTag.findOne({ _id: tagId });
-  if (findedTag?.workspaces.length === 0) {
+const deleteWorkspaceInTag = async (tagId: ObjectId, workspaceId: ObjectId) => {
+  await modTag.updateOne(
+    { _id: tagId },
+    { $pull: { workspaces: new mongodb.ObjectId(workspaceId) } }
+  );
+  const findTag = await modTag.findOne({ _id: tagId });
+  if (findTag?.workspaces?.length === 0) {
     await modTag.deleteOne({ _id: tagId });
   }
+  return { deleted: true };
 };
 
-const deleteTagInWorkspace = async (
-  tagId: ObjectId,
-  workspaceId: ObjectId
-): Promise<void> => {
-  await modWorkspace
-    .updateOne(
-      { _id: workspaceId },
-      { $pull: { tags: { _id: new mongodb.ObjectId(tagId) } } }
-    )
-    .lean();
+const deleteTagInWorkspace = async (tagId: ObjectId, workspaceId: ObjectId) => {
+  await modWorkspace.updateOne(
+    { _id: workspaceId },
+    { $pull: { tags: { _id: new mongodb.ObjectId(tagId) } } }
+  );
+  return { deleted: true };
 };
 
 // 워크스페이스에서 해당 id의 태그를 삭제합니다.
-export const removeTag = async (
+const removeTag = async (
   tagId: ObjectId,
-  workspaceId: ObjectId
-): Promise<void> => {
-  await Promise.all([
-    deleteWorkspaceInTag(tagId, workspaceId),
-    deleteTagInWorkspace(tagId, workspaceId),
-  ]);
+  workspaceId: ObjectId,
+  userId: ObjectId
+) => {
+  await deleteWorkspaceInTag(tagId, workspaceId);
+  await deleteTagInWorkspace(tagId, workspaceId);
+  return true;
 };
 
-export const replaceTag = async (
+const patchTag = async (
   prevTagId: ObjectId,
-  newTag: ITag,
+  tagName: string,
+  writerId: ObjectId,
   workspaceId: ObjectId
-): Promise<ITag> => {
-  await Promise.all([
-    deleteWorkspaceInTag(prevTagId, workspaceId),
-    modWorkspace
-      .updateOne(
-        { _id: workspaceId, "tags._id": prevTagId },
-        { "tags.$": newTag }
-      )
-      .lean(),
-  ]);
+) => {
+  const addedTag = await addTag(tagName, writerId, workspaceId);
 
-  return newTag;
+  await deleteWorkspaceInTag(prevTagId, workspaceId);
+  await modWorkspace.updateOne(
+    { _id: workspaceId, "tags._id": prevTagId },
+    { "tags.$": addedTag }
+  );
+
+  return addedTag;
+};
+
+export default {
+  getTagById,
+  getSingleTag,
+  addTag,
+  deleteWorkspaceInTag,
+  removeTag,
+  patchTag,
 };
