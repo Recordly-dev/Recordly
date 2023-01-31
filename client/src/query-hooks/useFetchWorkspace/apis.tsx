@@ -8,9 +8,9 @@ import { IWorkspace } from "../../types/workspace";
  * 전체 workspace 불러오는 api
  */
 export async function getWorkspaces() {
-  const { data } = await axios.get("/api/workspace");
+  const response = await axios.get("/api/workspace");
 
-  return data;
+  return response.data.result.workspaces;
 }
 
 /**
@@ -23,7 +23,7 @@ export async function getCurrentWorkspace({
 }) {
   const { data } = await axios.get(`/api/workspace/${workspaceId}`);
 
-  return data;
+  return data.result.workspaces;
 }
 
 /**
@@ -32,7 +32,7 @@ export async function getCurrentWorkspace({
 export async function getWorkspaceOutsideOfFolder() {
   const { data } = await axios.get("/api/workspace");
 
-  const filterData = data.filter(
+  const filterData = data.result.workspaces.filter(
     (workspace: IWorkspace) => workspace.folder === null
   );
 
@@ -45,7 +45,7 @@ export async function getWorkspaceOutsideOfFolder() {
 export async function getWorkspaceInFolder({ folderId }: { folderId: string }) {
   const { data } = await axios.get(`/api/folder/${folderId}/workspace`);
 
-  return data;
+  return data.result.workspaces;
 }
 
 /**
@@ -54,7 +54,7 @@ export async function getWorkspaceInFolder({ folderId }: { folderId: string }) {
 export async function getWorkspacesWithTag({ tagId }: { tagId: string }) {
   const { data } = await axios.get(`/api/tag/${tagId}/workspaces`);
 
-  return data;
+  return data.result.workspaces;
 }
 
 /**
@@ -76,11 +76,11 @@ export async function getSearchWorkspace({
   if (isFavoritesPage) {
     const { data } = await axios.get("/api/workspace/favorites");
 
-    workspaces = data;
+    workspaces = data.result.workspaces;
   } else {
     const { data } = await axios.get("/api/workspace");
 
-    workspaces = data;
+    workspaces = data.result.workspaces;
   }
 
   if (isKeywordBlank) {
@@ -110,15 +110,15 @@ export async function getWorkspacesSortedByEditedAt({
   if (isFavoritesPage) {
     const { data } = await axios.get("/api/workspace/favorites");
 
-    workspaces = data;
+    workspaces = data.result.workspaces;
   } else if (isTagPage) {
     const { data } = await axios.get("/api/workspace");
 
-    workspaces = data;
+    workspaces = data.result.workspaces;
   } else {
     const { data } = await axios.get("/api/workspace");
 
-    const outsideOfFolderWorkspace = data.filter(
+    const outsideOfFolderWorkspace = data.result.workspaces.filter(
       (workspace: IWorkspace) => workspace.folder === null
     );
 
@@ -142,7 +142,7 @@ export async function getWorkspacesSortedByEditedAt({
 export async function getFavoratedWorkspace() {
   const { data } = await axios.get("/api/workspace/favorites");
 
-  return data;
+  return data.result.workspaces;
 }
 
 /**

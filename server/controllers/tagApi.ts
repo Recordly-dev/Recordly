@@ -1,85 +1,123 @@
+import { Request, Response } from "express";
+import * as mongodb from "mongodb";
+
 import modTag from "../models/tag";
-import modWorkspace from "../models/workspace";
-import serTag from "../services/tagService";
+import * as serTag from "../services/tagService";
+import * as serWorkspace from "../services/workspaceService";
+import AuthenticationError from "../errors/AuthenticationError";
+import { HttpCode } from "../constants/httpCode";
 
-const getTagsOfCurrentUser = async (req, res, next) => {
-  try {
-    const { id: writerId } = req.user;
-    const tags = await modTag
-      .find({ writer: writerId })
-      .populate("workspaces", "title");
-
-    res.send(tags);
-  } catch (err) {
-    console.dir(err);
-    next(err);
+export const getTagsOfCurrentUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
+  const { _id: writerId } = req.user;
+
+  const tags = await modTag
+    .find({ writer: writerId })
+    .populate("workspaces", "title");
+
+  res.status(HttpCode.OK).json({
+    message: "태그가 정상적으로 조회되었습니다.",
+    result: {
+      tags,
+    },
+  });
 };
 
-const createTag = async (req, res, next) => {
+export const createTag = async (req: Request, res: Response): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  const { _id: writerId } = req.user;
   const { name: tagName, workspaceId } = req.body;
-  const { id: writerId } = req.user;
-  try {
-    const retTag = await serTag.addTag(tagName, writerId, workspaceId);
-    res.json(retTag);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
+
+  const createdTag = await serTag.addTag(tagName, writerId, workspaceId);
+
+  res.status(HttpCode.CREATED).json({
+    message: "태그가 정상적으로 추가되었습니다.",
+    result: {
+      tag: createdTag,
+    },
+  });
 };
 
-const deleteTag = async (req, res, next) => {
-  const tagId = req.params.tagId;
+export const deleteTag = async (req: Request, res: Response): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  serTag.validateTagId(req.params.tagId);
+
+  const tagId = new mongodb.ObjectId(req.params.tagId);
   const { workspaceId } = req.body;
+  const { _id: userId } = req.user;
 
-  try {
-    await serTag.removeTag(tagId, workspaceId);
-    res.json({ deleted: true });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+  const findedTag = await serTag.getTagById(tagId);
+  serTag.validateOwnerOfTag(findedTag, userId);
+
+  await serTag.removeTag(tagId, workspaceId);
+
+  res.status(HttpCode.OK).json({
+    message: "태그가 정상적으로 삭제되었습니다.",
+    response: {
+      deletedTagId: tagId,
+      workspaceId: workspaceId,
+    },
+  });
 };
 
-const patchTag = async (req, res, next) => {
-  const prevTagId = req.params.tagId;
-  const { id: writerId } = req.user;
+export const patchTag = async (req: Request, res: Response): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  serTag.validateTagId(req.params.tagId);
+
+  const { _id: userId } = req.user;
+  const prevTagId = new mongodb.ObjectId(req.params.tagId);
   const { workspaceId, tagName } = req.body;
 
-  try {
-    const changedTag = await serTag.patchTag(
-      prevTagId,
-      tagName,
-      writerId,
-      workspaceId
-    );
-    res.json(changedTag);
-  } catch (err) {
-    next(err);
-  }
+  const prevTag = await serTag.getTagById(prevTagId);
+  serTag.validateOwnerOfTag(prevTag, userId);
+
+  const newTag = await serTag.addTag(tagName, userId, workspaceId);
+  await serTag.replaceTag(prevTagId, newTag, workspaceId);
+
+  res.status(HttpCode.OK).json({
+    message: "태그가 정상적으로 수정되었습니다.",
+    response: {
+      newTag,
+      workspaceId: workspaceId,
+    },
+  });
 };
 
-const getWokrspacesWithTag = async (req, res, next) => {
-  const tagId = req.params.tagId;
+export const getWokrspacesWithTag = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  serTag.validateTagId(req.params.tagId);
 
-  const findTag = await serTag.getTagById(tagId);
-  const workspaces = await Promise.all(
-    findTag.workspaces.map((workspaceId) =>
-      modWorkspace
-        .findOne({ _id: workspaceId })
-        .select({ content: 0 })
-        .populate("tags", { name: 1 })
-        .lean()
-    )
+  const { _id: userId } = req.user;
+  const tagId = new mongodb.ObjectId(req.params.tagId);
+
+  const findedTag = await serTag.getTagById(tagId);
+  serTag.validateOwnerOfTag(findedTag, userId);
+
+  const populatedWorkspaces = serWorkspace.getWorkspacesPopulatedWithTags(
+    findedTag.workspaces
   );
 
-  res.send(workspaces);
-};
-
-export default {
-  getTagsOfCurrentUser,
-  createTag,
-  patchTag,
-  deleteTag,
-  getWokrspacesWithTag,
+  res.status(HttpCode.OK).json({
+    message:
+      "해당 태그를 등록한 워크스페이스 리스트를 정상적으로 조회했습니다.",
+    result: {
+      workspaces: populatedWorkspaces,
+    },
+  });
 };

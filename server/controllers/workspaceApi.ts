@@ -1,139 +1,176 @@
-import * as moment from "moment-timezone";
-import modWorkspace from "../models/workspace";
+import { Request, Response } from "express";
+import * as mongodb from "mongodb";
 
-import serWorkspace from "../services/workspaceService";
+import * as serWorkspace from "../services/workspaceService";
+import AuthenticationError from "../errors/AuthenticationError";
+import { HttpCode } from "../constants/httpCode";
 
-const getWorkspacesOfCurrentUser = async (req, res, next) => {
-  try {
-    const workspaces = await modWorkspace
-      .find({ writer: req.user.id })
-      .populate("tags", "name")
-      .select({ content: 0 })
-      .sort({ editedAt: -1 })
-      .lean();
-    res.json(workspaces);
-  } catch (err) {
-    console.log(err);
-    next(err);
+export const getWorkspacesOfCurrentUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
+  const userId = new mongodb.ObjectId(req.user.id);
+
+  const workspaces = await serWorkspace.getWorkspacesByWriterId(userId, {
+    content: 0,
+  });
+  res.status(HttpCode.OK).json({
+    message: "워크스페이스가 정상적으로 조회되었습니다.",
+    result: {
+      workspaces,
+    },
+  });
 };
 
-const createWorkspace = async (req, res, next) => {
-  try {
-    const { title, workspaceType } = req.body;
-    const { id: writerId } = req.user;
-
-    const workspace = await modWorkspace.create({
-      title,
-      workspaceType,
-      createdAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-      editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-      writer: writerId,
-      favorites: false,
-      folder: null,
-    });
-
-    res.status(201).json({ data: workspace });
-  } catch (err) {
-    console.error(err);
-    next(err);
+export const createWorkspace = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
+  const { title, workspaceType } = req.body;
+  const { _id: userId } = req.user;
+
+  const createdWorkspace = serWorkspace.createWorkspace(
+    title,
+    workspaceType,
+    userId
+  );
+
+  res.status(HttpCode.CREATED).json({
+    message: "워크스페이스가 정상적으로 생성되었습니다.",
+    result: {
+      workspace: createdWorkspace,
+    },
+  });
 };
 
-const getSingleWorkspace = async (req, res, next) => {
-  try {
-    const workspaceId = req.params.workspaceId;
-    const workspace = await modWorkspace
-      .find({ _id: workspaceId })
-      .populate("tags", "name");
-    res.json(workspace[0]);
-  } catch (err) {
-    console.log(err);
-    next(err);
+export const getSingleWorkspace = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
   }
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
+  const { _id: userId } = req.user;
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
+
+  const findedWorkspace = await serWorkspace.getWorkspaceById(workspaceId);
+  serWorkspace.validateOwnerOfWorkspace(findedWorkspace, userId);
+
+  res.status(HttpCode.OK).json({
+    message: "워크스페이스가 정상적으로 조회되었습니다.",
+    result: {
+      workspace: findedWorkspace,
+    },
+  });
 };
 
-const getFavoritesWorkspaceList = async (req, res, next) => {
-  try {
-    const workspaces = await modWorkspace
-      .find({ writer: req.user.id, favorites: true })
-      .populate("tags", "name")
-      .select({ content: 0 })
-      .sort({ editedAt: -1 });
+export const patchSingleWorkspace = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
 
-    res.json(workspaces);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
+  const { title, folder, content } = req.body;
+  const patchOptions = {
+    ...(title && { title }),
+    ...(folder && { folder }),
+    ...(content && { content }),
+  };
+
+  const updatedWorkspace = await serWorkspace.updateWorkspace(
+    workspaceId,
+    patchOptions
+  );
+
+  res.status(HttpCode.OK).json({
+    message: "워크스페이스가 정상적으로 수정되었습니다.",
+    result: {
+      workspace: updatedWorkspace,
+    },
+  });
 };
 
-const patchSingleWorkspace = async (req, res, next) => {
-  try {
-    await modWorkspace.updateOne(
-      { _id: req.params.workspaceId },
-      {
-        editedAt: moment().add(9, "hour").format("YYYY-MM-DD HH:mm:ss"),
-        ...req.body,
-      }
-    );
+export const deleteSingleWorkspace = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
 
-    res.json({ message: "update completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
+  await serWorkspace.deleteWorkspaceById(workspaceId);
+  res.status(HttpCode.OK).json({
+    message: "워크스페이스가 정상적으로 삭제되었습니다.",
+    result: {
+      workspaceId: workspaceId,
+    },
+  });
 };
 
-const patchFavoritesWorkspace = async (req, res, next) => {
-  try {
-    const { workspaceId, isFavorites } = req.body;
+export const saveRecommendedTags = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
 
-    await modWorkspace.updateOne(
-      { _id: workspaceId },
-      {
-        $set: { favorites: isFavorites },
-      }
-    );
-    res.json({ message: "update completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
-const deleteSingleWorkspace = async (req, res, next) => {
-  const workspaceId = req.params.workspaceId;
-  try {
-    serWorkspace.deleteWorkspaceById(workspaceId);
-    res.json({ data: "delete completed" });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
-const saveRecommendedTags = async (req, res, next) => {
-  const workspaceId = req.params.workspaceId;
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   const { recommendedTags } = req.body;
-  try {
-    await modWorkspace.updateOne(
-      { _id: workspaceId },
-      { $set: { recommendedTags } }
-    );
-    res.send(true);
-  } catch (err) {
-    next(err);
-  }
+
+  const updatedWorkspace = await serWorkspace.updateWorkspace(workspaceId, {
+    recommendedTags,
+  });
+
+  res.status(HttpCode.OK).json({
+    message: "추천 태그가 정상적으로 업데이트되었습니다.",
+    result: {
+      workspace: updatedWorkspace,
+    },
+  });
 };
 
-export default {
-  getWorkspacesOfCurrentUser,
-  createWorkspace,
-  getSingleWorkspace,
-  patchSingleWorkspace,
-  getFavoritesWorkspaceList,
-  patchFavoritesWorkspace,
-  deleteSingleWorkspace,
-  saveRecommendedTags,
+export const getFavoritedWorkspaceList = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    throw new AuthenticationError();
+  }
+  const userId = new mongodb.ObjectId(req.user.id);
+  const workspaces = await serWorkspace.getFavoratedWorkspacesByWriter(userId);
+
+  res.status(HttpCode.OK).json({
+    message: "즐겨찾기한 워크스페이스 리스트가 정상적으로 조회되었습니다.",
+    result: {
+      workspaces,
+    },
+  });
+};
+
+export const patchFavoritesWorkspace = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
+  const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
+  const { isFavorites } = req.body;
+
+  const updatedWorkspace = await serWorkspace.updateWorkspace(workspaceId, {
+    favorites: isFavorites,
+  });
+
+  res.status(HttpCode.OK).json({
+    message: "워크스페이스의 즐겨찾기 여부가 정상적으로 수정되었습니다.",
+    result: {
+      workspace: updatedWorkspace,
+    },
+  });
 };

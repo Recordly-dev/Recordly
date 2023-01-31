@@ -1,11 +1,12 @@
 import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const workspaceSchema = new mongoose.Schema({
+import { IWorkspace } from "../types/models/workspace";
+
+const workspaceSchema = new Schema<IWorkspace>({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   workspaceType: {
     type: String,
@@ -39,4 +40,4 @@ const workspaceSchema = new mongoose.Schema({
   recommendedTags: [{ type: String }],
 });
 
-export default mongoose.model("Workspace", workspaceSchema);
+export default model("Workspace", workspaceSchema);

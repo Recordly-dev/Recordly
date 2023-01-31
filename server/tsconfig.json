@@ -8,7 +8,16 @@
     "lib": ["es5", "es6"],
     "baseUrl": ".",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true
     // "paths": {
     //   "#middlewares/*": ["./middlewares/*"],
     //   "#models/*": ["./models/*"],
