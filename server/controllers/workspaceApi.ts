@@ -56,6 +56,8 @@ export const getSingleWorkspace = async (
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
   const { _id: userId } = req.user;
   const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
 
@@ -74,6 +76,8 @@ export const patchSingleWorkspace = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
   const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   const { title, folder, content } = req.body;
   const patchOptions = {
@@ -99,6 +103,8 @@ export const deleteSingleWorkspace = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
   const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   await serWorkspace.deleteWorkspaceById(workspaceId);
   res.status(HttpCode.OK).json({
@@ -113,6 +119,8 @@ export const saveRecommendedTags = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
   const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   const { recommendedTags } = req.body;
 
@@ -150,6 +158,8 @@ export const patchFavoritesWorkspace = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  serWorkspace.validateWorkspaceId(req.params.workspaceId);
+
   const workspaceId = new mongodb.ObjectId(req.params.workspaceId);
   const { isFavorites } = req.body;
 

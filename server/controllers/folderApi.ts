@@ -51,6 +51,8 @@ export const patchFolder = async (
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serFolder.validateFolderId(req.params.folderId);
+
   const userId = new mongodb.ObjectId(req.user.id);
   const folderId = new mongodb.ObjectId(req.params.folderId);
   const { title } = req.body;
@@ -75,6 +77,7 @@ export const deleteFolder = async (
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serFolder.validateFolderId(req.params.folderId);
 
   const folderId = new mongodb.ObjectId(req.params.folderId);
   const userId = new mongodb.ObjectId(req.user.id);
@@ -99,6 +102,7 @@ export const getWorkspacesInFolder = async (
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serFolder.validateFolderId(req.params.folderId);
 
   const folderId = new mongodb.ObjectId(req.params.folderId);
   const userId = new mongodb.ObjectId(req.user.id);

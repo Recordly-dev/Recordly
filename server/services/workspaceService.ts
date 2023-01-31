@@ -6,12 +6,22 @@ import modWorkspace from "../models/workspace";
 import * as serTag from "./tagService";
 import { HttpCode } from "../constants/httpCode";
 import { getCurrentDate } from "../utils/date";
+import { validateObjectId } from "./commonService";
+import InvalidParameterError from "../errors/InvalidParameterError";
+
+export const validateWorkspaceId = (workspaceId: string) => {
+  try {
+    validateObjectId(workspaceId);
+  } catch (e) {
+    throw new InvalidParameterError("workspaceId");
+  }
+};
 
 export const validateOwnerOfWorkspace = (
   data: IWorkspace,
   writerId: ObjectId
 ): void => {
-  if (data.writer !== writerId) {
+  if (!data.writer.equals(writerId)) {
     throw new WorkspaceServiceError({
       httpCode: HttpCode.FORBIDDEN,
       description: `해당 워크스페이스의 작성자가 아닙니다.`,

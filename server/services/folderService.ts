@@ -5,12 +5,22 @@ import { IFolder } from "types/models/folder";
 
 import modFolder from "../models/folder";
 import * as serWorkspace from "../services/workspaceService";
+import { validateObjectId } from "./commonService";
+import InvalidParameterError from "../errors/InvalidParameterError";
+
+export const validateFolderId = (folderId: string) => {
+  try {
+    validateObjectId(folderId);
+  } catch (e) {
+    throw new InvalidParameterError("folderId");
+  }
+};
 
 export const validateOwnerOfFolder = (
   data: IFolder,
   writerId: ObjectId
 ): void => {
-  if (data.writer !== writerId) {
+  if (!data.writer.equals(writerId)) {
     throw new FolderServiceError({
       httpCode: HttpCode.FORBIDDEN,
       description: `해당 폴더의 작성자가 아닙니다.`,

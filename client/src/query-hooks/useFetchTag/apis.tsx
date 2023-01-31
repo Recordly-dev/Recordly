@@ -6,7 +6,7 @@ import axios from "axios";
 export async function getTags() {
   const { data } = await axios.get("/api/tag");
 
-  return data;
+  return data.result.tags;
 }
 
 /**
@@ -16,9 +16,9 @@ export async function getTagsSortedByCount({ type }: { type: string }) {
   const { data } = await axios.get("/api/tag");
 
   if (type === "basic") {
-    return data;
+    return data.result.tags;
   } else if (type === "count") {
-    const sortedTagList = data.sort(
+    const sortedTagList = data.result.tags.sort(
       (a: any, b: any) => b.workspaces.length - a.workspaces.length
     );
 
@@ -33,13 +33,13 @@ export async function getTagsSortedByName({ isSort }: { isSort: boolean }) {
   const { data } = await axios.get("/api/tag");
 
   if (isSort) {
-    const sortedTagList = data.sort((a: any, b: any) =>
+    const sortedTagList = data.result.tags.sort((a: any, b: any) =>
       a.name.localeCompare(b.name)
     );
 
     return sortedTagList;
   } else {
-    return data;
+    return data.result.tags;
   }
 }
 
@@ -64,7 +64,7 @@ export async function getRecommendedTag({
       }
     );
 
-    const recommendedTags = data.tags;
+    const recommendedTags = data.result.tags;
 
     axios.patch(`/api/workspace/${workspaceId}/recommendedTags`, {
       recommendedTags,
@@ -86,7 +86,7 @@ export async function getTagsInWorkspace({
 }) {
   const { data } = await axios.get(`/api/workspace/${workspaceId}`);
 
-  const currentWorkspaceTagList = data.tags;
+  const currentWorkspaceTagList = data.result.workspace.tags;
 
   return currentWorkspaceTagList;
 }
@@ -124,7 +124,7 @@ export async function patchTag({
     tagName: tagName,
   });
 
-  return data;
+  return data.result.tag;
 }
 
 /**

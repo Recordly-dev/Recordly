@@ -12,7 +12,7 @@ import initOAuth from "./oauth";
 import routers from "./routes/index";
 import { RedisClientType } from "@redis/client";
 import { HttpCode } from "./constants/httpCode";
-import { AppError, isTrustedError } from "errors/AppError";
+import { AppError, isTrustedError } from "./errors/AppError";
 
 const redisStore = connectRedis(session);
 
@@ -58,8 +58,6 @@ export default function initExpress(redisClient: RedisClientType) {
     response,
     next
   ) => {
-    console.log(err);
-
     if (err instanceof AppError && isTrustedError(err)) {
       response.status(err.httpCode).json({
         message: err.message,
@@ -69,8 +67,6 @@ export default function initExpress(redisClient: RedisClientType) {
         response.status(HttpCode.INTERNAL_SERVER_ERROR).json({
           message: "Internal Server Error",
         });
-      console.log("Application encountered a critical error. Exiting");
-      process.exit(1);
     }
   };
   app.use(errorHandler);

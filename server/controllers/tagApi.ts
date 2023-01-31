@@ -49,6 +49,8 @@ export const deleteTag = async (req: Request, res: Response): Promise<void> => {
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serTag.validateTagId(req.params.tagId);
+
   const tagId = new mongodb.ObjectId(req.params.tagId);
   const { workspaceId } = req.body;
   const { _id: userId } = req.user;
@@ -71,6 +73,8 @@ export const patchTag = async (req: Request, res: Response): Promise<void> => {
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serTag.validateTagId(req.params.tagId);
+
   const { _id: userId } = req.user;
   const prevTagId = new mongodb.ObjectId(req.params.tagId);
   const { workspaceId, tagName } = req.body;
@@ -97,6 +101,8 @@ export const getWokrspacesWithTag = async (
   if (!req.user) {
     throw new AuthenticationError();
   }
+  serTag.validateTagId(req.params.tagId);
+
   const { _id: userId } = req.user;
   const tagId = new mongodb.ObjectId(req.params.tagId);
 

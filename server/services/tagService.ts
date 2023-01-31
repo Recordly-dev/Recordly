@@ -7,9 +7,19 @@ import modWorkspace from "../models/workspace";
 import TagServiceError from "../errors/service/TagServiceError";
 import { ITag } from "../types/models/tag";
 import { HttpCode } from "../constants/httpCode";
+import { validateObjectId } from "./commonService";
+import InvalidParameterError from "../errors/InvalidParameterError";
+
+export const validateTagId = (tagId: string) => {
+  try {
+    validateObjectId(tagId);
+  } catch (e) {
+    throw new InvalidParameterError("tagId");
+  }
+};
 
 export const validateOwnerOfTag = (data: ITag, writerId: ObjectId): void => {
-  if (data.writer !== writerId) {
+  if (!data.writer.equals(writerId)) {
     throw new TagServiceError({
       httpCode: HttpCode.FORBIDDEN,
       description: `해당 태그의 작성자가 아닙니다.`,
