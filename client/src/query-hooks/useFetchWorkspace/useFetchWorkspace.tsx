@@ -48,8 +48,12 @@ export const useGetWorkspaceOutsideOfFolder = () =>
 
 // 특정 폴더 안에 있는 워크스페이스 조회
 export const useGetWorkspaceInFolder = ({ folderId }: { folderId: string }) =>
-  useQuery(WORKSPACE_KEYS.workspaceInFolder(folderId), () =>
-    getWorkspaceInFolder({ folderId })
+  useQuery(
+    WORKSPACE_KEYS.workspaceInFolder(folderId),
+    () => getWorkspaceInFolder({ folderId }),
+    {
+      enabled: !!folderId,
+    }
   );
 
 // 특정 태그를 가진 워크스페이스 조회
