@@ -18,7 +18,6 @@ const SearchBar = ({
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
 
-  // enabled false로 두고 refetch로 조건에 따라 fetch하는 로직
   const { mutateAsync: mutateSearchWorkspace } = useGetSearchWorkspace({
     isFavoritesPage: !!isFavoritesPage,
     isTagPage: !!isTagPage,
@@ -26,7 +25,6 @@ const SearchBar = ({
 
   useEffect(() => {
     if (searchValue === "") {
-      mutateSearchWorkspace({ keyword: searchValue });
       dispatch(workspaceActions.updateSearchStatus({ isSearch: false }));
       return;
     }
@@ -34,6 +32,11 @@ const SearchBar = ({
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+
+    // useEffect에 넣으면 mount될 때 쓸데없는 api통신이 됨
+    if (e.target.value === "") {
+      mutateSearchWorkspace({ keyword: e.target.value });
+    }
   };
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

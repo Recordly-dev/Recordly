@@ -26,12 +26,6 @@ const DropdownSelect = ({
       isTagPage,
     });
 
-  useEffect(() => {
-    mutateSortedByEditedAt({
-      type: selectedItemName,
-    });
-  }, [selectedItemName]);
-
   const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
 
   return (
@@ -50,6 +44,9 @@ const DropdownSelect = ({
       <DropdownMenu className={styles.DropdownSelect__menu} end>
         <DropdownItem
           onClick={() => {
+            mutateSortedByEditedAt({
+              type: "Newest",
+            });
             setSelectedItemName("Newest");
           }}
           className={styles.DropdownSelect__menu__item}
@@ -58,6 +55,9 @@ const DropdownSelect = ({
         </DropdownItem>
         <DropdownItem
           onClick={() => {
+            mutateSortedByEditedAt({
+              type: "Oldest",
+            });
             setSelectedItemName("Oldest");
           }}
           className={styles.DropdownSelect__menu__item}
