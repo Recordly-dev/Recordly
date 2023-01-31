@@ -1,4 +1,5 @@
 import * as express from "express";
+import type { ErrorRequestHandler } from "express";
 import * as morgan from "morgan";
 import * as connectRedis from "connect-redis";
 
@@ -9,10 +10,11 @@ import * as cookieParser from "cookie-parser";
 
 import initOAuth from "./oauth";
 import routers from "./routes/index";
+import { RedisClientType } from "@redis/client";
 
 const redisStore = connectRedis(session);
 
-export default function initExpress(redisClient) {
+export default function initExpress(redisClient: RedisClientType) {
   const app = express();
   const PORT = process.env.PORT || 8080;
 
@@ -26,10 +28,9 @@ export default function initExpress(redisClient) {
   app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(
     session({
+      secret: process.env.COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
-      key: "app.sid",
-      secret: process.env.COOKIE_SECRET,
       store: new redisStore({
         port: 6379,
         client: redisClient,
@@ -49,12 +50,13 @@ export default function initExpress(redisClient) {
 
   app.use("/api", routers);
 
-  app.use((err, req, res, next) => {
+  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.log(err.message);
     res
       .status(err.status || 500)
       .json({ error: err.code, description: err.message });
-  });
+  };
+  app.use(errorHandler);
 
   return http.createServer(app).listen(PORT, () => {
     console.log("Express server listening on port " + PORT);

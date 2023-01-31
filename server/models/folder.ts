@@ -1,7 +1,9 @@
-import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
+import { IFolder } from "types/models/folder";
 
-const folderSchema = new mongoose.Schema({
+import { ObjectId } from "mongodb";
+import { Schema, model } from "mongoose";
+
+const folderSchema = new Schema<IFolder>({
   title: {
     type: String,
     required: true,
@@ -14,4 +16,4 @@ const folderSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Folder", folderSchema);
+export default model("Folder", folderSchema);
