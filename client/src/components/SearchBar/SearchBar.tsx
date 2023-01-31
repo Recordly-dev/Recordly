@@ -55,6 +55,7 @@ const SearchBar = ({
       placeholder="Search"
       onChange={handleChangeSearchValue}
       onKeyDown={handleOnKeyPress}
+      setSearchValue={setSearchValue}
     />
   );
 };

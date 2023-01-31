@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+import { IFolerState } from "types/folder";
 /**
  * 최근 폴더 id값 정의
  */
@@ -14,8 +15,8 @@ export const updateCurrentFolderId = createAsyncThunk(
   }
 );
 
-const initialState = {
-  currentFolderId: window.location.pathname.split("/").at(-1),
+const initialState: IFolerState = {
+  currentFolderId: "",
 };
 
 const folderSlice = createSlice({

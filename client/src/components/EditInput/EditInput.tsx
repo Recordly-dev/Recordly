@@ -17,7 +17,7 @@ const EditInput = ({
   patchFolder: Function;
   patchWorkspace: Function;
 }) => {
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [editInputValue, setEditInputValue] = useState(title);
 
   const handleEvent = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -47,7 +47,7 @@ const EditInput = ({
   return (
     <Input
       className={styles.EditInput}
-      ref={inputRef}
+      innerRef={inputRef}
       value={editInputValue}
       onClick={handleEvent}
       onChange={handleChangeInputValue}

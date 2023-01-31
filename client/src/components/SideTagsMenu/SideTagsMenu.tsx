@@ -22,6 +22,7 @@ import SortBigOrderIcon from "common/assets/icons/SortBigOrderIcon";
 import styles from "./SideTagsMenu.module.scss";
 
 import { ITag } from "types/tag";
+import { RootState } from "store";
 
 import CONSTANT from "./constants";
 
@@ -32,7 +33,7 @@ const SideTagsMenu = () => {
   const [tagId, setTagId] = useState("");
 
   const currentSeleteTagId = useSelector(
-    (state: any) => state.tag.currentTagId
+    (state: RootState) => state.tag.currentTagId
   );
 
   const { data: tagList } = useGetTags();
@@ -125,6 +126,7 @@ const SideTagsMenu = () => {
               value={tagInputValue}
               placeholder="Search Tags"
               onChange={handleTagInput}
+              setSearchValue={setTagInputValue}
             />
             <ResetTag
               setTagInputValue={setTagInputValue}

@@ -1,11 +1,12 @@
 import cn from "classnames";
-import { Container } from "reactstrap";
 
 import {
   useGetWorkspaces,
   useGetWorkspaceInFolder,
   useGetWorkspaceOutsideOfFolder,
 } from "query-hooks/useFetchWorkspace";
+
+import { Container } from "reactstrap";
 
 import FolderList from "components/FolderList";
 import WorkspaceList from "components/WorkspaceList";
@@ -16,6 +17,8 @@ import { useSelector } from "react-redux";
 
 import styles from "./MainDashboard.module.scss";
 
+import { RootState } from "store";
+
 const MainDashboard = ({
   isFolderDetailPage,
   isTagPage,
@@ -23,12 +26,12 @@ const MainDashboard = ({
   isFolderDetailPage?: boolean;
   isTagPage?: boolean;
 }) => {
-  const currentFolderId: string = useSelector(
-    (state: any) => state.folder.currentFolderId
+  const currentFolderId = useSelector(
+    (state: RootState) => state.folder.currentFolderId
   );
 
-  const isSearch: boolean = useSelector(
-    (state: any) => state.workspace.isSearchStatus
+  const isSearch = useSelector(
+    (state: RootState) => state.workspace.isSearchStatus
   );
 
   const { data: allWorkspaces, isLoading } = useGetWorkspaces();

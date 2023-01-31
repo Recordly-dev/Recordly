@@ -6,7 +6,11 @@ import styles from "./MoveToBackButton.module.scss";
 
 import CONSTANT from "./constants";
 
-const MoveToBackButton = ({ moveGoBack }: { moveGoBack: any }) => (
+const MoveToBackButton = ({
+  moveGoBack,
+}: {
+  moveGoBack: React.MouseEventHandler<HTMLDivElement>;
+}) => (
   <div className={styles.MoveToBackButton} onClick={moveGoBack}>
     <div
       className={cn("d-flex", "align-items-center", "justify-content-center")}

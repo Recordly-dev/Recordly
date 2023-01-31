@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ITag } from "types/tag";
 
 /**
  * 전체 태그 가져오기
@@ -19,7 +20,7 @@ export async function getTagsSortedByCount({ type }: { type: string }) {
     return data.result.tags;
   } else if (type === "count") {
     const sortedTagList = data.result.tags.sort(
-      (a: any, b: any) => b.workspaces.length - a.workspaces.length
+      (a: ITag, b: ITag) => b.workspaces.length - a.workspaces.length
     );
 
     return sortedTagList;
@@ -33,7 +34,7 @@ export async function getTagsSortedByName({ isSort }: { isSort: boolean }) {
   const { data } = await axios.get("/api/tag");
 
   if (isSort) {
-    const sortedTagList = data.result.tags.sort((a: any, b: any) =>
+    const sortedTagList = data.result.tags.sort((a: ITag, b: ITag) =>
       a.name.localeCompare(b.name)
     );
 
