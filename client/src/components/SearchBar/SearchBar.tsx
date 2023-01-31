@@ -19,18 +19,14 @@ const SearchBar = ({
   const [searchValue, setSearchValue] = useState("");
 
   // enabled false로 두고 refetch로 조건에 따라 fetch하는 로직
-  const { refetch: refetchWorkspace } = useGetSearchWorkspace({
-    keyword: searchValue,
+  const { mutateAsync: mutateSearchWorkspace } = useGetSearchWorkspace({
     isFavoritesPage: !!isFavoritesPage,
     isTagPage: !!isTagPage,
-    options: {
-      enabled: false,
-    },
   });
 
   useEffect(() => {
     if (searchValue === "") {
-      refetchWorkspace();
+      mutateSearchWorkspace({ keyword: searchValue });
       dispatch(workspaceActions.updateSearchStatus({ isSearch: false }));
       return;
     }
@@ -42,7 +38,7 @@ const SearchBar = ({
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      refetchWorkspace();
+      mutateSearchWorkspace({ keyword: searchValue });
       dispatch(workspaceActions.updateSearchStatus({ isSearch: true }));
     }
   };
