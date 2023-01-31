@@ -110,24 +110,18 @@ export const useGetSearchWorkspace = ({
 
 // type에 따라 정렬된 워크스페이스 조회
 export const useGetWorkspacesSortedByEditedAt = ({
-  type,
   isFavoritesPage,
   isTagPage,
-  options,
 }: {
-  type: string;
   isFavoritesPage?: boolean;
   isTagPage?: boolean;
-  options: searchWorkspaceOptions;
 }) => {
   const queryClient = useQueryClient();
 
-  return useQuery(
-    WORKSPACE_KEYS.sorted(type),
-    () => getWorkspacesSortedByEditedAt({ type, isFavoritesPage, isTagPage }),
+  return useMutation(
+    ({ type }: { type: string }) =>
+      getWorkspacesSortedByEditedAt({ type, isFavoritesPage, isTagPage }),
     {
-      // 현재 검색할 때 마다 workspace 호출이 여러 번 되는 이슈
-      // 추후 Debounce or key 최적화로 해결 예정
       onSuccess: (workspaces: IWorkspace[]) => {
         if (isFavoritesPage) {
           queryClient.setQueryData(WORKSPACE_KEYS.favorited(), workspaces);
@@ -140,7 +134,6 @@ export const useGetWorkspacesSortedByEditedAt = ({
           );
         }
       },
-      ...options,
     }
   );
 };

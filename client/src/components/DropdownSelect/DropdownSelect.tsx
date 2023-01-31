@@ -20,17 +20,16 @@ const DropdownSelect = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [selectedItemName, setSelectedItemName] = useState("Newest");
 
-  const { refetch: refetchWorkspace } = useGetWorkspacesSortedByEditedAt({
-    isFavoritesPage,
-    isTagPage,
-    type: selectedItemName,
-    options: {
-      enabled: false,
-    },
-  });
+  const { mutateAsync: mutateSortedByEditedAt } =
+    useGetWorkspacesSortedByEditedAt({
+      isFavoritesPage,
+      isTagPage,
+    });
 
   useEffect(() => {
-    refetchWorkspace();
+    mutateSortedByEditedAt({
+      type: selectedItemName,
+    });
   }, [selectedItemName]);
 
   const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
