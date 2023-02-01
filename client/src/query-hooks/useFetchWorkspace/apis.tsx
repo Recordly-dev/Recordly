@@ -14,7 +14,7 @@ export async function getWorkspaces() {
 }
 
 /**
- * 전체 workspace 불러오는 api
+ * 현재 workspace 불러오는 api
  */
 export async function getCurrentWorkspace({
   workspaceId,
@@ -23,7 +23,7 @@ export async function getCurrentWorkspace({
 }) {
   const { data } = await axios.get(`/api/workspace/${workspaceId}`);
 
-  return data.result.workspaces;
+  return data.result.workspace;
 }
 
 /**

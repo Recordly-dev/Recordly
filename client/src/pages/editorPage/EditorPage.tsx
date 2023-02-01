@@ -5,14 +5,12 @@ import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
 import EditorMenu from "components/EditorMenu";
 
-import { IWorkspace } from "types/workspace";
 import styles from "./EditorPage.module.scss";
 import axios from "axios";
 
 const AppContext = createContext({} as TldrawApp);
 
 const EditorPage = () => {
-  const [workspace, setWorkspace] = useState<IWorkspace>();
   const [app, setApp] = useState<TldrawApp>();
 
   const rTLDrawApp = useRef<TldrawApp>();
@@ -25,7 +23,6 @@ const EditorPage = () => {
       if (workspace?.content?.pages?.page?.shapes) {
         app.mergeDocument(cloneDeep(workspace.content));
       }
-      setWorkspace(workspace);
       setApp(app);
       rTLDrawApp.current = app; // [2]
     });
@@ -44,11 +41,7 @@ const EditorPage = () => {
       {/* When the app is in state, add it to the context provider and show the custom UI */}
       {app && (
         <AppContext.Provider value={app}>
-          <EditorMenu
-            context={AppContext}
-            workspaceId={workspaceId}
-            title={workspace?.title}
-          />
+          <EditorMenu context={AppContext} workspaceId={workspaceId} />
         </AppContext.Provider>
       )}
     </div>

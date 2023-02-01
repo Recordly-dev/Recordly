@@ -112,12 +112,10 @@ export async function patchTag({
   tagName: string;
   workspaceId: string;
 }) {
-  const { data } = await axios.patch(`/api/tag/${tagId}`, {
+  await axios.patch(`/api/tag/${tagId}`, {
     workspaceId: workspaceId,
     tagName: tagName,
   });
-
-  return data.result.tag;
 }
 
 /**
