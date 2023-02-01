@@ -17,7 +17,7 @@ function useInputOnClickOutside(ref, handler, isPatch) {
         document.removeEventListener("touchstart", listener);
       };
     }
-  }, [isPatch]);
+  }, [handler, isPatch, ref]);
 }
 
 export default useInputOnClickOutside;
