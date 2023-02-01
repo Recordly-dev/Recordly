@@ -56,11 +56,9 @@ let getRecommendedTagsInterval: NodeJS.Timeout;
 const EditorMenu = ({
   context = createContext({} as TldrawApp),
   workspaceId,
-  title,
 }: {
   context: React.Context<TldrawApp>;
   workspaceId: string;
-  title: string | undefined;
 }) => {
   const app = useContext(context);
   const activeTool = app.useStore((s) => s.appState.activeTool);
@@ -262,11 +260,11 @@ const EditorMenu = ({
 
     const relatedWorkspaceList = await workspaces?.filter(
       (workspace: IWorkspace) => {
-        if (workspace.title === title) return false;
+        if (workspace.title === currentWorkspace?.title) return false;
 
-        const tags = workspace.tags.map((tag: ITag) => tag.name);
+        const tags = workspace.tags?.map((tag: ITag) => tag.name);
 
-        for (let i = 0; i < tags.length; i++) {
+        for (let i = 0; i < tags?.length; i++) {
           if (currentWorkspaceTagList.includes(tags[i])) {
             return true;
           }
@@ -305,10 +303,10 @@ const EditorMenu = ({
     renderRelatedWorkspaceList = new Array(3)
       .fill(1)
       .map((v) => <SimpleWorkspaceSkeleton />);
-  } else if (relatedWorkspaceList.length === 0) {
+  } else if (relatedWorkspaceList?.length === 0) {
     renderRelatedWorkspaceList = <EmptyImage />;
   } else {
-    renderRelatedWorkspaceList = relatedWorkspaceList.map(
+    renderRelatedWorkspaceList = relatedWorkspaceList?.map(
       (workspace: IWorkspace) => (
         <SimpleWorkspace
           key={workspace._id}
@@ -335,7 +333,7 @@ const EditorMenu = ({
             color="#3e404c"
           />
         </Button>
-        <h6>{title}</h6>
+        <h6>{currentWorkspace?.title}</h6>
       </div>
       <div className={styles.EditorMenu__top}>
         <Button
@@ -486,7 +484,7 @@ const EditorMenu = ({
               <div className={styles.TagList__BasicTag}>
                 <span className={styles.TagList__title}>TagList</span>
                 <div className={styles.TagList}>
-                  {tagList.map((tag: ITag, idx: number) =>
+                  {tagList?.map((tag: ITag, idx: number) =>
                     isPatchTag.state && isPatchTag.index === idx ? (
                       <input
                         className={styles.Tag__editInput}
@@ -508,7 +506,7 @@ const EditorMenu = ({
                       />
                     )
                   )}
-                  {tagList.length < 10 && isViewTagList && (
+                  {tagList?.length < 10 && isViewTagList && (
                     <TagInput workspaceId={workspaceId} />
                   )}
                 </div>
@@ -522,7 +520,7 @@ const EditorMenu = ({
                     {recommendedTags
                       ?.filter(
                         (tag: IRecommendedTag) =>
-                          !tagList.map((tag: ITag) => tag.name).includes(tag)
+                          !tagList?.map((tag: ITag) => tag.name).includes(tag)
                       )
                       .slice(0, 3)
                       ?.map((tag: string, idx: number) => (
