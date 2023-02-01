@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import _ from "lodash";
-
 /**
  * 최근 태그 id값 정의
  */
 export const updateCurrentTagId = createAsyncThunk(
-  "folder/updateCurrentTagId",
+  "tag/updateCurrentTagId",
   async (arg: { tagId: String }) => {
     try {
       return arg.tagId;

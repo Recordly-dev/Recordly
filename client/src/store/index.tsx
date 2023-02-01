@@ -1,8 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  useDispatch as _useDispatch,
-  useSelector as _useSelector,
-} from "react-redux";
+import { useDispatch as _useDispatch } from "react-redux";
 
 import workspace from "./slice/workspaceSlice";
 import tag from "./slice/tagSlice";

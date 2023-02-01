@@ -2,7 +2,7 @@ import { useState, useEffect, MouseEventHandler } from "react";
 
 import LibAvatar from "react-avatar";
 
-interface Avatar {
+interface IAvatar {
   name: string;
   round: boolean;
   size: string;
@@ -14,7 +14,7 @@ const Avatar = ({
   libAvatarProps,
   toggleDropdown,
 }: {
-  libAvatarProps: Avatar;
+  libAvatarProps: IAvatar;
   toggleDropdown?: MouseEventHandler;
 }) => {
   const [mounted, setMounted] = useState(false);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dropdown,
   DropdownToggle,
@@ -20,11 +20,11 @@ const DropdownSelect = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [selectedItemName, setSelectedItemName] = useState("Newest");
 
-  useGetWorkspacesSortedByEditedAt({
-    isFavoritesPage,
-    isTagPage,
-    type: selectedItemName,
-  });
+  const { mutateAsync: mutateSortedByEditedAt } =
+    useGetWorkspacesSortedByEditedAt({
+      isFavoritesPage,
+      isTagPage,
+    });
 
   const toggle = (): void => setIsDropdownOpen((prevState) => !prevState);
 
@@ -44,6 +44,9 @@ const DropdownSelect = ({
       <DropdownMenu className={styles.DropdownSelect__menu} end>
         <DropdownItem
           onClick={() => {
+            mutateSortedByEditedAt({
+              type: "Newest",
+            });
             setSelectedItemName("Newest");
           }}
           className={styles.DropdownSelect__menu__item}
@@ -52,6 +55,9 @@ const DropdownSelect = ({
         </DropdownItem>
         <DropdownItem
           onClick={() => {
+            mutateSortedByEditedAt({
+              type: "Oldest",
+            });
             setSelectedItemName("Oldest");
           }}
           className={styles.DropdownSelect__menu__item}
