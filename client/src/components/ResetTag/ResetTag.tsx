@@ -14,11 +14,11 @@ import CONSTANT from "./constants";
 const ResetTag = ({
   setIsSortByName,
   setTagInputValue,
-  sortTagList,
+  sortByCountTagList,
 }: {
   setIsSortByName: Function;
   setTagInputValue: Function;
-  sortTagList: Function;
+  sortByCountTagList: Function;
 }) => {
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const ResetTag = ({
 
     setTagInputValue("");
     setIsSortByName(false);
-    sortTagList("count");
+    sortByCountTagList(false);
 
     dispatch(tagListActions.updateCurrentTagId({ tagId: "" }));
   };

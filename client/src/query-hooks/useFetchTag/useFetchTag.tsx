@@ -16,13 +16,27 @@ import TAG_KEYS from "./keys";
 // 전체 태그 조회
 export const useGetTags = () => useQuery(TAG_KEYS.all(), getTags);
 
-// 이름 순으로 정렬된 태그 조회
-export const useGetTagsSortedByCount = ({ type }: { type: string }) =>
-  useQuery(TAG_KEYS.all(), () => getTagsSortedByCount({ type }));
+// 많이 나온 순 태그 조회
+export const useGetTagsSortedByCount = () => {
+  const queryClient = useQueryClient();
 
-// 알파벳 순서로 정렬된 태그 조회
-export const useGetTagsSortedByName = ({ isSort }: { isSort: boolean }) =>
-  useQuery(TAG_KEYS.all(), () => getTagsSortedByName({ isSort }));
+  return useMutation(getTagsSortedByCount, {
+    onSuccess: (tags) => {
+      queryClient.setQueryData(TAG_KEYS.all(), tags);
+    },
+  });
+};
+
+// 이름 순 태그 조회
+export const useGetTagsSortedByName = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(getTagsSortedByName, {
+    onSuccess: (tags) => {
+      queryClient.setQueryData(TAG_KEYS.all(), tags);
+    },
+  });
+};
 
 // 추천 태그 조회
 export const useGetRecommendedTag = ({
