@@ -33,7 +33,7 @@ const Folder = ({
   const { mutateAsync: mutateDeleteFolder } = useDeleteFolder();
 
   useEffect(() => {
-    const filterWorkspaceList = workspaces.filter(
+    const filterWorkspaceList = workspaces?.filter(
       (workspace: IWorkspace) => workspace.folder === uid
     );
     setCountOfMemosInFolder(filterWorkspaceList?.length);

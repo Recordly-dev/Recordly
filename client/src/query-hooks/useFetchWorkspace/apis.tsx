@@ -8,9 +8,9 @@ import { IWorkspace } from "../../types/workspace";
  * 전체 workspace 불러오는 api
  */
 export async function getWorkspaces() {
-  const response = await axios.get("/api/workspace");
+  const { data } = await axios.get("/api/workspace");
 
-  return response.data.result.workspaces;
+  return data.result.workspaces;
 }
 
 /**
@@ -53,7 +53,7 @@ export async function getWorkspaceInFolder({ folderId }: { folderId: string }) {
  */
 export async function getWorkspacesWithTag({ tagId }: { tagId: string }) {
   const { data } = await axios.get(`/api/tag/${tagId}/workspaces`);
-
+  console.log("1");
   return data.result.workspaces;
 }
 
