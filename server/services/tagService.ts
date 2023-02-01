@@ -46,12 +46,6 @@ export const getTagByNameAndWriter = async (
   const findedTag = (await modTag
     .findOne({ name: tagName, writer: writerId })
     .lean()) as ITag;
-  if (!findedTag) {
-    throw new TagServiceError({
-      httpCode: HttpCode.NOT_FOUND,
-      description: "태그가 존재하지 않습니다.",
-    });
-  }
   return findedTag;
 };
 

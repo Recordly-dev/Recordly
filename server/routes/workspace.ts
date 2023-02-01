@@ -22,6 +22,20 @@ router
   );
 
 router
+  .route("/favorites")
+  .get(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.getFavoritedWorkspaceList)
+  );
+
+router
+  .route("/favorites/:workspaceId")
+  .patch(
+    midError.asyncWrapper(midAuth.checkLogin),
+    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
+  );
+
+router
   .route("/:workspaceId")
   .get(
     midError.asyncWrapper(midAuth.checkLogin),
@@ -54,20 +68,6 @@ router
   .patch(
     midError.asyncWrapper(midAuth.checkLogin),
     midError.asyncWrapper(workspaceApi.saveRecommendedTags)
-  );
-
-router
-  .route("/favorites")
-  .get(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(workspaceApi.getFavoritedWorkspaceList)
-  );
-
-router
-  .route("/favorites/:workspaceId")
-  .patch(
-    midError.asyncWrapper(midAuth.checkLogin),
-    midError.asyncWrapper(workspaceApi.patchFavoritesWorkspace)
   );
 
 export default router;
