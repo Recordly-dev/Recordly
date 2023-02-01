@@ -57,14 +57,13 @@ export const useGetWorkspaceInFolder = ({ folderId }: { folderId: string }) =>
   );
 
 // 특정 태그를 가진 워크스페이스 조회
-export const useGetWorkspacesWithTag = ({ tagId }: { tagId: string }) => {
+export const useGetWorkspacesWithTag = () => {
   const queryClient = useQueryClient();
 
-  return useQuery(
-    WORKSPACE_KEYS.haveTags(tagId),
-    () => getWorkspacesWithTag({ tagId }),
+  return useMutation(
+    ({ tagId }: { tagId: string }) => getWorkspacesWithTag({ tagId }),
     {
-      onSuccess: (workspaces: IWorkspace[]) => {
+      onSuccess: (workspaces) => {
         queryClient.setQueryData(WORKSPACE_KEYS.all(), workspaces);
       },
     }

@@ -13,35 +13,27 @@ export async function getTags() {
 /**
  * 태그 목록 정렬하는 api
  */
-export async function getTagsSortedByCount({ type }: { type: string }) {
+export async function getTagsSortedByCount() {
   const { data } = await axios.get("/api/tag");
 
-  if (type === "basic") {
-    return data.result.tags;
-  } else if (type === "count") {
-    const sortedTagList = data.result.tags.sort(
-      (a: ITag, b: ITag) => b.workspaces.length - a.workspaces.length
-    );
+  const sortedTagList = data.result.tags.sort(
+    (a: ITag, b: ITag) => b.workspaces.length - a.workspaces.length
+  );
 
-    return sortedTagList;
-  }
+  return sortedTagList;
 }
 
 /**
  * 태그 목록 이름 순 정렬하는 api
  */
-export async function getTagsSortedByName({ isSort }: { isSort: boolean }) {
+export async function getTagsSortedByName() {
   const { data } = await axios.get("/api/tag");
 
-  if (isSort) {
-    const sortedTagList = data.result.tags.sort((a: ITag, b: ITag) =>
-      a.name.localeCompare(b.name)
-    );
+  const sortedTagList = data.result.tags.sort((a: ITag, b: ITag) =>
+    a.name.localeCompare(b.name)
+  );
 
-    return sortedTagList;
-  } else {
-    return data.result.tags;
-  }
+  return sortedTagList;
 }
 
 /**

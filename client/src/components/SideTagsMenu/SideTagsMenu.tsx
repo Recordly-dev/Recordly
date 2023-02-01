@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import { useSelector } from "react-redux";
 import { useDispatch } from "store";
@@ -27,23 +27,19 @@ import { RootState } from "store";
 import CONSTANT from "./constants";
 
 const SideTagsMenu = () => {
-  const [sortType, setSortType] = useState("basic");
+  const [isSortByCount, setIsSortByCount] = useState(false);
   const [isSortByName, setIsSortByName] = useState(false);
   const [tagInputValue, setTagInputValue] = useState("");
-  const [tagId, setTagId] = useState("");
 
   const currentSeleteTagId = useSelector(
     (state: RootState) => state.tag.currentTagId
   );
 
-  const { data: tagList } = useGetTags();
-  const { refetch: refetchByCount } = useGetTagsSortedByCount({
-    type: sortType,
-  });
-  const { refetch: refetchByName } = useGetTagsSortedByName({
-    isSort: isSortByName,
-  });
-  const { refetch: refetchTags } = useGetWorkspacesWithTag({ tagId });
+  const { data: tagList, refetch: refetchTagList } = useGetTags();
+
+  const { mutateAsync: mutateTagsByCount } = useGetTagsSortedByCount();
+  const { mutateAsync: mutateTagsByName } = useGetTagsSortedByName();
+  const { mutateAsync: mutateWorkspacesWithTags } = useGetWorkspacesWithTag();
 
   const dispatch = useDispatch();
 
@@ -54,33 +50,28 @@ const SideTagsMenu = () => {
   };
 
   const getWorkspaceWithTags = (tagId: string) => {
-    setTagId(tagId);
+    mutateWorkspacesWithTags({ tagId });
+    dispatch(tagListActions.updateCurrentTagId({ tagId }));
   };
 
-  const sortTagList = (type: string) => {
-    if (type === "basic") {
-      setSortType("count");
+  const sortByCountTagList = (isSort: boolean) => {
+    if (isSort) {
+      mutateTagsByCount();
     } else {
-      setSortType("basic");
+      refetchTagList();
     }
+
+    setIsSortByCount((prev) => !prev);
   };
 
-  const sortByNameTagList = () => {
+  const sortByNameTagList = (isSort: boolean) => {
+    if (isSort) {
+      mutateTagsByName();
+    } else {
+      refetchTagList();
+    }
     setIsSortByName((prev) => !prev);
   };
-
-  useEffect(() => {
-    refetchTags();
-    dispatch(tagListActions.updateCurrentTagId({ tagId }));
-  }, [tagId]);
-
-  useEffect(() => {
-    refetchByCount();
-  }, [sortType]);
-
-  useEffect(() => {
-    refetchByName();
-  }, [isSortByName]);
 
   const isEmptyTagList = !tagList
     ? true
@@ -95,7 +86,7 @@ const SideTagsMenu = () => {
           <span>Tags</span>
           <div className={styles.SideTagsMenu__icons}>
             <span
-              onClick={sortByNameTagList}
+              onClick={() => sortByNameTagList(!isSortByName)}
               className={cn({
                 "material-symbols-outlined": true,
                 [styles.SideTagsMenu__sortIcon]: true,
@@ -107,8 +98,8 @@ const SideTagsMenu = () => {
             <SortBigOrderIcon
               width={CONSTANT.ICON_SIZE.SORT}
               height={CONSTANT.ICON_SIZE.SORT}
-              color={sortType === "basic" ? "#3e404c" : "#0c7ae2"}
-              onClick={() => sortTagList(sortType)}
+              color={isSortByCount === false ? "#3e404c" : "#0c7ae2"}
+              onClick={() => sortByCountTagList(!isSortByCount)}
             />
           </div>
         </div>
@@ -130,7 +121,7 @@ const SideTagsMenu = () => {
             />
             <ResetTag
               setTagInputValue={setTagInputValue}
-              sortTagList={sortTagList}
+              sortByCountTagList={sortByCountTagList}
               setIsSortByName={setIsSortByName}
             />
           </div>

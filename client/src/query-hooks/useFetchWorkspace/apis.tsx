@@ -53,7 +53,7 @@ export async function getWorkspaceInFolder({ folderId }: { folderId: string }) {
  */
 export async function getWorkspacesWithTag({ tagId }: { tagId: string }) {
   const { data } = await axios.get(`/api/tag/${tagId}/workspaces`);
-  console.log("1");
+
   return data.result.workspaces;
 }
 
