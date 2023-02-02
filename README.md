@@ -9,7 +9,6 @@
     <img src="https://img.shields.io/badge/React Query-v3.39.2-FF4154?style=flat-square&logo=react query&logoColor=FF4154"/>
     <img src="https://img.shields.io/badge/Scss-v0.2.4-CC6699?style=flat-square&logo=Sass&logoColor=CC6699"/>
     <br>
-    <img src="https://img.shields.io/badge/Typescript-v4.9.4-3178C6?style=flat-square&logo=typescript&logoColor="/>
     <img src="https://img.shields.io/badge/Express.js-v4.18.1-000000?style=flat-square&logo=node.js&logoColor=000000"/>
     <img src="https://img.shields.io/badge/MongoDB-v4.7.0-DC382D?style=flat-square&logo=MongoDB&logoColor=DC382D"/>
     <img src="https://img.shields.io/badge/Redis-v4.5.1-CC6699?style=flat-square&logo=Redis&logoColor=CC6699"/>
