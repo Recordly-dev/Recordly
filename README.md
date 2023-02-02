@@ -1,4 +1,5 @@
 <img width="1187" alt="스크린샷 2023-02-02 오후 10 21 47" src="https://user-images.githubusercontent.com/72312559/216351270-1552e451-38f3-40bf-b64e-aeee1aea5c8f.png">
+
 ### <p align="center">🛠️ skill</p>
 
 <p align="center">
@@ -19,6 +20,7 @@
     <img src="https://img.shields.io/badge/uSWGI-555456?style=flat-square&logo=uSWGI&logoColor=000000"/>
 </p>
 <hr>
+
 ## 목차
 
 1. [개요](#개요)
@@ -35,6 +37,7 @@ Recordly는 `텍스트 분석을 통한 태그 키워드 추천` 및 `연관 메
 디바이스와 무관하게 `웹 서비스 형태`로 Recordly를 시작해보세요
 
 <hr>
+
 ## 팀 정보
 
 | 분류    | 내용                                                                |
@@ -45,6 +48,7 @@ Recordly는 `텍스트 분석을 통한 태그 키워드 추천` 및 `연관 메
 | 소개    | 작성한 메모에 대해 태그 추천 및 메모 추천을 제공하는 웹 필기 서비스 |
 
 <hr>
+
 ## 주요 기능
 
 - `포스트잇`, `도형 그리기`, `펜 필기`, `텍스트`, `사용자 정의 스타일` 등 다양한 메모 에디팅 기능
@@ -53,6 +57,7 @@ Recordly는 `텍스트 분석을 통한 태그 키워드 추천` 및 `연관 메
 - 작성한 메모에 대해 `관련 메모 추천` 기능
 
 <hr>
+
 ## 구현 화면
 
 #### main page
@@ -71,5 +76,6 @@ Recordly는 `텍스트 분석을 통한 태그 키워드 추천` 및 `연관 메
 </div>
 
 <hr>
+
 ## 시스템 구성도
 <img width="1187" alt="erd" src="https://user-images.githubusercontent.com/72312559/216354332-d257bf38-4d69-4b66-905d-c4ec5cb01096.png">
