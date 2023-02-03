@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Scss-v0.2.4-CC6699?style=flat-square&logo=Sass&logoColor=CC6699"/>
     <br>
     <img src="https://img.shields.io/badge/Express.js-v4.18.1-000000?style=flat-square&logo=node.js&logoColor=000000"/>
-    <img src="https://img.shields.io/badge/MongoDB-v4.7.0-DC382D?style=flat-square&logo=MongoDB&logoColor=DC382D"/>
+    <img src="https://img.shields.io/badge/MongoDB-v4.7.0-47A248?style=flat-square&logo=MongoDB&logoColor=47A248"/>
     <img src="https://img.shields.io/badge/Redis-v4.5.1-CC6699?style=flat-square&logo=Redis&logoColor=CC6699"/>
     <img src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=Nginx&logoColor=white"/>
     <br>
