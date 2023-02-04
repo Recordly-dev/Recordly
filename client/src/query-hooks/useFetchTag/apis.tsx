@@ -65,7 +65,7 @@ export async function getRecommendedTag({
 
     return recommendedTags;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 

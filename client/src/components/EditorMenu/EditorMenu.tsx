@@ -300,9 +300,9 @@ const EditorMenu = ({
   let renderRelatedWorkspaceList;
 
   if (isRecommendeWorkspaceLoading) {
-    renderRelatedWorkspaceList = new Array(3)
-      .fill(1)
-      .map((v) => <SimpleWorkspaceSkeleton />);
+    renderRelatedWorkspaceList = [...Array(3).keys()].map((v) => (
+      <SimpleWorkspaceSkeleton key={v} />
+    ));
   } else if (relatedWorkspaceList?.length === 0) {
     renderRelatedWorkspaceList = <EmptyImage />;
   } else {
@@ -487,6 +487,7 @@ const EditorMenu = ({
                   {tagList?.map((tag: ITag, idx: number) =>
                     isPatchTag.state && isPatchTag.index === idx ? (
                       <input
+                        key={tag._id}
                         className={styles.Tag__editInput}
                         ref={inputRef}
                         value={patchValue}
@@ -497,6 +498,7 @@ const EditorMenu = ({
                       />
                     ) : (
                       <BasicTag
+                        key={tag?._id}
                         tagId={tag?._id}
                         workspaceId={workspaceId}
                         tagName={tag?.name}
@@ -525,6 +527,7 @@ const EditorMenu = ({
                       .slice(0, 3)
                       ?.map((tag: string, idx: number) => (
                         <RecommendedTag
+                          key={`${tag}-${idx}`}
                           tagName={tag}
                           saveRecommendedTag={saveRecommendedTag}
                           idx={idx}
@@ -533,8 +536,8 @@ const EditorMenu = ({
                   </div>
                 ) : (
                   <div className={cn("d-flex", "align-items-center")}>
-                    {new Array(3).fill(1).map((v) => (
-                      <RecommendedTagSkeleton />
+                    {[...Array(3).keys()].map((v) => (
+                      <RecommendedTagSkeleton key={v} />
                     ))}
                   </div>
                 )}

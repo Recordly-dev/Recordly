@@ -19,6 +19,7 @@ const TagList = ({
       (tag: ITag) =>
         tag.name.includes(tagInputValue) && (
           <Tag
+            key={tag?._id}
             id={tag?._id}
             name={tag?.name}
             count={tag?.workspaces?.length}
