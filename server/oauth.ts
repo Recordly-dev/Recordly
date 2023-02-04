@@ -29,7 +29,7 @@ export default function initOAuth(app: Express) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.PROTOCOL}://${process.env.SERVER_HOST}/api/auth/google/callback`,
+        callbackURL: `${process.env.PROTOCOL}://${process.env.HOST}/api/auth/google/callback`,
         passReqToCallback: true,
       },
       async (

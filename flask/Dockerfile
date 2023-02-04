@@ -9,7 +9,7 @@ RUN apt-get install -y default-jdk
 RUN /usr/local/bin/python -m pip install --upgrade pip
 
 RUN pip3 install flask
-RUN pip3 install sklearn
+RUN pip3 install scikit-learn
 RUN pip3 install sentence_transformers
 RUN pip3 install konlpy
 

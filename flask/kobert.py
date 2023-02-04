@@ -13,8 +13,9 @@ def getTags(rawText):
     tokenized_nouns = ' '.join([word[0] for word in tokenized_doc if word[1] == 'Noun'])
 
     n_gram_range = (1, 1)
-    count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
-    candidates = count.get_feature_names()
+    vectorizer = CountVectorizer(ngram_range=n_gram_range)
+    vectorizer.fit([tokenized_nouns])
+    candidates = vectorizer.get_feature_names_out()
     
     model = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v1')
     doc_embedding = model.encode([rawText])
