@@ -29,6 +29,7 @@ const Workspace = ({
   folderId,
   tagList,
   editedAt,
+  createdAt,
   favorites,
   moveWorkSpacePage,
   formatWorkspaceDate,
@@ -38,6 +39,7 @@ const Workspace = ({
   folderId: string;
   tagList: ITag[];
   editedAt: string;
+  createdAt: string;
   favorites: boolean;
   moveWorkSpacePage: Function;
   formatWorkspaceDate: Function;
@@ -189,6 +191,8 @@ const Workspace = ({
     e.currentTarget.src = CONSTANT.EMPTY_IMAGE_PATH;
   };
 
+  const isWorkspaceEdited = createdAt !== editedAt;
+
   return (
     <div className={cn(styles.Workspace__container)}>
       <div
@@ -198,7 +202,11 @@ const Workspace = ({
         <div className={styles.Workspace__docs__top}>
           <img
             className={styles.Workspace__docs__top__image}
-            src={CONSTANT.IMAGE_PATH(uid)}
+            src={
+              isWorkspaceEdited
+                ? CONSTANT.IMAGE_PATH(uid)
+                : CONSTANT.EMPTY_IMAGE_PATH
+            }
             onError={setThumbnail}
             alt="thumbnail"
           />

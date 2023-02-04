@@ -71,6 +71,7 @@ const WorkspaceList = ({
               folderId={workspace.folder}
               tagList={workspace.tags}
               editedAt={workspace.editedAt}
+              createdAt={workspace.createdAt}
               favorites={workspace.favorites}
               moveWorkSpacePage={moveWorkSpacePage}
               formatWorkspaceDate={formatWorkspaceDate}
