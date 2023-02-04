@@ -7,6 +7,7 @@
     <img src="https://img.shields.io/badge/React-v18.2.0-blue?logo=React"/>
     <img src="https://img.shields.io/badge/Redux Toolkit-v1.8.5-764ABC?style=flat-square&logo=redux&logoColor=764ABC"/>
     <img src="https://img.shields.io/badge/React Query-v3.39.2-FF4154?style=flat-square&logo=react query&logoColor=FF4154"/>
+    <img src="https://img.shields.io/badge/reactstrap-v9.1.2-000000?style=flat-square&logo=react&logoColor=000000"/>
     <img src="https://img.shields.io/badge/Scss-v0.2.4-CC6699?style=flat-square&logo=Sass&logoColor=CC6699"/>
     <br>
     <img src="https://img.shields.io/badge/Express.js-v4.18.1-000000?style=flat-square&logo=node.js&logoColor=000000"/>
@@ -16,6 +17,7 @@
     <br>
     <img src="https://img.shields.io/badge/Aws EC2-555456?style=flat-square&logo=amazon ec2&logoColor=FF9900"/>
     <img src="https://img.shields.io/badge/Flask-v2.2.3-000000?style=flat-square&logo=Flask&logoColor=000000"/>
+    <img src="https://img.shields.io/badge/docker-v3.0.0-2496ED?style=flat-square&logo=docker&logoColor=white"/>
     <img src="https://img.shields.io/badge/uSWGI-555456?style=flat-square&logo=uSWGI&logoColor=000000"/>
 </p>
 <hr>
