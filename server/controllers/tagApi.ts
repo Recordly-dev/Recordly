@@ -109,7 +109,7 @@ export const getWokrspacesWithTag = async (
   const findedTag = await serTag.getTagById(tagId);
   serTag.validateOwnerOfTag(findedTag, userId);
 
-  const populatedWorkspaces = serWorkspace.getWorkspacesPopulatedWithTags(
+  const populatedWorkspaces = await serWorkspace.getWorkspacesPopulatedWithTags(
     findedTag.workspaces
   );
 
