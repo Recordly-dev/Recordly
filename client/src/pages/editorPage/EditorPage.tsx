@@ -19,13 +19,19 @@ const EditorPage = () => {
   const workspaceId: string = window.location.pathname?.split("/").at(-1) || ""; // [1]
 
   const handleMount = useCallback((app: TldrawApp) => {
-    axios.get(`/api/workspace/${workspaceId}`).then(({ data: workspace }) => {
-      if (workspace?.content?.pages?.page?.shapes) {
-        app.mergeDocument(cloneDeep(workspace.content));
+    axios.get(`/api/workspace/${workspaceId}`).then(
+      ({
+        data: {
+          result: { workspace },
+        },
+      }) => {
+        if (workspace?.content?.pages?.page?.shapes) {
+          app.mergeDocument(cloneDeep(workspace.content));
+        }
+        setApp(app);
+        rTLDrawApp.current = app; // [2]
       }
-      setApp(app);
-      rTLDrawApp.current = app; // [2]
-    });
+    );
   }, []);
 
   return (
