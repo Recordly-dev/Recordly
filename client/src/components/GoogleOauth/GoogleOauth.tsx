@@ -5,9 +5,12 @@ import styles from "./GoogleOauth.module.scss";
 import googleLogo from "./assets/images/googleLogo.png";
 
 const GoogleOauth = forwardRef(
-  ({ loginRef }: { loginRef: LegacyRef<HTMLDivElement> }) => {
+  (
+    { loginRef }: { loginRef: LegacyRef<HTMLDivElement> },
+    ref: LegacyRef<HTMLDivElement>
+  ) => {
     return (
-      <div ref={loginRef} className={styles.GoogleOauth}>
+      <div ref={loginRef || ref} className={styles.GoogleOauth}>
         <a href={`/api/auth/google`}>
           <button className={styles.GoogleOauth__button}>
             <img
