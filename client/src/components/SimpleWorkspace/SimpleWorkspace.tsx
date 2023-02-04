@@ -63,7 +63,7 @@ const SimpleWorkspace = ({
             )}
           >
             {tagList.map((tag: ITag) => (
-              <TagPreview name={"# " + tag.name} />
+              <TagPreview key={tag._id} name={"# " + tag.name} />
             ))}
           </div>
         </div>

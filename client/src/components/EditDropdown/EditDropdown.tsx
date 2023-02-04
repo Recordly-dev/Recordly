@@ -32,8 +32,9 @@ const EditDropdown = ({
     direction={direction}
   >
     <DropdownMenu className={cn(styles.EditDropdown__menu, itemClassName)}>
-      {dropdownItem.map((item: IDropdownItem) => (
+      {dropdownItem.map((item: IDropdownItem, index) => (
         <DropdownItem
+          key={index.toString()}
           onClick={item.onClick}
           className={styles.EditDropdown__item}
         >

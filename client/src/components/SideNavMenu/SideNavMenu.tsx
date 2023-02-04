@@ -130,7 +130,7 @@ const SideNavMenu = () => {
           </Button>
         </li>
         {CONSTANT.NAV_ITEM.map((item) => (
-          <li className={styles.SideNavMenu__item}>
+          <li key={item.title} className={styles.SideNavMenu__item}>
             <Link to={item.link}>
               <button
                 className={cn(styles.SideNavMenu__item__button, {

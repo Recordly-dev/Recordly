@@ -17,29 +17,26 @@ const formatWorkspaceDate = (
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > => {
-  const filterDate: string[] = date.substring(5, 16).split("T");
-  const now: Date = new Date();
+  const [dateString, timeString]: string[] = date.substring(5, 16).split("T");
+  const dateToCompare = dateString.split("-").map(Number).join("");
 
+  const now: Date = new Date();
   const today: string = [now.getMonth() + 1, now.getDate()].join("");
-  const yesterDay: string = [now.getMonth() + 1, now.getDate() - 1].join("");
+  const yesterday: string = [now.getMonth() + 1, now.getDate() - 1].join("");
+
+  let dateLabel = dateString;
+  dateLabel = dateToCompare === today ? "Today" : dateLabel;
+  dateLabel = dateToCompare === yesterday ? "Yesterday" : dateLabel;
+
+  const dateElement = <span>{dateLabel}</span>;
+  const timeElement = <span className={"ms-1"}>{timeString}</span>;
 
   return (
     <div
       className={cn("d-flex", "justify-content-center", "align-items-center")}
     >
-      {filterDate.map((v: string) => {
-        if (v.split("-").map(Number).join("") === today) {
-          return <span>Today</span>;
-        } else if (v.split("-").map(Number).join("") === yesterDay) {
-          return <span>Yesterday</span>;
-        } else {
-          return (
-            <span className={"ms-1"} key={v + now}>
-              {v}
-            </span>
-          );
-        }
-      })}
+      {dateElement}
+      {timeElement}
     </div>
   );
 };
@@ -63,7 +60,9 @@ const WorkspaceList = ({
   return (
     <>
       {isLoadingData
-        ? new Array(50).fill(1).map((v) => <WorkspaceSkeleton />)
+        ? [...Array(50).keys()].map((idx) => (
+            <WorkspaceSkeleton key={idx.toString()} />
+          ))
         : workspaces?.map((workspace: IWorkspace) => (
             <Workspace
               key={workspace._id}
