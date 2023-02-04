@@ -3,10 +3,11 @@ import { cloneDeep } from "lodash";
 
 import { Tldraw, TldrawApp } from "@tldraw/tldraw";
 
+import { getCurrentWorkspace } from "query-hooks/useFetchWorkspace/apis";
+
 import EditorMenu from "components/EditorMenu";
 
 import styles from "./EditorPage.module.scss";
-import axios from "axios";
 
 const AppContext = createContext({} as TldrawApp);
 
@@ -18,20 +19,15 @@ const EditorPage = () => {
   // persist the tldraw document under this id
   const workspaceId: string = window.location.pathname?.split("/").at(-1) || ""; // [1]
 
-  const handleMount = useCallback((app: TldrawApp) => {
-    axios.get(`/api/workspace/${workspaceId}`).then(
-      ({
-        data: {
-          result: { workspace },
-        },
-      }) => {
-        if (workspace?.content?.pages?.page?.shapes) {
-          app.mergeDocument(cloneDeep(workspace.content));
-        }
-        setApp(app);
-        rTLDrawApp.current = app; // [2]
-      }
-    );
+  const handleMount = useCallback(async (app: TldrawApp) => {
+    const currentWorkspace = await getCurrentWorkspace({ workspaceId });
+
+    if (currentWorkspace?.content?.pages?.page?.shapes) {
+      app.mergeDocument(cloneDeep(currentWorkspace.content));
+    }
+
+    setApp(app);
+    rTLDrawApp.current = app; // [2]
   }, []);
 
   return (
