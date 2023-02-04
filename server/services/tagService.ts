@@ -92,8 +92,8 @@ export const addTag = async (
     return newTag;
   }
 
-  const isTagAlreadyIncluded = findedTag.workspaces.some(
-    (workspace) => workspace === workspaceId
+  const isTagAlreadyIncluded = findedTag.workspaces.some((workspace) =>
+    workspace.equals(workspaceId)
   );
   if (isTagAlreadyIncluded) {
     throw new TagServiceError({
