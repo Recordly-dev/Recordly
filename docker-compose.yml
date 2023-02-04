@@ -1,0 +1,41 @@
+version: "3"
+services:
+  redis-server:
+    image: redis
+    ports:
+      - "6379:6379"
+    command: redis-server
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    stdin_open: true
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3000:80"
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    container_name: app_backend
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+
+  flask:
+    build:
+      context: ./flask
+    container_name: app_flask
+    restart: always
+    volumes:
+      - ./flask:/app

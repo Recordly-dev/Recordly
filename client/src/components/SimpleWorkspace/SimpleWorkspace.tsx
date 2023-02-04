@@ -14,6 +14,8 @@ const SimpleWorkspace = ({
   title,
   // folderId,
   tagList,
+  editedAt,
+  createdAt,
   moveWorkSpacePage,
 }: // formatWorkspaceDate,
 {
@@ -21,6 +23,8 @@ const SimpleWorkspace = ({
   title: string;
   // folderId: string | null;
   tagList: ITag[];
+  editedAt: string;
+  createdAt: string;
   moveWorkSpacePage: Function;
   // formatWorkspaceDate: Function;
 }) => {
@@ -33,6 +37,8 @@ const SimpleWorkspace = ({
     e.currentTarget.src = CONSTANT.EMPTY_IMAGE_PATH;
   };
 
+  const isWorkspaceEdited = createdAt !== editedAt;
+
   return (
     <div className={cn(styles.SimpleWorkspace__container)}>
       <div
@@ -42,7 +48,11 @@ const SimpleWorkspace = ({
         <div className={styles.SimpleWorkspace__docs__top}>
           <img
             className={styles.SimpleWorkspace__docs__top__image}
-            src={CONSTANT.IMAGE_PATH(uid)}
+            src={
+              isWorkspaceEdited
+                ? CONSTANT.IMAGE_PATH(uid)
+                : CONSTANT.EMPTY_IMAGE_PATH
+            }
             onError={setThumbnail}
             alt="thumbnail"
           />

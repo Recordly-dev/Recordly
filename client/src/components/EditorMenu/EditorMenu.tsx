@@ -313,6 +313,8 @@ const EditorMenu = ({
           uid={workspace._id}
           title={workspace.title}
           tagList={workspace.tags}
+          editedAt={workspace.editedAt}
+          createdAt={workspace.createdAt}
           moveWorkSpacePage={moveWorkSpacePage}
         />
       )
